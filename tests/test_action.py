@@ -159,7 +159,7 @@ class TestAction(unittest.TestCase):
 
     def test_move_object(self):
         self.assertEqual(mcs.Action.MOVE_OBJECT.value, "MoveObject")
-        self.assertEqual(mcs.Action.MOVE_OBJECT.key, "0")
+        self.assertEqual(mcs.Action.MOVE_OBJECT.key, "m")
         self.assertEqual(
             mcs.Action.MOVE_OBJECT.desc,
             "Apply a movement of 0.1 meters to a nearby object. "
@@ -170,13 +170,13 @@ class TestAction(unittest.TestCase):
             "objectImageCoordsY=float)"
         )
         self.assertEqual(mcs.Action("MoveObject"), mcs.Action.MOVE_OBJECT)
-        self.assertEqual(mcs.Action("0"), mcs.Action.MOVE_OBJECT)
+        self.assertEqual(mcs.Action("m"), mcs.Action.MOVE_OBJECT)
 
     def test_interact_with_agent(self):
         self.assertEqual(
             mcs.Action.INTERACT_WITH_AGENT.value,
             "InteractWithAgent")
-        self.assertEqual(mcs.Action.INTERACT_WITH_AGENT.key, "T")
+        self.assertEqual(mcs.Action.INTERACT_WITH_AGENT.key, "t")
         self.assertEqual(
             mcs.Action.INTERACT_WITH_AGENT.desc,
             "Interact with an agent. If that agent has an object, "
@@ -189,7 +189,7 @@ class TestAction(unittest.TestCase):
         self.assertEqual(
             mcs.Action("InteractWithAgent"),
             mcs.Action.INTERACT_WITH_AGENT)
-        self.assertEqual(mcs.Action("T"), mcs.Action.INTERACT_WITH_AGENT)
+        self.assertEqual(mcs.Action("t"), mcs.Action.INTERACT_WITH_AGENT)
 
     def test_put_object(self):
         self.assertEqual(mcs.Action.PUT_OBJECT.value, "PutObject")

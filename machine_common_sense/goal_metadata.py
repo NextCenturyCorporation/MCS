@@ -1,3 +1,4 @@
+import logging
 from enum import Enum, unique
 from typing import List, Optional
 
@@ -5,6 +6,8 @@ import typeguard
 
 from .action import Action
 from .stringifier import Stringifier
+
+logger = logging.getLogger(__name__)
 
 
 class GoalMetadata:
@@ -81,6 +84,9 @@ class GoalMetadata:
         (item.value, {}) for item in Action
         if item not in [Action.END_HABITUATION, Action.INITIALIZE]
     ]
+    # Each passive scene should have its own action_list, but if it doesn't for
+    # some reason, then only allow calling Pass actions by default.
+    DEFAULT_PASSIVE_SCENE_ACTIONS = [('Pass', {})]
 
     def __init__(
         self,
@@ -120,12 +126,16 @@ class GoalMetadata:
         yield 'metadata', self.metadata
 
     @typeguard.typechecked
-    def retrieve_action_list_at_step(self, step_number: int,
-                                     steps_in_lava: Optional[int] = 0) -> List:
+    def retrieve_action_list_at_step(
+        self,
+        step_number: int,
+        steps_in_lava: Optional[int] = 0,
+        is_passive_scene: bool = False
+    ) -> List:
         """Return the action list from the given goal at the given step as a
         a list of actions tuples by default."""
         action_list = self._retrieve_unfiltered_action_list(
-            step_number, steps_in_lava)
+            step_number, steps_in_lava, is_passive_scene)
         # remove EndHabituation parameters
         return [
             (action, params)
@@ -133,10 +143,12 @@ class GoalMetadata:
             for (action, params) in action_list
         ]
 
-    def _retrieve_unfiltered_action_list(self,
-                                         step_number: int,
-                                         steps_in_lava: Optional[int] = 0
-                                         ) -> List:
+    def _retrieve_unfiltered_action_list(
+        self,
+        step_number: int,
+        steps_in_lava: Optional[int] = 0,
+        is_passive_scene: bool = False
+    ) -> List:
         # If steps in lava is greater than allowed, over ride
         #   action list and only return EndScene
         if steps_in_lava is not None and (
@@ -160,6 +172,13 @@ class GoalMetadata:
                     Action.input_to_action_and_params(action)
                     for action in self.action_list[adjusted_step]
                 ]
+
+        if is_passive_scene:
+            logger.warning(
+                'Passive scene should have an action_list but does not; '
+                'allowing only Pass actions by default.'
+            )
+            return GoalMetadata.DEFAULT_PASSIVE_SCENE_ACTIONS
         return GoalMetadata.DEFAULT_ACTIONS
 
 

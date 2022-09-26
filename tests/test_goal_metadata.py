@@ -259,6 +259,13 @@ class TestGoalMetadata(unittest.TestCase):
             ('Pass', {})
         ])
 
+    def test_retrieve_action_list_passive_scene(self):
+        goal_metadata = mcs.GoalMetadata(action_list=[], last_step=10)
+        self.assertEqual(
+            goal_metadata.retrieve_action_list_at_step(0, 0, True),
+            [('Pass', {})]
+        )
+
     def test_str(self):
         self.assertEqual(str(self.goal_metadata),
                          textwrap.dedent(self.str_output))

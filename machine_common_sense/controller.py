@@ -185,7 +185,9 @@ class Controller():
         sc = scene_config.dict(exclude_none=True, by_alias=True)
 
         ai2thor_step = self.parameter_converter.wrap_step(
-            action='Initialize', sceneConfig=sc)
+            output_folder=self.__output_folder,
+            action='Initialize',
+            sceneConfig=sc)
         step_output = self._controller.step(ai2thor_step)
 
         self._output_handler.set_scene_config(scene_config)
@@ -287,8 +289,12 @@ class Controller():
         if ',' in action:
             action, kwargs = Action.input_to_action_and_params(action)
 
+        is_passive_scene = (
+            self._scene_config.intuitive_physics or
+            self._scene_config.isometric
+        )
         action_list = self._goal.retrieve_action_list_at_step(
-            self.__step_number, self.__steps_in_lava)
+            self.__step_number, self.__steps_in_lava, is_passive_scene)
 
         # Only continue with this action step if the given action and
         # parameters are in the restricted action list.
@@ -330,7 +336,9 @@ class Controller():
                 "controller.end_scene() now.")
 
         ai2thor_step, params = self.parameter_converter.build_ai2thor_step(
-            action=action, **kwargs)
+            output_path=self.__output_folder,
+            action=action,
+            **kwargs)
         step_output = self._controller.step(ai2thor_step)
 
         (pre_restrict_output, output) = self._output_handler.handle_output(
@@ -474,9 +482,6 @@ class Controller():
             A string containing the current metadata level.
         """
         return self._config.get_metadata_tier().value
-
-    def retrieve_action_list_at_step(self, goal, step_number):
-        return goal.retrieve_action_list_at_step(step_number)
 
     @typeguard.typechecked
     def retrieve_object_states(self, object_id: str) -> List:

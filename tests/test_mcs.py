@@ -6,7 +6,8 @@ from machine_common_sense.controller_logger import ControllerLogger
 from machine_common_sense.controller_media import (
     DepthImageEventHandler, DepthVideoEventHandler, ImageVideoEventHandler,
     ObjectMaskImageEventHandler, SceneImageEventHandler,
-    SegmentationVideoEventHandler, TopdownVideoEventHandler)
+    SegmentationVideoEventHandler, TopdownVideoEventHandler,
+    UnityTopdownCameraCombinerEventHandler)
 from machine_common_sense.history_writer import HistoryEventHandler
 from machine_common_sense.subscriber import add_subscribers
 
@@ -72,12 +73,15 @@ class TestMCS(unittest.TestCase):
         self.assertEqual(len(ctrl._subscribers), 4)
         self.assertTrue(any([isinstance(subscriber, ImageVideoEventHandler)
                              for subscriber in ctrl._subscribers]))
-        self.assertTrue(any([isinstance(subscriber, TopdownVideoEventHandler)
+        self.assertTrue(any([isinstance(subscriber,
+                                        UnityTopdownCameraCombinerEventHandler)
                              for subscriber in ctrl._subscribers]))
         self.assertTrue(any([isinstance(subscriber, ControllerLogger)
                              for subscriber in ctrl._subscribers]))
         self.assertTrue(any([isinstance(subscriber, HistoryEventHandler)
                              for subscriber in ctrl._subscribers]))
+        self.assertFalse(any([isinstance(subscriber, TopdownVideoEventHandler)
+                              for subscriber in ctrl._subscribers]))
 
         ctrl._subscribers.clear()
         cfg.is_save_debug_images = return_false
@@ -88,7 +92,8 @@ class TestMCS(unittest.TestCase):
         self.assertEqual(len(ctrl._subscribers), 5)
         self.assertTrue(any([isinstance(subscriber, ImageVideoEventHandler)
                              for subscriber in ctrl._subscribers]))
-        self.assertTrue(any([isinstance(subscriber, TopdownVideoEventHandler)
+        self.assertTrue(any([isinstance(subscriber,
+                                        UnityTopdownCameraCombinerEventHandler)
                              for subscriber in ctrl._subscribers]))
         self.assertTrue(any([isinstance(subscriber,
                                         SegmentationVideoEventHandler)
@@ -97,6 +102,8 @@ class TestMCS(unittest.TestCase):
                              for subscriber in ctrl._subscribers]))
         self.assertTrue(any([isinstance(subscriber, HistoryEventHandler)
                              for subscriber in ctrl._subscribers]))
+        self.assertFalse(any([isinstance(subscriber, TopdownVideoEventHandler)
+                              for subscriber in ctrl._subscribers]))
 
         ctrl._subscribers.clear()
         cfg.is_save_debug_images = return_true
@@ -113,6 +120,8 @@ class TestMCS(unittest.TestCase):
                              for subscriber in ctrl._subscribers]))
         self.assertTrue(any([isinstance(subscriber, HistoryEventHandler)
                              for subscriber in ctrl._subscribers]))
+        self.assertFalse(any([isinstance(subscriber, TopdownVideoEventHandler)
+                              for subscriber in ctrl._subscribers]))
 
         ctrl._subscribers.clear()
         cfg.is_save_debug_images = return_true
@@ -132,6 +141,8 @@ class TestMCS(unittest.TestCase):
                              for subscriber in ctrl._subscribers]))
         self.assertTrue(any([isinstance(subscriber, HistoryEventHandler)
                              for subscriber in ctrl._subscribers]))
+        self.assertFalse(any([isinstance(subscriber, TopdownVideoEventHandler)
+                              for subscriber in ctrl._subscribers]))
 
         ctrl._subscribers.clear()
         cfg.is_save_debug_images = return_false
@@ -142,7 +153,8 @@ class TestMCS(unittest.TestCase):
         self.assertEqual(len(ctrl._subscribers), 6)
         self.assertTrue(any([isinstance(subscriber, ImageVideoEventHandler)
                              for subscriber in ctrl._subscribers]))
-        self.assertTrue(any([isinstance(subscriber, TopdownVideoEventHandler)
+        self.assertTrue(any([isinstance(subscriber,
+                                        UnityTopdownCameraCombinerEventHandler)
                              for subscriber in ctrl._subscribers]))
         self.assertTrue(any([isinstance(subscriber, DepthVideoEventHandler)
                              for subscriber in ctrl._subscribers]))
@@ -153,6 +165,8 @@ class TestMCS(unittest.TestCase):
                              for subscriber in ctrl._subscribers]))
         self.assertTrue(any([isinstance(subscriber, HistoryEventHandler)
                              for subscriber in ctrl._subscribers]))
+        self.assertFalse(any([isinstance(subscriber, TopdownVideoEventHandler)
+                              for subscriber in ctrl._subscribers]))
 
         ctrl._subscribers.clear()
         cfg.is_save_debug_images = return_true
@@ -170,6 +184,40 @@ class TestMCS(unittest.TestCase):
                              for subscriber in ctrl._subscribers]))
         self.assertTrue(any([isinstance(subscriber, ImageVideoEventHandler)
                              for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber,
+                                        UnityTopdownCameraCombinerEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, DepthVideoEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber,
+                                        SegmentationVideoEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, ControllerLogger)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, HistoryEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertFalse(any([isinstance(subscriber, TopdownVideoEventHandler)
+                              for subscriber in ctrl._subscribers]))
+
+        ctrl._subscribers.clear()
+        cfg.is_video_enabled = return_true
+        cfg.is_top_down_plotter = return_true
+        cfg.is_top_down_camera = return_false
+        add_subscribers(ctrl, cfg)
+        self.assertEqual(len(ctrl._subscribers), 9)
+        self.assertTrue(any([isinstance(subscriber, DepthImageEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, SceneImageEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber,
+                                        ObjectMaskImageEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertTrue(any([isinstance(subscriber, ImageVideoEventHandler)
+                             for subscriber in ctrl._subscribers]))
+        self.assertFalse(any([isinstance(
+            subscriber,
+            UnityTopdownCameraCombinerEventHandler)
+            for subscriber in ctrl._subscribers]))
         self.assertTrue(any([isinstance(subscriber, TopdownVideoEventHandler)
                              for subscriber in ctrl._subscribers]))
         self.assertTrue(any([isinstance(subscriber, DepthVideoEventHandler)

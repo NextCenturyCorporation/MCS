@@ -55,22 +55,22 @@ Clone the `MCS fork of AI2-THOR <https://github.com/NextCenturyCorporation/ai2th
    :width: 750
    :height: 450
 
-3C. Click on the Target. In the Inspector window, set the Tag to "SimObjPhysics" and the Layer to "SimObjVisible". Click on the Add Component button to add a Rigidbody Component to the Target. Ensure its "Use Gravity" is set to true.
+3C. Click on the Target. In the Inspector window, set the **Tag** to **"SimObjPhysics"** and the **Layer** to **"SimObjVisible"**. Click on the Add Component button to add a **Rigidbody** Component to the Target. Ensure its "Use Gravity" is set to true.
 
 .. video:: https://mcs-documentation.s3.amazonaws.com/videos/tutorial/adding_3d_models_tutorial_step_3c.mp4
    :width: 750
    :height: 450
 
-3D. In the Inspector window, review the Target's existing Unity Components (the separate dropdown sections). If the Target (or any of its children) doesn't have a Collider Component, you'll have to add some. Please see the Unity Manual for more information about Colliders.
+3D. In the Inspector window, review the Target's existing Unity Components (the separate dropdown sections). If the Target (or any of its children) doesn't have a **Collider** Component, you'll have to add some. Please see the Unity Manual for more information about Colliders.
 
 - In the Hierarchy window, right-click on the Target and create an Empty Child.
-- In the Inspector window, rename it to "Colliders" and mark it Static.
+- In the Inspector window, rename it to **"Colliders"** and mark it **Static**.
 - Right-click on the "Colliders" Game Object and create an Empty Child for each Collider you need to have.
 - On each "Colliders" child, in the Inspector window:
-  - Rename it to a useful name.
-  - Add a Collider Component (normally a box, but sometimes others -- note that all MeshColliders should be CONVEX).
-  - Adjust the Transform Component and/or Collider Component to visually position, rotate, and scale the Collider to the appropriate pixels.
-  - Set the Tag to "SimObjPhysics" and the Layer to "SimObjVisible".
+    - Rename it to a useful name.
+    - Add a **Collider** Component (normally a box, but sometimes others -- note that all MeshColliders should be **CONVEX**).
+    - Adjust the Transform Component and/or Collider Component to visually position, rotate, and scale the Collider to the appropriate pixels.
+    - Set the **Tag** to **"SimObjPhysics"** and the **Layer** to **"SimObjVisible"**.
 
 .. video:: https://mcs-documentation.s3.amazonaws.com/videos/tutorial/adding_3d_models_tutorial_step_3d.mp4
    :width: 750
@@ -79,11 +79,11 @@ Clone the `MCS fork of AI2-THOR <https://github.com/NextCenturyCorporation/ai2th
 3E. Next you must add "Visibility Points" along the visible pixel boundaries of your model. AI2-THOR raycasts from the performer agent to an object's Visibility Points in order to determine if the object is visible (and can be an action target). The greater number of Visibility Points, the more accurate the visibility readings will be. Our suggestion is to position one Visibility Point at each of the object's corners, plus one or more in a grid along each of the object's 6 sides.
 
 - In the Hierarchy window, right-click on the Target and create an Empty Child.
-- In the Inspector window, rename it to "VisibilityPoints" (no space!) and mark it Static.
+- In the Inspector window, rename it to **"VisibilityPoints"** (no space!) and mark it **Static**.
 - Right-click on the "VisibilityPoints" Game Object and create an Empty Child for each Visibility Point you want to have.
 - On each Visibility Point Game Object, in the Inspector window:
-  - Adjust the Transform Component to visually position the Visibility Point to the appropriate pixels. (To see the Visibility Point's position in the Scene window, you can set a colored Icon on the Visibility Point Game Object using the cube button in the top-left corner of the Inspector window.)
-  - Set the Layer to "SimObjVisible".
+    - Adjust the Transform Component to visually position the Visibility Point to the appropriate pixels. (To see the Visibility Point's position in the Scene window, you can set a colored Icon on the Visibility Point Game Object using the cube button in the top-left corner of the Inspector window.)
+    - Set the **Layer** to **"SimObjVisible"**.
 
 .. video:: https://mcs-documentation.s3.amazonaws.com/videos/tutorial/adding_3d_models_tutorial_step_3e.mp4
    :width: 750
@@ -92,9 +92,9 @@ Clone the `MCS fork of AI2-THOR <https://github.com/NextCenturyCorporation/ai2th
 3F. Next you must add a single "Bounding Box" containing the whole 3D model. You cannot reuse an existing Collider for this.
 
 - In the Hierarchy window, right-click on the Target and create an Empty Child.
-- In the Inspector window, rename it to "BoundingBox" (no space!) and set its Layer to "SimObjInvisible".
-- Click on the Add Component button to add a BoxCollider Component.
-- In the BoxCollider Component, click the checkbox to mark it as NOT ACTIVE.
+- In the Inspector window, rename it to **"BoundingBox"** (no space!) and set its **Layer** to **"SimObjInvisible"**.
+- Click on the Add Component button to add a **BoxCollider** Component.
+- In the BoxCollider Component, click the checkbox to mark it as **NOT ACTIVE**.
 - Adjust the Transform Component (but not the BoxCollider Component -- adjusting both makes it harder on us later) to visually position, rotate, and scale the Collider to the appropriate pixels completely enclosing the model. Take note of the position, rotation, and scale for step 7 later.
 
 .. video:: https://mcs-documentation.s3.amazonaws.com/videos/tutorial/adding_3d_models_tutorial_step_3f.mp4
@@ -104,14 +104,14 @@ Clone the `MCS fork of AI2-THOR <https://github.com/NextCenturyCorporation/ai2th
 3G. Next you must add a SimObjPhysics Component to the Target. This AI2-THOR Script enables interaction with the object.
 
 - In the Hierarchy window, click on the Target.
-- In the Inspector window, click on the Add Component button to add a SimObjPhysics Component.
+- In the Inspector window, click on the Add Component button to add a **SimObjPhysics** Component.
 - In the SimObjPhysics (Script) Component:
-  - Set the "Primary Property" to "Static" (for non-moveable objects), "Moveable", or "Can Pickup" (a subset of Moveable).
-  - Set the "Secondary Properties" as needed (we use: "Receptacle" for objects on which you can use the PutObject action; "Can Open" for openable objects; "Stacking" for blocks). You will need to adjust the size of the "Secondary Properties" array before you can add new elements to it.
-  - Set the "Bounding Box" property to the "BoundingBox" Game Object that you made.
-  - Set the "Visibility Points" array property to have each Visibility Point Game Object that you made. This is easy if you right-click on the Inspector tab, click "Lock", go to the Hierarcy window, use click-shift-click to select all Visibility Points simultaneously, and click-and-drag them over from the Hierarchy window onto the "Visibility Points" label in the SimObjPhysics (Script) Component.
-  - Set the "My Colliders" array property to have each Collider Game Object that you made.
-  - Optionally, set the "Salient Materials" property as needed.
+    - Set the **"Primary Property"** to "Static" (for non-moveable objects), "Moveable", or "Can Pickup" (a subset of Moveable).
+    - Set the **"Secondary Properties"** as needed (we use: "Receptacle" for objects on which you can use the PutObject action; "Can Open" for openable objects; "Stacking" for blocks). You will need to adjust the size of the "Secondary Properties" array before you can add new elements to it.
+    - Set the **"Bounding Box"** property to the "BoundingBox" Game Object that you made.
+    - Set the **"Visibility Points"** array property to have each Visibility Point Game Object that you made. This is easy if you right-click on the Inspector tab, click "Lock", go to the Hierarchy window, use click-shift-click to select all Visibility Points simultaneously, and click-and-drag them over from the Hierarchy window onto the "Visibility Points" label in the SimObjPhysics (Script) Component.
+    - Set the **"My Colliders"** array property to have each Collider Game Object that you made.
+    - Optionally, set the "Salient Materials" property as needed.
 
 .. video:: https://mcs-documentation.s3.amazonaws.com/videos/tutorial/adding_3d_models_tutorial_step_3g.mp4
    :width: 750
@@ -120,10 +120,10 @@ Clone the `MCS fork of AI2-THOR <https://github.com/NextCenturyCorporation/ai2th
 3H. If the Target is openable, like a cabinet or drawer, you must add a "Can Open_Object" Component to the Target. This AI2-THOR Script enables opening and closing the object and adjusting its visual appearance.
 
 - In the Hierarchy window, click on the Target.
-- In the Inspector window, click on the Add Component button to add a "Can Open_Object" Component.
+- In the Inspector window, click on the Add Component button to add a **"Can Open_Object"** Component.
 - In the "Can Open_Object" (Script) Component:
-  - Set the "Moving Parts" property to the Target.
-  - Adjust the "Open Positions" and "Close Positions" to visually position, rotate, or scale the model to the approriate pixels for its "opened" and "closed" positions respectfully. Change the "Movement Type" property to "Slide", "Rotate", or "Scale" as needed, depending on how the model should change when it's opened.
+    - Set the **"Moving Parts"** property to the Target.
+    - Adjust the **"Open Positions"** and **"Close Positions"** to visually position, rotate, or scale the model to the approriate pixels for its "opened" and "closed" positions respectfully. Change the "Movement Type" property to "Slide", "Rotate", or "Scale" as needed, depending on how the model should change when it's opened.
 
 .. video:: https://mcs-documentation.s3.amazonaws.com/videos/tutorial/adding_3d_models_tutorial_step_3h.mp4
    :width: 750
@@ -132,12 +132,12 @@ Clone the `MCS fork of AI2-THOR <https://github.com/NextCenturyCorporation/ai2th
 3I. If the Target is a Receptacle (you want to enable the use of the PutObject action to place held objects on top of your Target):
 
 - In the Hierarchy window, right-click on the Target and create an Empty Child.
-- In the Inspector window, rename it to "ReceptacleTriggerBox" (no space!) and mark it Static.
-- Set the Tag to "Receptacle" and the Layer to "SimObjInvisible".
-- Click on the Add Component button to add a BoxCollider Component.
-- In the BoxCollider Component, set the "Is Trigger" property to true.
+- In the Inspector window, rename it to **"ReceptacleTriggerBox"** (no space!) and mark it **Static**.
+- Set the **Tag** to **"Receptacle"** and the **Layer** to **"SimObjInvisible"**.
+- Click on the Add Component button to add a **BoxCollider** Component.
+- In the BoxCollider Component, set the **"Is Trigger"** property to true.
 - Adjust the Transform Component (but not the BoxCollider Component -- adjusting both makes it harder on us later) to visually position, rotate, and scale the Collider to the appropriate pixels completely enclosing the receptacle area on which held objects may be placed. (I'm not sure if the height actually matters).  Take note of the position, rotation, and scale for step 7 later.
-- Click on the Add Component button to add a Contains Component.
+- Click on the Add Component button to add a **Contains** Component.
 
 .. video:: https://mcs-documentation.s3.amazonaws.com/videos/tutorial/adding_3d_models_tutorial_step_3i.mp4
    :width: 750
@@ -148,7 +148,7 @@ Clone the `MCS fork of AI2-THOR <https://github.com/NextCenturyCorporation/ai2th
 - Right-click on the Target and create an Empty Child (we'll call this the Sub-Target).
 - Rename the Sub-Target to a useful name.
 - In the Hierarchy window, click-and-drag to move the Game Object containing the MeshFilter and MeshRenderer Components corresponding to the Sub-Target under the Sub-Target.
-- Repeat steps 3C-3J (EXCEPT 3F) on the Sub-Target.
+- Repeat steps **3C**-**3J** (EXCEPT **3F**) on the Sub-Target.
 
 .. video:: https://mcs-documentation.s3.amazonaws.com/videos/tutorial/adding_3d_models_tutorial_step_3j.mp4
    :width: 750
@@ -169,8 +169,8 @@ In the MCS fork of AI2-THOR, in `/unity/Assets/Resources/MCS/mcs_object_registry
 - `interactables` (dict array): If your object has distinct interactable parts (see section 3J), list each one as a dict in this array. Each dict should have a string `id` property for the part's unique object ID (for the object ID action parameters) and a string `name` property for a human-readable name.
 - `materials` (string array): The names of all the default Unity materials on your Prefab (like "BrownWood" or "Grey Metal"). Needed if your Prefab has multiple default Unity materials.
 - `resourceFile` (string): The path to your object's Prefab file, starting in the `/unity/Assets/Resources/MCS/` folder, and WITHOUT the `.prefab` extension. Examples:
-  - If your Prefab file is `/unity/Assets/Resources/MCS/thing.prefab`, your `resourceFile` property should be `thing`
-  - If your Prefab file is `/unity/Assets/Resources/MCS/subfolder/thing.prefab`, your `resourceFile` property should be `subfolder/thing`
+    - If your Prefab file is `/unity/Assets/Resources/MCS/thing.prefab`, your `resourceFile` property should be `thing`
+    - If your Prefab file is `/unity/Assets/Resources/MCS/subfolder/thing.prefab`, your `resourceFile` property should be `subfolder/thing`
 - `shape` (string): The object's human-readable shape that's returned in the Python output metadata.
 
 You can also add other properties to entries in the JSON object registry file. Most object properties supported in scene files (like `moveable`, `pickupable`, `receptacle`, or `openable`) are also supported in the object registry. Any properties defined for an object in the object registry file are applied to all instances of that object in all scenes. Please let us know if you'd like us to make some documentation on the available properties.

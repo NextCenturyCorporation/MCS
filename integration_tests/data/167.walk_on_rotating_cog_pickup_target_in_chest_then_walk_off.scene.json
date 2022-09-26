@@ -1,0 +1,93 @@
+﻿{ 
+    "name": "walk onto rotating cog then pickup target in closed chest then walk off", 
+    "version": 1, 
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/WallDrywallWhite",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/RUG4",
+    "wallMaterial": "AI2-THOR/Materials/Walls/YellowDrywall",
+    "roomDimensions": { 
+        "x": 12,
+        "y": 5,
+        "z": 12 
+    },
+    "performerStart": { 
+        "position": { 
+            "x": 0,
+            "z": -0.5 
+        },
+        "rotation": { 
+            "x": 30,
+            "y": 0 
+        } 
+    }, 
+    "objects": [{
+            "id": "rotating_cog_a",
+            "type": "rotating_cog",
+            "shows": [{ 
+                "stepBegin": 0,
+                "position": { 
+                    "x": 0.2, 
+                    "y": 0.01, 
+                    "z": 1.5
+                },
+                "scale": { 
+                    "x": 3, 
+                    "y": 0.01, 
+                    "z": 3
+                } 
+            }],
+            "rotates": [{ 
+                "stepBegin": 1,
+                "stepEnd": 300,
+                "vector": { 
+                    "x": 0, 
+                    "y": 10, 
+                    "z": 0 
+                } 
+            }],
+            "structure": true 
+        }, {
+            "id": "soccer_ball",
+            "type": "soccer_ball",
+            "mass": 1,
+            "salientMaterials": ["plastic"],
+            "pickupable": true,
+            "shows": [{
+                "stepBegin": 0,
+                "position": {
+                    "x": 0,
+                    "y": 0.2,
+                    "z": 0.6
+                },
+                "scale": {
+                    "x": 1,
+                    "y": 1,
+                    "z": 1
+                }
+            }]
+        },  {
+            "id": "chest",
+            "type": "chest_2",
+            "salientMaterials": ["wood"],
+            "materials": ["AI2-THOR/Materials/Wood/LightWoodCounters4"],
+            "shows": [{
+                "stepBegin": 0,
+                "position": {
+                    "x": 0,
+                    "y": 0.05,
+                    "z": 0.6
+                },
+                "rotation": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                "scale": {
+                    "x": 1.5,
+                    "y": 1.5,
+                    "z": 1.5
+                }
+            }]
+        }
+    ]
+}
+

@@ -1,0 +1,1520 @@
+﻿[
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.09,
+                "direction_y": -0.65,
+                "direction_z": 0.75,
+                "distance": 1.06,
+                "held": false,
+                "id": "apple_a",
+                "mass": 0.25,
+                "material_list": [
+                    "FOOD"
+                ],
+                "position_x": 0.3,
+                "position_y": 0.07,
+                "position_z": 2.0,
+                "rotation_y": 0,
+                "shape": "apple",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0,
+                "direction_y": -0.68,
+                "direction_z": 0.73,
+                "distance": 1.1,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_y": 0,
+                "position_z": 2.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.16,
+                "direction_y": -0.54,
+                "direction_z": 0.82,
+                "distance": 1.27,
+                "held": false,
+                "id": "block_blank_a",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0,
+                "position_y": 0.07,
+                "position_z": 2.25,
+                "rotation_y": 1,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.16,
+                "direction_y": -0.48,
+                "direction_z": 0.86,
+                "distance": 1.22,
+                "held": false,
+                "id": "block_blank_c",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0,
+                "position_y": 0.17,
+                "position_z": 2.25,
+                "rotation_y": 1,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.17,
+                "direction_y": -0.41,
+                "direction_z": 0.89,
+                "distance": 1.17,
+                "held": false,
+                "id": "block_blank_d",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0,
+                "position_y": 0.27,
+                "position_z": 2.25,
+                "rotation_y": 1,
+                "shape": "blank block cylinder",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.18,
+                "direction_y": -0.3,
+                "direction_z": 0.94,
+                "distance": 1.12,
+                "held": false,
+                "id": "block_blank_f",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0,
+                "position_y": 0.42,
+                "position_z": 2.25,
+                "rotation_y": 1,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "yellow"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 5,
+        "position_x": 0.2,
+        "position_z": 1.2,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.09,
+                "direction_y": -0.66,
+                "direction_z": 0.75,
+                "distance": 1.05,
+                "held": false,
+                "id": "apple_a",
+                "mass": 0.25,
+                "material_list": [
+                    "FOOD"
+                ],
+                "position_x": 0.3,
+                "position_y": 0.07,
+                "position_z": 2.0,
+                "rotation_y": 10,
+                "shape": "apple",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0,
+                "direction_y": -0.68,
+                "direction_z": 0.73,
+                "distance": 1.1,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_y": 0,
+                "position_z": 2.0,
+                "rotation_y": 10,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.12,
+                "direction_y": -0.54,
+                "direction_z": 0.84,
+                "distance": 1.29,
+                "held": false,
+                "id": "block_blank_a",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.05,
+                "position_y": 0.07,
+                "position_z": 2.28,
+                "rotation_y": 11,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.12,
+                "direction_y": -0.48,
+                "direction_z": 0.87,
+                "distance": 1.24,
+                "held": false,
+                "id": "block_blank_c",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.05,
+                "position_y": 0.17,
+                "position_z": 2.28,
+                "rotation_y": 44,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.13,
+                "direction_y": -0.41,
+                "direction_z": 0.9,
+                "distance": 1.2,
+                "held": false,
+                "id": "block_blank_d",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.05,
+                "position_y": 0.27,
+                "position_z": 2.28,
+                "rotation_y": 44,
+                "shape": "blank block cylinder",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.13,
+                "direction_y": -0.3,
+                "direction_z": 0.94,
+                "distance": 1.14,
+                "held": false,
+                "id": "block_blank_f",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.05,
+                "position_y": 0.42,
+                "position_z": 2.28,
+                "rotation_y": 44,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "yellow"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 5,
+        "position_x": 0.2,
+        "position_z": 1.2,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 1,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.09,
+                "direction_y": -0.67,
+                "direction_z": 0.74,
+                "distance": 1.04,
+                "held": false,
+                "id": "apple_a",
+                "mass": 0.25,
+                "material_list": [
+                    "FOOD"
+                ],
+                "position_x": 0.3,
+                "position_y": 0.07,
+                "position_z": 1.97,
+                "rotation_y": 20,
+                "shape": "apple",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0,
+                "direction_y": -0.68,
+                "direction_z": 0.73,
+                "distance": 1.1,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_y": 0,
+                "position_z": 2.0,
+                "rotation_y": 20,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.08,
+                "direction_y": -0.52,
+                "direction_z": 0.84,
+                "distance": 1.31,
+                "held": false,
+                "id": "block_blank_a",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.1,
+                "position_y": 0.07,
+                "position_z": 2.3,
+                "rotation_y": 21,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.08,
+                "direction_y": -0.47,
+                "direction_z": 0.88,
+                "distance": 1.26,
+                "held": false,
+                "id": "block_blank_c",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.1,
+                "position_y": 0.17,
+                "position_z": 2.3,
+                "rotation_y": 87,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.08,
+                "direction_y": -0.41,
+                "direction_z": 0.91,
+                "distance": 1.21,
+                "held": false,
+                "id": "block_blank_d",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.1,
+                "position_y": 0.27,
+                "position_z": 2.3,
+                "rotation_y": 87,
+                "shape": "blank block cylinder",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.09,
+                "direction_y": -0.29,
+                "direction_z": 0.95,
+                "distance": 1.16,
+                "held": false,
+                "id": "block_blank_f",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.1,
+                "position_y": 0.42,
+                "position_z": 2.3,
+                "rotation_y": 87,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "yellow"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 5,
+        "position_x": 0.2,
+        "position_z": 1.2,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 2,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.08,
+                "direction_y": -0.68,
+                "direction_z": 0.73,
+                "distance": 1.02,
+                "held": false,
+                "id": "apple_a",
+                "mass": 0.25,
+                "material_list": [
+                    "FOOD"
+                ],
+                "position_x": 0.29,
+                "position_y": 0.07,
+                "position_z": 1.95,
+                "rotation_y": 30,
+                "shape": "apple",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0,
+                "direction_y": -0.68,
+                "direction_z": 0.73,
+                "distance": 1.1,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_y": 0,
+                "position_z": 2.0,
+                "rotation_y": 30,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.04,
+                "direction_y": -0.52,
+                "direction_z": 0.85,
+                "distance": 1.31,
+                "held": false,
+                "id": "block_blank_a",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.15,
+                "position_y": 0.07,
+                "position_z": 2.32,
+                "rotation_y": 31,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.04,
+                "direction_y": -0.47,
+                "direction_z": 0.88,
+                "distance": 1.27,
+                "held": false,
+                "id": "block_blank_c",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.15,
+                "position_y": 0.17,
+                "position_z": 2.32,
+                "rotation_y": 130,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.04,
+                "direction_y": -0.4,
+                "direction_z": 0.91,
+                "distance": 1.22,
+                "held": false,
+                "id": "block_blank_d",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.15,
+                "position_y": 0.27,
+                "position_z": 2.32,
+                "rotation_y": 130,
+                "shape": "blank block cylinder",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.04,
+                "direction_y": -0.29,
+                "direction_z": 0.96,
+                "distance": 1.17,
+                "held": false,
+                "id": "block_blank_f",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.15,
+                "position_y": 0.42,
+                "position_z": 2.32,
+                "rotation_y": 130,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "yellow"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 5,
+        "position_x": 0.2,
+        "position_z": 1.2,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 3,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.08,
+                "direction_y": -0.68,
+                "direction_z": 0.73,
+                "distance": 1.01,
+                "held": false,
+                "id": "apple_a",
+                "mass": 0.25,
+                "material_list": [
+                    "FOOD"
+                ],
+                "position_x": 0.28,
+                "position_y": 0.07,
+                "position_z": 1.94,
+                "rotation_y": 40,
+                "shape": "apple",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0,
+                "direction_y": -0.68,
+                "direction_z": 0.73,
+                "distance": 1.1,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_y": 0,
+                "position_z": 2.0,
+                "rotation_y": 40,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0,
+                "direction_y": -0.52,
+                "direction_z": 0.86,
+                "distance": 1.32,
+                "held": false,
+                "id": "block_blank_a",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.21,
+                "position_y": 0.07,
+                "position_z": 2.32,
+                "rotation_y": 41,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0,
+                "direction_y": -0.47,
+                "direction_z": 0.88,
+                "distance": 1.27,
+                "held": false,
+                "id": "block_blank_c",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.21,
+                "position_y": 0.17,
+                "position_z": 2.32,
+                "rotation_y": 173,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0,
+                "direction_y": -0.4,
+                "direction_z": 0.92,
+                "distance": 1.22,
+                "held": false,
+                "id": "block_blank_d",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.21,
+                "position_y": 0.27,
+                "position_z": 2.32,
+                "rotation_y": 173,
+                "shape": "blank block cylinder",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0,
+                "direction_y": -0.29,
+                "direction_z": 0.96,
+                "distance": 1.17,
+                "held": false,
+                "id": "block_blank_f",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.21,
+                "position_y": 0.42,
+                "position_z": 2.32,
+                "rotation_y": 173,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "yellow"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 5,
+        "position_x": 0.2,
+        "position_z": 1.2,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 4,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.06,
+                "direction_y": -0.69,
+                "direction_z": 0.72,
+                "distance": 1.0,
+                "held": false,
+                "id": "apple_a",
+                "mass": 0.25,
+                "material_list": [
+                    "FOOD"
+                ],
+                "position_x": 0.26,
+                "position_y": 0.07,
+                "position_z": 1.92,
+                "rotation_y": 50,
+                "shape": "apple",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0,
+                "direction_y": -0.68,
+                "direction_z": 0.73,
+                "distance": 1.1,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_y": 0,
+                "position_z": 2.0,
+                "rotation_y": 50,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.52,
+                "direction_z": 0.85,
+                "distance": 1.31,
+                "held": false,
+                "id": "block_blank_a",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.26,
+                "position_y": 0.07,
+                "position_z": 2.31,
+                "rotation_y": 51,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.47,
+                "direction_z": 0.88,
+                "distance": 1.26,
+                "held": false,
+                "id": "block_blank_c",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.26,
+                "position_y": 0.17,
+                "position_z": 2.31,
+                "rotation_y": 216,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.4,
+                "direction_z": 0.91,
+                "distance": 1.22,
+                "held": false,
+                "id": "block_blank_d",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.26,
+                "position_y": 0.27,
+                "position_z": 2.31,
+                "rotation_y": 216,
+                "shape": "blank block cylinder",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.29,
+                "direction_z": 0.95,
+                "distance": 1.17,
+                "held": false,
+                "id": "block_blank_f",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.26,
+                "position_y": 0.42,
+                "position_z": 2.31,
+                "rotation_y": 216,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "yellow"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 5,
+        "position_x": 0.2,
+        "position_z": 1.2,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 5,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.69,
+                "direction_z": 0.72,
+                "distance": 0.99,
+                "held": false,
+                "id": "apple_a",
+                "mass": 0.25,
+                "material_list": [
+                    "FOOD"
+                ],
+                "position_x": 0.25,
+                "position_y": 0.07,
+                "position_z": 1.91,
+                "rotation_y": 60,
+                "shape": "apple",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0,
+                "direction_y": -0.68,
+                "direction_z": 0.73,
+                "distance": 1.1,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_y": 0,
+                "position_z": 2.0,
+                "rotation_y": 60,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.09,
+                "direction_y": -0.53,
+                "direction_z": 0.84,
+                "distance": 1.3,
+                "held": false,
+                "id": "block_blank_a",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.32,
+                "position_y": 0.07,
+                "position_z": 2.3,
+                "rotation_y": 61,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.09,
+                "direction_y": -0.47,
+                "direction_z": 0.88,
+                "distance": 1.25,
+                "held": false,
+                "id": "block_blank_c",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.32,
+                "position_y": 0.17,
+                "position_z": 2.3,
+                "rotation_y": 259,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.1,
+                "direction_y": -0.41,
+                "direction_z": 0.91,
+                "distance": 1.21,
+                "held": false,
+                "id": "block_blank_d",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.32,
+                "position_y": 0.27,
+                "position_z": 2.3,
+                "rotation_y": 259,
+                "shape": "blank block cylinder",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.1,
+                "direction_y": -0.3,
+                "direction_z": 0.95,
+                "distance": 1.16,
+                "held": false,
+                "id": "block_blank_f",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.32,
+                "position_y": 0.42,
+                "position_z": 2.3,
+                "rotation_y": 259,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "yellow"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 5,
+        "position_x": 0.2,
+        "position_z": 1.2,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 6,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.03,
+                "direction_y": -0.7,
+                "direction_z": 0.71,
+                "distance": 0.99,
+                "held": false,
+                "id": "apple_a",
+                "mass": 0.25,
+                "material_list": [
+                    "FOOD"
+                ],
+                "position_x": 0.23,
+                "position_y": 0.07,
+                "position_z": 1.91,
+                "rotation_y": 70,
+                "shape": "apple",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0,
+                "direction_y": -0.68,
+                "direction_z": 0.73,
+                "distance": 1.1,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_y": 0,
+                "position_z": 2.0,
+                "rotation_y": 70,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.13,
+                "direction_y": -0.54,
+                "direction_z": 0.83,
+                "distance": 1.29,
+                "held": false,
+                "id": "block_blank_a",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.37,
+                "position_y": 0.07,
+                "position_z": 2.27,
+                "rotation_y": 71,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.13,
+                "direction_y": -0.48,
+                "direction_z": 0.86,
+                "distance": 1.24,
+                "held": false,
+                "id": "block_blank_c",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.37,
+                "position_y": 0.17,
+                "position_z": 2.27,
+                "rotation_y": 302,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.14,
+                "direction_y": -0.41,
+                "direction_z": 0.9,
+                "distance": 1.19,
+                "held": false,
+                "id": "block_blank_d",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.37,
+                "position_y": 0.27,
+                "position_z": 2.27,
+                "rotation_y": 302,
+                "shape": "blank block cylinder",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.15,
+                "direction_y": -0.3,
+                "direction_z": 0.94,
+                "distance": 1.14,
+                "held": false,
+                "id": "block_blank_f",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.37,
+                "position_y": 0.42,
+                "position_z": 2.27,
+                "rotation_y": 302,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "yellow"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 5,
+        "position_x": 0.2,
+        "position_z": 1.2,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 7,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.02,
+                "direction_y": -0.7,
+                "direction_z": 0.71,
+                "distance": 0.98,
+                "held": false,
+                "id": "apple_a",
+                "mass": 0.25,
+                "material_list": [
+                    "FOOD"
+                ],
+                "position_x": 0.22,
+                "position_y": 0.07,
+                "position_z": 1.9,
+                "rotation_y": 80,
+                "shape": "apple",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0,
+                "direction_y": -0.68,
+                "direction_z": 0.73,
+                "distance": 1.1,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_y": 0,
+                "position_z": 2.0,
+                "rotation_y": 80,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.17,
+                "direction_y": -0.55,
+                "direction_z": 0.82,
+                "distance": 1.27,
+                "held": false,
+                "id": "block_blank_a",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.41,
+                "position_y": 0.07,
+                "position_z": 2.24,
+                "rotation_y": 81,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.17,
+                "direction_y": -0.49,
+                "direction_z": 0.86,
+                "distance": 1.22,
+                "held": false,
+                "id": "block_blank_c",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.41,
+                "position_y": 0.17,
+                "position_z": 2.24,
+                "rotation_y": 345,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.18,
+                "direction_y": -0.42,
+                "direction_z": 0.89,
+                "distance": 1.17,
+                "held": false,
+                "id": "block_blank_d",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.41,
+                "position_y": 0.27,
+                "position_z": 2.24,
+                "rotation_y": 345,
+                "shape": "blank block cylinder",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.19,
+                "direction_y": -0.31,
+                "direction_z": 0.93,
+                "distance": 1.12,
+                "held": false,
+                "id": "block_blank_f",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.41,
+                "position_y": 0.42,
+                "position_z": 2.24,
+                "rotation_y": 345,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "yellow"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 5,
+        "position_x": 0.2,
+        "position_z": 1.2,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 8,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.43,
+                "direction_z": 0.9,
+                "distance": 0.33,
+                "held": true,
+                "id": "apple_a",
+                "mass": 0.25,
+                "material_list": [
+                    "FOOD"
+                ],
+                "position_x": 0.2,
+                "position_y": 0.62,
+                "position_z": 1.5,
+                "rotation_y": 0,
+                "shape": "apple",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0,
+                "direction_y": -0.68,
+                "direction_z": 0.73,
+                "distance": 1.1,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_y": 0,
+                "position_z": 2.0,
+                "rotation_y": 90,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.2,
+                "direction_y": -0.56,
+                "direction_z": 0.81,
+                "distance": 1.24,
+                "held": false,
+                "id": "block_blank_a",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.45,
+                "position_y": 0.07,
+                "position_z": 2.2,
+                "rotation_y": 91,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.21,
+                "direction_y": -0.5,
+                "direction_z": 0.84,
+                "distance": 1.19,
+                "held": false,
+                "id": "block_blank_c",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.45,
+                "position_y": 0.17,
+                "position_z": 2.2,
+                "rotation_y": 28,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.22,
+                "direction_y": -0.43,
+                "direction_z": 0.88,
+                "distance": 1.14,
+                "held": false,
+                "id": "block_blank_d",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.45,
+                "position_y": 0.27,
+                "position_z": 2.2,
+                "rotation_y": 28,
+                "shape": "blank block cylinder",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.23,
+                "direction_y": -0.31,
+                "direction_z": 0.92,
+                "distance": 1.09,
+                "held": false,
+                "id": "block_blank_f",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.45,
+                "position_y": 0.42,
+                "position_z": 2.2,
+                "rotation_y": 28,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "yellow"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 5,
+        "position_x": 0.2,
+        "position_z": 1.2,
+        "resolved_object": "apple_a",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 9,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.43,
+                "direction_z": 0.9,
+                "distance": 0.33,
+                "held": true,
+                "id": "apple_a",
+                "mass": 0.25,
+                "material_list": [
+                    "FOOD"
+                ],
+                "position_x": 0.2,
+                "position_y": 0.62,
+                "position_z": 1.5,
+                "rotation_y": 0,
+                "shape": "apple",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0,
+                "direction_y": -0.68,
+                "direction_z": 0.73,
+                "distance": 1.1,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_y": 0,
+                "position_z": 2.0,
+                "rotation_y": 90,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.2,
+                "direction_y": -0.56,
+                "direction_z": 0.81,
+                "distance": 1.24,
+                "held": false,
+                "id": "block_blank_a",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.45,
+                "position_y": 0.07,
+                "position_z": 2.2,
+                "rotation_y": 91,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.21,
+                "direction_y": -0.5,
+                "direction_z": 0.84,
+                "distance": 1.19,
+                "held": false,
+                "id": "block_blank_c",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.45,
+                "position_y": 0.17,
+                "position_z": 2.2,
+                "rotation_y": 28,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.22,
+                "direction_y": -0.43,
+                "direction_z": 0.88,
+                "distance": 1.14,
+                "held": false,
+                "id": "block_blank_d",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.45,
+                "position_y": 0.27,
+                "position_z": 2.2,
+                "rotation_y": 28,
+                "shape": "blank block cylinder",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.23,
+                "direction_y": -0.31,
+                "direction_z": 0.92,
+                "distance": 1.09,
+                "held": false,
+                "id": "block_blank_f",
+                "mass": 0.66,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.45,
+                "position_y": 0.42,
+                "position_z": 2.2,
+                "rotation_y": 28,
+                "shape": "blank block cube",
+                "texture_color_list": [
+                    "yellow"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 5,
+        "position_x": 0.2,
+        "position_z": 1.2,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 10,
+        "structural_objects_count": 6
+    }
+]

@@ -73,7 +73,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 9
+        "structural_objects_count": 5
     },
     {
         "haptic_feedback": {
@@ -101,7 +101,7 @@
         "reward": -0.001,
         "rotation_y": 0,
         "step_number": 1,
-        "structural_objects_count": 9
+        "structural_objects_count": 5
     },
     {
         "haptic_feedback": {
@@ -129,6 +129,6 @@
         "reward": -100.002,
         "rotation_y": 0,
         "step_number": 2,
-        "structural_objects_count": 9
+        "structural_objects_count": 5
     }
 ]

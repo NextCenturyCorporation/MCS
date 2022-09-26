@@ -1,144 +1,194 @@
-[{
-    "step_number": 0,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0.0,
-    "objects_count": 1,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "state_list": ["a"]
-    }]
-}, {
-    "step_number": 1,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0.0,
-    "objects_count": 1,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "state_list": ["a"]
-    }]
-}, {
-    "step_number": 2,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0.0,
-    "objects_count": 1,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "state_list": ["b"]
-    }]
-}, {
-    "step_number": 3,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0.0,
-    "objects_count": 1,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "state_list": ["c", "d"]
-    }]
-}, {
-    "step_number": 4,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0.0,
-    "objects_count": 1,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "state_list": ["a"]
-    }]
-}, {
-    "step_number": 5,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0.0,
-    "objects_count": 1,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "state_list": ["e"]
-    }]
-}, {
-    "step_number": 6,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0.0,
-    "objects_count": 1,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "state_list": []
-    }]
-}, {
-    "step_number": 7,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0.0,
-    "objects_count": 1,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "state_list": ["f", "a"]
-    }]
-}, {
-    "step_number": 8,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0.0,
-    "objects_count": 1,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "state_list": []
-    }]
-}, {
-    "step_number": 9,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0.0,
-    "objects_count": 1,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "state_list": []
-    }]
-}, {
-    "step_number": 10,
-    "head_tilt": 0,
-    "position_x": 0.0,
-    "position_z": 0.0,
-    "return_status": "SUCCESSFUL",
-    "rotation_y": 0.0,
-    "objects_count": 1,
-    "structural_objects_count": 6,
-    "objects": [{
-        "id": "testBall",
-        "state_list": []
-    }]
-}]
+﻿[
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "id": "testBall",
+                "state_list": [
+                    "a"
+                ]
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "id": "testBall",
+                "state_list": [
+                    "a"
+                ]
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 1,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "id": "testBall",
+                "state_list": [
+                    "b"
+                ]
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 2,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "id": "testBall",
+                "state_list": [
+                    "c",
+                    "d"
+                ]
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 3,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "id": "testBall",
+                "state_list": [
+                    "a"
+                ]
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 4,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "id": "testBall",
+                "state_list": [
+                    "e"
+                ]
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 5,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "id": "testBall",
+                "state_list": []
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 6,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "id": "testBall",
+                "state_list": [
+                    "f",
+                    "a"
+                ]
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 7,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "id": "testBall",
+                "state_list": []
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 8,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "id": "testBall",
+                "state_list": []
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 9,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "id": "testBall",
+                "state_list": []
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 10,
+        "structural_objects_count": 5
+    }
+]

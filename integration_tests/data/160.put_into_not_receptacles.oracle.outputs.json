@@ -1,0 +1,1712 @@
+﻿[
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.74,
+                "direction_y": -0.56,
+                "direction_z": 0.37,
+                "distance": 1.35,
+                "held": false,
+                "id": "agent",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": false
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.79,
+                "direction_z": 0.62,
+                "distance": 0.81,
+                "held": false,
+                "id": "small_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.57,
+                "direction_y": -0.59,
+                "direction_z": 0.57,
+                "distance": 0.87,
+                "held": false,
+                "id": "big_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.9,
+                "direction_y": -0.31,
+                "direction_z": 0.3,
+                "distance": 1.66,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 0,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.74,
+                "direction_y": -0.56,
+                "direction_z": 0.37,
+                "distance": 1.35,
+                "held": false,
+                "id": "agent",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": false
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.49,
+                "direction_z": 0.87,
+                "distance": 0.42,
+                "held": true,
+                "id": "small_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.37,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.57,
+                "direction_y": -0.59,
+                "direction_z": 0.57,
+                "distance": 0.87,
+                "held": false,
+                "id": "big_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.9,
+                "direction_y": -0.31,
+                "direction_z": 0.3,
+                "distance": 1.66,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "small_ball",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 1,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.7,
+                "direction_y": -0.59,
+                "direction_z": 0.39,
+                "distance": 1.28,
+                "held": false,
+                "id": "agent",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": false
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.49,
+                "direction_z": 0.87,
+                "distance": 0.42,
+                "held": true,
+                "id": "small_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.1,
+                "position_z": 0.37,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.49,
+                "direction_y": -0.62,
+                "direction_z": 0.61,
+                "distance": 0.82,
+                "held": false,
+                "id": "big_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.89,
+                "direction_y": -0.33,
+                "direction_z": 0.32,
+                "distance": 1.57,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.1,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 2,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.66,
+                "direction_y": -0.63,
+                "direction_z": 0.41,
+                "distance": 1.21,
+                "held": false,
+                "id": "agent",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": false
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.49,
+                "direction_z": 0.87,
+                "distance": 0.42,
+                "held": true,
+                "id": "small_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.2,
+                "position_z": 0.37,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.39,
+                "direction_y": -0.66,
+                "direction_z": 0.64,
+                "distance": 0.78,
+                "held": false,
+                "id": "big_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.88,
+                "direction_y": -0.35,
+                "direction_z": 0.34,
+                "distance": 1.48,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.2,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 3,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.61,
+                "direction_y": -0.66,
+                "direction_z": 0.44,
+                "distance": 1.15,
+                "held": false,
+                "id": "agent",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": false
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.49,
+                "direction_z": 0.87,
+                "distance": 0.42,
+                "held": true,
+                "id": "small_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.3,
+                "position_z": 0.37,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.27,
+                "direction_y": -0.69,
+                "direction_z": 0.67,
+                "distance": 0.74,
+                "held": false,
+                "id": "big_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.86,
+                "direction_y": -0.37,
+                "direction_z": 0.36,
+                "distance": 1.4,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.3,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 4,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.7,
+                "direction_z": 0.46,
+                "distance": 1.09,
+                "held": false,
+                "id": "agent",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": false
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.49,
+                "direction_z": 0.87,
+                "distance": 0.42,
+                "held": true,
+                "id": "small_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.4,
+                "position_z": 0.37,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.14,
+                "direction_y": -0.71,
+                "direction_z": 0.69,
+                "distance": 0.72,
+                "held": false,
+                "id": "big_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.84,
+                "direction_y": -0.39,
+                "direction_z": 0.38,
+                "distance": 1.31,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.4,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 5,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.7,
+                "direction_z": 0.46,
+                "distance": 1.09,
+                "held": false,
+                "id": "agent",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": false
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.49,
+                "direction_z": 0.87,
+                "distance": 0.42,
+                "held": true,
+                "id": "small_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.4,
+                "position_z": 0.37,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.14,
+                "direction_y": -0.71,
+                "direction_z": 0.69,
+                "distance": 0.72,
+                "held": false,
+                "id": "big_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.84,
+                "direction_y": -0.39,
+                "direction_z": 0.38,
+                "distance": 1.31,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.4,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "big_ball",
+        "return_status": "NOT_RECEPTACLE",
+        "rotation_y": 0,
+        "step_number": 6,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.48,
+                "direction_y": -0.73,
+                "direction_z": 0.48,
+                "distance": 1.04,
+                "held": false,
+                "id": "agent",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.49,
+                "direction_z": 0.87,
+                "distance": 0.42,
+                "held": true,
+                "id": "small_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.37,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.72,
+                "direction_z": 0.7,
+                "distance": 0.72,
+                "held": false,
+                "id": "big_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.81,
+                "direction_y": -0.42,
+                "direction_z": 0.41,
+                "distance": 1.23,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.5,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 7,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.4,
+                "direction_y": -0.77,
+                "direction_z": 0.5,
+                "distance": 1.0,
+                "held": false,
+                "id": "agent",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.49,
+                "direction_z": 0.87,
+                "distance": 0.42,
+                "held": true,
+                "id": "small_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.6,
+                "position_z": 0.37,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.14,
+                "direction_y": -0.71,
+                "direction_z": 0.69,
+                "distance": 0.72,
+                "held": false,
+                "id": "big_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.78,
+                "direction_y": -0.45,
+                "direction_z": 0.43,
+                "distance": 1.15,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.6,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 8,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.31,
+                "direction_y": -0.79,
+                "direction_z": 0.52,
+                "distance": 0.96,
+                "held": false,
+                "id": "agent",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.49,
+                "direction_z": 0.87,
+                "distance": 0.42,
+                "held": true,
+                "id": "small_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.7,
+                "position_z": 0.37,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.27,
+                "direction_y": -0.69,
+                "direction_z": 0.67,
+                "distance": 0.74,
+                "held": false,
+                "id": "big_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.75,
+                "direction_y": -0.48,
+                "direction_z": 0.47,
+                "distance": 1.07,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.7,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 9,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.21,
+                "direction_y": -0.82,
+                "direction_z": 0.54,
+                "distance": 0.93,
+                "held": false,
+                "id": "agent",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.49,
+                "direction_z": 0.87,
+                "distance": 0.42,
+                "held": true,
+                "id": "small_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.8,
+                "position_z": 0.37,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.39,
+                "direction_y": -0.66,
+                "direction_z": 0.64,
+                "distance": 0.78,
+                "held": false,
+                "id": "big_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.7,
+                "direction_y": -0.51,
+                "direction_z": 0.5,
+                "distance": 1.0,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.8,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 10,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.11,
+                "direction_y": -0.83,
+                "direction_z": 0.55,
+                "distance": 0.92,
+                "held": false,
+                "id": "agent",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.49,
+                "direction_z": 0.87,
+                "distance": 0.42,
+                "held": true,
+                "id": "small_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.9,
+                "position_z": 0.37,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.49,
+                "direction_y": -0.62,
+                "direction_z": 0.61,
+                "distance": 0.82,
+                "held": false,
+                "id": "big_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.64,
+                "direction_y": -0.55,
+                "direction_z": 0.54,
+                "distance": 0.93,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.9,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 11,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.11,
+                "direction_y": -0.83,
+                "direction_z": 0.55,
+                "distance": 0.92,
+                "held": false,
+                "id": "agent",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.49,
+                "direction_z": 0.87,
+                "distance": 0.42,
+                "held": true,
+                "id": "small_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.9,
+                "position_z": 0.37,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.49,
+                "direction_y": -0.62,
+                "direction_z": 0.61,
+                "distance": 0.82,
+                "held": false,
+                "id": "big_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.64,
+                "direction_y": -0.55,
+                "direction_z": 0.54,
+                "distance": 0.93,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.9,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "agent",
+        "return_status": "NOT_RECEPTACLE",
+        "rotation_y": 0,
+        "step_number": 12,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.84,
+                "direction_z": 0.55,
+                "distance": 0.91,
+                "held": false,
+                "id": "agent",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.49,
+                "direction_z": 0.87,
+                "distance": 0.42,
+                "held": true,
+                "id": "small_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.0,
+                "position_z": 0.37,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.57,
+                "direction_y": -0.59,
+                "direction_z": 0.57,
+                "distance": 0.87,
+                "held": false,
+                "id": "big_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.57,
+                "direction_y": -0.59,
+                "direction_z": 0.57,
+                "distance": 0.87,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 1.0,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 13,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": -0.11,
+                "direction_y": -0.83,
+                "direction_z": 0.55,
+                "distance": 0.92,
+                "held": false,
+                "id": "agent",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.49,
+                "direction_z": 0.87,
+                "distance": 0.42,
+                "held": true,
+                "id": "small_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.1,
+                "position_z": 0.37,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.64,
+                "direction_y": -0.55,
+                "direction_z": 0.54,
+                "distance": 0.93,
+                "held": false,
+                "id": "big_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.49,
+                "direction_y": -0.62,
+                "direction_z": 0.61,
+                "distance": 0.82,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 1.1,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 14,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": -0.21,
+                "direction_y": -0.82,
+                "direction_z": 0.54,
+                "distance": 0.93,
+                "held": false,
+                "id": "agent",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.49,
+                "direction_z": 0.87,
+                "distance": 0.42,
+                "held": true,
+                "id": "small_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.2,
+                "position_z": 0.37,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.7,
+                "direction_y": -0.51,
+                "direction_z": 0.5,
+                "distance": 1.0,
+                "held": false,
+                "id": "big_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.39,
+                "direction_y": -0.66,
+                "direction_z": 0.64,
+                "distance": 0.78,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 1.2,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 15,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": -0.31,
+                "direction_y": -0.79,
+                "direction_z": 0.52,
+                "distance": 0.96,
+                "held": false,
+                "id": "agent",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.49,
+                "direction_z": 0.87,
+                "distance": 0.42,
+                "held": true,
+                "id": "small_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.3,
+                "position_z": 0.37,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.75,
+                "direction_y": -0.48,
+                "direction_z": 0.47,
+                "distance": 1.07,
+                "held": false,
+                "id": "big_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.27,
+                "direction_y": -0.69,
+                "direction_z": 0.67,
+                "distance": 0.74,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 1.3,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 16,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": -0.4,
+                "direction_y": -0.77,
+                "direction_z": 0.5,
+                "distance": 1.0,
+                "held": false,
+                "id": "agent",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.49,
+                "direction_z": 0.87,
+                "distance": 0.42,
+                "held": true,
+                "id": "small_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.4,
+                "position_z": 0.37,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.78,
+                "direction_y": -0.45,
+                "direction_z": 0.43,
+                "distance": 1.15,
+                "held": false,
+                "id": "big_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.14,
+                "direction_y": -0.71,
+                "direction_z": 0.69,
+                "distance": 0.72,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 1.4,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 17,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": -0.4,
+                "direction_y": -0.77,
+                "direction_z": 0.5,
+                "distance": 1.0,
+                "held": false,
+                "id": "agent",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.49,
+                "direction_z": 0.87,
+                "distance": 0.42,
+                "held": true,
+                "id": "small_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.4,
+                "position_z": 0.37,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.78,
+                "direction_y": -0.45,
+                "direction_z": 0.43,
+                "distance": 1.15,
+                "held": false,
+                "id": "big_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "blue"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.14,
+                "direction_y": -0.71,
+                "direction_z": 0.69,
+                "distance": 0.72,
+                "held": false,
+                "id": "platform",
+                "mass": 100.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.5,
+                "position_z": 0.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 1.4,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "platform",
+        "return_status": "NOT_RECEPTACLE",
+        "rotation_y": 0,
+        "step_number": 18,
+        "structural_objects_count": 6
+    }
+]

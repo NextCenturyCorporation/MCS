@@ -112,6 +112,10 @@ class SceneEvent():
         return self._raw_output.metadata.get('physicsFramesPerSecond')
 
     @property
+    def room_dimensions(self) -> float:
+        return self._raw_output.metadata.get('roomDimensions')
+
+    @property
     def events(self):
         return self._raw_output.events
 
@@ -174,6 +178,15 @@ class SceneEvent():
         event = self._raw_output.events[len(
             self._raw_output.events) - 1]
         return event.object_id_to_color
+
+    @property
+    def segmentation_colors(self):
+        return [{
+            'objectId': item['name'],
+            'r': item['color'][0],
+            'g': item['color'][1],
+            'b': item['color'][2]
+        } for item in (self._raw_output.metadata.get('colors') or [])]
 
     def retrieve_object_output(
             self, object_metadata, object_id_to_color):
@@ -275,7 +288,11 @@ class ControllerOutputHandler():
             self.get_restrictions(restricted, self._config.get_metadata_tier())
         step_output = StepMetadata(
             action_list=goal.retrieve_action_list_at_step(
-                self._step_number, self._scene_event.steps_on_lava),
+                self._step_number,
+                self._scene_event.steps_on_lava,
+                self._scene_config.intuitive_physics or
+                self._scene_config.isometric
+            ),
             camera_aspect_ratio=self._config.get_screen_size(),
             camera_clipping_planes=self._scene_event.clipping_plane,
             camera_field_of_view=self._scene_event.camera_field_of_view,
@@ -320,8 +337,15 @@ class ControllerOutputHandler():
             resolved_receptacle=(
                 None if restrict_non_oracle
                 else self._scene_event.resolved_receptacle),
+            room_dimensions=(
+                None if restrict_non_oracle
+                else self._scene_event.room_dimensions),
             rotation=(
                 None if restrict_non_oracle else self._scene_event.rotation),
+            segmentation_colors=(
+                None if restrict_non_oracle
+                else self._scene_event.segmentation_colors
+            ),
             step_number=self._step_number,
             steps_on_lava=self._scene_event.steps_on_lava,
             physics_frames_per_second=(
@@ -361,6 +385,7 @@ class ControllerOutputHandler():
         step_output.position = None
         step_output.holes = None
         step_output.lava = None
+        step_output.room_dimensions = None
 
         target_name_list = ['target', 'target_1', 'target_2']
         for target_name in target_name_list:

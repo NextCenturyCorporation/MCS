@@ -9,10 +9,10 @@
         "step_number": 0,
         "structural_objects": [
             {
-                "direction_x": -0.292,
-                "direction_y": 0.874,
-                "direction_z": -0.389,
-                "distance": 5.137,
+                "direction_x": -0.3,
+                "direction_y": 0.86,
+                "direction_z": -0.41,
+                "distance": 4.92,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -126,7 +126,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 8
+        "structural_objects_count": 7
     },
     {
         "head_tilt": 0,
@@ -138,10 +138,10 @@
         "step_number": 1,
         "structural_objects": [
             {
-                "direction_x": -0.274,
-                "direction_y": 0.878,
-                "direction_z": -0.391,
-                "distance": 5.109,
+                "direction_x": -0.29,
+                "direction_y": 0.87,
+                "direction_z": -0.41,
+                "distance": 4.89,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -253,7 +253,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 8
+        "structural_objects_count": 7
     },
     {
         "head_tilt": 0,
@@ -265,10 +265,10 @@
         "step_number": 2,
         "structural_objects": [
             {
-                "direction_x": -0.256,
-                "direction_y": 0.883,
-                "direction_z": -0.394,
-                "distance": 5.083,
+                "direction_x": -0.27,
+                "direction_y": 0.87,
+                "direction_z": -0.41,
+                "distance": 4.86,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -380,7 +380,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 8
+        "structural_objects_count": 7
     },
     {
         "head_tilt": 0,
@@ -392,10 +392,10 @@
         "step_number": 3,
         "structural_objects": [
             {
-                "direction_x": -0.237,
-                "direction_y": 0.887,
-                "direction_z": -0.395,
-                "distance": 5.058,
+                "direction_x": -0.25,
+                "direction_y": 0.88,
+                "direction_z": -0.41,
+                "distance": 4.84,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -507,7 +507,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 8
+        "structural_objects_count": 7
     },
     {
         "head_tilt": 0,
@@ -519,10 +519,10 @@
         "step_number": 4,
         "structural_objects": [
             {
-                "direction_x": -0.218,
-                "direction_y": 0.891,
-                "direction_z": -0.397,
-                "distance": 5.035,
+                "direction_x": -0.23,
+                "direction_y": 0.88,
+                "direction_z": -0.42,
+                "distance": 4.81,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -634,7 +634,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 8
+        "structural_objects_count": 7
     },
     {
         "head_tilt": 0,
@@ -647,9 +647,9 @@
         "structural_objects": [
             {
                 "direction_x": -0.199,
-                "direction_y": 0.895,
-                "direction_z": -0.399,
-                "distance": 5.014,
+                "direction_y": 0.88,
+                "direction_z": -0.42,
+                "distance": 4.79,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -761,7 +761,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 8
+        "structural_objects_count": 7
     },
     {
         "head_tilt": 0,
@@ -775,8 +775,8 @@
             {
                 "direction_x": -0.18,
                 "direction_y": 0.898,
-                "direction_z": -0.4,
-                "distance": 4.995,
+                "direction_z": -0.42,
+                "distance": 4.77,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -888,7 +888,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 8
+        "structural_objects_count": 7
     },
     {
         "head_tilt": 0,
@@ -902,8 +902,8 @@
             {
                 "direction_x": -0.132,
                 "direction_y": 0.931,
-                "direction_z": -0.339,
-                "distance": 5.892,
+                "direction_z": -0.35,
+                "distance": 5.66,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -1015,7 +1015,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 8
+        "structural_objects_count": 7
     },
     {
         "head_tilt": 0,
@@ -1029,8 +1029,8 @@
             {
                 "direction_x": -0.132,
                 "direction_y": 0.931,
-                "direction_z": -0.339,
-                "distance": 5.892,
+                "direction_z": -0.35,
+                "distance": 5.66,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -1142,7 +1142,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 8
+        "structural_objects_count": 7
     },
     {
         "head_tilt": 0,
@@ -1156,8 +1156,8 @@
             {
                 "direction_x": -0.115,
                 "direction_y": 0.933,
-                "direction_z": -0.34,
-                "distance": 5.88,
+                "direction_z": -0.35,
+                "distance": 5.65,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -1269,7 +1269,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 8
+        "structural_objects_count": 7
     },
     {
         "head_tilt": 0,
@@ -1283,8 +1283,8 @@
             {
                 "direction_x": -0.098,
                 "direction_y": 0.935,
-                "direction_z": -0.34,
-                "distance": 5.869,
+                "direction_z": -0.35,
+                "distance": 5.64,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -1396,7 +1396,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 8
+        "structural_objects_count": 7
     },
     {
         "head_tilt": 0,
@@ -1410,8 +1410,8 @@
             {
                 "direction_x": -0.081,
                 "direction_y": 0.936,
-                "direction_z": -0.341,
-                "distance": 5.86,
+                "direction_z": -0.36,
+                "distance": 5.63,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -1523,7 +1523,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 8
+        "structural_objects_count": 7
     },
     {
         "head_tilt": 0,
@@ -1537,8 +1537,8 @@
             {
                 "direction_x": -0.064,
                 "direction_y": 0.938,
-                "direction_z": -0.342,
-                "distance": 5.853,
+                "direction_z": -0.36,
+                "distance": 5.62,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -1650,7 +1650,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 8
+        "structural_objects_count": 7
     },
     {
         "head_tilt": 0,
@@ -1664,8 +1664,8 @@
             {
                 "direction_x": -0.047,
                 "direction_y": 0.938,
-                "direction_z": -0.342,
-                "distance": 5.853,
+                "direction_z": -0.36,
+                "distance": 5.61,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -1777,7 +1777,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 8
+        "structural_objects_count": 7
     },
     {
         "head_tilt": 0,
@@ -1791,8 +1791,8 @@
             {
                 "direction_x": -0.03,
                 "direction_y": 0.939,
-                "direction_z": -0.342,
-                "distance": 5.842,
+                "direction_z": -0.36,
+                "distance": 5.61,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -1904,7 +1904,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 8
+        "structural_objects_count": 7
     },
     {
         "head_tilt": 0,
@@ -1918,8 +1918,8 @@
             {
                 "direction_x": -0.013,
                 "direction_y": 0.939,
-                "direction_z": -0.342,
-                "distance": 5.844,
+                "direction_z": -0.36,
+                "distance": 5.61,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -2031,7 +2031,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 8
+        "structural_objects_count": 7
     },
     {
         "head_tilt": 0,
@@ -2045,8 +2045,8 @@
             {
                 "direction_x": 0.004,
                 "direction_y": 0.939,
-                "direction_z": -0.342,
-                "distance": 5.841,
+                "direction_z": -0.36,
+                "distance": 5.61,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -2158,7 +2158,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 8
+        "structural_objects_count": 7
     },
     {
         "head_tilt": 0,
@@ -2172,8 +2172,8 @@
             {
                 "direction_x": 0.033,
                 "direction_y": 0.955,
-                "direction_z": -0.294,
-                "distance": 6.794,
+                "direction_z": -0.31,
+                "distance": 6.55,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -2285,7 +2285,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 8
+        "structural_objects_count": 7
     },
     {
         "head_tilt": 0,
@@ -2299,8 +2299,8 @@
             {
                 "direction_x": 0.033,
                 "direction_y": 0.955,
-                "direction_z": -0.294,
-                "distance": 6.794,
+                "direction_z": -0.31,
+                "distance": 6.55,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -2412,7 +2412,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 8
+        "structural_objects_count": 7
     },
     {
         "head_tilt": 0,
@@ -2426,8 +2426,8 @@
             {
                 "direction_x": 0.047,
                 "direction_y": 0.954,
-                "direction_z": -0.294,
-                "distance": 6.798,
+                "direction_z": -0.3,
+                "distance": 6.56,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -2539,6 +2539,6 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 8
+        "structural_objects_count": 7
     }
 ]

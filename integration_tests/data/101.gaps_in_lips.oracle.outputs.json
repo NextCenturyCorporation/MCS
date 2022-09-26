@@ -71,7 +71,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 16
+        "structural_objects_count": 15
     },
     {
         "camera_height": 1.26,
@@ -145,7 +145,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 16
+        "structural_objects_count": 15
     },
     {
         "camera_height": 1.26,
@@ -219,7 +219,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 16
+        "structural_objects_count": 15
     },
     {
         "camera_height": 1.26,
@@ -293,7 +293,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 16
+        "structural_objects_count": 15
     },
     {
         "camera_height": 1.26,
@@ -367,7 +367,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 16
+        "structural_objects_count": 15
     },
     {
         "camera_height": 1.26,
@@ -441,7 +441,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 16
+        "structural_objects_count": 15
     },
     {
         "camera_height": 1.26,
@@ -515,7 +515,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 16
+        "structural_objects_count": 15
     },
     {
         "camera_height": 1.26,
@@ -589,7 +589,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 16
+        "structural_objects_count": 15
     },
     {
         "camera_height": 1.24,
@@ -663,7 +663,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 16
+        "structural_objects_count": 15
     },
     {
         "camera_height": 1.19,
@@ -737,7 +737,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 16
+        "structural_objects_count": 15
     },
     {
         "camera_height": 1.14,
@@ -811,6 +811,6 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 16
+        "structural_objects_count": 15
     }
 ]
