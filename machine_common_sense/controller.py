@@ -1,3 +1,4 @@
+import _thread
 import atexit
 import contextlib
 import datetime
@@ -6,6 +7,7 @@ import io
 import json
 import logging
 import os
+import threading
 from typing import Dict, List, Optional, Union
 
 import ai2thor.controller
@@ -120,6 +122,8 @@ class Controller():
         self._failure_handler_registered = False
         self._end_scene_called = False
         self._goal = GoalMetadata()
+        self._is_timer_running = False
+        self._last_step_check = 0  # TODO: MCS-1045 should we track the step?
         self.__habituation_trial = 1
         # Output folder used to save debug image, video, and JSON files.
         self.__output_folder = None
@@ -136,6 +140,16 @@ class Controller():
         self._config = config
         self._output_handler = ControllerOutputHandler(self._config)
         self.parameter_converter = Parameter(config)
+
+    def _end_run(self):
+        # TODO: MCS-1045 Fix time displayed
+        if(not self._end_scene_called):
+            logger.debug(
+                f"Calling end scene due to inactivity (user not taking"
+                f" any steps) for {self._config.get_timeout()} seconds")
+            self.end_scene(rating=None, score=-1)
+        self._is_timer_running = False
+        _thread.interrupt_main()
 
     @typeguard.typechecked
     def start_scene(
@@ -321,6 +335,13 @@ class Controller():
         payload['action'] = action
         payload['habituation_trial'] = self.__habituation_trial
         payload['goal'] = self._goal
+
+        # once we're about to take a step, cancel current
+        # timer thread since there's no need to timeout
+        if(self._is_timer_running):
+            self._timer.cancel()
+            self._is_timer_running = False
+
         self._publish_event(
             EventType.ON_BEFORE_STEP,
             BeforeStepPayload(**payload))
@@ -355,6 +376,15 @@ class Controller():
         self._publish_event(
             EventType.ON_AFTER_STEP,
             AfterStepPayload(**payload))
+
+        # After taking a step, reset call to end_scene
+        # after whatever time timeout property is set to
+        # (default is 2 hours) until the next step is taken.
+        if(not self._is_timer_running):
+            timeout = self._config.get_timeout()
+            self._timer = threading.Timer(timeout, self._end_run)
+            self._timer.start()
+            self._is_timer_running = True
 
         return output
 
