@@ -513,6 +513,8 @@ class ConfigManager:
         )
 
     def get_timeout(self):
+        """ Time (in seconds) to allow a run to be idle
+        before attempting to end scene"""
         return self._config.getint(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_TIMEOUT,
