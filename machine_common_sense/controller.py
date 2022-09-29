@@ -129,6 +129,8 @@ class Controller():
         self.__output_folder = None
         self._scene_config = None
         self.__step_number = 0
+        self._timer = None
+        self._timer_in_progress = False
 
     def _set_config(self, config: ConfigManager):
         '''Allows config to be changed without changing the controller and
@@ -145,14 +147,18 @@ class Controller():
         '''Meant for use during eval, if a scene is hung on the same step
         for a period of time, end the scene.'''
 
+        self._timer_in_progress = False
         timeout_secs = self._config.get_timeout()
 
         if(self._last_step_check < self.__step_number):
-            # skip check for Initialize step
+            # skip step check for Initialize step
             if(self.__step_number != 0):
                 self._last_step_check = self.__step_number
 
-            threading.Timer(timeout_secs, self._check_step_for_timeout).start()
+            self._timer = threading.Timer(timeout_secs,
+                                          self._check_step_for_timeout)
+            self._timer.start()
+            self._timer_in_progress = True
         else:
             time_str = str(datetime.timedelta(seconds=timeout_secs))
             logger.debug(
@@ -489,6 +495,10 @@ class Controller():
         if (self._failure_handler_registered):
             atexit.unregister(self.end_scene)
             self._failure_handler_registered = False
+
+        if (self._timer_in_progress):
+            self._timer.cancel()
+            self._timer_in_progress = False
 
     @typeguard.typechecked
     def stop_simulation(self) -> None:
