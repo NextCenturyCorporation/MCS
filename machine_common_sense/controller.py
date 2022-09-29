@@ -150,21 +150,21 @@ class Controller():
 
         start_time = time.time()
         self._timer_in_progress = False
-        timeout_secs = self._config.get_timeout()
+        timeout_seconds = self._config.get_timeout()
 
         if(self._last_step_check < self.__step_number):
             # skip step check for Initialize step
             if(self.__step_number != 0):
                 self._last_step_check = self.__step_number
 
-            timer_secs = timeout_secs - \
-                ((time.time() - start_time) % timeout_secs)
-            self._timer = threading.Timer(timer_secs,
+            timer_seconds = timeout_seconds - \
+                ((time.time() - start_time) % timeout_seconds)
+            self._timer = threading.Timer(timer_seconds,
                                           self._check_step_for_timeout)
             self._timer.start()
             self._timer_in_progress = True
         else:
-            time_str = str(datetime.timedelta(seconds=timeout_secs))
+            time_str = str(datetime.timedelta(seconds=timeout_seconds))
             logger.debug(
                 f"Attempting to end scene due to inactivity (user not taking"
                 f" any steps) for {time_str} (hh:mm:ss)")
