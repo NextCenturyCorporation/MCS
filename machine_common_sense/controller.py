@@ -8,6 +8,7 @@ import json
 import logging
 import os
 import threading
+import time
 from typing import Dict, List, Optional, Union
 
 import ai2thor.controller
@@ -147,6 +148,7 @@ class Controller():
         '''Meant for use during eval, if a scene is hung on the same step
         for a period of time, end the scene.'''
 
+        start_time = time.time()
         self._timer_in_progress = False
         timeout_secs = self._config.get_timeout()
 
@@ -155,7 +157,9 @@ class Controller():
             if(self.__step_number != 0):
                 self._last_step_check = self.__step_number
 
-            self._timer = threading.Timer(timeout_secs,
+            timer_secs = timeout_secs - \
+                ((time.time() - start_time) % timeout_secs)
+            self._timer = threading.Timer(timer_secs,
                                           self._check_step_for_timeout)
             self._timer.start()
             self._timer_in_progress = True
