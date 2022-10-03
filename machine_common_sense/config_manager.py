@@ -329,8 +329,8 @@ class ConfigManager:
     STEPS_ALLOWED_IN_LAVA_DEFAULT = 0
 
     # Default time to allow on a single step before timing out
-    # is 2 hours (represented in seconds)
-    TIMEOUT_DEFAULT = 7200
+    # is 1 hour (represented in seconds)
+    TIMEOUT_DEFAULT = 3600
 
     def __init__(self, config_file_or_dict=None):
         '''
