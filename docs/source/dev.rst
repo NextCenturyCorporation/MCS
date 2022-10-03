@@ -156,7 +156,7 @@ timeout
 
 (int, optional)
 
-If the amount of time between steps exceeds the amount specified (represented in seconds), throw and error and attempt to end scene (default: 3600 (or 1 hour))
+If the amount of time between steps exceeds the amount specified (represented in seconds), throw and error and attempt to end scene (default: 3600 (or 1 hour)).
 
 
 Handling Pull Requests From Contributors
