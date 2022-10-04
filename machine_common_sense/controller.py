@@ -116,7 +116,6 @@ class Controller():
 
         self._on_init()
         self._set_config(config)
-        self._check_step_for_timeout()
 
     def _on_init(self):
         '''Set class variables after controller is initialized'''
@@ -161,6 +160,7 @@ class Controller():
                 ((time.time() - start_time) % timeout_seconds)
             self._timer = threading.Timer(timer_seconds,
                                           self._check_step_for_timeout)
+            self._timer.daemon = True
             self._timer.start()
             self._timer_in_progress = True
         else:
@@ -269,6 +269,8 @@ class Controller():
         start_scene_payload = StartScenePayload(**payload)
         self._publish_event(
             EventType.ON_START_SCENE, start_scene_payload)
+
+        self._check_step_for_timeout()
 
         return output
 
