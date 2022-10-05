@@ -247,8 +247,8 @@ class TestHistoryWriter(unittest.TestCase):
         writer = mcs.HistoryWriter(self.prefix_config_data)
 
         goal = mcs.GoalMetadata(metadata={
-            'target': {'id': 'targetId',
-                       'image': 'something.png'}
+            'target': {'id': 'targetId', 'image': 'something.png'},
+            'targets': [{'id': 'targetId', 'image': 'something.png'}]
         })
         output = mcs.StepMetadata(
             action_list=[
@@ -285,6 +285,9 @@ class TestHistoryWriter(unittest.TestCase):
         self.assertEqual(
             writer.current_steps[0]["output"]["goal"]["metadata"]["target"],
             {'id': 'targetId', 'position': {'x': 1, 'y': 0.5, 'z': 1}})
+        self.assertEqual(
+            writer.current_steps[0]["output"]["goal"]["metadata"]["targets"],
+            [{'id': 'targetId', 'position': {'x': 1, 'y': 0.5, 'z': 1}}])
 
     def test_write_history_file_with_numpy(self):
         writer = mcs.HistoryWriter(self.prefix_config_data)

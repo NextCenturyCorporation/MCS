@@ -184,34 +184,28 @@ class HistoryWriter(object):
         if history.output:
             history.output.action_list = None
             history.output.structural_object_list = None
-            targets = ['target', 'target_1', 'target_2']
-            for target in targets:
 
-                if (
-                    target in history.output.goal.metadata.keys() and
-                    history.output.goal.metadata[target].get('image', None)
-                    is not None
-                ):
-                    del history.output.goal.metadata[target]['image']
-                if (
-                    target in history.output.goal.metadata.keys() and
-                    history.output.goal.metadata[target].get('id', None)
-                    is not None
-                ):
+            metadata = history.output.goal.metadata or {}
+            # Different goal categories may use different property names
+            target_names = ['target', 'targets', 'target_1', 'target_2']
+            for target_name in target_names:
+                # Some properties may be dicts, and some may be lists of dicts
+                targets = metadata.get(target_name) or []
+                targets = targets if isinstance(targets, list) else [targets]
+                for target in targets:
+                    # Backwards compatibility: target used to have image data
+                    if 'image' in target:
+                        del target['image']
+
                     # Save target position at each step for history file/
                     # scorecard purposes (accounts for tasks where the
                     # target position changes)
-                    target_id = history.output.goal.metadata[target].get('id',
-                                                                         None)
-
                     target_info = next(
                         (obj for obj in history.output.object_list
-                         if obj.uuid == target_id), None)
+                         if obj.uuid == target.get('id')), None)
 
                     if target_info:
-                        history.output.goal.metadata[target][
-                            "position"
-                        ] = target_info.position
+                        target["position"] = target_info.position
 
             history.output.object_list = None
         return history
@@ -238,14 +232,22 @@ class HistoryWriter(object):
     def is_target_visible(
             self,
             history: SceneHistory) -> bool:
-        """Determine the visibility of the target object, if any"""
+        """Determine the current visibility of the target object, if any. In
+        scenes with multiple targets, returns true if any target is visible."""
+        # TODO: Why do we need a try/catch here? Is it still relevant?
         try:
-            meta = history.output.goal.metadata
-            goal_id = meta['target']['id']
-            for hist_obj in history.output.object_list:
-                uuid = hist_obj.uuid
-                if uuid == goal_id and hist_obj.visible:
-                    return True
+            # Different goal categories may use different property names
+            target_names = ['target', 'targets', 'target_1', 'target_2']
+            metadata = history.output.goal.metadata or {}
+            for target_name in target_names:
+                # Some properties may be dicts, and some may be lists of dicts
+                targets = metadata.get(target_name) or []
+                targets = targets if isinstance(targets, list) else [targets]
+                for target in targets:
+                    for hist_obj in history.output.object_list:
+                        uuid = hist_obj.uuid
+                        if uuid == target.get('id') and hist_obj.visible:
+                            return True
             return False
         except Exception:
             return False

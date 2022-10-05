@@ -258,15 +258,22 @@ class TopdownVideoEventHandler(AbstractVideoEventHandler):
             # The plotter used to be inside the for loop the same as
             # image_recorder, but it seems like it would only plot one per
             # step.
-            goal_id = None
-            # Is there a better way to do this test?
-            if (payload.goal is not None and
-                    payload.goal.metadata is not None):
-                goal_id = payload.goal.metadata.get(
-                    'target', {}).get('id', None)
+
+            target_ids = []
+            metadata = (payload.goal.metadata or {}) if payload.goal else {}
+            # Different goal categories may use different property names
+            target_names = ['target', 'targets', 'target_1', 'target_2']
+            for target_name in target_names:
+                # Some properties may be dicts, and some may be lists of dicts
+                targets = metadata.get(target_name) or []
+                targets = targets if isinstance(targets, list) else [targets]
+                for target in targets:
+                    if target.get('id'):
+                        target_ids.append(target.get('id'))
+
             plot = self.__plotter.plot(payload.step_metadata,
                                        payload.step_number,
-                                       goal_id)
+                                       target_ids)
             self.__recorder.add(plot)
 
     def on_end_scene(self, payload: BasePostActionEventPayload):
