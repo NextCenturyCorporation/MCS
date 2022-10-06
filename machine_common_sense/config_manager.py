@@ -242,6 +242,11 @@ class PerformerStart(BaseModel):
     rotation: Vector3d
 
 
+class LidConfig(BaseModel):
+    step_begin: int
+    lid_attachment_obj_id: str
+
+
 class SceneObject(BaseModel):
     id: str
     type: str  # should this be an enum?
@@ -256,6 +261,7 @@ class SceneObject(BaseModel):
     ghosts: List[StepBeginEndConfig] = None
     hides: List[SingleStepConfig] = None
     kinematic: Optional[bool]
+    lid_attachment: Optional[LidConfig] = None
     location_parent: Optional[str]
     locked: bool = False
     mass: Optional[float]
