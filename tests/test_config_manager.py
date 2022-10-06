@@ -268,6 +268,18 @@ class TestConfigManager(unittest.TestCase):
 
         self.assertFalse(self.config_mngr.is_noise_enabled())
 
+    def test_timeout(self):
+        self.assertEqual(self.config_mngr.get_timeout(),
+                         self.config_mngr.TIMEOUT_DEFAULT)
+
+        self.config_mngr._config[
+            self.config_mngr.CONFIG_DEFAULT_SECTION
+        ][
+            self.config_mngr.CONFIG_TIMEOUT
+        ] = '50'
+
+        self.assertEqual(self.config_mngr.get_timeout(), 50)
+
 
 class TestSceneConfig(unittest.TestCase):
     def test_objects(self):

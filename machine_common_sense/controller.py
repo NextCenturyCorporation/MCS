@@ -1,3 +1,4 @@
+import _thread
 import atexit
 import contextlib
 import datetime
@@ -6,6 +7,8 @@ import io
 import json
 import logging
 import os
+import threading
+import time
 from typing import Dict, List, Optional, Union
 
 import ai2thor.controller
@@ -120,11 +123,14 @@ class Controller():
         self._failure_handler_registered = False
         self._end_scene_called = False
         self._goal = GoalMetadata()
+        self._last_step_check = -1
         self.__habituation_trial = 1
         # Output folder used to save debug image, video, and JSON files.
         self.__output_folder = None
         self._scene_config = None
         self.__step_number = 0
+        self._timer = None
+        self._timer_in_progress = False
 
     def _set_config(self, config: ConfigManager):
         '''Allows config to be changed without changing the controller and
@@ -136,6 +142,35 @@ class Controller():
         self._config = config
         self._output_handler = ControllerOutputHandler(self._config)
         self.parameter_converter = Parameter(config)
+
+    def _check_step_for_timeout(self):
+        '''Meant for use during eval, if a scene is hung on the same step
+        for a period of time, end the scene.'''
+
+        start_time = time.time()
+        self._timer_in_progress = False
+        timeout_seconds = self._config.get_timeout()
+
+        if(self._last_step_check < self.__step_number):
+            # skip step check for Initialize step
+            if(self.__step_number != 0):
+                self._last_step_check = self.__step_number
+
+            timer_seconds = timeout_seconds - \
+                ((time.time() - start_time) % timeout_seconds)
+            self._timer = threading.Timer(timer_seconds,
+                                          self._check_step_for_timeout)
+            self._timer.daemon = True
+            self._timer.start()
+            self._timer_in_progress = True
+        else:
+            time_str = str(datetime.timedelta(seconds=timeout_seconds))
+            logger.debug(
+                f"Attempting to end scene due to inactivity (user not taking"
+                f" any steps) for {time_str} (hh:mm:ss)")
+            self.end_scene(rating=None, score=-1)
+
+            _thread.interrupt_main()
 
     @typeguard.typechecked
     def start_scene(
@@ -235,6 +270,8 @@ class Controller():
         self._publish_event(
             EventType.ON_START_SCENE, start_scene_payload)
 
+        self._check_step_for_timeout()
+
         return output
 
     def _convert_scene_config(self, config_data) -> SceneConfiguration:
@@ -321,6 +358,7 @@ class Controller():
         payload['action'] = action
         payload['habituation_trial'] = self.__habituation_trial
         payload['goal'] = self._goal
+
         self._publish_event(
             EventType.ON_BEFORE_STEP,
             BeforeStepPayload(**payload))
@@ -463,6 +501,10 @@ class Controller():
         if (self._failure_handler_registered):
             atexit.unregister(self.end_scene)
             self._failure_handler_registered = False
+
+        if (self._timer_in_progress):
+            self._timer.cancel()
+            self._timer_in_progress = False
 
     @typeguard.typechecked
     def stop_simulation(self) -> None:
