@@ -262,7 +262,7 @@ Lid Config
 
 Each **lid config** has the following properties:
 
-- `stepBegin` (integer, required): The step on which the lid will be attatched the object specified `lidAttachmentObjId` should occur.  Must be non-negative.  A value of `0` means the action will occur during scene initialization.
+- `stepBegin` (integer, required): The step the lid will attach to the object specified by the `lidAttachmentObjId`.  Must be non-negative.  A value of `0` means the action will occur during scene initialization.
 - `lidAttachmentObjId` (string, required): The id of the object that the lid will attach to.
 
 Lip Gaps Config
