@@ -262,7 +262,7 @@ Lid Config
 
 Each **lid config** has the following properties:
 
-- `stepBegin` (integer, required): The step on which the lid will be attatched the object specified `lidAttachmentObjId` should occur.  Must be non-negative.  A value of `0` means the action will occur during scene initialization. If the step begin of the movement configuration is after the step begin of a currently playing action the movement will begin and immediately stop the action. If a step begin is triggered while the agent is interacting, the agent will begin its movement after the interaction is complete. If a step begin is triggered while the agent is interacting, but an action's step begin was also triggered during the interaction at a later step, the action will play first then agent will begin its movement. 
+- `stepBegin` (integer, required): The step on which the lid will be attatched the object specified `lidAttachmentObjId` should occur.  Must be non-negative.  A value of `0` means the action will occur during scene initialization.
 - `lidAttachmentObjId` (string, required): The material to use.
 
 Lip Gaps Config
