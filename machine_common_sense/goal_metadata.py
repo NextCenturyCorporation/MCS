@@ -237,6 +237,25 @@ class GoalCategory(Enum):
     `report`.
     """
 
+    PASSIVE = "passive"
+    """
+    In a trial that has a Passive goal, you must sit and observe a scene as
+    action unfolds in your camera's viewport, and then decide whether the scene
+    is "plausible" or "implausible". These trials will demand a "common sense"
+    understanding of places, objects, or agency. This goal category covers all
+    passive scenes that do not fall under the "agents" or "intuitive physics"
+    categories.
+
+    Notes
+    -----
+    You are required to call `controller.end_scene()` at the end of each scene
+    with a binary plausibility `rating` -- either 0 (implausible) or 1
+    (plausible) -- and a continuous plausibility `score` -- from 0.0
+    (completely implausible) to 1.0 (completely plausible). This is also
+    where you would submit any retrospective reporting on a per step basis via
+    `report`.
+    """
+
     RETRIEVAL = "retrieval"
     """
     In a trial that has a retrieval goal, you must find and pickup a target
