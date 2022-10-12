@@ -324,6 +324,7 @@ class ConfigManager:
     CONFIG_GOAL_REWARD = 'goal_reward'
     CONFIG_TOP_DOWN_PLOTTER = 'top_down_plotter'
     CONFIG_TOP_DOWN_CAMERA = 'top_down_camera'
+    CONFIG_TIMEOUT = 'timeout'
 
     # Please keep the aspect ratio as 3:2 because the IntPhys scenes are built
     # on this assumption.
@@ -332,6 +333,10 @@ class ConfigManager:
 
     # Default steps allowed in lava before calling end scene
     STEPS_ALLOWED_IN_LAVA_DEFAULT = 0
+
+    # Default time to allow on a single step before timing out
+    # is 1 hour (represented in seconds)
+    TIMEOUT_DEFAULT = 3600
 
     def __init__(self, config_file_or_dict=None):
         '''
@@ -511,6 +516,15 @@ class ConfigManager:
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_STEPS_ALLOWED_IN_LAVA,
             fallback=self.STEPS_ALLOWED_IN_LAVA_DEFAULT
+        )
+
+    def get_timeout(self):
+        """ Time (in seconds) to allow a run to be idle
+        before attempting to end scene"""
+        return self._config.getint(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_TIMEOUT,
+            fallback=self.TIMEOUT_DEFAULT
         )
 
     def is_top_down_plotter(self) -> bool:
