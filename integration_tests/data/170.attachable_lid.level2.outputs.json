@@ -420,6 +420,42 @@
         "structural_objects_count": 0
     },
     {
+        "head_tilt": 30,
+        "objects_count": 0,
+        "physics_frames_per_second": 20,
+        "position_x": null,
+        "position_z": null,
+        "return_status": "SUCCESSFUL",
+        "room_dimensions": null,
+        "rotation_y": null,
+        "step_number": 35,
+        "structural_objects_count": 0
+    },
+    {
+        "head_tilt": 30,
+        "objects_count": 0,
+        "physics_frames_per_second": 20,
+        "position_x": null,
+        "position_z": null,
+        "return_status": "UNDEFINED",
+        "room_dimensions": null,
+        "rotation_y": null,
+        "step_number": 36,
+        "structural_objects_count": 0
+    },
+    {
+        "head_tilt": 20,
+        "objects_count": 0,
+        "physics_frames_per_second": 20,
+        "position_x": null,
+        "position_z": null,
+        "return_status": "SUCCESSFUL",
+        "room_dimensions": null,
+        "rotation_y": null,
+        "step_number": 37,
+        "structural_objects_count": 0
+    },
+    {
         "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
@@ -428,47 +464,11 @@
         "return_status": "UNDEFINED",
         "room_dimensions": null,
         "rotation_y": null,
-        "step_number": 35,
-        "structural_objects_count": 0
-    },
-    {
-        "head_tilt": 10,
-        "objects_count": 0,
-        "physics_frames_per_second": 20,
-        "position_x": null,
-        "position_z": null,
-        "return_status": "SUCCESSFUL",
-        "room_dimensions": null,
-        "rotation_y": null,
-        "step_number": 36,
-        "structural_objects_count": 0
-    },
-    {
-        "head_tilt": 10,
-        "objects_count": 0,
-        "physics_frames_per_second": 20,
-        "position_x": null,
-        "position_z": null,
-        "return_status": "UNDEFINED",
-        "room_dimensions": null,
-        "rotation_y": null,
-        "step_number": 37,
-        "structural_objects_count": 0
-    },
-    {
-        "head_tilt": 10,
-        "objects_count": 0,
-        "physics_frames_per_second": 20,
-        "position_x": null,
-        "position_z": null,
-        "return_status": "SUCCESSFUL",
-        "room_dimensions": null,
-        "rotation_y": null,
         "step_number": 38,
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -480,7 +480,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -492,7 +492,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -504,7 +504,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -516,7 +516,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -528,7 +528,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -540,7 +540,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -552,7 +552,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -564,7 +564,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -576,7 +576,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -588,7 +588,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -600,7 +600,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -612,7 +612,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -624,7 +624,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -636,7 +636,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -648,7 +648,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -660,7 +660,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -672,7 +672,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -684,7 +684,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -696,7 +696,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -708,7 +708,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -744,19 +744,19 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 30,
+        "head_tilt": 40,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
         "position_z": null,
-        "return_status": "UNDEFINED",
+        "return_status": "SUCCESSFUL",
         "room_dimensions": null,
         "rotation_y": null,
         "step_number": 62,
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 20,
+        "head_tilt": 40,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -768,19 +768,19 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 40,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
         "position_z": null,
-        "return_status": "SUCCESSFUL",
+        "return_status": "UNDEFINED",
         "room_dimensions": null,
         "rotation_y": null,
         "step_number": 64,
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 40,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -792,19 +792,19 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 40,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
         "position_z": null,
-        "return_status": "UNDEFINED",
+        "return_status": "SUCCESSFUL",
         "room_dimensions": null,
         "rotation_y": null,
         "step_number": 66,
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 30,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -816,7 +816,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -828,19 +828,19 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
         "position_z": null,
-        "return_status": "SUCCESSFUL",
+        "return_status": "UNDEFINED",
         "room_dimensions": null,
         "rotation_y": null,
         "step_number": 69,
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -852,7 +852,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -864,7 +864,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -876,7 +876,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -888,7 +888,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -900,7 +900,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -912,7 +912,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -924,7 +924,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -936,7 +936,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -948,7 +948,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -960,7 +960,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -972,7 +972,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -984,7 +984,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -996,7 +996,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -1008,7 +1008,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -1020,7 +1020,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -1032,7 +1032,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -1044,7 +1044,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -1056,7 +1056,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -1068,7 +1068,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -1080,7 +1080,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -1092,7 +1092,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -1104,7 +1104,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -1116,7 +1116,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -1128,7 +1128,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -1140,7 +1140,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -1164,7 +1164,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 30,
+        "head_tilt": 20,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -1176,7 +1176,7 @@
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 40,
+        "head_tilt": 30,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -1193,14 +1193,14 @@
         "physics_frames_per_second": 20,
         "position_x": null,
         "position_z": null,
-        "return_status": "UNDEFINED",
+        "return_status": "SUCCESSFUL",
         "room_dimensions": null,
         "rotation_y": null,
         "step_number": 99,
         "structural_objects_count": 0
     },
     {
-        "head_tilt": 40,
+        "head_tilt": 50,
         "objects_count": 0,
         "physics_frames_per_second": 20,
         "position_x": null,
@@ -1209,6 +1209,18 @@
         "room_dimensions": null,
         "rotation_y": null,
         "step_number": 100,
+        "structural_objects_count": 0
+    },
+    {
+        "head_tilt": 50,
+        "objects_count": 0,
+        "physics_frames_per_second": 20,
+        "position_x": null,
+        "position_z": null,
+        "return_status": "UNDEFINED",
+        "room_dimensions": null,
+        "rotation_y": null,
+        "step_number": 101,
         "structural_objects_count": 0
     },
     {
@@ -1221,6 +1233,66 @@
         "room_dimensions": null,
         "rotation_y": null,
         "step_number": 101,
+        "structural_objects_count": 0
+    },
+    {
+        "head_tilt": 30,
+        "objects_count": 0,
+        "physics_frames_per_second": 20,
+        "position_x": null,
+        "position_z": null,
+        "return_status": "SUCCESSFUL",
+        "room_dimensions": null,
+        "rotation_y": null,
+        "step_number": 103,
+        "structural_objects_count": 0
+    },
+    {
+        "head_tilt": 20,
+        "objects_count": 0,
+        "physics_frames_per_second": 20,
+        "position_x": null,
+        "position_z": null,
+        "return_status": "SUCCESSFUL",
+        "room_dimensions": null,
+        "rotation_y": null,
+        "step_number": 104,
+        "structural_objects_count": 0
+    },
+    {
+        "head_tilt": 20,
+        "objects_count": 0,
+        "physics_frames_per_second": 20,
+        "position_x": null,
+        "position_z": null,
+        "return_status": "OBSTRUCTED",
+        "room_dimensions": null,
+        "rotation_y": null,
+        "step_number": 105,
+        "structural_objects_count": 0
+    },
+    {
+        "head_tilt": 20,
+        "objects_count": 0,
+        "physics_frames_per_second": 20,
+        "position_x": null,
+        "position_z": null,
+        "return_status": "UNDEFINED",
+        "room_dimensions": null,
+        "rotation_y": null,
+        "step_number": 106,
+        "structural_objects_count": 0
+    },
+    {
+        "head_tilt": 20,
+        "objects_count": 0,
+        "physics_frames_per_second": 20,
+        "position_x": null,
+        "position_z": null,
+        "return_status": "SUCCESSFUL",
+        "room_dimensions": null,
+        "rotation_y": null,
+        "step_number": 107,
         "structural_objects_count": 0
     }
 ]
