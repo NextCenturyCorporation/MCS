@@ -261,7 +261,7 @@ class SceneObject(BaseModel):
     ghosts: List[StepBeginEndConfig] = None
     hides: List[SingleStepConfig] = None
     kinematic: Optional[bool]
-    lid_attachment: Optional[LidConfig] = None
+    lid_attachment: Optional[LidConfig]
     location_parent: Optional[str]
     locked: bool = False
     mass: Optional[float]
