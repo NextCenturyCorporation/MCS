@@ -152,6 +152,8 @@ class StepMetadata:
         (occluder_wall_<uuid> and occluder_pole_<uuid>), and ramps are
         composed of between one and three objects (depending on the type
         of ramp), with corresponding object IDs.
+    triggered_by_sequence_incorrect : bool
+        If the the sequence to trigger a placer holding the target is incorrect
     """
 
     def __init__(
@@ -184,7 +186,8 @@ class StepMetadata:
         segmentation_colors=None,
         step_number=0,
         steps_on_lava=0,
-        structural_object_list=None
+        structural_object_list=None,
+        triggered_by_sequence_incorrect=False
     ):
         self.action_list = [] if action_list is None else action_list
         self.camera_aspect_ratio = (
@@ -229,6 +232,7 @@ class StepMetadata:
         )
         self.step_number = step_number
         self.steps_on_lava = steps_on_lava
+        self.triggered_by_sequence_incorrect = triggered_by_sequence_incorrect
         self.structural_object_list = [
         ] if structural_object_list is None else structural_object_list
 
@@ -279,7 +283,9 @@ class StepMetadata:
         yield 'reward', self.reward
         yield 'rotation', self.rotation
         yield 'segmentation_colors', self.segmentation_colors
-        yield 'step_number', self.step_number,
-        yield 'steps_on_lava', self.steps_on_lava,
+        yield 'step_number', self.step_number
+        yield 'steps_on_lava', self.steps_on_lava
         yield 'structural_object_list', self.check_list_none(
             self.structural_object_list)
+        yield 'triggered_by_sequence_incorrect', \
+            self.triggered_by_sequence_incorrect

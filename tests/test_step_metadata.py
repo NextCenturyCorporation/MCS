@@ -45,7 +45,8 @@ class TestStepMetadata(unittest.TestCase):
         "segmentation_colors": [],
         "step_number": 0,
         "steps_on_lava": 0,
-        "structural_object_list": []
+        "structural_object_list": [],
+        "triggered_by_sequence_incorrect": False
     }'''
 
     str_output_segment_map_ints = '''    {
@@ -94,6 +95,7 @@ class TestStepMetadata(unittest.TestCase):
                 "b": 21
             }
         }
+        "triggered_by_sequence_incorrect": False
     }'''
 
     @classmethod
@@ -247,6 +249,12 @@ class TestStepMetadata(unittest.TestCase):
         self.assertEqual(str(metadata),
                          textwrap.dedent(self.str_output_segment_map_ints))
 
+    def test_triggered_by_sequence_incorrect(self):
+        self.assertEqual(
+            self.step_metadata.triggered_by_sequence_incorrect, False)
+        self.assertIsInstance(
+            self.step_metadata.triggered_by_sequence_incorrect, bool)
+
     def test_copy_without_depth_or_images(self):
         data = mcs.StepMetadata(
             action_list=['action_1', 'action_2'],
@@ -279,7 +287,8 @@ class TestStepMetadata(unittest.TestCase):
             structural_object_list=[
                 mcs.ObjectMetadata(uuid='structure_1'),
                 mcs.ObjectMetadata(uuid='structure_2')
-            ]
+            ],
+            triggered_by_sequence_incorrect=True
         )
         copy = data.copy_without_depth_or_images()
         # Assert are exactly equal
@@ -330,6 +339,10 @@ class TestStepMetadata(unittest.TestCase):
         self.assertNotEqual(
             data.structural_object_list,
             copy.structural_object_list
+        )
+        self.assertEqual(
+            data.triggered_by_sequence_incorrect,
+            copy.triggered_by_sequence_incorrect
         )
 
 

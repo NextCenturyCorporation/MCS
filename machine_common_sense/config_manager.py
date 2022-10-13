@@ -287,6 +287,7 @@ class SceneObject(BaseModel):
     states: List[List[str]] = None
     structure: Optional[bool]
     teleports: List[TeleportConfig] = None
+    triggered_by: List[str] = None
     toggle_physics: List[SingleStepConfig] = None
     torques: List[ForceConfig] = None
 
