@@ -1,0 +1,327 @@
+﻿{
+    "name": "test a incorrect triggered by sequence for imitation task",
+    "version": "2",
+    "ceilingMaterial": "Custom/Materials/GreyDrywallMCS",
+    "floorMaterial": "Custom/Materials/BrownWoodMCS",
+    "wallMaterial": "Custom/Materials/WhiteDrywallMCS",
+    "roomDimensions": {
+        "x": 20,
+        "y": 3,
+        "z": 10
+    },
+    "performerStart": {
+        "position": {
+            "x": 0,
+            "y": 1,
+            "z": -3.5
+        },
+        "rotation": {
+          "x": 10,
+          "y": 0,
+          "z": 0
+        }
+    },
+    "objects": [{
+        "id": "agent_male",
+        "type": "agent_male_01",
+        "agentSettings": {
+            "chest": 1,
+            "chestMaterial": 1,
+            "eyes": 1,
+            "feet": 0,
+            "feetMaterial": 1,
+            "glasses": 1,
+            "hideHair": true,
+            "isElder": true,
+            "jacket": 0,
+            "jacketMaterial": 1,
+            "legs": 0,
+            "legsMaterial": 1,
+            "showBeard": true,
+            "showGlasses": true,
+            "showJacket": true,
+            "showTie": true,
+            "skin": 1,
+            "tie": 0,
+            "tieMaterial": 1
+        },
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0.1,
+                "y": 0,
+                "z": 1
+            },
+            "rotation": {
+                "x": 0,
+                "y": 90,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        }, {
+            "stepBegin": 10,
+            "position": {
+                "x": 0.1,
+                "y": 0,
+                "z": -1
+            },
+            "rotation": {
+                "x": 0,
+                "y": 90,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        }, {
+            "stepBegin": 30,
+            "position": {
+                "x": 2,
+                "y": 0,
+                "z": 2
+            },
+            "rotation": {
+                "x": 0,
+                "y": 180,
+                "z": 0
+            }
+        }],
+        "actions": [{
+            "stepBegin": 1,
+            "id": "TPE_jump",
+            "isLoopAnimation": false,
+            "stepEnd": 9
+        }, {
+            "stepBegin": 10,
+            "id": "TPE_jump",
+            "isLoopAnimation": false,
+            "stepEnd": 19
+        }]
+    }, {
+        "id": "chest_1",
+        "type": "chest_1",
+        "salientMaterials": ["wood"],
+        "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 2"],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0.5,
+                "y": 0,
+                "z": 1
+            },
+            "rotation": {
+                "x": 0,
+                "y": -90,
+                "z": 0
+            },
+            "scale": {
+                "x": 0.55,
+                "y": 1,
+                "z": 0.55
+            }
+        }],
+        "openClose": [{
+            "step": 5,
+            "open": true
+        }, {
+            "step": 30,
+            "open": false
+        }]
+    }, {
+        "id": "chest_2",
+        "type": "chest_1",
+        "salientMaterials": ["wood"],
+        "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 4"],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0.5,
+                "y": 0,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": -90,
+                "z": 0
+            },
+            "scale": {
+                "x": 0.55,
+                "y": 1,
+                "z": 0.55
+            }
+        }]
+    }, {
+        "id": "chest_3",
+        "type": "chest_1",
+        "salientMaterials": ["wood"],
+        "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 3"],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0.5,
+                "y": 0,
+                "z": -1
+            },
+            "rotation": {
+                "x": 0,
+                "y": -90,
+                "z": 0
+            },
+            "scale": {
+                "x": 0.55,
+                "y": 1,
+                "z": 0.55
+            }
+        }],
+        "openClose": [{
+            "step": 15,
+            "open": true
+        },{
+            "step": 30,
+            "open": false
+        }]
+    }, {
+        "id": "target_1",
+        "type": "soccer_ball",
+        "mass": 2,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0.5,
+                "y": 4.125,
+                "z": -1.5
+            },
+            "scale": {
+                "x": 0.75,
+                "y": 0.75,
+                "z": 0.75
+            }
+        }, {
+            "stepBegin": 30,
+            "position": {
+                "x": 0.5,
+                "y": 4.125,
+                "z": -1.5
+            }
+        }],
+        "triggeredBy": ["chest_1", "chest_3"],
+        "moves": [{
+            "stepBegin": 0,
+            "stepEnd": 7,
+            "vector": {
+                "x": 0,
+                "y": -0.5,
+                "z": 0
+            }
+        }],
+        "kinematic": true,
+        "togglePhysics": [{
+            "stepBegin": 8
+        }]
+    }, {
+        "id": "placer_1",
+        "type": "cylinder",
+        "mass": 5,
+        "materials": ["Custom/Materials/Magenta"],
+        "kinematic": true,
+        "structure": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0.5,
+                "y": 8.2,
+                "z": -1.5
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 0.045,
+                "y": 4,
+                "z": 0.045
+            }
+        }, {
+            "stepBegin": 30,
+            "position": {
+                "x": 0.5,
+                "y": 8.2,
+                "z": -1.5
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }],
+        "triggeredBy": ["chest_1", "chest_3"],
+        "moves": [{
+            "stepBegin": 0,
+            "stepEnd": 7,
+            "vector": {
+                "x": 0,
+                "y": -0.5,
+                "z": 0
+            }
+        },{
+            "stepBegin": 10,
+            "stepEnd": 25,
+            "vector": {
+                "x": 0,
+                "y": 0.5,
+                "z": 0
+            }
+        }],
+        "changeMaterials": [
+            {
+              "stepBegin": 8,
+              "materials": [
+                "Custom/Materials/Cyan"
+              ]
+            }
+        ]
+    }],
+    "goal": {
+        "action_list": [
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            [
+                "EndHabituation,xPosition=-0.4,zPosition=1,yRotation=90"
+            ]
+        ]
+    }
+}
