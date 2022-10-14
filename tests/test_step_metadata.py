@@ -46,7 +46,7 @@ class TestStepMetadata(unittest.TestCase):
         "step_number": 0,
         "steps_on_lava": 0,
         "structural_object_list": [],
-        "triggered_by_sequence_incorrect": False
+        "triggered_by_sequence_incorrect": false
     }'''
 
     str_output_segment_map_ints = '''    {
@@ -88,6 +88,7 @@ class TestStepMetadata(unittest.TestCase):
         "step_number": 0,
         "steps_on_lava": 0,
         "structural_object_list": [],
+        "triggered_by_sequence_incorrect": false,
         "segment_map": {
             "0": {
                 "r": 218,
@@ -95,7 +96,6 @@ class TestStepMetadata(unittest.TestCase):
                 "b": 21
             }
         }
-        "triggered_by_sequence_incorrect": False
     }'''
 
     @classmethod

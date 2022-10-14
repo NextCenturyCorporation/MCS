@@ -122,6 +122,14 @@ class TestGoalMetadata(unittest.TestCase):
             ('EndScene', {})
         ])
 
+    def test_retrieve_action_incorrect_triggered_by_sequence(self):
+        goal_metadata = mcs.GoalMetadata(
+            action_list=[])
+        self.assertEqual(goal_metadata.retrieve_action_list_at_step(
+            0, triggered_by_sequence_incorrect=True), [
+            ('EndScene', {})
+        ])
+
     def test_retrieve_action_too_many_steps(self):
         goal_metadata = mcs.GoalMetadata(
             action_list=[],
@@ -262,7 +270,7 @@ class TestGoalMetadata(unittest.TestCase):
     def test_retrieve_action_list_passive_scene(self):
         goal_metadata = mcs.GoalMetadata(action_list=[], last_step=10)
         self.assertEqual(
-            goal_metadata.retrieve_action_list_at_step(0, 0, True),
+            goal_metadata.retrieve_action_list_at_step(0, 0, False, True),
             [('Pass', {})]
         )
 

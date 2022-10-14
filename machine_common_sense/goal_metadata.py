@@ -158,7 +158,6 @@ class GoalMetadata:
                 steps_in_lava > self.steps_allowed_in_lava):
             return [("EndScene", {})]
 
-        # change this!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if triggered_by_sequence_incorrect:
             return [("EndScene", {})]
 

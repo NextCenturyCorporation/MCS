@@ -232,9 +232,9 @@ class StepMetadata:
         )
         self.step_number = step_number
         self.steps_on_lava = steps_on_lava
-        self.triggered_by_sequence_incorrect = triggered_by_sequence_incorrect
         self.structural_object_list = [
         ] if structural_object_list is None else structural_object_list
+        self.triggered_by_sequence_incorrect = triggered_by_sequence_incorrect
 
     def __str__(self):
         return Stringifier.class_to_str(self)
