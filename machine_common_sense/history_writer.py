@@ -3,6 +3,7 @@ import logging
 import os
 import pathlib
 from time import perf_counter
+from typing import Union
 
 from numpyencoder import NumpyEncoder
 
@@ -11,6 +12,7 @@ from machine_common_sense.step_metadata import StepMetadata
 from .controller_events import (AbstractControllerSubscriber, AfterStepPayload,
                                 BeforeStepPayload, EndScenePayload,
                                 StartScenePayload)
+from .goal_metadata import GoalCategory
 from .scene_history import SceneHistory
 from .stringifier import Stringifier
 
@@ -223,34 +225,31 @@ class HistoryWriter(object):
                 current_time - self.last_step_time_millis)
             self.last_step_time_millis = current_time
             if step_obj.output:
-                step_obj.target_visible = self.is_target_visible(
-                    step_obj)
+                step_obj.target_visible = self.is_target_visible(step_obj)
             logger.debug("Adding history step")
             self.current_steps.append(
                 dict(self.update_history_output(step_obj)))
 
-    def is_target_visible(
-            self,
-            history: SceneHistory) -> bool:
+    def is_target_visible(self, history: SceneHistory) -> Union[bool, list]:
         """Determine the current visibility of the target object, if any. In
         scenes with multiple targets, returns true if any target is visible."""
-        # TODO: Why do we need a try/catch here? Is it still relevant?
-        try:
-            # Different goal categories may use different property names
-            target_names = ['target', 'targets', 'target_1', 'target_2']
-            metadata = history.output.goal.metadata or {}
-            for target_name in target_names:
-                # Some properties may be dicts, and some may be lists of dicts
-                targets = metadata.get(target_name) or []
-                targets = targets if isinstance(targets, list) else [targets]
-                for target in targets:
-                    for hist_obj in history.output.object_list:
-                        uuid = hist_obj.uuid
-                        if uuid == target.get('id') and hist_obj.visible:
-                            return True
-            return False
-        except Exception:
-            return False
+        visible_targets = []
+        # Different goal categories may use different property names
+        target_names = ['target', 'targets', 'target_1', 'target_2']
+        metadata = history.output.goal.metadata or {}
+        for target_name in target_names:
+            # Some properties may be dicts, and some may be lists of dicts
+            targets = metadata.get(target_name) or []
+            targets = targets if isinstance(targets, list) else [targets]
+            for target in targets:
+                for hist_obj in history.output.object_list:
+                    if hist_obj.uuid == target.get('id') and hist_obj.visible:
+                        visible_targets.append(target.get('id'))
+        # Multi-retrieval goals will return a list of all visible target IDs.
+        if history.output.goal.category == GoalCategory.MULTI_RETRIEVAL.value:
+            return list(sorted(visible_targets))
+        # Other goals will return a boolean (backwards compatibility).
+        return bool(visible_targets)
 
     def write_history_file(self, rating, score):
         """ Add the end score obj, create the object

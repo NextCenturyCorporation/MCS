@@ -171,7 +171,8 @@ class Reward(object):
             category = goal.metadata.get('category', None)
 
         switch = {
-            GoalCategory.RETRIEVAL.value: Reward._calc_retrieval_reward
+            GoalCategory.RETRIEVAL.value: Reward._calc_retrieval_reward,
+            GoalCategory.MULTI_RETRIEVAL.value: Reward._calc_retrieval_reward
         }
 
         current_score = switch.get(category, Reward._calculate_default_reward)(
