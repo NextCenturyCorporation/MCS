@@ -80,14 +80,11 @@ class Reward(object):
             # Some properties may be dicts, and some may be lists of dicts
             targets = metadata.get(target_name) or []
             targets = targets if isinstance(targets, list) else [targets]
-            print(targets)
             for target in targets:
                 goal_id = target.get('id')
                 goal_object = Reward.__get_object_from_list(objects, goal_id)
                 if goal_object:
                     goal_objects.append(goal_object)
-
-        print(goal_objects)
 
         # Only attain the reward if all targets are picked up
         if goal_objects and all([obj.get('isPickedUp', False) for obj in goal_objects]):
