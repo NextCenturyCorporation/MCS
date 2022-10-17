@@ -71,10 +71,23 @@ class Reward(object):
 
         '''
         reward = GOAL_NOT_ACHIEVED
-        goal_id = goal.metadata['target'].get('id', None)
-        goal_object = Reward.__get_object_from_list(objects, goal_id)
+        goal_objects = []
 
-        if goal_object and goal_object.get('isPickedUp', False):
+        metadata = goal.metadata or {}
+        # Different goal categories may use different property names
+        target_names = ['target', 'targets']
+        for target_name in target_names:
+            # Some properties may be dicts, and some may be lists of dicts
+            targets = metadata.get(target_name) or []
+            targets = targets if isinstance(targets, list) else [targets]
+            for target in targets:
+                goal_id = target.get('id')
+                goal_object = Reward.__get_object_from_list(objects, goal_id)
+                if goal_object:
+                    goal_objects.append(goal_object)
+
+        # Only attain the reward if all targets are picked up
+        if all([obj.get('isPickedUp', False) for obj in goal_objects]):
             reward = goal_reward
 
         return reward
@@ -158,7 +171,8 @@ class Reward(object):
             category = goal.metadata.get('category', None)
 
         switch = {
-            GoalCategory.RETRIEVAL.value: Reward._calc_retrieval_reward
+            GoalCategory.RETRIEVAL.value: Reward._calc_retrieval_reward,
+            GoalCategory.MULTI_RETRIEVAL.value: Reward._calc_retrieval_reward
         }
 
         current_score = switch.get(category, Reward._calculate_default_reward)(

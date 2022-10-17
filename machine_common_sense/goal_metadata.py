@@ -207,7 +207,8 @@ class GoalCategory(Enum):
     behaviors, and their interactions with objects in the environment.
 
     This goal category is only used for the **passive/VoE agent tasks**. All
-    interactive agent tasks will use the `retrieval` goal category.
+    interactive agent tasks will use either the `retrieval` or
+    `multi retrieval` goal category.
 
     Notes
     -----
@@ -239,7 +240,10 @@ class GoalCategory(Enum):
     RETRIEVAL = "retrieval"
     """
     In a trial that has a retrieval goal, you must find and pickup a target
-    object. This may involve exploring the scene, avoiding obstacles,
+    object. In MCS Evaluation 4 and onward, the target object will always be a
+    soccer ball (football).
+
+    This may involve exploring the scene, avoiding obstacles,
     interacting with objects (like closed containers) or agents, and tracking
     moving objects. These trials will demand a "common sense" understanding of
     self navigation (how to move and rotate yourself within a scene and around
@@ -247,14 +251,40 @@ class GoalCategory(Enum):
     containers), the basic physics of movement (kinematics, gravity, friction,
     etc.), and agency (identifying people and using them to achieve a goal).
 
+    Notes
+    -----
+    At `oracle` metadata level, the `metadata` dict property of this
+    GoalMetadata object will contain a `target` property, which is a dict
+    containing the following parameters:
+
     Parameters
     ----------
-    target.id : string
-        The objectId of the target object to retrieve.
-        Will only be available at `oracle` metadata level.
+    id : string
+        The unique objectId of the target object to retrieve.
+    """
 
-    target.info : list of strings
-        Human-readable information describing the target object needed for the
-        visualization interface.
+    MULTI_RETRIEVAL = "multi retrieval"
+    """
+    In a trial that has a multi retrieval goal, you must find and pickup one or
+    more target objects. In MCS Evaluation 4 and onward, the target object will
+    always be a soccer ball (football).
 
+    This may involve exploring the scene, avoiding obstacles,
+    interacting with objects (like closed containers) or agents, and tracking
+    moving objects. These trials will demand a "common sense" understanding of
+    self navigation (how to move and rotate yourself within a scene and around
+    obstacles), object interaction (how objects work, including opening
+    containers), the basic physics of movement (kinematics, gravity, friction,
+    etc.), and agency (identifying people and using them to achieve a goal).
+
+    Notes
+    -----
+    At `oracle` metadata level, the `metadata` dict property of this
+    GoalMetadata object will contain a `targets` property, which is a list of
+    dicts that each contain the following parameters:
+
+    Parameters
+    ----------
+    id : string
+        The unique objectId of one of the target objects to retrieve.
     """

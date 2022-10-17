@@ -242,6 +242,50 @@ class TestReward(unittest.TestCase):
         self.assertEqual(reward, 0)
         self.assertIsInstance(reward, int)
 
+    def test_retrieval_reward_multi_target(self):
+        goal = mcs.GoalMetadata()
+        goal.metadata['targets'] = [{'id': '0'}, {'id': '1'}, {'id': '2'}]
+        obj_list = []
+        for i in range(10):
+            obj_list.append({'objectId': str(i), 'isPickedUp': True})
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, agent={},
+                                                   performer_reach=1.0)
+        self.assertEqual(reward, 1)
+        self.assertIsInstance(reward, int)
+
+    def test_retrieval_reward_multi_target_nothing_pickedup(self):
+        goal = mcs.GoalMetadata()
+        goal.metadata['targets'] = [{'id': '0'}, {'id': '1'}, {'id': '2'}]
+        obj_list = []
+        for i in range(10):
+            obj_list.append({'objectId': str(i), 'isPickedUp': False})
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, agent={},
+                                                   performer_reach=1.0)
+        self.assertEqual(reward, 0)
+        self.assertIsInstance(reward, int)
+
+    def test_retrieval_reward_multi_target_some_pickedup(self):
+        goal = mcs.GoalMetadata()
+        goal.metadata['targets'] = [{'id': '0'}, {'id': '1'}, {'id': '2'}]
+        obj_list = []
+        for i in range(10):
+            obj_list.append({'objectId': str(i), 'isPickedUp': (i == 0)})
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, agent={},
+                                                   performer_reach=1.0)
+        self.assertEqual(reward, 0)
+        self.assertIsInstance(reward, int)
+
+    def test_retrieval_reward_multi_target_more_pickedup(self):
+        goal = mcs.GoalMetadata()
+        goal.metadata['targets'] = [{'id': '0'}, {'id': '1'}, {'id': '2'}]
+        obj_list = []
+        for i in range(10):
+            obj_list.append({'objectId': str(i), 'isPickedUp': (i != 0)})
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, agent={},
+                                                   performer_reach=1.0)
+        self.assertEqual(reward, 0)
+        self.assertIsInstance(reward, int)
+
 
 if __name__ == '__main__':
     unittest.main()

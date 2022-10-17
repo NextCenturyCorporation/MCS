@@ -668,17 +668,18 @@ class SceneConfiguration(BaseModel):
         return lava
 
     def update_goal_target_image(self, goal_output):
-        target_name_list = ['target', 'target_1', 'target_2']
-
-        for target_name in target_name_list:
-            # need to convert goal image data from string to array
-            if (
-                target_name in goal_output.metadata and
-                'image' in goal_output.metadata[target_name] and
-                isinstance(goal_output.metadata[target_name]['image'], str)
-            ):
-                image_list_string = goal_output.metadata[target_name]['image']
-                goal_output.metadata[target_name]['image'] = np.array(
-                    ast.literal_eval(image_list_string)).tolist()
-
+        metadata = goal_output.metadata or {}
+        # Different goal categories may use different property names
+        target_names = ['target', 'targets', 'target_1', 'target_2']
+        for target_name in target_names:
+            # Some properties may be dicts, and some may be lists of dicts
+            targets = metadata.get(target_name) or []
+            targets = targets if isinstance(targets, list) else [targets]
+            for target in targets:
+                # Backwards compatibility: target used to have image data
+                image = target.get('image')
+                # Convert the image data from a string to an array
+                if isinstance(image, str):
+                    image_array = np.array(ast.literal_eval(image)).tolist()
+                    target['image'] = image_array
         return goal_output
