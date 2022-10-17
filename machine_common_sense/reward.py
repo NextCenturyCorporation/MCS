@@ -87,7 +87,8 @@ class Reward(object):
                     goal_objects.append(goal_object)
 
         # Only attain the reward if all targets are picked up
-        if goal_objects and all([obj.get('isPickedUp', False) for obj in goal_objects]):
+        if goal_objects and all(
+                [obj.get('isPickedUp', False) for obj in goal_objects]):
             reward = goal_reward
 
         return reward
