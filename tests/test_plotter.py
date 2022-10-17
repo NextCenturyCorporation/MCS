@@ -488,15 +488,10 @@ class TestTopDownPlotter(unittest.TestCase):
             Vector2dInt(**{"x": -3, "z": 4}),
             Vector2dInt(**{"x": 3, "z": -4}),
         ]
-        goal = {'metadata': {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        }}
         scene_config = SceneConfiguration(
             name="testscene",
             version=1,
-            goal=goal,
+            goal={'metadata': {}},
             holes=holes,
             room_dimensions=Vector3d(
                 x=6,
@@ -546,15 +541,10 @@ class TestTopDownPlotter(unittest.TestCase):
             Vector2dInt(
                 **{"x": 3, "z": -3}),  # out of bounds - don't draw
         ]
-        goal = {'metadata': {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        }}
         scene_config = SceneConfiguration(
             name="testscene",
             version=1,
-            goal=goal,
+            goal={'metadata': {}},
             holes=holes,
             room_dimensions=Vector3d(
                 x=5,
@@ -617,15 +607,10 @@ class TestTopDownPlotter(unittest.TestCase):
                 **{"x": -5, "z": -5})  # out of bounds - dont draw
 
         ]
-        goal = {'metadata': {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        }}
         scene_config = SceneConfiguration(
             name="testscene",
             version=1,
-            goal=goal,
+            goal={'metadata': {}},
             holes=holes,
             room_dimensions=Vector3d(
                 x=10,
@@ -658,15 +643,10 @@ class TestTopDownPlotter(unittest.TestCase):
         self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
 
     def test_draw_lava(self):
-        goal = {'metadata': {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        }}
         scene_config = SceneConfiguration(
             name="testscene",
             version=1,
-            goal=goal,
+            goal={'metadata': {}},
             room_dimensions=Vector3d(
                 x=6,
                 y=3,
@@ -722,15 +702,10 @@ class TestTopDownPlotter(unittest.TestCase):
         self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
 
     def test_draw_lava_from_partition_floor(self):
-        goal = {'metadata': {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        }}
         scene_config = SceneConfiguration(
             name="testscene",
             version=1,
-            goal=goal,
+            goal={'metadata': {}},
             room_dimensions=Vector3d(x=10, y=3, z=10),
             partition_floor=FloorPartitionConfig(left_half=0.2, right_half=0.8)
         )
@@ -753,15 +728,10 @@ class TestTopDownPlotter(unittest.TestCase):
 
     def test_draw_room(self):
         '''Floor grid plus walls'''
-        goal = {'metadata': {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        }}
         scene_config = SceneConfiguration(
             name="testscene",
             version=1,
-            goal=goal,
+            goal={'metadata': {}},
             room_dimensions=Vector3d(
                 x=10,
                 y=3,
@@ -788,15 +758,10 @@ class TestTopDownPlotter(unittest.TestCase):
         self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
 
     def test_draw_nonsquare_room(self):
-        goal = {'metadata': {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        }}
         scene_config = SceneConfiguration(
             name="testscene",
             version=1,
-            goal=goal,
+            goal={'metadata': {}},
             room_dimensions=Vector3d(
                 x=10,
                 y=3,
@@ -918,15 +883,10 @@ class TestTopDownPlotter(unittest.TestCase):
         self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
 
     def test_draw_goal_object(self):
-        goal = {'metadata': {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        }}
         scene_config = SceneConfiguration(
             name="testscene",
             version=1,
-            goal=goal,
+            goal={'metadata': {}},
             room_dimensions=Vector3d(
                 x=10,
                 y=3,
@@ -1091,15 +1051,10 @@ class TestTopDownPlotter(unittest.TestCase):
         self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
 
     def test_draw_visible_object(self):
-        goal = {'metadata': {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        }}
         scene_config = SceneConfiguration(
             name="testscene",
             version=1,
-            goal=goal,
+            goal={'metadata': {}},
             room_dimensions=Vector3d(
                 x=10,
                 y=3,
@@ -1186,15 +1141,10 @@ class TestTopDownPlotter(unittest.TestCase):
         self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
 
     def test_draw_hidden_object(self):
-        goal = {'metadata': {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        }}
         scene_config = SceneConfiguration(
             name="testscene",
             version=1,
-            goal=goal,
+            goal={'metadata': {}},
             room_dimensions=Vector3d(
                 x=10,
                 y=3,
@@ -1281,15 +1231,10 @@ class TestTopDownPlotter(unittest.TestCase):
         self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
 
     def test_draw_ramp_arrow(self):
-        goal = {'metadata': {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        }}
         scene_config = SceneConfiguration(
             name="testscene",
             version=1,
-            goal=goal,
+            goal={'metadata': {}},
             room_dimensions=Vector3d(
                 x=10,
                 y=3,
@@ -1337,15 +1282,10 @@ class TestTopDownPlotter(unittest.TestCase):
         self.assertListEqual(stat.sum, [0.0, 0.0, 0.0])
 
     def test_draw_hidden_ramp_arrow(self):
-        goal = {'metadata': {
-            'target': {'image': [0]},
-            'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
-        }}
         scene_config = SceneConfiguration(
             name="testscene",
             version=1,
-            goal=goal,
+            goal={'metadata': {}},
             room_dimensions=Vector3d(
                 x=10,
                 y=3,

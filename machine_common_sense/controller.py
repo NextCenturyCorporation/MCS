@@ -212,7 +212,7 @@ class Controller():
 
         if (self._config.is_file_writing_enabled()):
             os.makedirs(f'./{scene_config.name}', exist_ok=True)
-            self.__output_folder = f'./{scene_config.name}/'
+            self.__output_folder = f'{os.getcwd()}/{scene_config.name}/'
             file_list = glob.glob(f'{self.__output_folder}*')
             for file_path in file_list:
                 os.remove(file_path)

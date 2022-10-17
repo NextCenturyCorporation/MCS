@@ -387,15 +387,24 @@ class ControllerOutputHandler():
         step_output.lava = None
         step_output.room_dimensions = None
 
-        target_name_list = ['target', 'target_1', 'target_2']
-        for target_name in target_name_list:
-            if (target_name in step_output.goal.metadata):
-                step_output.goal = copy.deepcopy(
-                    step_output.goal)
-                if 'image' in step_output.goal.metadata[target_name]:
-                    step_output.goal.metadata[target_name]['image'] = None
-                if 'id' in step_output.goal.metadata[target_name]:
-                    step_output.goal.metadata[target_name]['id'] = None
-                if 'image_name' in step_output.goal.metadata[target_name]:
-                    step_output.goal.metadata[
-                        target_name]['image_name'] = None
+        # Copy the goal object to avoid deleting data from the original object
+        step_output.goal = copy.deepcopy(step_output.goal)
+
+        metadata = step_output.goal.metadata or {}
+        # Different goal categories may use different property names
+        target_names = ['target', 'targets', 'target_1', 'target_2']
+        for target_name in target_names:
+            target = metadata.get(target_name)
+            # Some properties may be dicts, and some may be lists of dicts
+            if isinstance(target, list):
+                # Clear the whole array, to avoid revealing the total count
+                metadata[target_name] = []
+            elif target:
+                # Pretty sure the target always has an id, but just in case...
+                if 'id' in target:
+                    del target['id']
+                # Backwards compatibility: target used to have image data
+                if 'image' in target:
+                    del target['image']
+                if 'image_name' in target:
+                    del target['image_name']

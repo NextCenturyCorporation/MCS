@@ -730,7 +730,8 @@ class TestSceneConfig(unittest.TestCase):
             'metadata': {
                 'target': {'image': [0]},
                 'target_1': {'image': [1]},
-                'target_2': {'image': [2]}
+                'target_2': {'image': [2]},
+                'targets': [{'image': [3]}]
             }
         }
 
@@ -740,7 +741,8 @@ class TestSceneConfig(unittest.TestCase):
         self.assertEqual(actual.metadata, {
             'target': {'image': [0]},
             'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
+            'target_2': {'image': [2]},
+            'targets': [{'image': [3]}]
         })
 
     def test_retrieve_goal(self):
@@ -809,7 +811,8 @@ class TestSceneConfig(unittest.TestCase):
         goal = {'metadata': {
             'target': {'image': [0]},
             'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
+            'target_2': {'image': [2]},
+            'targets': [{'image': [3]}]
         }}
         goal = Goal(**goal)
         scene_config = SceneConfiguration(name="test", version=1, goal=goal)
@@ -817,30 +820,33 @@ class TestSceneConfig(unittest.TestCase):
         self.assertEqual(actual.metadata, {
             'target': {'image': [0]},
             'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
+            'target_2': {'image': [2]},
+            'targets': [{'image': [3]}]
         })
 
     def test_update_goal_target_image_img_as_str(self):
         goal = {'metadata': {
             'target': {'image': "[0]"},
             'target_1': {'image': "[1]"},
-            'target_2': {'image': "[2]"}
-        }
-        }
+            'target_2': {'image': "[2]"},
+            'targets': [{'image': "[3]"}]
+        }}
         goal = Goal(**goal)
         scene_config = SceneConfiguration(name="test", version=1, goal=goal)
         actual = scene_config.update_goal_target_image(scene_config.goal)
         self.assertEqual(actual.metadata, {
             'target': {'image': [0]},
             'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
+            'target_2': {'image': [2]},
+            'targets': [{'image': [3]}]
         })
 
     def test_update_goal_target_image_oracle(self):
         goal = {'metadata': {
             'target': {'image': [0]},
             'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
+            'target_2': {'image': [2]},
+            'targets': [{'image': [3]}]
         }}
         goal = Goal(**goal)
         scene_config = SceneConfiguration(name="test", version=1, goal=goal)
@@ -848,14 +854,16 @@ class TestSceneConfig(unittest.TestCase):
         self.assertEqual(actual.metadata, {
             'target': {'image': [0]},
             'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
+            'target_2': {'image': [2]},
+            'targets': [{'image': [3]}]
         })
 
     def test_update_goal_target_image_oracle_img_as_str(self):
         goal = {'metadata': {
             'target': {'image': "[0]"},
             'target_1': {'image': "[1]"},
-            'target_2': {'image': "[2]"}
+            'target_2': {'image': "[2]"},
+            'targets': [{'image': "[3]"}]
         }}
         goal = Goal(**goal)
         scene_config = SceneConfiguration(name="test", version=1, goal=goal)
@@ -863,7 +871,8 @@ class TestSceneConfig(unittest.TestCase):
         self.assertEqual(actual.metadata, {
             'target': {'image': [0]},
             'target_1': {'image': [1]},
-            'target_2': {'image': [2]}
+            'target_2': {'image': [2]},
+            'targets': [{'image': [3]}]
         })
 
 

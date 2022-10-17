@@ -227,16 +227,14 @@ class TopDownPlotter():
         return img
 
     def plot(self, scene_event: ai2thor.server.Event,
-             step_number: int,
-             goal_id: str = None
-             ) -> PIL.Image.Image:
+             step_number: int, goal_ids: list = None) -> PIL.Image.Image:
         '''Create a plot of the room, objects and robot'''
         plt_img = self.base_room_img.copy()
 
         plt_objects = self._find_plottable_objects(scene_event)
         plt_img = self._draw_objects(plt_img,
                                      plt_objects,
-                                     goal_id)
+                                     goal_ids)
 
         agent_metadata = scene_event.metadata.get('agent')
         plt_img = self._draw_robot(
@@ -631,12 +629,12 @@ class TopDownPlotter():
         return combined_objects
 
     def _draw_objects(self, img: np.ndarray, objects: Dict,
-                      goal_id: str = None) -> np.ndarray:
+                      goal_ids: list = None) -> np.ndarray:
         '''Plot the object bounds for each object in the scene'''
         for o in objects:
             obj = self._create_asset(o)
             if obj.bounds is not None:
-                if goal_id is not None and o['objectId'] == goal_id:
+                if goal_ids is not None and o['objectId'] in goal_ids:
                     img = self._draw_goal(img, obj)
                 else:
                     img = self._draw_object(img, obj)
