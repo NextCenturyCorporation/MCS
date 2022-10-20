@@ -116,6 +116,7 @@ Each **object config** has the following properties:
 - `forces` (:ref:`force config <Force Config>` array, optional): The steps on which to apply `force <https://docs.unity3d.com/ScriptReference/Rigidbody.AddForce.html>`_ to the object. The config `vector` describes the amount of force (in Newtons) to apply in each direction using the global coordinate system. Resets all existing forces on the object to 0 before applying the new force. Default: `[]`
 - `ghosts` (:ref:`step begin and end config config <Step Begin And End Config>` array, optional): TBD
 - `hides` (:ref:`single step config <Single Step Config>` array, optional): The steps on which to hide the object, completely removing its existence from the scene until it is shown again (see the `shows` property). Useful if you want to have impossible events (spontaneous disappearance). Default: `[]`
+- `lidAttachment` :ref:`lid config <Lid Config>`, optional): If set this object will attach to the `lidAttachmentObjId` at the `stepBegin`. Default: none
 - `kinematic` (boolean, optional): If true, the object will ignore all forces including gravity. See Unity's `isKinematic property <https://docs.unity3d.com/ScriptReference/Rigidbody-isKinematic.html>`_. Usually paired with `structure`. Default: `false`
 - `locationParent` (string, optional): The `id` of another object in the scene. If given, this object's `shows.position` and `shows.rotation` will both start from the position and rotation of the `locationParent` object rather than from `0`. Default: none
 - `mass` (float, optional): The mass of the object, which affects the physics simulation. Default: `1`
@@ -255,6 +256,14 @@ Each **grid config** has the following properties:
 
 - `x` (integer)
 - `z` (integer)
+
+Lid Config
+*************
+
+Each **lid config** has the following properties:
+
+- `stepBegin` (integer, required): The step the lid will attach to the object specified by the `lidAttachmentObjId`.  Must be non-negative.  A value of `0` means the action will occur during scene initialization.
+- `lidAttachmentObjId` (string, required): The id of the object that the lid will attach to.
 
 Lip Gaps Config
 **************
