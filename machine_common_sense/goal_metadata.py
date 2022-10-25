@@ -225,10 +225,10 @@ class GoalCategory(Enum):
     the same actions, on the same objects, in the same order, is of critical
     importance; if you do not imitate the actions correctly, you will be
     forced to end the scene (by calling end_scene, or using the END_SCENE
-    action), without achieving the reward. In MCS Evaluation 5, the target
-    object will always be a soccer ball (football), and the imitated actions
-    will always be opening containers of various colors and shapes (using the
-    normal OpenObject action).
+    action), without achieving the reward. In MCS Evaluation 4 and onward, the
+    target object will always be a soccer ball (football), and the imitated
+    actions will always be opening containers of various colors and shapes
+    (using the normal OpenObject action).
 
     Notes
     -----
