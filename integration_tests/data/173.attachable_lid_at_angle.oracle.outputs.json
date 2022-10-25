@@ -3794,172 +3794,6 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.27,
-                "direction_z": 0.96,
-                "distance": 2.6,
-                "held": false,
-                "id": "rotating_cog_a",
-                "mass": 10.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.0,
-                "position_y": 0.05,
-                "position_z": 0.0,
-                "rotation_y": 90,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.78,
-                "direction_z": 0.62,
-                "distance": 0.96,
-                "held": false,
-                "id": "bowl_1",
-                "mass": 2.0,
-                "material_list": [
-                    "METAL"
-                ],
-                "position_x": 0.0,
-                "position_y": 0.1,
-                "position_z": 1.0,
-                "rotation_y": 90,
-                "shape": "bowl",
-                "texture_color_list": [
-                    "black",
-                    "grey"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.4,
-                "direction_z": 0.91,
-                "distance": 1.64,
-                "held": false,
-                "id": "container_1",
-                "mass": 2.0,
-                "material_list": [],
-                "position_x": 0.0,
-                "position_y": 0.1,
-                "position_z": -1.0,
-                "rotation_y": 135,
-                "shape": "cube",
-                "texture_color_list": [
-                    "black",
-                    "grey"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.31,
-                "direction_z": 0.95,
-                "distance": 1.58,
-                "held": false,
-                "id": "target_1",
-                "mass": 2.0,
-                "material_list": [
-                    "RUBBER"
-                ],
-                "position_x": 0.0,
-                "position_y": 0.27,
-                "position_z": -1.0,
-                "rotation_y": 90,
-                "shape": "ball",
-                "texture_color_list": [
-                    "white",
-                    "black"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.1,
-                "direction_y": 0.96,
-                "direction_z": 0.25,
-                "distance": 10.1,
-                "held": false,
-                "id": "placer_1",
-                "mass": 5.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 1.0,
-                "position_y": 10.5,
-                "position_z": 0.0,
-                "rotation_y": 0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "cyan",
-                    "blue",
-                    "green"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.09,
-                "direction_y": 0.97,
-                "direction_z": 0.23,
-                "distance": 11.08,
-                "held": false,
-                "id": "placer_3",
-                "mass": 5.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 1.0,
-                "position_y": 11.48,
-                "position_z": 0.0,
-                "rotation_y": 0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "cyan",
-                    "blue",
-                    "green"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.17,
-                "direction_z": 0.98,
-                "distance": 1.52,
-                "held": false,
-                "id": "lid_2",
-                "mass": 2.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.0,
-                "position_y": 0.5,
-                "position_z": -1.0,
-                "rotation_y": 135,
-                "shape": "cube",
-                "texture_color_list": [
-                    "grey"
-                ],
-                "visible": true
-            }
-        ],
-        "objects_count": 3,
-        "position_x": 0.0,
-        "position_z": -2.5,
-        "resolved_object": "",
-        "resolved_receptacle": "",
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 0.0,
-        "step_number": 23,
-        "structural_objects_count": 8
-    },
-    {
-        "head_tilt": 0,
-        "objects": [
-            {
-                "direction_x": 0.0,
                 "direction_y": -0.28,
                 "direction_z": 0.96,
                 "distance": 2.5,
@@ -4004,7 +3838,7 @@
             {
                 "direction_x": 0.0,
                 "direction_y": -0.43,
-                "direction_z": 0.9,
+                "direction_z": 0.91,
                 "distance": 1.55,
                 "held": false,
                 "id": "container_1",
@@ -4024,7 +3858,7 @@
             {
                 "direction_x": 0.0,
                 "direction_y": -0.33,
-                "direction_z": 0.94,
+                "direction_z": 0.95,
                 "distance": 1.48,
                 "held": false,
                 "id": "target_1",
@@ -4045,9 +3879,9 @@
             },
             {
                 "direction_x": 0.1,
-                "direction_y": 0.97,
+                "direction_y": 0.96,
                 "direction_z": 0.24,
-                "distance": 10.08,
+                "distance": 10.1,
                 "held": false,
                 "id": "placer_1",
                 "mass": 5.0,
@@ -4070,7 +3904,7 @@
                 "direction_x": 0.09,
                 "direction_y": 0.97,
                 "direction_z": 0.22,
-                "distance": 11.06,
+                "distance": 11.08,
                 "held": false,
                 "id": "placer_3",
                 "mass": 5.0,
@@ -4118,7 +3952,7 @@
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
-        "step_number": 24,
+        "step_number": 23,
         "structural_objects_count": 8
     },
     {
@@ -4170,7 +4004,7 @@
             {
                 "direction_x": 0.0,
                 "direction_y": -0.45,
-                "direction_z": 0.89,
+                "direction_z": 0.9,
                 "distance": 1.46,
                 "held": false,
                 "id": "container_1",
@@ -4213,7 +4047,7 @@
                 "direction_x": 0.1,
                 "direction_y": 0.97,
                 "direction_z": 0.23,
-                "distance": 10.06,
+                "distance": 10.08,
                 "held": false,
                 "id": "placer_1",
                 "mass": 5.0,
@@ -4236,7 +4070,7 @@
                 "direction_x": 0.09,
                 "direction_y": 0.97,
                 "direction_z": 0.21,
-                "distance": 11.04,
+                "distance": 11.06,
                 "held": false,
                 "id": "placer_3",
                 "mass": 5.0,
@@ -4257,7 +4091,7 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.2,
+                "direction_y": -0.19,
                 "direction_z": 0.98,
                 "distance": 1.33,
                 "held": false,
@@ -4284,7 +4118,7 @@
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
-        "step_number": 25,
+        "step_number": 24,
         "structural_objects_count": 8
     },
     {
@@ -4292,8 +4126,8 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.31,
-                "direction_z": 0.95,
+                "direction_y": -0.3,
+                "direction_z": 0.96,
                 "distance": 2.31,
                 "held": false,
                 "id": "rotating_cog_a",
@@ -4379,7 +4213,7 @@
                 "direction_x": 0.1,
                 "direction_y": 0.97,
                 "direction_z": 0.22,
-                "distance": 10.03,
+                "distance": 10.06,
                 "held": false,
                 "id": "placer_1",
                 "mass": 5.0,
@@ -4400,9 +4234,9 @@
             },
             {
                 "direction_x": 0.09,
-                "direction_y": 0.98,
+                "direction_y": 0.97,
                 "direction_z": 0.2,
-                "distance": 11.02,
+                "distance": 11.04,
                 "held": false,
                 "id": "placer_3",
                 "mass": 5.0,
@@ -4450,7 +4284,7 @@
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
-        "step_number": 26,
+        "step_number": 25,
         "structural_objects_count": 8
     },
     {
@@ -4545,7 +4379,7 @@
                 "direction_x": 0.1,
                 "direction_y": 0.97,
                 "direction_z": 0.21,
-                "distance": 10.01,
+                "distance": 10.03,
                 "held": false,
                 "id": "placer_1",
                 "mass": 5.0,
@@ -4567,8 +4401,8 @@
             {
                 "direction_x": 0.09,
                 "direction_y": 0.98,
-                "direction_z": 0.19,
-                "distance": 11.0,
+                "direction_z": 0.2,
+                "distance": 11.02,
                 "held": false,
                 "id": "placer_3",
                 "mass": 5.0,
@@ -4589,8 +4423,8 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.24,
-                "direction_z": 0.97,
+                "direction_y": -0.23,
+                "direction_z": 0.98,
                 "distance": 1.13,
                 "held": false,
                 "id": "lid_2",
@@ -4616,7 +4450,7 @@
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
-        "step_number": 27,
+        "step_number": 26,
         "structural_objects_count": 8
     },
     {
@@ -4625,7 +4459,7 @@
             {
                 "direction_x": 0.0,
                 "direction_y": -0.34,
-                "direction_z": 0.94,
+                "direction_z": 0.95,
                 "distance": 2.12,
                 "held": false,
                 "id": "rotating_cog_a",
@@ -4710,8 +4544,8 @@
             {
                 "direction_x": 0.1,
                 "direction_y": 0.97,
-                "direction_z": 0.2,
-                "distance": 9.99,
+                "direction_z": 0.21,
+                "distance": 10.01,
                 "held": false,
                 "id": "placer_1",
                 "mass": 5.0,
@@ -4733,8 +4567,8 @@
             {
                 "direction_x": 0.09,
                 "direction_y": 0.98,
-                "direction_z": 0.18,
-                "distance": 10.98,
+                "direction_z": 0.19,
+                "distance": 11.0,
                 "held": false,
                 "id": "placer_3",
                 "mass": 5.0,
@@ -4782,7 +4616,7 @@
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
-        "step_number": 28,
+        "step_number": 27,
         "structural_objects_count": 8
     },
     {
@@ -4875,6 +4709,172 @@
             },
             {
                 "direction_x": 0.1,
+                "direction_y": 0.97,
+                "direction_z": 0.2,
+                "distance": 9.99,
+                "held": false,
+                "id": "placer_1",
+                "mass": 5.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_y": 10.5,
+                "position_z": 0.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.09,
+                "direction_y": 0.98,
+                "direction_z": 0.18,
+                "distance": 10.98,
+                "held": false,
+                "id": "placer_3",
+                "mass": 5.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_y": 11.48,
+                "position_z": 0.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.28,
+                "direction_z": 0.96,
+                "distance": 0.94,
+                "held": false,
+                "id": "lid_2",
+                "mass": 2.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_y": 0.5,
+                "position_z": -1.0,
+                "rotation_y": 135,
+                "shape": "cube",
+                "texture_color_list": [
+                    "grey"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.0,
+        "position_z": -1.9,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 28,
+        "structural_objects_count": 8
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.37,
+                "direction_z": 0.93,
+                "distance": 1.94,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_y": 0.05,
+                "position_z": 0.0,
+                "rotation_y": 90,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.78,
+                "direction_z": 0.62,
+                "distance": 0.96,
+                "held": false,
+                "id": "bowl_1",
+                "mass": 2.0,
+                "material_list": [
+                    "METAL"
+                ],
+                "position_x": 0.0,
+                "position_y": 0.1,
+                "position_z": 1.0,
+                "rotation_y": 90,
+                "shape": "bowl",
+                "texture_color_list": [
+                    "black",
+                    "grey"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.64,
+                "direction_z": 0.77,
+                "distance": 1.04,
+                "held": false,
+                "id": "container_1",
+                "mass": 2.0,
+                "material_list": [],
+                "position_x": 0.0,
+                "position_y": 0.1,
+                "position_z": -1.0,
+                "rotation_y": 135,
+                "shape": "cube",
+                "texture_color_list": [
+                    "black",
+                    "grey"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.52,
+                "direction_z": 0.85,
+                "distance": 0.94,
+                "held": false,
+                "id": "target_1",
+                "mass": 2.0,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0.0,
+                "position_y": 0.27,
+                "position_z": -1.0,
+                "rotation_y": 90,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.1,
                 "direction_y": 0.98,
                 "direction_z": 0.19,
                 "distance": 9.97,
@@ -4921,9 +4921,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.28,
-                "direction_z": 0.96,
-                "distance": 0.94,
+                "direction_y": -0.31,
+                "direction_z": 0.95,
+                "distance": 0.84,
                 "held": false,
                 "id": "lid_2",
                 "mass": 2.0,
@@ -4943,7 +4943,7 @@
         ],
         "objects_count": 3,
         "position_x": 0.0,
-        "position_z": -1.9,
+        "position_z": -1.8,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
@@ -4956,9 +4956,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.35,
-                "direction_z": 0.94,
-                "distance": 2.03,
+                "direction_y": -0.37,
+                "direction_z": 0.93,
+                "distance": 1.94,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -4999,9 +4999,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.59,
-                "direction_z": 0.81,
-                "distance": 1.12,
+                "direction_y": -0.64,
+                "direction_z": 0.77,
+                "distance": 1.04,
                 "held": false,
                 "id": "container_1",
                 "mass": 2.0,
@@ -5019,9 +5019,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.48,
-                "direction_z": 0.88,
-                "distance": 1.02,
+                "direction_y": -0.52,
+                "direction_z": 0.85,
+                "distance": 0.94,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -5087,9 +5087,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.28,
-                "direction_z": 0.96,
-                "distance": 0.94,
+                "direction_y": -0.31,
+                "direction_z": 0.95,
+                "distance": 0.84,
                 "held": false,
                 "id": "lid_2",
                 "mass": 2.0,
@@ -5109,7 +5109,7 @@
         ],
         "objects_count": 3,
         "position_x": 0.0,
-        "position_z": -1.9,
+        "position_z": -1.8,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
@@ -5122,9 +5122,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.35,
-                "direction_z": 0.94,
-                "distance": 2.03,
+                "direction_y": -0.37,
+                "direction_z": 0.93,
+                "distance": 1.94,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -5165,9 +5165,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.59,
-                "direction_z": 0.81,
-                "distance": 1.12,
+                "direction_y": -0.64,
+                "direction_z": 0.77,
+                "distance": 1.04,
                 "held": false,
                 "id": "container_1",
                 "mass": 2.0,
@@ -5185,9 +5185,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.48,
-                "direction_z": 0.88,
-                "distance": 1.02,
+                "direction_y": -0.52,
+                "direction_z": 0.85,
+                "distance": 0.94,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -5253,9 +5253,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.28,
-                "direction_z": 0.96,
-                "distance": 0.94,
+                "direction_y": -0.31,
+                "direction_z": 0.95,
+                "distance": 0.84,
                 "held": false,
                 "id": "lid_2",
                 "mass": 2.0,
@@ -5275,510 +5275,12 @@
         ],
         "objects_count": 3,
         "position_x": 0.0,
-        "position_z": -1.9,
+        "position_z": -1.8,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 31,
-        "structural_objects_count": 8
-    },
-    {
-        "head_tilt": 30,
-        "objects": [
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.35,
-                "direction_z": 0.94,
-                "distance": 2.03,
-                "held": false,
-                "id": "rotating_cog_a",
-                "mass": 10.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.0,
-                "position_y": 0.05,
-                "position_z": 0.0,
-                "rotation_y": 90,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.78,
-                "direction_z": 0.62,
-                "distance": 0.96,
-                "held": false,
-                "id": "bowl_1",
-                "mass": 2.0,
-                "material_list": [
-                    "METAL"
-                ],
-                "position_x": 0.0,
-                "position_y": 0.1,
-                "position_z": 1.0,
-                "rotation_y": 90,
-                "shape": "bowl",
-                "texture_color_list": [
-                    "black",
-                    "grey"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.59,
-                "direction_z": 0.81,
-                "distance": 1.12,
-                "held": false,
-                "id": "container_1",
-                "mass": 2.0,
-                "material_list": [],
-                "position_x": 0.0,
-                "position_y": 0.1,
-                "position_z": -1.0,
-                "rotation_y": 135,
-                "shape": "cube",
-                "texture_color_list": [
-                    "black",
-                    "grey"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.48,
-                "direction_z": 0.88,
-                "distance": 1.02,
-                "held": false,
-                "id": "target_1",
-                "mass": 2.0,
-                "material_list": [
-                    "RUBBER"
-                ],
-                "position_x": 0.0,
-                "position_y": 0.27,
-                "position_z": -1.0,
-                "rotation_y": 90,
-                "shape": "ball",
-                "texture_color_list": [
-                    "white",
-                    "black"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.1,
-                "direction_y": 0.98,
-                "direction_z": 0.19,
-                "distance": 9.97,
-                "held": false,
-                "id": "placer_1",
-                "mass": 5.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 1.0,
-                "position_y": 10.5,
-                "position_z": 0.0,
-                "rotation_y": 0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "cyan",
-                    "blue",
-                    "green"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.09,
-                "direction_y": 0.99,
-                "direction_z": 0.17,
-                "distance": 10.96,
-                "held": false,
-                "id": "placer_3",
-                "mass": 5.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 1.0,
-                "position_y": 11.48,
-                "position_z": 0.0,
-                "rotation_y": 0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "cyan",
-                    "blue",
-                    "green"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.28,
-                "direction_z": 0.96,
-                "distance": 0.94,
-                "held": false,
-                "id": "lid_2",
-                "mass": 2.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.0,
-                "position_y": 0.5,
-                "position_z": -1.0,
-                "rotation_y": 135,
-                "shape": "cube",
-                "texture_color_list": [
-                    "grey"
-                ],
-                "visible": true
-            }
-        ],
-        "objects_count": 3,
-        "position_x": 0.0,
-        "position_z": -1.9,
-        "resolved_object": "",
-        "resolved_receptacle": "",
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 0.0,
-        "step_number": 32,
-        "structural_objects_count": 8
-    },
-    {
-        "head_tilt": 30,
-        "objects": [
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.35,
-                "direction_z": 0.94,
-                "distance": 2.03,
-                "held": false,
-                "id": "rotating_cog_a",
-                "mass": 10.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.0,
-                "position_y": 0.05,
-                "position_z": 0.0,
-                "rotation_y": 90,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.78,
-                "direction_z": 0.62,
-                "distance": 0.96,
-                "held": false,
-                "id": "bowl_1",
-                "mass": 2.0,
-                "material_list": [
-                    "METAL"
-                ],
-                "position_x": 0.0,
-                "position_y": 0.1,
-                "position_z": 1.0,
-                "rotation_y": 90,
-                "shape": "bowl",
-                "texture_color_list": [
-                    "black",
-                    "grey"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.59,
-                "direction_z": 0.81,
-                "distance": 1.12,
-                "held": false,
-                "id": "container_1",
-                "mass": 2.0,
-                "material_list": [],
-                "position_x": 0.0,
-                "position_y": 0.1,
-                "position_z": -1.0,
-                "rotation_y": 135,
-                "shape": "cube",
-                "texture_color_list": [
-                    "black",
-                    "grey"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.48,
-                "direction_z": 0.88,
-                "distance": 1.02,
-                "held": false,
-                "id": "target_1",
-                "mass": 2.0,
-                "material_list": [
-                    "RUBBER"
-                ],
-                "position_x": 0.0,
-                "position_y": 0.27,
-                "position_z": -1.0,
-                "rotation_y": 90,
-                "shape": "ball",
-                "texture_color_list": [
-                    "white",
-                    "black"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.1,
-                "direction_y": 0.98,
-                "direction_z": 0.19,
-                "distance": 9.97,
-                "held": false,
-                "id": "placer_1",
-                "mass": 5.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 1.0,
-                "position_y": 10.5,
-                "position_z": 0.0,
-                "rotation_y": 0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "cyan",
-                    "blue",
-                    "green"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.09,
-                "direction_y": 0.99,
-                "direction_z": 0.17,
-                "distance": 10.96,
-                "held": false,
-                "id": "placer_3",
-                "mass": 5.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 1.0,
-                "position_y": 11.48,
-                "position_z": 0.0,
-                "rotation_y": 0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "cyan",
-                    "blue",
-                    "green"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": -0.13,
-                "direction_y": -0.06,
-                "direction_z": 0.99,
-                "distance": 1.05,
-                "held": false,
-                "id": "lid_2",
-                "mass": 2.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": -0.14,
-                "position_y": 0.7,
-                "position_z": -0.86,
-                "rotation_y": 135,
-                "shape": "cube",
-                "texture_color_list": [
-                    "grey"
-                ],
-                "visible": true
-            }
-        ],
-        "objects_count": 3,
-        "position_x": 0.0,
-        "position_z": -1.9,
-        "resolved_object": "container_1",
-        "resolved_receptacle": "",
-        "return_status": "UNDEFINED",
-        "rotation_y": 0.0,
-        "step_number": 33,
-        "structural_objects_count": 8
-    },
-    {
-        "head_tilt": 30,
-        "objects": [
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.35,
-                "direction_z": 0.94,
-                "distance": 2.03,
-                "held": false,
-                "id": "rotating_cog_a",
-                "mass": 10.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.0,
-                "position_y": 0.05,
-                "position_z": 0.0,
-                "rotation_y": 90,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.78,
-                "direction_z": 0.62,
-                "distance": 0.96,
-                "held": false,
-                "id": "bowl_1",
-                "mass": 2.0,
-                "material_list": [
-                    "METAL"
-                ],
-                "position_x": 0.0,
-                "position_y": 0.1,
-                "position_z": 1.0,
-                "rotation_y": 90,
-                "shape": "bowl",
-                "texture_color_list": [
-                    "black",
-                    "grey"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.59,
-                "direction_z": 0.81,
-                "distance": 1.12,
-                "held": false,
-                "id": "container_1",
-                "mass": 2.0,
-                "material_list": [],
-                "position_x": 0.0,
-                "position_y": 0.1,
-                "position_z": -1.0,
-                "rotation_y": 135,
-                "shape": "cube",
-                "texture_color_list": [
-                    "black",
-                    "grey"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.48,
-                "direction_z": 0.88,
-                "distance": 1.02,
-                "held": false,
-                "id": "target_1",
-                "mass": 2.0,
-                "material_list": [
-                    "RUBBER"
-                ],
-                "position_x": 0.0,
-                "position_y": 0.27,
-                "position_z": -1.0,
-                "rotation_y": 90,
-                "shape": "ball",
-                "texture_color_list": [
-                    "white",
-                    "black"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.1,
-                "direction_y": 0.98,
-                "direction_z": 0.19,
-                "distance": 9.97,
-                "held": false,
-                "id": "placer_1",
-                "mass": 5.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 1.0,
-                "position_y": 10.5,
-                "position_z": 0.0,
-                "rotation_y": 0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "cyan",
-                    "blue",
-                    "green"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.09,
-                "direction_y": 0.99,
-                "direction_z": 0.17,
-                "distance": 10.96,
-                "held": false,
-                "id": "placer_3",
-                "mass": 5.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 1.0,
-                "position_y": 11.48,
-                "position_z": 0.0,
-                "rotation_y": 0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "cyan",
-                    "blue",
-                    "green"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.28,
-                "direction_z": 0.96,
-                "distance": 0.94,
-                "held": false,
-                "id": "lid_2",
-                "mass": 2.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.0,
-                "position_y": 0.5,
-                "position_z": -1.0,
-                "rotation_y": 135,
-                "shape": "cube",
-                "texture_color_list": [
-                    "grey"
-                ],
-                "visible": true
-            }
-        ],
-        "objects_count": 3,
-        "position_x": 0.0,
-        "position_z": -1.9,
-        "resolved_object": "container_1",
-        "resolved_receptacle": "",
-        "return_status": "UNDEFINED",
-        "rotation_y": 0.0,
-        "step_number": 34,
         "structural_objects_count": 8
     },
     {
@@ -5850,7 +5352,7 @@
             {
                 "direction_x": 0.0,
                 "direction_y": -0.52,
-                "direction_z": 0.86,
+                "direction_z": 0.85,
                 "distance": 0.94,
                 "held": false,
                 "id": "target_1",
@@ -5872,8 +5374,8 @@
             {
                 "direction_x": 0.1,
                 "direction_y": 0.98,
-                "direction_z": 0.18,
-                "distance": 9.95,
+                "direction_z": 0.19,
+                "distance": 9.97,
                 "held": false,
                 "id": "placer_1",
                 "mass": 5.0,
@@ -5895,8 +5397,8 @@
             {
                 "direction_x": 0.09,
                 "direction_y": 0.99,
-                "direction_z": 0.16,
-                "distance": 10.95,
+                "direction_z": 0.17,
+                "distance": 10.96,
                 "held": false,
                 "id": "placer_3",
                 "mass": 5.0,
@@ -5944,7 +5446,339 @@
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
-        "step_number": 35,
+        "step_number": 32,
+        "structural_objects_count": 8
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.37,
+                "direction_z": 0.93,
+                "distance": 1.94,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_y": 0.05,
+                "position_z": 0.0,
+                "rotation_y": 90,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.78,
+                "direction_z": 0.62,
+                "distance": 0.96,
+                "held": false,
+                "id": "bowl_1",
+                "mass": 2.0,
+                "material_list": [
+                    "METAL"
+                ],
+                "position_x": 0.0,
+                "position_y": 0.1,
+                "position_z": 1.0,
+                "rotation_y": 90,
+                "shape": "bowl",
+                "texture_color_list": [
+                    "black",
+                    "grey"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.64,
+                "direction_z": 0.77,
+                "distance": 1.04,
+                "held": false,
+                "id": "container_1",
+                "mass": 2.0,
+                "material_list": [],
+                "position_x": 0.0,
+                "position_y": 0.1,
+                "position_z": -1.0,
+                "rotation_y": 135,
+                "shape": "cube",
+                "texture_color_list": [
+                    "black",
+                    "grey"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.52,
+                "direction_z": 0.85,
+                "distance": 0.94,
+                "held": false,
+                "id": "target_1",
+                "mass": 2.0,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0.0,
+                "position_y": 0.27,
+                "position_z": -1.0,
+                "rotation_y": 90,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.1,
+                "direction_y": 0.98,
+                "direction_z": 0.19,
+                "distance": 9.97,
+                "held": false,
+                "id": "placer_1",
+                "mass": 5.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_y": 10.5,
+                "position_z": 0.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.09,
+                "direction_y": 0.99,
+                "direction_z": 0.17,
+                "distance": 10.96,
+                "held": false,
+                "id": "placer_3",
+                "mass": 5.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_y": 11.48,
+                "position_z": 0.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.15,
+                "direction_y": -0.06,
+                "direction_z": 0.99,
+                "distance": 0.95,
+                "held": false,
+                "id": "lid_2",
+                "mass": 2.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": -0.14,
+                "position_y": 0.7,
+                "position_z": -0.86,
+                "rotation_y": 135,
+                "shape": "cube",
+                "texture_color_list": [
+                    "grey"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.0,
+        "position_z": -1.8,
+        "resolved_object": "container_1",
+        "resolved_receptacle": "",
+        "return_status": "UNDEFINED",
+        "rotation_y": 0.0,
+        "step_number": 33,
+        "structural_objects_count": 8
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.37,
+                "direction_z": 0.93,
+                "distance": 1.94,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_y": 0.05,
+                "position_z": 0.0,
+                "rotation_y": 90,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.78,
+                "direction_z": 0.62,
+                "distance": 0.96,
+                "held": false,
+                "id": "bowl_1",
+                "mass": 2.0,
+                "material_list": [
+                    "METAL"
+                ],
+                "position_x": 0.0,
+                "position_y": 0.1,
+                "position_z": 1.0,
+                "rotation_y": 90,
+                "shape": "bowl",
+                "texture_color_list": [
+                    "black",
+                    "grey"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.64,
+                "direction_z": 0.77,
+                "distance": 1.04,
+                "held": false,
+                "id": "container_1",
+                "mass": 2.0,
+                "material_list": [],
+                "position_x": 0.0,
+                "position_y": 0.1,
+                "position_z": -1.0,
+                "rotation_y": 135,
+                "shape": "cube",
+                "texture_color_list": [
+                    "black",
+                    "grey"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.52,
+                "direction_z": 0.85,
+                "distance": 0.94,
+                "held": false,
+                "id": "target_1",
+                "mass": 2.0,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0.0,
+                "position_y": 0.27,
+                "position_z": -1.0,
+                "rotation_y": 90,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.1,
+                "direction_y": 0.98,
+                "direction_z": 0.19,
+                "distance": 9.97,
+                "held": false,
+                "id": "placer_1",
+                "mass": 5.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_y": 10.5,
+                "position_z": 0.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.09,
+                "direction_y": 0.99,
+                "direction_z": 0.17,
+                "distance": 10.96,
+                "held": false,
+                "id": "placer_3",
+                "mass": 5.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_y": 11.48,
+                "position_z": 0.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.31,
+                "direction_z": 0.96,
+                "distance": 0.84,
+                "held": false,
+                "id": "lid_2",
+                "mass": 2.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_y": 0.5,
+                "position_z": -1.0,
+                "rotation_y": 135,
+                "shape": "cube",
+                "texture_color_list": [
+                    "grey"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.0,
+        "position_z": -1.8,
+        "resolved_object": "container_1",
+        "resolved_receptacle": "",
+        "return_status": "UNDEFINED",
+        "rotation_y": 0.0,
+        "step_number": 34,
         "structural_objects_count": 8
     },
     {
@@ -6038,7 +5872,7 @@
             {
                 "direction_x": 0.1,
                 "direction_y": 0.98,
-                "direction_z": 0.17,
+                "direction_z": 0.18,
                 "distance": 9.85,
                 "held": false,
                 "id": "placer_1",
@@ -6062,7 +5896,7 @@
                 "direction_x": 0.09,
                 "direction_y": 0.99,
                 "direction_z": 0.16,
-                "distance": 10.84,
+                "distance": 10.95,
                 "held": false,
                 "id": "placer_3",
                 "mass": 5.0,
@@ -6110,7 +5944,7 @@
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
-        "step_number": 36,
+        "step_number": 35,
         "structural_objects_count": 8
     },
     {
@@ -6119,7 +5953,7 @@
             {
                 "direction_x": 0.0,
                 "direction_y": -0.45,
-                "direction_z": 0.89,
+                "direction_z": 0.9,
                 "distance": 1.79,
                 "held": false,
                 "id": "rotating_cog_a",
@@ -6203,9 +6037,9 @@
             },
             {
                 "direction_x": 0.1,
-                "direction_y": 0.99,
-                "direction_z": 0.16,
-                "distance": 9.83,
+                "direction_y": 0.98,
+                "direction_z": 0.17,
+                "distance": 9.85,
                 "held": false,
                 "id": "placer_1",
                 "mass": 5.0,
@@ -6228,7 +6062,7 @@
                 "direction_x": 0.09,
                 "direction_y": 0.99,
                 "direction_z": 0.15,
-                "distance": 10.83,
+                "distance": 10.84,
                 "held": false,
                 "id": "placer_3",
                 "mass": 5.0,
@@ -6272,6 +6106,172 @@
         "objects_count": 3,
         "position_x": 0.0,
         "position_z": -1.6,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 36,
+        "structural_objects_count": 8
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.47,
+                "direction_z": 0.89,
+                "distance": 1.7,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_y": 0.05,
+                "position_z": 0.0,
+                "rotation_y": 90,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.78,
+                "direction_z": 0.62,
+                "distance": 0.96,
+                "held": false,
+                "id": "bowl_1",
+                "mass": 2.0,
+                "material_list": [
+                    "METAL"
+                ],
+                "position_x": 0.0,
+                "position_y": 0.1,
+                "position_z": 1.0,
+                "rotation_y": 90,
+                "shape": "bowl",
+                "texture_color_list": [
+                    "black",
+                    "grey"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.83,
+                "direction_z": 0.55,
+                "distance": 0.9,
+                "held": false,
+                "id": "container_1",
+                "mass": 2.0,
+                "material_list": [],
+                "position_x": 0.0,
+                "position_y": 0.1,
+                "position_z": -1.0,
+                "rotation_y": 135,
+                "shape": "cube",
+                "texture_color_list": [
+                    "black",
+                    "grey"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.76,
+                "direction_z": 0.65,
+                "distance": 0.77,
+                "held": false,
+                "id": "target_1",
+                "mass": 2.0,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0.0,
+                "position_y": 0.27,
+                "position_z": -1.0,
+                "rotation_y": 90,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.1,
+                "direction_y": 0.99,
+                "direction_z": 0.16,
+                "distance": 9.83,
+                "held": false,
+                "id": "placer_1",
+                "mass": 5.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_y": 10.5,
+                "position_z": 0.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.09,
+                "direction_y": 0.99,
+                "direction_z": 0.14,
+                "distance": 10.83,
+                "held": false,
+                "id": "placer_3",
+                "mass": 5.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_y": 11.48,
+                "position_z": 0.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.58,
+                "direction_z": 0.82,
+                "distance": 0.61,
+                "held": false,
+                "id": "lid_2",
+                "mass": 2.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_y": 0.5,
+                "position_z": -1.0,
+                "rotation_y": 135,
+                "shape": "cube",
+                "texture_color_list": [
+                    "grey"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.0,
+        "position_z": -1.5,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
@@ -6284,9 +6284,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.45,
+                "direction_y": -0.47,
                 "direction_z": 0.89,
-                "distance": 1.79,
+                "distance": 1.7,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -6327,9 +6327,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.78,
-                "direction_z": 0.62,
-                "distance": 0.96,
+                "direction_y": -0.83,
+                "direction_z": 0.55,
+                "distance": 0.9,
                 "held": false,
                 "id": "container_1",
                 "mass": 2.0,
@@ -6347,9 +6347,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.69,
-                "direction_z": 0.72,
-                "distance": 0.83,
+                "direction_y": -0.76,
+                "direction_z": 0.65,
+                "distance": 0.77,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -6393,7 +6393,7 @@
             {
                 "direction_x": 0.09,
                 "direction_y": 0.99,
-                "direction_z": 0.15,
+                "direction_z": 0.14,
                 "distance": 10.83,
                 "held": false,
                 "id": "placer_3",
@@ -6414,10 +6414,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.18,
-                "direction_y": -0.2,
+                "direction_x": -0.21,
+                "direction_y": -0.23,
                 "direction_z": 0.96,
-                "distance": 0.77,
+                "distance": 0.67,
                 "held": false,
                 "id": "lid_2",
                 "mass": 2.0,
@@ -6437,7 +6437,7 @@
         ],
         "objects_count": 3,
         "position_x": 0.0,
-        "position_z": -1.6,
+        "position_z": -1.5,
         "resolved_object": "lid_2",
         "resolved_receptacle": "",
         "return_status": "UNDEFINED",
@@ -6450,9 +6450,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.45,
+                "direction_y": -0.47,
                 "direction_z": 0.89,
-                "distance": 1.79,
+                "distance": 1.7,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -6493,9 +6493,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.78,
-                "direction_z": 0.62,
-                "distance": 0.96,
+                "direction_y": -0.83,
+                "direction_z": 0.55,
+                "distance": 0.9,
                 "held": false,
                 "id": "container_1",
                 "mass": 2.0,
@@ -6513,9 +6513,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.69,
-                "direction_z": 0.72,
-                "distance": 0.83,
+                "direction_y": -0.76,
+                "direction_z": 0.65,
+                "distance": 0.77,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -6559,7 +6559,7 @@
             {
                 "direction_x": 0.09,
                 "direction_y": 0.99,
-                "direction_z": 0.15,
+                "direction_z": 0.14,
                 "distance": 10.83,
                 "held": false,
                 "id": "placer_3",
@@ -6581,9 +6581,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.51,
-                "direction_z": 0.86,
-                "distance": 0.7,
+                "direction_y": -0.58,
+                "direction_z": 0.82,
+                "distance": 0.61,
                 "held": false,
                 "id": "lid_2",
                 "mass": 2.0,
@@ -6603,7 +6603,7 @@
         ],
         "objects_count": 3,
         "position_x": 0.0,
-        "position_z": -1.6,
+        "position_z": -1.5,
         "resolved_object": "container_1",
         "resolved_receptacle": "",
         "return_status": "UNDEFINED",
@@ -6616,9 +6616,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.45,
+                "direction_y": -0.47,
                 "direction_z": 0.89,
-                "distance": 1.79,
+                "distance": 1.7,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -6659,9 +6659,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.78,
-                "direction_z": 0.62,
-                "distance": 0.96,
+                "direction_y": -0.83,
+                "direction_z": 0.55,
+                "distance": 0.9,
                 "held": false,
                 "id": "container_1",
                 "mass": 2.0,
@@ -6679,9 +6679,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.69,
-                "direction_z": 0.72,
-                "distance": 0.83,
+                "direction_y": -0.76,
+                "direction_z": 0.65,
+                "distance": 0.77,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -6725,7 +6725,7 @@
             {
                 "direction_x": 0.09,
                 "direction_y": 0.99,
-                "direction_z": 0.15,
+                "direction_z": 0.14,
                 "distance": 10.83,
                 "held": false,
                 "id": "placer_3",
@@ -6746,10 +6746,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.18,
-                "direction_y": -0.2,
+                "direction_x": -0.21,
+                "direction_y": -0.23,
                 "direction_z": 0.96,
-                "distance": 0.77,
+                "distance": 0.67,
                 "held": false,
                 "id": "lid_2",
                 "mass": 2.0,
@@ -6769,7 +6769,7 @@
         ],
         "objects_count": 3,
         "position_x": 0.0,
-        "position_z": -1.6,
+        "position_z": -1.5,
         "resolved_object": "lid_2",
         "resolved_receptacle": "",
         "return_status": "UNDEFINED",
@@ -6782,9 +6782,9 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.45,
+                "direction_y": -0.47,
                 "direction_z": 0.89,
-                "distance": 1.79,
+                "distance": 1.7,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -6825,9 +6825,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.78,
-                "direction_z": 0.62,
-                "distance": 0.96,
+                "direction_y": -0.83,
+                "direction_z": 0.55,
+                "distance": 0.9,
                 "held": false,
                 "id": "container_1",
                 "mass": 2.0,
@@ -6845,9 +6845,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.69,
-                "direction_z": 0.72,
-                "distance": 0.83,
+                "direction_y": -0.76,
+                "direction_z": 0.65,
+                "distance": 0.77,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -6891,7 +6891,7 @@
             {
                 "direction_x": 0.09,
                 "direction_y": 0.99,
-                "direction_z": 0.15,
+                "direction_z": 0.14,
                 "distance": 10.83,
                 "held": false,
                 "id": "placer_3",
@@ -6912,10 +6912,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.18,
-                "direction_y": -0.2,
+                "direction_x": -0.21,
+                "direction_y": -0.23,
                 "direction_z": 0.96,
-                "distance": 0.77,
+                "distance": 0.67,
                 "held": false,
                 "id": "lid_2",
                 "mass": 2.0,
@@ -6935,7 +6935,7 @@
         ],
         "objects_count": 3,
         "position_x": 0.0,
-        "position_z": -1.6,
+        "position_z": -1.5,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
@@ -6944,13 +6944,13 @@
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.45,
+                "direction_y": -0.47,
                 "direction_z": 0.89,
-                "distance": 1.79,
+                "distance": 1.7,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -6991,9 +6991,9 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.78,
-                "direction_z": 0.62,
-                "distance": 0.96,
+                "direction_y": -0.83,
+                "direction_z": 0.55,
+                "distance": 0.9,
                 "held": false,
                 "id": "container_1",
                 "mass": 2.0,
@@ -7007,13 +7007,13 @@
                     "black",
                     "grey"
                 ],
-                "visible": true
+                "visible": false
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.69,
-                "direction_z": 0.72,
-                "distance": 0.83,
+                "direction_y": -0.76,
+                "direction_z": 0.65,
+                "distance": 0.77,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -7057,7 +7057,7 @@
             {
                 "direction_x": 0.09,
                 "direction_y": 0.99,
-                "direction_z": 0.15,
+                "direction_z": 0.14,
                 "distance": 10.83,
                 "held": false,
                 "id": "placer_3",
@@ -7078,19 +7078,19 @@
                 "visible": true
             },
             {
-                "direction_x": -0.18,
-                "direction_y": -0.2,
-                "direction_z": 0.96,
-                "distance": 0.77,
+                "direction_x": -0.0,
+                "direction_y": -0.58,
+                "direction_z": 0.82,
+                "distance": 0.61,
                 "held": false,
                 "id": "lid_2",
                 "mass": 2.0,
                 "material_list": [
                     "UNDEFINED"
                 ],
-                "position_x": -0.14,
-                "position_y": 0.7,
-                "position_z": -0.86,
+                "position_x": -0.0,
+                "position_y": 0.5,
+                "position_z": -1.0,
                 "rotation_y": 135,
                 "shape": "cube",
                 "texture_color_list": [
@@ -7101,22 +7101,22 @@
         ],
         "objects_count": 3,
         "position_x": 0.0,
-        "position_z": -1.6,
-        "resolved_object": "",
+        "position_z": -1.5,
+        "resolved_object": "lid_2",
         "resolved_receptacle": "",
-        "return_status": "SUCCESSFUL",
+        "return_status": "UNDEFINED",
         "rotation_y": 0.0,
         "step_number": 42,
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.0,
-                "direction_y": -0.45,
+                "direction_x": -0.06,
+                "direction_y": -0.47,
                 "direction_z": 0.89,
-                "distance": 1.79,
+                "distance": 1.7,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -7156,10 +7156,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.0,
-                "direction_y": -0.78,
-                "direction_z": 0.62,
-                "distance": 0.96,
+                "direction_x": -0.11,
+                "direction_y": -0.83,
+                "direction_z": 0.55,
+                "distance": 0.91,
                 "held": false,
                 "id": "container_1",
                 "mass": 2.0,
@@ -7173,13 +7173,13 @@
                     "black",
                     "grey"
                 ],
-                "visible": true
+                "visible": false
             },
             {
-                "direction_x": 0.0,
-                "direction_y": -0.69,
-                "direction_z": 0.72,
-                "distance": 0.83,
+                "direction_x": -0.13,
+                "direction_y": -0.75,
+                "direction_z": 0.65,
+                "distance": 0.77,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -7223,7 +7223,7 @@
             {
                 "direction_x": 0.09,
                 "direction_y": 0.99,
-                "direction_z": 0.15,
+                "direction_z": 0.14,
                 "distance": 10.83,
                 "held": false,
                 "id": "placer_3",
@@ -7244,10 +7244,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.0,
-                "direction_y": -0.51,
-                "direction_z": 0.86,
-                "distance": 0.7,
+                "direction_x": -0.16,
+                "direction_y": -0.57,
+                "direction_z": 0.81,
+                "distance": 0.62,
                 "held": false,
                 "id": "lid_2",
                 "mass": 2.0,
@@ -7266,23 +7266,23 @@
             }
         ],
         "objects_count": 3,
-        "position_x": 0.0,
-        "position_z": -1.6,
-        "resolved_object": "lid_2",
+        "position_x": 0.1,
+        "position_z": -1.5,
+        "resolved_object": "",
         "resolved_receptacle": "",
-        "return_status": "UNDEFINED",
+        "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 43,
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
-                "direction_x": -0.06,
-                "direction_y": -0.45,
-                "direction_z": 0.89,
-                "distance": 1.79,
+                "direction_x": -0.12,
+                "direction_y": -0.47,
+                "direction_z": 0.88,
+                "distance": 1.71,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -7322,10 +7322,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.1,
-                "direction_y": -0.78,
-                "direction_z": 0.62,
-                "distance": 0.97,
+                "direction_x": -0.22,
+                "direction_y": -0.81,
+                "direction_z": 0.54,
+                "distance": 0.92,
                 "held": false,
                 "id": "container_1",
                 "mass": 2.0,
@@ -7342,10 +7342,10 @@
                 "visible": false
             },
             {
-                "direction_x": -0.12,
-                "direction_y": -0.69,
-                "direction_z": 0.71,
-                "distance": 0.84,
+                "direction_x": -0.25,
+                "direction_y": -0.73,
+                "direction_z": 0.63,
+                "distance": 0.79,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -7364,7 +7364,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.1,
+                "direction_x": 0.08,
                 "direction_y": 0.99,
                 "direction_z": 0.16,
                 "distance": 9.82,
@@ -7387,9 +7387,9 @@
                 "visible": true
             },
             {
-                "direction_x": 0.09,
+                "direction_x": 0.07,
                 "direction_y": 0.99,
-                "direction_z": 0.15,
+                "direction_z": 0.14,
                 "distance": 10.82,
                 "held": false,
                 "id": "placer_3",
@@ -7410,10 +7410,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.14,
-                "direction_y": -0.5,
-                "direction_z": 0.85,
-                "distance": 0.7,
+                "direction_x": -0.31,
+                "direction_y": -0.55,
+                "direction_z": 0.78,
+                "distance": 0.64,
                 "held": false,
                 "id": "lid_2",
                 "mass": 2.0,
@@ -7432,8 +7432,8 @@
             }
         ],
         "objects_count": 3,
-        "position_x": 0.1,
-        "position_z": -1.6,
+        "position_x": 0.2,
+        "position_z": -1.5,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
@@ -7442,13 +7442,13 @@
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
-                "direction_x": -0.11,
-                "direction_y": -0.45,
-                "direction_z": 0.89,
-                "distance": 1.8,
+                "direction_x": -0.17,
+                "direction_y": -0.46,
+                "direction_z": 0.87,
+                "distance": 1.73,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -7488,10 +7488,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.2,
-                "direction_y": -0.77,
-                "direction_z": 0.61,
-                "distance": 0.98,
+                "direction_x": -0.32,
+                "direction_y": -0.79,
+                "direction_z": 0.53,
+                "distance": 0.95,
                 "held": false,
                 "id": "container_1",
                 "mass": 2.0,
@@ -7505,13 +7505,13 @@
                     "black",
                     "grey"
                 ],
-                "visible": false
+                "visible": true
             },
             {
-                "direction_x": -0.23,
-                "direction_y": -0.68,
-                "direction_z": 0.7,
-                "distance": 0.86,
+                "direction_x": -0.37,
+                "direction_y": -0.7,
+                "direction_z": 0.61,
+                "distance": 0.82,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -7555,7 +7555,7 @@
             {
                 "direction_x": 0.07,
                 "direction_y": 0.99,
-                "direction_z": 0.15,
+                "direction_z": 0.14,
                 "distance": 10.81,
                 "held": false,
                 "id": "placer_3",
@@ -7576,10 +7576,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.28,
-                "direction_y": -0.49,
-                "direction_z": 0.83,
-                "distance": 0.72,
+                "direction_x": -0.44,
+                "direction_y": -0.52,
+                "direction_z": 0.73,
+                "distance": 0.68,
                 "held": false,
                 "id": "lid_2",
                 "mass": 2.0,
@@ -7598,8 +7598,8 @@
             }
         ],
         "objects_count": 3,
-        "position_x": 0.2,
-        "position_z": -1.6,
+        "position_x": 0.3,
+        "position_z": -1.5,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
@@ -7608,13 +7608,13 @@
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
-                "direction_x": -0.17,
-                "direction_y": -0.44,
-                "direction_z": 0.88,
-                "distance": 1.81,
+                "direction_x": -0.23,
+                "direction_y": -0.46,
+                "direction_z": 0.86,
+                "distance": 1.75,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -7654,10 +7654,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.3,
-                "direction_y": -0.75,
-                "direction_z": 0.6,
-                "distance": 1.01,
+                "direction_x": -0.4,
+                "direction_y": -0.76,
+                "direction_z": 0.51,
+                "distance": 0.99,
                 "held": false,
                 "id": "container_1",
                 "mass": 2.0,
@@ -7671,13 +7671,13 @@
                     "black",
                     "grey"
                 ],
-                "visible": false
+                "visible": true
             },
             {
-                "direction_x": -0.34,
-                "direction_y": -0.65,
-                "direction_z": 0.68,
-                "distance": 0.89,
+                "direction_x": -0.46,
+                "direction_y": -0.67,
+                "direction_z": 0.58,
+                "distance": 0.86,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -7721,7 +7721,7 @@
             {
                 "direction_x": 0.06,
                 "direction_y": 0.99,
-                "direction_z": 0.15,
+                "direction_z": 0.14,
                 "distance": 10.8,
                 "held": false,
                 "id": "placer_3",
@@ -7742,10 +7742,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.4,
-                "direction_y": -0.46,
-                "direction_z": 0.79,
-                "distance": 0.76,
+                "direction_x": -0.55,
+                "direction_y": -0.48,
+                "direction_z": 0.68,
+                "distance": 0.73,
                 "held": false,
                 "id": "lid_2",
                 "mass": 2.0,
@@ -7764,8 +7764,8 @@
             }
         ],
         "objects_count": 3,
-        "position_x": 0.3,
-        "position_z": -1.6,
+        "position_x": 0.4,
+        "position_z": -1.5,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
@@ -7774,13 +7774,13 @@
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
-                "direction_x": -0.22,
-                "direction_y": -0.44,
-                "direction_z": 0.87,
-                "distance": 1.83,
+                "direction_x": -0.28,
+                "direction_y": -0.45,
+                "direction_z": 0.85,
+                "distance": 1.77,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -7820,9 +7820,9 @@
                 "visible": true
             },
             {
-                "direction_x": -0.38,
+                "direction_x": -0.48,
                 "direction_y": -0.72,
-                "direction_z": 0.58,
+                "direction_z": 0.48,
                 "distance": 1.04,
                 "held": false,
                 "id": "container_1",
@@ -7837,12 +7837,12 @@
                     "black",
                     "grey"
                 ],
-                "visible": false
+                "visible": true
             },
             {
-                "direction_x": -0.43,
+                "direction_x": -0.55,
                 "direction_y": -0.63,
-                "direction_z": 0.65,
+                "direction_z": 0.55,
                 "distance": 0.92,
                 "held": false,
                 "id": "target_1",
@@ -7885,9 +7885,9 @@
                 "visible": true
             },
             {
-                "direction_x": 0.06,
+                "direction_x": 0.05,
                 "direction_y": 0.99,
-                "direction_z": 0.15,
+                "direction_z": 0.14,
                 "distance": 10.8,
                 "held": false,
                 "id": "placer_3",
@@ -7908,10 +7908,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.5,
+                "direction_x": -0.63,
                 "direction_y": -0.44,
-                "direction_z": 0.75,
-                "distance": 0.8,
+                "direction_z": 0.63,
+                "distance": 0.79,
                 "held": false,
                 "id": "lid_2",
                 "mass": 2.0,
@@ -7930,8 +7930,8 @@
             }
         ],
         "objects_count": 3,
-        "position_x": 0.4,
-        "position_z": -1.6,
+        "position_x": 0.5,
+        "position_z": -1.5,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
@@ -7940,13 +7940,13 @@
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
-                "direction_x": -0.27,
-                "direction_y": -0.43,
-                "direction_z": 0.86,
-                "distance": 1.86,
+                "direction_x": -0.33,
+                "direction_y": -0.44,
+                "direction_z": 0.83,
+                "distance": 1.8,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -7986,9 +7986,9 @@
                 "visible": true
             },
             {
-                "direction_x": -0.46,
+                "direction_x": -0.55,
                 "direction_y": -0.69,
-                "direction_z": 0.55,
+                "direction_z": 0.46,
                 "distance": 1.08,
                 "held": false,
                 "id": "container_1",
@@ -8003,12 +8003,12 @@
                     "black",
                     "grey"
                 ],
-                "visible": false
+                "visible": true
             },
             {
-                "direction_x": -0.51,
+                "direction_x": -0.62,
                 "direction_y": -0.6,
-                "direction_z": 0.62,
+                "direction_z": 0.51,
                 "distance": 0.97,
                 "held": false,
                 "id": "target_1",
@@ -8051,9 +8051,9 @@
                 "visible": true
             },
             {
-                "direction_x": 0.05,
+                "direction_x": 0.04,
                 "direction_y": 0.99,
-                "direction_z": 0.15,
+                "direction_z": 0.14,
                 "distance": 10.79,
                 "held": false,
                 "id": "placer_3",
@@ -8074,9 +8074,9 @@
                 "visible": true
             },
             {
-                "direction_x": -0.58,
+                "direction_x": -0.7,
                 "direction_y": -0.41,
-                "direction_z": 0.7,
+                "direction_z": 0.58,
                 "distance": 0.86,
                 "held": false,
                 "id": "lid_2",
@@ -8096,8 +8096,8 @@
             }
         ],
         "objects_count": 3,
-        "position_x": 0.5,
-        "position_z": -1.6,
+        "position_x": 0.6,
+        "position_z": -1.5,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
@@ -8106,339 +8106,7 @@
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 10,
-        "objects": [
-            {
-                "direction_x": -0.32,
-                "direction_y": -0.42,
-                "direction_z": 0.85,
-                "distance": 1.89,
-                "held": false,
-                "id": "rotating_cog_a",
-                "mass": 10.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.0,
-                "position_y": 0.05,
-                "position_z": 0.0,
-                "rotation_y": 90,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.78,
-                "direction_z": 0.62,
-                "distance": 0.96,
-                "held": false,
-                "id": "bowl_1",
-                "mass": 2.0,
-                "material_list": [
-                    "METAL"
-                ],
-                "position_x": 0.0,
-                "position_y": 0.1,
-                "position_z": 1.0,
-                "rotation_y": 90,
-                "shape": "bowl",
-                "texture_color_list": [
-                    "black",
-                    "grey"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": -0.53,
-                "direction_y": -0.66,
-                "direction_z": 0.53,
-                "distance": 1.13,
-                "held": false,
-                "id": "container_1",
-                "mass": 2.0,
-                "material_list": [],
-                "position_x": 0.0,
-                "position_y": 0.1,
-                "position_z": -1.0,
-                "rotation_y": 135,
-                "shape": "cube",
-                "texture_color_list": [
-                    "black",
-                    "grey"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": -0.58,
-                "direction_y": -0.56,
-                "direction_z": 0.58,
-                "distance": 1.03,
-                "held": false,
-                "id": "target_1",
-                "mass": 2.0,
-                "material_list": [
-                    "RUBBER"
-                ],
-                "position_x": 0.0,
-                "position_y": 0.27,
-                "position_z": -1.0,
-                "rotation_y": 90,
-                "shape": "ball",
-                "texture_color_list": [
-                    "white",
-                    "black"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.04,
-                "direction_y": 0.99,
-                "direction_z": 0.16,
-                "distance": 9.71,
-                "held": false,
-                "id": "placer_1",
-                "mass": 5.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 1.0,
-                "position_y": 10.5,
-                "position_z": 0.0,
-                "rotation_y": 0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "cyan",
-                    "blue",
-                    "green"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.04,
-                "direction_y": 0.99,
-                "direction_z": 0.15,
-                "distance": 10.68,
-                "held": false,
-                "id": "placer_3",
-                "mass": 5.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 1.0,
-                "position_y": 11.48,
-                "position_z": 0.0,
-                "rotation_y": 0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "cyan",
-                    "blue",
-                    "green"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": -0.65,
-                "direction_y": -0.38,
-                "direction_z": 0.65,
-                "distance": 0.92,
-                "held": false,
-                "id": "lid_2",
-                "mass": 2.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.0,
-                "position_y": 0.5,
-                "position_z": -1.0,
-                "rotation_y": 135,
-                "shape": "cube",
-                "texture_color_list": [
-                    "grey"
-                ],
-                "visible": true
-            }
-        ],
-        "objects_count": 3,
-        "position_x": 0.6,
-        "position_z": -1.6,
-        "resolved_object": "",
-        "resolved_receptacle": "",
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 0.0,
-        "step_number": 49,
-        "structural_objects_count": 8
-    },
-    {
-        "head_tilt": 10,
-        "objects": [
-            {
-                "direction_x": -0.36,
-                "direction_y": -0.42,
-                "direction_z": 0.83,
-                "distance": 1.92,
-                "held": false,
-                "id": "rotating_cog_a",
-                "mass": 10.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.0,
-                "position_y": 0.05,
-                "position_z": 0.0,
-                "rotation_y": 90,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.78,
-                "direction_z": 0.62,
-                "distance": 0.96,
-                "held": false,
-                "id": "bowl_1",
-                "mass": 2.0,
-                "material_list": [
-                    "METAL"
-                ],
-                "position_x": 0.0,
-                "position_y": 0.1,
-                "position_z": 1.0,
-                "rotation_y": 90,
-                "shape": "bowl",
-                "texture_color_list": [
-                    "black",
-                    "grey"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": -0.59,
-                "direction_y": -0.63,
-                "direction_z": 0.5,
-                "distance": 1.19,
-                "held": false,
-                "id": "container_1",
-                "mass": 2.0,
-                "material_list": [],
-                "position_x": 0.0,
-                "position_y": 0.1,
-                "position_z": -1.0,
-                "rotation_y": 135,
-                "shape": "cube",
-                "texture_color_list": [
-                    "black",
-                    "grey"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": -0.64,
-                "direction_y": -0.53,
-                "direction_z": 0.55,
-                "distance": 1.09,
-                "held": false,
-                "id": "target_1",
-                "mass": 2.0,
-                "material_list": [
-                    "RUBBER"
-                ],
-                "position_x": 0.0,
-                "position_y": 0.27,
-                "position_z": -1.0,
-                "rotation_y": 90,
-                "shape": "ball",
-                "texture_color_list": [
-                    "white",
-                    "black"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.03,
-                "direction_y": 0.99,
-                "direction_z": 0.16,
-                "distance": 9.71,
-                "held": false,
-                "id": "placer_1",
-                "mass": 5.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 1.0,
-                "position_y": 10.5,
-                "position_z": 0.0,
-                "rotation_y": 0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "cyan",
-                    "blue",
-                    "green"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.03,
-                "direction_y": 0.99,
-                "direction_z": 0.15,
-                "distance": 10.68,
-                "held": false,
-                "id": "placer_3",
-                "mass": 5.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 1.0,
-                "position_y": 11.48,
-                "position_z": 0.0,
-                "rotation_y": 0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "cyan",
-                    "blue",
-                    "green"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": -0.71,
-                "direction_y": -0.36,
-                "direction_z": 0.61,
-                "distance": 0.99,
-                "held": false,
-                "id": "lid_2",
-                "mass": 2.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.0,
-                "position_y": 0.5,
-                "position_z": -1.0,
-                "rotation_y": 135,
-                "shape": "cube",
-                "texture_color_list": [
-                    "grey"
-                ],
-                "visible": false
-            }
-        ],
-        "objects_count": 3,
-        "position_x": 0.7,
-        "position_z": -1.6,
-        "resolved_object": "",
-        "resolved_receptacle": "",
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 0.0,
-        "step_number": 50,
-        "structural_objects_count": 8
-    },
-    {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": -0.38,
@@ -8507,7 +8175,7 @@
                 "direction_x": -0.68,
                 "direction_y": -0.56,
                 "direction_z": 0.48,
-                "distance": 1.04,
+                "distance": 1.03,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -8526,9 +8194,9 @@
                 "visible": false
             },
             {
-                "direction_x": 0.03,
+                "direction_x": 0.04,
                 "direction_y": 0.99,
-                "direction_z": 0.15,
+                "direction_z": 0.16,
                 "distance": 9.71,
                 "held": false,
                 "id": "placer_1",
@@ -8575,7 +8243,7 @@
                 "direction_x": -0.75,
                 "direction_y": -0.38,
                 "direction_z": 0.54,
-                "distance": 0.93,
+                "distance": 0.92,
                 "held": false,
                 "id": "lid_2",
                 "mass": 2.0,
@@ -8600,11 +8268,11 @@
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
-        "step_number": 51,
+        "step_number": 49,
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": -0.4,
@@ -8766,11 +8434,11 @@
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
-        "step_number": 52,
+        "step_number": 50,
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": -0.42,
@@ -8932,11 +8600,11 @@
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
-        "step_number": 53,
+        "step_number": 51,
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": -0.44,
@@ -9098,11 +8766,11 @@
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
-        "step_number": 54,
+        "step_number": 52,
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": -0.46,
@@ -9264,11 +8932,11 @@
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
-        "step_number": 55,
+        "step_number": 53,
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": -0.48,
@@ -9403,7 +9071,7 @@
             },
             {
                 "direction_x": -0.89,
-                "direction_y": -0.45,
+                "direction_y": -0.44,
                 "direction_z": 0.0,
                 "distance": 0.78,
                 "held": false,
@@ -9430,17 +9098,17 @@
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
-        "step_number": 56,
+        "step_number": 54,
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
-                "direction_x": -0.48,
-                "direction_y": -0.55,
-                "direction_z": 0.68,
-                "distance": 1.46,
+                "direction_x": -0.5,
+                "direction_y": -0.58,
+                "direction_z": 0.65,
+                "distance": 1.39,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -9482,7 +9150,173 @@
             {
                 "direction_x": -0.68,
                 "direction_y": -0.73,
-                "direction_z": 0.0,
+                "direction_z": -0.1,
+                "distance": 1.03,
+                "held": false,
+                "id": "container_1",
+                "mass": 2.0,
+                "material_list": [],
+                "position_x": 0.0,
+                "position_y": 0.1,
+                "position_z": -1.0,
+                "rotation_y": 135,
+                "shape": "cube",
+                "texture_color_list": [
+                    "black",
+                    "grey"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": -0.77,
+                "direction_y": -0.63,
+                "direction_z": -0.11,
+                "distance": 0.91,
+                "held": false,
+                "id": "target_1",
+                "mass": 2.0,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0.0,
+                "position_y": 0.27,
+                "position_z": -1.0,
+                "rotation_y": 90,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.03,
+                "direction_y": 0.99,
+                "direction_z": 0.09,
+                "distance": 9.71,
+                "held": false,
+                "id": "placer_1",
+                "mass": 5.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_y": 10.5,
+                "position_z": 0.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.03,
+                "direction_y": 0.99,
+                "direction_z": 0.08,
+                "distance": 10.68,
+                "held": false,
+                "id": "placer_3",
+                "mass": 5.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_y": 11.48,
+                "position_z": 0.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.89,
+                "direction_y": -0.45,
+                "direction_z": -0.13,
+                "distance": 0.79,
+                "held": false,
+                "id": "lid_2",
+                "mass": 2.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_y": 0.5,
+                "position_z": -1.0,
+                "rotation_y": 135,
+                "shape": "cube",
+                "texture_color_list": [
+                    "grey"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.7,
+        "position_z": -0.9,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 55,
+        "structural_objects_count": 8
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": -0.5,
+                "direction_y": -0.58,
+                "direction_z": 0.65,
+                "distance": 1.39,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_y": 0.05,
+                "position_z": 0.0,
+                "rotation_y": 90,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.78,
+                "direction_z": 0.62,
+                "distance": 0.96,
+                "held": false,
+                "id": "bowl_1",
+                "mass": 2.0,
+                "material_list": [
+                    "METAL"
+                ],
+                "position_x": 0.0,
+                "position_y": 0.1,
+                "position_z": 1.0,
+                "rotation_y": 90,
+                "shape": "bowl",
+                "texture_color_list": [
+                    "black",
+                    "grey"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.68,
+                "direction_y": -0.73,
+                "direction_z": -0.1,
                 "distance": 1.03,
                 "held": false,
                 "id": "container_1",
@@ -9502,7 +9336,7 @@
             {
                 "direction_x": -0.77,
                 "direction_y": -0.64,
-                "direction_z": 0.0,
+                "direction_z": -0.11,
                 "distance": 0.91,
                 "held": false,
                 "id": "target_1",
@@ -9570,7 +9404,7 @@
             {
                 "direction_x": -0.89,
                 "direction_y": -0.45,
-                "direction_z": 0.0,
+                "direction_z": -0.13,
                 "distance": 0.78,
                 "held": false,
                 "id": "lid_2",
@@ -9591,22 +9425,22 @@
         ],
         "objects_count": 3,
         "position_x": 0.7,
-        "position_z": -1.0,
+        "position_z": -0.9,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 350,
-        "step_number": 57,
+        "step_number": 56,
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
-                "direction_x": -0.48,
-                "direction_y": -0.55,
-                "direction_z": 0.68,
-                "distance": 1.46,
+                "direction_x": -0.5,
+                "direction_y": -0.58,
+                "direction_z": 0.65,
+                "distance": 1.39,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -9648,7 +9482,7 @@
             {
                 "direction_x": -0.68,
                 "direction_y": -0.73,
-                "direction_z": 0.0,
+                "direction_z": -0.1,
                 "distance": 1.03,
                 "held": false,
                 "id": "container_1",
@@ -9668,7 +9502,7 @@
             {
                 "direction_x": -0.77,
                 "direction_y": -0.64,
-                "direction_z": 0.0,
+                "direction_z": -0.11,
                 "distance": 0.91,
                 "held": false,
                 "id": "target_1",
@@ -9736,7 +9570,7 @@
             {
                 "direction_x": -0.89,
                 "direction_y": -0.45,
-                "direction_z": 0.0,
+                "direction_z": -0.13,
                 "distance": 0.78,
                 "held": false,
                 "id": "lid_2",
@@ -9757,22 +9591,22 @@
         ],
         "objects_count": 3,
         "position_x": 0.7,
-        "position_z": -1.0,
+        "position_z": -0.9,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 340,
-        "step_number": 58,
+        "step_number": 57,
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
-                "direction_x": -0.48,
-                "direction_y": -0.55,
-                "direction_z": 0.68,
-                "distance": 1.46,
+                "direction_x": -0.5,
+                "direction_y": -0.58,
+                "direction_z": 0.65,
+                "distance": 1.39,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -9814,7 +9648,7 @@
             {
                 "direction_x": -0.68,
                 "direction_y": -0.73,
-                "direction_z": 0.0,
+                "direction_z": -0.1,
                 "distance": 1.03,
                 "held": false,
                 "id": "container_1",
@@ -9834,7 +9668,7 @@
             {
                 "direction_x": -0.77,
                 "direction_y": -0.64,
-                "direction_z": 0.0,
+                "direction_z": -0.11,
                 "distance": 0.91,
                 "held": false,
                 "id": "target_1",
@@ -9902,7 +9736,7 @@
             {
                 "direction_x": -0.89,
                 "direction_y": -0.45,
-                "direction_z": 0.0,
+                "direction_z": -0.13,
                 "distance": 0.78,
                 "held": false,
                 "id": "lid_2",
@@ -9923,22 +9757,22 @@
         ],
         "objects_count": 3,
         "position_x": 0.7,
-        "position_z": -1.0,
+        "position_z": -0.9,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 330,
-        "step_number": 59,
+        "step_number": 58,
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
-                "direction_x": -0.48,
-                "direction_y": -0.55,
-                "direction_z": 0.68,
-                "distance": 1.46,
+                "direction_x": -0.5,
+                "direction_y": -0.58,
+                "direction_z": 0.65,
+                "distance": 1.39,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -9980,7 +9814,7 @@
             {
                 "direction_x": -0.68,
                 "direction_y": -0.73,
-                "direction_z": 0.0,
+                "direction_z": -0.1,
                 "distance": 1.03,
                 "held": false,
                 "id": "container_1",
@@ -10000,7 +9834,7 @@
             {
                 "direction_x": -0.77,
                 "direction_y": -0.64,
-                "direction_z": 0.0,
+                "direction_z": -0.11,
                 "distance": 0.91,
                 "held": false,
                 "id": "target_1",
@@ -10068,7 +9902,7 @@
             {
                 "direction_x": -0.89,
                 "direction_y": -0.45,
-                "direction_z": 0.0,
+                "direction_z": -0.13,
                 "distance": 0.78,
                 "held": false,
                 "id": "lid_2",
@@ -10084,27 +9918,27 @@
                 "texture_color_list": [
                     "grey"
                 ],
-                "visible": true
+                "visible": false
             }
         ],
         "objects_count": 3,
         "position_x": 0.7,
-        "position_z": -1.0,
+        "position_z": -0.9,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 320,
-        "step_number": 60,
+        "step_number": 59,
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
-                "direction_x": -0.48,
-                "direction_y": -0.55,
-                "direction_z": 0.68,
-                "distance": 1.46,
+                "direction_x": -0.5,
+                "direction_y": -0.58,
+                "direction_z": 0.65,
+                "distance": 1.39,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -10146,7 +9980,7 @@
             {
                 "direction_x": -0.68,
                 "direction_y": -0.73,
-                "direction_z": 0.0,
+                "direction_z": -0.1,
                 "distance": 1.03,
                 "held": false,
                 "id": "container_1",
@@ -10166,7 +10000,7 @@
             {
                 "direction_x": -0.77,
                 "direction_y": -0.64,
-                "direction_z": 0.0,
+                "direction_z": -0.11,
                 "distance": 0.91,
                 "held": false,
                 "id": "target_1",
@@ -10234,7 +10068,7 @@
             {
                 "direction_x": -0.89,
                 "direction_y": -0.45,
-                "direction_z": 0.0,
+                "direction_z": -0.13,
                 "distance": 0.78,
                 "held": false,
                 "id": "lid_2",
@@ -10255,22 +10089,22 @@
         ],
         "objects_count": 3,
         "position_x": 0.7,
-        "position_z": -1.0,
+        "position_z": -0.9,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 310,
-        "step_number": 61,
+        "step_number": 60,
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
-                "direction_x": -0.48,
-                "direction_y": -0.55,
-                "direction_z": 0.68,
-                "distance": 1.46,
+                "direction_x": -0.5,
+                "direction_y": -0.58,
+                "direction_z": 0.65,
+                "distance": 1.39,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -10312,7 +10146,7 @@
             {
                 "direction_x": -0.68,
                 "direction_y": -0.73,
-                "direction_z": 0.0,
+                "direction_z": -0.1,
                 "distance": 1.03,
                 "held": false,
                 "id": "container_1",
@@ -10332,7 +10166,7 @@
             {
                 "direction_x": -0.77,
                 "direction_y": -0.64,
-                "direction_z": 0.0,
+                "direction_z": -0.11,
                 "distance": 0.91,
                 "held": false,
                 "id": "target_1",
@@ -10400,7 +10234,7 @@
             {
                 "direction_x": -0.89,
                 "direction_y": -0.45,
-                "direction_z": 0.0,
+                "direction_z": -0.13,
                 "distance": 0.78,
                 "held": false,
                 "id": "lid_2",
@@ -10421,22 +10255,22 @@
         ],
         "objects_count": 3,
         "position_x": 0.7,
-        "position_z": -1.0,
+        "position_z": -0.9,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 300,
-        "step_number": 62,
+        "step_number": 61,
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
-                "direction_x": -0.48,
-                "direction_y": -0.55,
-                "direction_z": 0.68,
-                "distance": 1.46,
+                "direction_x": -0.5,
+                "direction_y": -0.58,
+                "direction_z": 0.65,
+                "distance": 1.39,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -10478,7 +10312,7 @@
             {
                 "direction_x": -0.68,
                 "direction_y": -0.73,
-                "direction_z": 0.0,
+                "direction_z": -0.1,
                 "distance": 1.03,
                 "held": false,
                 "id": "container_1",
@@ -10498,7 +10332,7 @@
             {
                 "direction_x": -0.77,
                 "direction_y": -0.64,
-                "direction_z": 0.0,
+                "direction_z": -0.11,
                 "distance": 0.91,
                 "held": false,
                 "id": "target_1",
@@ -10566,7 +10400,7 @@
             {
                 "direction_x": -0.89,
                 "direction_y": -0.45,
-                "direction_z": 0.0,
+                "direction_z": -0.13,
                 "distance": 0.78,
                 "held": false,
                 "id": "lid_2",
@@ -10587,22 +10421,22 @@
         ],
         "objects_count": 3,
         "position_x": 0.7,
-        "position_z": -1.0,
+        "position_z": -0.9,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 290,
-        "step_number": 63,
+        "step_number": 62,
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
-                "direction_x": -0.48,
-                "direction_y": -0.55,
-                "direction_z": 0.68,
-                "distance": 1.46,
+                "direction_x": -0.5,
+                "direction_y": -0.58,
+                "direction_z": 0.65,
+                "distance": 1.39,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -10644,7 +10478,7 @@
             {
                 "direction_x": -0.68,
                 "direction_y": -0.73,
-                "direction_z": 0.0,
+                "direction_z": -0.1,
                 "distance": 1.03,
                 "held": false,
                 "id": "container_1",
@@ -10664,7 +10498,7 @@
             {
                 "direction_x": -0.77,
                 "direction_y": -0.64,
-                "direction_z": 0.0,
+                "direction_z": -0.11,
                 "distance": 0.91,
                 "held": false,
                 "id": "target_1",
@@ -10732,7 +10566,7 @@
             {
                 "direction_x": -0.89,
                 "direction_y": -0.45,
-                "direction_z": 0.0,
+                "direction_z": -0.13,
                 "distance": 0.78,
                 "held": false,
                 "id": "lid_2",
@@ -10753,16 +10587,182 @@
         ],
         "objects_count": 3,
         "position_x": 0.7,
-        "position_z": -1.0,
+        "position_z": -0.9,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 280,
+        "step_number": 63,
+        "structural_objects_count": 8
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": -0.5,
+                "direction_y": -0.58,
+                "direction_z": 0.65,
+                "distance": 1.39,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_y": 0.05,
+                "position_z": 0.0,
+                "rotation_y": 90,
+                "shape": "structural",
+                "texture_color_list": [
+                    "white"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.78,
+                "direction_z": 0.62,
+                "distance": 0.96,
+                "held": false,
+                "id": "bowl_1",
+                "mass": 2.0,
+                "material_list": [
+                    "METAL"
+                ],
+                "position_x": 0.0,
+                "position_y": 0.1,
+                "position_z": 1.0,
+                "rotation_y": 90,
+                "shape": "bowl",
+                "texture_color_list": [
+                    "black",
+                    "grey"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.68,
+                "direction_y": -0.73,
+                "direction_z": -0.1,
+                "distance": 1.03,
+                "held": false,
+                "id": "container_1",
+                "mass": 2.0,
+                "material_list": [],
+                "position_x": 0.0,
+                "position_y": 0.1,
+                "position_z": -1.0,
+                "rotation_y": 135,
+                "shape": "cube",
+                "texture_color_list": [
+                    "black",
+                    "grey"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.77,
+                "direction_y": -0.64,
+                "direction_z": -0.11,
+                "distance": 0.91,
+                "held": false,
+                "id": "target_1",
+                "mass": 2.0,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0.0,
+                "position_y": 0.27,
+                "position_z": -1.0,
+                "rotation_y": 90,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.03,
+                "direction_y": 0.99,
+                "direction_z": 0.1,
+                "distance": 9.71,
+                "held": false,
+                "id": "placer_1",
+                "mass": 5.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_y": 10.5,
+                "position_z": 0.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.03,
+                "direction_y": 0.99,
+                "direction_z": 0.09,
+                "distance": 10.68,
+                "held": false,
+                "id": "placer_3",
+                "mass": 5.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.0,
+                "position_y": 11.48,
+                "position_z": 0.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.89,
+                "direction_y": -0.45,
+                "direction_z": -0.13,
+                "distance": 0.78,
+                "held": false,
+                "id": "lid_2",
+                "mass": 2.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_y": 0.5,
+                "position_z": -1.0,
+                "rotation_y": 135,
+                "shape": "cube",
+                "texture_color_list": [
+                    "grey"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 0.7,
+        "position_z": -0.9,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 270,
         "step_number": 64,
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 10,
+        "head_tilt": 20,
         "objects": [
             {
                 "direction_x": -0.48,
@@ -10928,7 +10928,7 @@
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 20,
+        "head_tilt": 30,
         "objects": [
             {
                 "direction_x": -0.48,
@@ -11094,7 +11094,7 @@
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 30,
+        "head_tilt": 40,
         "objects": [
             {
                 "direction_x": -0.48,
@@ -11260,7 +11260,7 @@
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 30,
+        "head_tilt": 40,
         "objects": [
             {
                 "direction_x": -0.48,
@@ -11426,7 +11426,7 @@
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 30,
+        "head_tilt": 40,
         "objects": [
             {
                 "direction_x": -0.48,
@@ -11511,7 +11511,7 @@
                     "white",
                     "black"
                 ],
-                "visible": true
+                "visible": false
             },
             {
                 "direction_x": 0.03,
@@ -11560,19 +11560,19 @@
                 "visible": true
             },
             {
-                "direction_x": -0.97,
-                "direction_y": -0.18,
-                "direction_z": -0.16,
-                "distance": 0.87,
+                "direction_x": -0.89,
+                "direction_y": -0.45,
+                "direction_z": 0.0,
+                "distance": 0.78,
                 "held": false,
                 "id": "lid_2",
                 "mass": 2.0,
                 "material_list": [
                     "UNDEFINED"
                 ],
-                "position_x": -0.14,
-                "position_y": 0.7,
-                "position_z": -1.14,
+                "position_x": -0.0,
+                "position_y": 0.5,
+                "position_z": -1.0,
                 "rotation_y": 135,
                 "shape": "cube",
                 "texture_color_list": [
@@ -11584,15 +11584,15 @@
         "objects_count": 3,
         "position_x": 0.7,
         "position_z": -1.0,
-        "resolved_object": "target_1",
+        "resolved_object": "container_1",
         "resolved_receptacle": "",
-        "return_status": "NOT_OPENABLE",
+        "return_status": "UNDEFINED",
         "rotation_y": 270,
         "step_number": 69,
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 30,
+        "head_tilt": 40,
         "objects": [
             {
                 "direction_x": -0.42,
@@ -11677,7 +11677,7 @@
                     "white",
                     "black"
                 ],
-                "visible": true
+                "visible": false
             },
             {
                 "direction_x": 0.04,
@@ -11726,19 +11726,19 @@
                 "visible": true
             },
             {
-                "direction_x": -0.96,
-                "direction_y": -0.2,
-                "direction_z": -0.18,
-                "distance": 0.77,
+                "direction_x": -0.86,
+                "direction_y": -0.51,
+                "direction_z": 0.0,
+                "distance": 0.7,
                 "held": false,
                 "id": "lid_2",
                 "mass": 2.0,
                 "material_list": [
                     "UNDEFINED"
                 ],
-                "position_x": -0.14,
-                "position_y": 0.7,
-                "position_z": -1.14,
+                "position_x": -0.0,
+                "position_y": 0.5,
+                "position_z": -1.0,
                 "rotation_y": 135,
                 "shape": "cube",
                 "texture_color_list": [
@@ -11758,7 +11758,7 @@
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 30,
+        "head_tilt": 40,
         "objects": [
             {
                 "direction_x": -0.36,
@@ -11843,7 +11843,7 @@
                     "white",
                     "black"
                 ],
-                "visible": true
+                "visible": false
             },
             {
                 "direction_x": 0.05,
@@ -11892,19 +11892,19 @@
                 "visible": true
             },
             {
-                "direction_x": -0.95,
-                "direction_y": -0.23,
-                "direction_z": -0.21,
-                "distance": 0.67,
+                "direction_x": -0.82,
+                "direction_y": -0.58,
+                "direction_z": 0.0,
+                "distance": 0.61,
                 "held": false,
                 "id": "lid_2",
                 "mass": 2.0,
                 "material_list": [
                     "UNDEFINED"
                 ],
-                "position_x": -0.14,
-                "position_y": 0.7,
-                "position_z": -1.14,
+                "position_x": -0.0,
+                "position_y": 0.5,
+                "position_z": -1.0,
                 "rotation_y": 135,
                 "shape": "cube",
                 "texture_color_list": [
@@ -11924,7 +11924,7 @@
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 30,
+        "head_tilt": 40,
         "objects": [
             {
                 "direction_x": -0.36,
@@ -12060,7 +12060,7 @@
             {
                 "direction_x": -0.95,
                 "direction_y": -0.23,
-                "direction_z": -0.21,
+                "direction_z": 0.21,
                 "distance": 0.67,
                 "held": false,
                 "id": "lid_2",
@@ -12070,7 +12070,7 @@
                 ],
                 "position_x": -0.14,
                 "position_y": 0.7,
-                "position_z": -1.14,
+                "position_z": -0.86,
                 "rotation_y": 135,
                 "shape": "cube",
                 "texture_color_list": [
@@ -12082,15 +12082,15 @@
         "objects_count": 3,
         "position_x": 0.5,
         "position_z": -1.0,
-        "resolved_object": "container_1",
+        "resolved_object": "lid_2",
         "resolved_receptacle": "",
-        "return_status": "IS_OPENED_COMPLETELY",
+        "return_status": "UNDEFINED",
         "rotation_y": 270,
         "step_number": 72,
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 30,
+        "head_tilt": 40,
         "objects": [
             {
                 "direction_x": -0.36,
@@ -12226,7 +12226,7 @@
             {
                 "direction_x": -0.95,
                 "direction_y": -0.23,
-                "direction_z": -0.21,
+                "direction_z": 0.21,
                 "distance": 0.67,
                 "held": false,
                 "id": "lid_2",
@@ -12236,7 +12236,7 @@
                 ],
                 "position_x": -0.14,
                 "position_y": 0.7,
-                "position_z": -1.14,
+                "position_z": -0.86,
                 "rotation_y": 135,
                 "shape": "cube",
                 "texture_color_list": [
@@ -12256,7 +12256,7 @@
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 40,
+        "head_tilt": 50,
         "objects": [
             {
                 "direction_x": -0.36,
@@ -12392,7 +12392,7 @@
             {
                 "direction_x": -0.95,
                 "direction_y": -0.23,
-                "direction_z": -0.21,
+                "direction_z": 0.21,
                 "distance": 0.67,
                 "held": false,
                 "id": "lid_2",
@@ -12402,7 +12402,7 @@
                 ],
                 "position_x": -0.14,
                 "position_y": 0.7,
-                "position_z": -1.14,
+                "position_z": -0.86,
                 "rotation_y": 135,
                 "shape": "cube",
                 "texture_color_list": [
@@ -12422,7 +12422,7 @@
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 40,
+        "head_tilt": 50,
         "objects": [
             {
                 "direction_x": -0.36,
@@ -12558,7 +12558,7 @@
             {
                 "direction_x": -0.95,
                 "direction_y": -0.23,
-                "direction_z": -0.21,
+                "direction_z": 0.21,
                 "distance": 0.67,
                 "held": false,
                 "id": "lid_2",
@@ -12568,7 +12568,7 @@
                 ],
                 "position_x": -0.14,
                 "position_y": 0.7,
-                "position_z": -1.14,
+                "position_z": -0.86,
                 "rotation_y": 135,
                 "shape": "cube",
                 "texture_color_list": [
@@ -12588,7 +12588,7 @@
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 40,
+        "head_tilt": 50,
         "objects": [
             {
                 "direction_x": -0.36,
@@ -12754,7 +12754,7 @@
         "structural_objects_count": 8
     },
     {
-        "head_tilt": 40,
+        "head_tilt": 50,
         "objects": [
             {
                 "direction_x": -0.36,

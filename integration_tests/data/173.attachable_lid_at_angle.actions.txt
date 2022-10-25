@@ -20,7 +20,7 @@ Pass
 Pass
 Pass
 Pass
-Pass
+MoveAhead
 MoveAhead
 MoveAhead
 MoveAhead
@@ -39,7 +39,6 @@ OpenObject,objectImageCoordsX=300,objectImageCoordsY=200
 CloseObject,objectImageCoordsX=300,objectImageCoordsY=200
 OpenObject,objectImageCoordsX=300,objectImageCoordsY=200
 LookUp
-LookUp
 CloseObject,objectImageCoordsX=300,objectImageCoordsY=200
 MoveRight
 MoveRight
@@ -63,6 +62,7 @@ RotateLeft
 RotateLeft
 RotateLeft
 RotateLeft
+MoveLeft
 LookDown
 LookDown
 OpenObject,objectImageCoordsX=300,objectImageCoordsY=200

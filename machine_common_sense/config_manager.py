@@ -141,6 +141,7 @@ class MoveConfig(BaseModel):
     vector: Vector3d = Vector3d(x=0, y=0, z=0)
     repeat: bool = False
     step_wait: int = 0
+    global_space: bool = False
 
 
 class OpenCloseConfig(BaseModel):
