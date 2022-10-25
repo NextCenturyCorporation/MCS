@@ -226,9 +226,9 @@ class GoalCategory(Enum):
     importance; if you do not imitate the actions correctly, you will be
     forced to end the scene (by calling end_scene, or using the END_SCENE
     action), without achieving the reward. In MCS Evaluation 4 and onward, the
-    target object will always be a soccer ball (football), and the imitated
-    actions will always be opening containers of various colors and shapes
-    (using the normal OpenObject action).
+    target object will always be a soccer ball (football), and, in MCS
+    Evaluation 6, the imitated actions will always be opening containers of
+    various colors and shapes (using the normal OpenObject action).
 
     Notes
     -----
