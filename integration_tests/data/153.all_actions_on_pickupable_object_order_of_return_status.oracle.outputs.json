@@ -2258,7 +2258,7 @@
                     "PLASTIC"
                 ],
                 "position_x": 0,
-                "position_z": 0.52,
+                "position_z": 0.54,
                 "rotation_y": 72,
                 "shape": "ball",
                 "texture_color_list": [
@@ -2282,9 +2282,9 @@
         "objects": [
             {
                 "direction_x": 0,
-                "direction_y": -0.77,
-                "direction_z": 0.64,
-                "distance": 0.83,
+                "direction_y": -0.79,
+                "direction_z": 0.62,
+                "distance": 0.81,
                 "held": false,
                 "id": "ball",
                 "mass": 1,
@@ -2292,7 +2292,7 @@
                     "PLASTIC"
                 ],
                 "position_x": 0,
-                "position_z": 0.52,
+                "position_z": 0.5,
                 "rotation_y": 207,
                 "shape": "ball",
                 "texture_color_list": [
@@ -2326,7 +2326,7 @@
                     "PLASTIC"
                 ],
                 "position_x": 0,
-                "position_z": 0.53,
+                "position_z": 0.54,
                 "rotation_y": 338,
                 "shape": "ball",
                 "texture_color_list": [
@@ -2350,9 +2350,9 @@
         "objects": [
             {
                 "direction_x": 0,
-                "direction_y": -0.77,
-                "direction_z": 0.64,
-                "distance": 0.83,
+                "direction_y": -0.79,
+                "direction_z": 0.62,
+                "distance": 0.81,
                 "held": false,
                 "id": "ball",
                 "mass": 1,
@@ -2360,7 +2360,7 @@
                     "PLASTIC"
                 ],
                 "position_x": 0,
-                "position_z": 0.53,
+                "position_z": 0.5,
                 "rotation_y": 107,
                 "shape": "ball",
                 "texture_color_list": [
@@ -2384,9 +2384,9 @@
         "objects": [
             {
                 "direction_x": 0,
-                "direction_y": -0.77,
-                "direction_z": 0.64,
-                "distance": 0.83,
+                "direction_y": -0.81,
+                "direction_z": 0.59,
+                "distance": 0.79,
                 "held": false,
                 "id": "ball",
                 "mass": 1,
@@ -2394,7 +2394,7 @@
                     "PLASTIC"
                 ],
                 "position_x": 0,
-                "position_z": 0.53,
+                "position_z": 0.47,
                 "rotation_y": 232,
                 "shape": "ball",
                 "texture_color_list": [
@@ -2418,9 +2418,9 @@
         "objects": [
             {
                 "direction_x": 0,
-                "direction_y": -0.77,
-                "direction_z": 0.64,
-                "distance": 0.83,
+                "direction_y": -0.82,
+                "direction_z": 0.57,
+                "distance": 0.77,
                 "held": false,
                 "id": "ball",
                 "mass": 1,
@@ -2428,8 +2428,8 @@
                     "PLASTIC"
                 ],
                 "position_x": 0,
-                "position_z": 0.53,
-                "rotation_y": 353,
+                "position_z": 0.44,
+                "rotation_y": 357,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -2452,9 +2452,9 @@
         "objects": [
             {
                 "direction_x": 0,
-                "direction_y": -0.77,
-                "direction_z": 0.64,
-                "distance": 0.83,
+                "direction_y": -0.84,
+                "direction_z": 0.54,
+                "distance": 0.76,
                 "held": false,
                 "id": "ball",
                 "mass": 1,
@@ -2462,8 +2462,8 @@
                     "PLASTIC"
                 ],
                 "position_x": 0,
-                "position_z": 0.53,
-                "rotation_y": 112,
+                "position_z": 0.41,
+                "rotation_y": 115,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -2486,9 +2486,9 @@
         "objects": [
             {
                 "direction_x": 0,
-                "direction_y": -0.77,
-                "direction_z": 0.64,
-                "distance": 0.83,
+                "direction_y": -0.86,
+                "direction_z": 0.51,
+                "distance": 0.74,
                 "held": false,
                 "id": "ball",
                 "mass": 1,
@@ -2496,8 +2496,8 @@
                     "PLASTIC"
                 ],
                 "position_x": 0,
-                "position_z": 0.53,
-                "rotation_y": 228,
+                "position_z": 0.38,
+                "rotation_y": 232,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -2520,9 +2520,9 @@
         "objects": [
             {
                 "direction_x": 0,
-                "direction_y": -0.77,
-                "direction_z": 0.64,
-                "distance": 0.83,
+                "direction_y": -0.87,
+                "direction_z": 0.49,
+                "distance": 0.73,
                 "held": false,
                 "id": "ball",
                 "mass": 1,
@@ -2530,8 +2530,8 @@
                     "PLASTIC"
                 ],
                 "position_x": 0,
-                "position_z": 0.53,
-                "rotation_y": 341,
+                "position_z": 0.35,
+                "rotation_y": 347,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -2554,9 +2554,9 @@
         "objects": [
             {
                 "direction_x": 0,
-                "direction_y": -0.77,
-                "direction_z": 0.64,
-                "distance": 0.83,
+                "direction_y": -0.89,
+                "direction_z": 0.46,
+                "distance": 0.72,
                 "held": false,
                 "id": "ball",
                 "mass": 1,
@@ -2564,8 +2564,8 @@
                     "PLASTIC"
                 ],
                 "position_x": 0,
-                "position_z": 0.53,
-                "rotation_y": 92,
+                "position_z": 0.33,
+                "rotation_y": 97,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
