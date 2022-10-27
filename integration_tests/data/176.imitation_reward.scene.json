@@ -1,0 +1,40 @@
+﻿{
+    "name": "imitation_goal_example",
+    "version": 2,
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+    "wallMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
+    "performerStart": {
+        "position": {
+            "x": 0,
+            "z": 0
+        },
+        "rotation": {
+            "x": 20,
+            "y": 0
+        }
+    },
+    "objects": [{
+        "id": "soccer_ball_1",
+        "type": "soccer_ball",
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0.22,
+                "z": 0.5
+            },
+            "scale": {
+                "x": 2,
+                "y": 2,
+                "z": 2
+            }
+        }]
+    }],
+    "goal": {
+        "category": "imitation",
+        "metadata": {
+            "target": {"id": "soccer_ball_1"}
+        }
+    }
+}
