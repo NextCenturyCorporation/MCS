@@ -77,14 +77,14 @@
                 "direction_x": 0.0,
                 "direction_y": -0.23,
                 "direction_z": 0.97,
-                "distance": 2.63,
+                "distance": 2.69,
                 "id": "tool",
                 "mass": 4.0,
                 "material_list": [
                     "METAL"
                 ],
                 "position_x": 0.0,
-                "position_z": -0.95,
+                "position_z": -0.88,
                 "rotation_y": 0.0,
                 "shape": "tool",
                 "texture_color_list": [
@@ -128,14 +128,14 @@
                 "direction_x": 0.0,
                 "direction_y": -0.22,
                 "direction_z": 0.97,
-                "distance": 2.72,
+                "distance": 2.8,
                 "id": "tool",
                 "mass": 4.0,
                 "material_list": [
                     "METAL"
                 ],
                 "position_x": 0.0,
-                "position_z": -0.85,
+                "position_z": -0.77,
                 "rotation_y": 0.0,
                 "shape": "tool",
                 "texture_color_list": [
@@ -179,14 +179,14 @@
                 "direction_x": 0.0,
                 "direction_y": -0.21,
                 "direction_z": 0.98,
-                "distance": 2.86,
+                "distance": 2.91,
                 "id": "tool",
                 "mass": 4.0,
                 "material_list": [
                     "METAL"
                 ],
                 "position_x": 0.0,
-                "position_z": -0.7,
+                "position_z": -0.65,
                 "rotation_y": 0.0,
                 "shape": "tool",
                 "texture_color_list": [
@@ -230,14 +230,14 @@
                 "direction_x": 0.0,
                 "direction_y": -0.2,
                 "direction_z": 0.98,
-                "distance": 3.05,
+                "distance": 3.01,
                 "id": "tool",
                 "mass": 4.0,
                 "material_list": [
                     "METAL"
                 ],
                 "position_x": 0.0,
-                "position_z": -0.53,
+                "position_z": -0.56,
                 "rotation_y": 0.0,
                 "shape": "tool",
                 "texture_color_list": [
@@ -262,14 +262,14 @@
                 "direction_x": 0.0,
                 "direction_y": -0.12,
                 "direction_z": 0.99,
-                "distance": 5.32,
+                "distance": 5.23,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_z": 1.78,
+                "position_z": 1.69,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -281,14 +281,14 @@
                 "direction_x": 0.0,
                 "direction_y": -0.19,
                 "direction_z": 0.98,
-                "distance": 3.15,
+                "distance": 3.07,
                 "id": "tool",
                 "mass": 4.0,
                 "material_list": [
                     "METAL"
                 ],
                 "position_x": 0.0,
-                "position_z": -0.41,
+                "position_z": -0.49,
                 "rotation_y": 0.0,
                 "shape": "tool",
                 "texture_color_list": [
@@ -313,14 +313,14 @@
                 "direction_x": 0.0,
                 "direction_y": -0.12,
                 "direction_z": 0.99,
-                "distance": 5.51,
+                "distance": 5.33,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_z": 1.97,
+                "position_z": 1.79,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -330,16 +330,16 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.18,
+                "direction_y": -0.2,
                 "direction_z": 0.98,
-                "distance": 3.26,
+                "distance": 3.12,
                 "id": "tool",
                 "mass": 4.0,
                 "material_list": [
                     "METAL"
                 ],
                 "position_x": 0.0,
-                "position_z": -0.3,
+                "position_z": -0.44,
                 "rotation_y": 0.0,
                 "shape": "tool",
                 "texture_color_list": [
@@ -362,16 +362,16 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.11,
+                "direction_y": -0.12,
                 "direction_z": 0.99,
-                "distance": 5.69,
+                "distance": 5.43,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_z": 2.15,
+                "position_z": 1.89,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -381,16 +381,16 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.18,
+                "direction_y": -0.19,
                 "direction_z": 0.98,
-                "distance": 3.35,
+                "distance": 3.16,
                 "id": "tool",
                 "mass": 4.0,
                 "material_list": [
                     "METAL"
                 ],
                 "position_x": 0.0,
-                "position_z": -0.21,
+                "position_z": -0.4,
                 "rotation_y": 0.0,
                 "shape": "tool",
                 "texture_color_list": [
@@ -415,14 +415,14 @@
                 "direction_x": 0.0,
                 "direction_y": -0.11,
                 "direction_z": 0.99,
-                "distance": 5.86,
+                "distance": 5.51,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_z": 2.32,
+                "position_z": 1.97,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -432,16 +432,16 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.17,
+                "direction_y": -0.19,
                 "direction_z": 0.99,
-                "distance": 3.43,
+                "distance": 3.18,
                 "id": "tool",
                 "mass": 4.0,
                 "material_list": [
                     "METAL"
                 ],
                 "position_x": 0.0,
-                "position_z": -0.13,
+                "position_z": -0.38,
                 "rotation_y": 0,
                 "shape": "tool",
                 "texture_color_list": [
@@ -466,14 +466,14 @@
                 "direction_x": 0.0,
                 "direction_y": -0.11,
                 "direction_z": 0.99,
-                "distance": 6.02,
+                "distance": 5.57,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_z": 2.45,
+                "position_z": 2.04,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -483,16 +483,16 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.18,
+                "direction_y": -0.19,
                 "direction_z": 0.99,
-                "distance": 3.49,
+                "distance": 3.18,
                 "id": "tool",
                 "mass": 4.0,
                 "material_list": [
                     "METAL"
                 ],
                 "position_x": 0.0,
-                "position_z": -0.07,
+                "position_z": -0.38,
                 "rotation_y": 0,
                 "shape": "tool",
                 "texture_color_list": [
@@ -517,14 +517,14 @@
                 "direction_x": 0.0,
                 "direction_y": -0.11,
                 "direction_z": 0.99,
-                "distance": 6.16,
+                "distance": 5.63,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_z": 2.58,
+                "position_z": 2.09,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -534,16 +534,16 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.17,
+                "direction_y": -0.19,
                 "direction_z": 0.98,
-                "distance": 3.53,
+                "distance": 3.18,
                 "id": "tool",
                 "mass": 4.0,
                 "material_list": [
                     "METAL"
                 ],
                 "position_x": 0.0,
-                "position_z": -0.02,
+                "position_z": -0.38,
                 "rotation_y": 0,
                 "shape": "tool",
                 "texture_color_list": [
@@ -566,16 +566,16 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.1,
+                "direction_y": -0.11,
                 "direction_z": 0.99,
-                "distance": 6.3,
+                "distance": 5.68,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_z": 2.71,
+                "position_z": 2.14,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -585,16 +585,16 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.17,
+                "direction_y": -0.19,
                 "direction_z": 0.98,
-                "distance": 3.56,
+                "distance": 3.18,
                 "id": "tool",
                 "mass": 4.0,
                 "material_list": [
                     "METAL"
                 ],
                 "position_x": 0.0,
-                "position_z": 0.0,
+                "position_z": -0.38,
                 "rotation_y": 0,
                 "shape": "tool",
                 "texture_color_list": [
@@ -617,16 +617,16 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.1,
+                "direction_y": -0.11,
                 "direction_z": 0.99,
-                "distance": 6.35,
+                "distance": 5.72,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_z": 2.82,
+                "position_z": 2.18,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -636,16 +636,16 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.17,
+                "direction_y": -0.19,
                 "direction_z": 0.98,
-                "distance": 3.57,
+                "distance": 3.18,
                 "id": "tool",
                 "mass": 4.0,
                 "material_list": [
                     "METAL"
                 ],
                 "position_x": 0.0,
-                "position_z": 0.02,
+                "position_z": -0.38,
                 "rotation_y": 0,
                 "shape": "tool",
                 "texture_color_list": [
@@ -668,16 +668,16 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.1,
+                "direction_y": -0.11,
                 "direction_z": 1.0,
-                "distance": 6.45,
+                "distance": 5.76,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_z": 2.92,
+                "position_z": 2.22,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -687,16 +687,16 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.17,
+                "direction_y": -0.19,
                 "direction_z": 0.98,
-                "distance": 3.57,
+                "distance": 3.18,
                 "id": "tool",
                 "mass": 4.0,
                 "material_list": [
                     "METAL"
                 ],
                 "position_x": 0.0,
-                "position_z": 0.02,
+                "position_z": -0.38,
                 "rotation_y": 0,
                 "shape": "tool",
                 "texture_color_list": [
@@ -719,16 +719,16 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.1,
+                "direction_y": -0.11,
                 "direction_z": 1.0,
-                "distance": 6.54,
+                "distance": 5.79,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_z": 3.01,
+                "position_z": 2.26,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -738,16 +738,16 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.17,
+                "direction_y": -0.19,
                 "direction_z": 0.98,
-                "distance": 3.57,
+                "distance": 3.18,
                 "id": "tool",
                 "mass": 4.0,
                 "material_list": [
                     "METAL"
                 ],
                 "position_x": 0.0,
-                "position_z": 0.02,
+                "position_z": -0.38,
                 "rotation_y": 0,
                 "shape": "tool",
                 "texture_color_list": [
@@ -770,16 +770,16 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.1,
+                "direction_y": -0.11,
                 "direction_z": 1.0,
-                "distance": 6.62,
+                "distance": 5.83,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_z": 3.09,
+                "position_z": 2.29,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -789,16 +789,16 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.17,
+                "direction_y": -0.19,
                 "direction_z": 0.98,
-                "distance": 3.57,
+                "distance": 3.18,
                 "id": "tool",
                 "mass": 4.0,
                 "material_list": [
                     "METAL"
                 ],
                 "position_x": 0.0,
-                "position_z": 0.02,
+                "position_z": -0.38,
                 "rotation_y": 0,
                 "shape": "tool",
                 "texture_color_list": [
@@ -821,16 +821,16 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.1,
+                "direction_y": -0.11,
                 "direction_z": 1.0,
-                "distance": 6.68,
+                "distance": 5.87,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_z": 3.15,
+                "position_z": 2.33,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -840,16 +840,16 @@
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.17,
+                "direction_y": -0.19,
                 "direction_z": 0.98,
-                "distance": 3.57,
+                "distance": 3.18,
                 "id": "tool",
                 "mass": 4.0,
                 "material_list": [
                     "METAL"
                 ],
                 "position_x": 0.0,
-                "position_z": 0.02,
+                "position_z": -0.38,
                 "rotation_y": 0,
                 "shape": "tool",
                 "texture_color_list": [
