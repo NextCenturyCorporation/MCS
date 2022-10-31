@@ -299,8 +299,10 @@ def start_handmade_tests(
     only_test_name,
     dev,
     autofix,
+    ignore,
     unity_version=None
 ):
+    ignore_prefix_list = ignore.split(',') if ignore else []
 
     # Find all of the test scene JSON files.
     scene_filename_list = sorted(glob.glob(f"{TEST_FOLDER}*{SCENE_SUFFIX}"))
@@ -331,6 +333,12 @@ def start_handmade_tests(
                 only_test_name and not
                 os.path.basename(scene_filename).startswith(only_test_name)
             ):
+                continue
+            if ignore_prefix_list and any([
+                os.path.basename(scene_filename).startswith(ignore_prefix)
+                for ignore_prefix in ignore_prefix_list
+            ]):
+                print(f'IGNORED SCENE: {os.path.basename(scene_filename)}')
                 continue
 
             # Check to see if any configuration should be overriden
@@ -411,5 +419,6 @@ if __name__ == "__main__":
         args.test,
         args.dev,
         args.autofix,
+        args.ignore,
         unity_version=args.mcs_unity_version
     )

@@ -116,6 +116,7 @@ Each **object config** has the following properties:
 - `forces` (:ref:`force config <Force Config>` array, optional): The steps on which to apply `force <https://docs.unity3d.com/ScriptReference/Rigidbody.AddForce.html>`_ to the object. The config `vector` describes the amount of force (in Newtons) to apply in each direction using the global coordinate system. Resets all existing forces on the object to 0 before applying the new force. Default: `[]`
 - `ghosts` (:ref:`step begin and end config config <Step Begin And End Config>` array, optional): TBD
 - `hides` (:ref:`single step config <Single Step Config>` array, optional): The steps on which to hide the object, completely removing its existence from the scene until it is shown again (see the `shows` property). Useful if you want to have impossible events (spontaneous disappearance). Default: `[]`
+- `lidAttachment` :ref:`lid config <Lid Config>`, optional): If set this object will attach to the `lidAttachmentObjId` at the `stepBegin`. Default: none
 - `kinematic` (boolean, optional): If true, the object will ignore all forces including gravity. See Unity's `isKinematic property <https://docs.unity3d.com/ScriptReference/Rigidbody-isKinematic.html>`_. Usually paired with `structure`. Default: `false`
 - `locationParent` (string, optional): The `id` of another object in the scene. If given, this object's `shows.position` and `shows.rotation` will both start from the position and rotation of the `locationParent` object rather than from `0`. Default: none
 - `mass` (float, optional): The mass of the object, which affects the physics simulation. Default: `1`
@@ -255,6 +256,14 @@ Each **grid config** has the following properties:
 
 - `x` (integer)
 - `z` (integer)
+
+Lid Config
+*************
+
+Each **lid config** has the following properties:
+
+- `stepBegin` (integer, required): The step the lid will attach to the object specified by the `lidAttachmentObjId`.  Must be non-negative.  A value of `0` means the action will occur during scene initialization.
+- `lidAttachmentObjId` (string, required): The id of the object that the lid will attach to.
 
 Lip Gaps Config
 **************
@@ -438,6 +447,7 @@ All of the following object types have the `pickupable` attribute by default.
       - Openable
       - Materials
       - Base Size
+      - Facing
       - Details
     * - `"apple_1"`
       - apple
@@ -446,6 +456,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - none
       - x=0.111,y=0.12,z=0.122
+      -
       - 
     * - `"apple_2"`
       - apple
@@ -454,6 +465,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - none
       - x=0.117,y=0.121,z=0.116
+      -
       - 
     * - `"ball"`
       - ball
@@ -462,6 +474,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`rubber <Rubber Materials>`, :ref:`wood <Wood Materials>`
       - x=1,y=1,z=1
+      -
       - 
     * - `"barrel_1"`
       - barrel
@@ -470,6 +483,7 @@ All of the following object types have the `pickupable` attribute by default.
       - X
       - :ref:`wood <Wood Materials>`
       - x=0.86,y=0.8,z=0.86
+      - Forward
       - Cylindrical wooden barrel
     * - `"barrel_2"`
       - barrel
@@ -478,6 +492,7 @@ All of the following object types have the `pickupable` attribute by default.
       - X
       - :ref:`wood <Wood Materials>`
       - x=0.73,y=0.93,z=0.95
+      - Forward
       - Cylindrical wooden barrel
     * - `"block_blank_blue_cube"`
       - blank block cube
@@ -487,6 +502,7 @@ All of the following object types have the `pickupable` attribute by default.
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`wood <Wood Materials>`
       - x=0.1,y=0.1,z=0.1
       -
+      -
     * - `"block_blank_blue_cylinder"`
       - blank block cylinder
       - 0.66
@@ -494,6 +510,7 @@ All of the following object types have the `pickupable` attribute by default.
       -
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`wood <Wood Materials>`
       - x=0.1,y=0.1,z=0.1
+      -
       -
     * - `"block_blank_red_cube"`
       - blank block cube
@@ -503,6 +520,7 @@ All of the following object types have the `pickupable` attribute by default.
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`wood <Wood Materials>`
       - x=0.1,y=0.1,z=0.1
       -
+      -
     * - `"block_blank_red_cylinder"` 
       - blank block cylinder 
       - 0.66
@@ -510,6 +528,7 @@ All of the following object types have the `pickupable` attribute by default.
       -
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`wood <Wood Materials>`
       - x=0.1,y=0.1,z=0.1
+      -
       -
     * - `"block_blank_wood_cube"`
       - blank block cube 
@@ -519,6 +538,7 @@ All of the following object types have the `pickupable` attribute by default.
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`wood <Wood Materials>`
       - x=0.1,y=0.1,z=0.1
       -
+      -
     * - `"block_blank_wood_cylinder"` 
       - blank block cylinder 
       - 0.66
@@ -526,6 +546,7 @@ All of the following object types have the `pickupable` attribute by default.
       -
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`wood <Wood Materials>`
       - x=0.1,y=0.1,z=0.1
+      -
       -
     * - `"block_blank_yellow_cube"` 
       - blank block cube
@@ -535,6 +556,7 @@ All of the following object types have the `pickupable` attribute by default.
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`wood <Wood Materials>`
       - x=0.1,y=0.1,z=0.1
       -
+      -
     * - `"block_blank_yellow_cylinder"`
       - blank block cylinder 
       - 0.66
@@ -542,6 +564,7 @@ All of the following object types have the `pickupable` attribute by default.
       -
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`wood <Wood Materials>`
       - x=0.1,y=0.1,z=0.1
+      -
       -
     * - `"block_blue_letter_a"`
       - letter block cube
@@ -551,6 +574,7 @@ All of the following object types have the `pickupable` attribute by default.
       - :ref:`block_letter_number <Block Materials (Letter/Number)>`, :ref:`wood <Wood Materials>`
       - x=0.1,y=0.1,z=0.1
       -
+      -
     * - `"block_blue_letter_b"` 
       - letter block cube 
       - 0.66
@@ -558,6 +582,7 @@ All of the following object types have the `pickupable` attribute by default.
       -
       - :ref:`block_letter_number <Block Materials (Letter/Number)>`, :ref:`wood <Wood Materials>`
       - x=0.1,y=0.1,z=0.1
+      -
       -
     * - `"block_blue_letter_c"`
       - letter block cube 
@@ -567,6 +592,7 @@ All of the following object types have the `pickupable` attribute by default.
       - :ref:`block_letter_number <Block Materials (Letter/Number)>`, :ref:`wood <Wood Materials>`
       - x=0.1,y=0.1,z=0.1
       -
+      -
     * - `"block_blue_letter_d"`
       - letter block cube 
       - 0.66
@@ -574,6 +600,7 @@ All of the following object types have the `pickupable` attribute by default.
       -
       - :ref:`block_letter_number <Block Materials (Letter/Number)>`, :ref:`wood <Wood Materials>`
       - x=0.1,y=0.1,z=0.1
+      -
       -
     * - `"block_blue_letter_m"`
       - letter block cube 
@@ -583,6 +610,7 @@ All of the following object types have the `pickupable` attribute by default.
       - :ref:`block_letter_number <Block Materials (Letter/Number)>`, :ref:`wood <Wood Materials>`
       - x=0.1,y=0.1,z=0.1
       -
+      -
     * - `"block_blue_letter_s"`
       - letter block cube 
       - 0.66
@@ -590,6 +618,7 @@ All of the following object types have the `pickupable` attribute by default.
       -
       - :ref:`block_letter_number <Block Materials (Letter/Number)>`, :ref:`wood <Wood Materials>`
       - x=0.1,y=0.1,z=0.1
+      -
       -
     * - `"block_yellow_number_1"`
       - number block cube 
@@ -599,6 +628,7 @@ All of the following object types have the `pickupable` attribute by default.
       - :ref:`block_letter_number <Block Materials (Letter/Number)>`, :ref:`wood <Wood Materials>`
       - x=0.1,y=0.1,z=0.1
       -
+      -
     * - `"block_yellow_number_2"`
       - number block cube 
       - 0.66
@@ -606,6 +636,7 @@ All of the following object types have the `pickupable` attribute by default.
       -
       - :ref:`block_letter_number <Block Materials (Letter/Number)>`, :ref:`wood <Wood Materials>`
       - x=0.1,y=0.1,z=0.1
+      -
       -
     * - `"block_yellow_number_3"`
       - number block cube 
@@ -615,6 +646,7 @@ All of the following object types have the `pickupable` attribute by default.
       - :ref:`block_letter_number <Block Materials (Letter/Number)>`, :ref:`wood <Wood Materials>`
       - x=0.1,y=0.1,z=0.1
       -
+      -
     * - `"block_yellow_number_4"`
       - number block cube 
       - 0.66
@@ -622,6 +654,7 @@ All of the following object types have the `pickupable` attribute by default.
       -
       - :ref:`block_letter_number <Block Materials (Letter/Number)>`, :ref:`wood <Wood Materials>`
       - x=0.1,y=0.1,z=0.1
+      -
       -
     * - `"block_yellow_number_5"`
       - number block cube 
@@ -631,6 +664,7 @@ All of the following object types have the `pickupable` attribute by default.
       - :ref:`block_letter_number <Block Materials (Letter/Number)>`, :ref:`wood <Wood Materials>`
       - x=0.1,y=0.1,z=0.1
       -
+      -
     * - `"block_yellow_number_6"`
       - number block cube 
       - 0.66
@@ -639,6 +673,7 @@ All of the following object types have the `pickupable` attribute by default.
       - :ref:`block_letter_number <Block Materials (Letter/Number)>`, :ref:`wood <Wood Materials>`
       - x=0.1,y=0.1,z=0.1
       -
+      -
     * - `"bowl_3"`
       - bowl
       - 0.25
@@ -646,6 +681,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
       - x=0.175,y=0.116,z=0.171
+      -
       - 
     * - `"bowl_4"`
       - bowl
@@ -654,6 +690,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
       - x=0.209,y=0.059,z=0.206
+      -
       - 
     * - `"bowl_6"`
       - bowl
@@ -662,6 +699,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
       - x=0.198,y=0.109,z=0.201
+      -
       - 
     * - `"bobcat"`
       - bobcat
@@ -670,6 +708,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.13,y=0.061,z=0.038
+      - Right
       - Toy bobcat construction vehicle
     * - `"bus_1"`
       - bus
@@ -678,6 +717,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.28,y=0.28,z=0.52
+      - Forward
       - Toy Bus
     * - `"car_1"`
       - car
@@ -686,6 +726,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.075,y=0.065,z=0.14
+      - Forward
       - Toy sedan
     * - `"car_2"`
       - car
@@ -694,6 +735,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.25,y=0.2,z=0.41
+      - Forward
       - Toy car
     * - `"car_3"`
       - car
@@ -702,6 +744,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.134,y=0.052,z=0.036
+      - Right
       - Toy car
     * - `"cart_2"`
       - cart
@@ -710,6 +753,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
       - x=0.42,y=0.7,z=0.51
+      - Forward
       - 
     * - `"case_1"`
       - case
@@ -718,6 +762,7 @@ All of the following object types have the `pickupable` attribute by default.
       - X
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
       - x=0.71,y=0.19,z=0.54
+      - Forward
       - Suitcase. Same as suitcase_1
     * - `"case_2"`
       - case
@@ -726,6 +771,7 @@ All of the following object types have the `pickupable` attribute by default.
       - X
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
       - x=0.78,y=0.16,z=0.58
+      - Forward
       - Suitcase
     * - `"case_3"`
       - case
@@ -734,6 +780,7 @@ All of the following object types have the `pickupable` attribute by default.
       - X
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
       - x=0.81,y=0.21,z=0.78
+      - Forward
       - Suitcase
     * - `"case_4"`
       - case
@@ -742,6 +789,7 @@ All of the following object types have the `pickupable` attribute by default.
       - X
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
       - x=1.68,y=1.12,z=1.98
+      - Forward
       - Suitcase
     * - `"case_5"`
       - case
@@ -750,6 +798,7 @@ All of the following object types have the `pickupable` attribute by default.
       - X
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
       - x=1.18,y=0.94,z=1.94
+      - Forward
       - Suitcase
     * - `"crate_1"`
       - crate
@@ -758,6 +807,7 @@ All of the following object types have the `pickupable` attribute by default.
       - X
       - :ref:`wood <Wood Materials>`
       - x=0.8,y=0.8,z=0.98
+      - Forward
       - Cuboid wooden crate
     * - `"crate_2"`
       - crate
@@ -766,6 +816,7 @@ All of the following object types have the `pickupable` attribute by default.
       - X
       - :ref:`wood <Wood Materials>`
       - x=0.72,y=0.64,z=0.72
+      - Forward
       - Cuboid wooden crate
     * - `"crayon_black"`
       - crayon
@@ -774,6 +825,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - none
       - x=0.01,y=0.085,z=0.01
+      - Forward
       - 
     * - `"crayon_blue"`
       - crayon
@@ -782,6 +834,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - none
       - x=0.01,y=0.085,z=0.01
+      -
       - 
     * - `"crayon_green"`
       - crayon
@@ -790,6 +843,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - none
       - x=0.01,y=0.085,z=0.01
+      -
       - 
     * - `"crayon_pink"`
       - crayon
@@ -798,6 +852,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - none
       - x=0.01,y=0.085,z=0.01
+      -
       - 
     * - `"crayon_red"`
       - crayon
@@ -806,6 +861,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - none
       - x=0.01,y=0.085,z=0.01
+      -
       - 
     * - `"crayon_yellow"`
       - crayon
@@ -814,6 +870,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - none
       - x=0.01,y=0.085,z=0.01
+      -
       - 
     * - `"cup_2"`
       - cup
@@ -822,6 +879,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
       - x=0.105,y=0.135,z=0.104
+      -
       - 
     * - `"cup_3"`
       - cup
@@ -830,6 +888,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
       - x=0.123,y=0.149,z=0.126
+      -
       - 
     * - `"cup_6"`
       - cup
@@ -838,6 +897,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
       - x=0.106,y=0.098,z=0.106
+      -
       - 
     * - `"dog_on_wheels"`
       - dog
@@ -846,6 +906,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.355,y=0.134,z=0.071
+      - Forward
       - Toy dog on wheels
     * - `"dog_on_wheels_2"`
       - dog
@@ -854,6 +915,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.5,y=1.12,z=1.44
+      - Forward
       - Toy dog on wheels
     * - `"duck_on_wheels"`
       - duck
@@ -862,6 +924,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.21,y=0.17,z=0.065
+      - Right
       - Toy duck on wheels
     * - `"duck_on_wheels_2"`
       - duck
@@ -870,6 +933,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.224,y=0.176,z=0.06
+      - Right
       - Toy duck on wheels
     * - `"jeep"`
       - jeep
@@ -878,6 +942,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.06,y=0.057,z=0.098
+      - Forward
       - Toy car
     * - `"military_case_1"`
       - case
@@ -886,6 +951,7 @@ All of the following object types have the `pickupable` attribute by default.
       - X
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
       - x=0.66,y=0.82,z=0.62
+      - Forward
       - 
     * - `"military_case_2"`
       - case
@@ -894,6 +960,7 @@ All of the following object types have the `pickupable` attribute by default.
       - X
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
       - x=0.8,y=0.44,z=0.7
+      - Forward
       - 
     * - `"pacifier"`
       - pacifier
@@ -902,6 +969,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - none
       - x=0.07,y=0.04,z=0.05
+      -
       - 
     * - `"plate_1"`
       - plate
@@ -910,6 +978,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
       - x=0.208,y=0.117,z=0.222
+      -
       - 
     * - `"plate_3"`
       - plate
@@ -918,6 +987,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
       - x=0.304,y=0.208,z=0.305
+      -
       - 
     * - `"plate_4"`
       - plate
@@ -926,6 +996,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
       - x=0.202,y=0.113,z=0.206
+      -
       - 
     * - `"racecar_red"`
       - car
@@ -934,6 +1005,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.07,y=0.06,z=0.15
+      - Forward
       - Toy racecar
     * - `"roller"`
       - roller
@@ -942,6 +1014,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.102,y=0.062,z=0.047
+      - Right
       - Toy roller construction vehicle
     * - `"skateboard"`
       - skateboard
@@ -950,6 +1023,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - none
       - x=0.24,y=0.17,z=0.76
+      - Forward
       - 
     * - `"soccer_ball"`
       - ball
@@ -958,6 +1032,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - none
       - x=0.22,y=0.22,z=0.22
+      -
       - (*)
     * - `"suitcase_1"`
       - case 
@@ -966,6 +1041,7 @@ All of the following object types have the `pickupable` attribute by default.
       - X
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
       - x=0.71,y=0.19,z=0.42
+      - Forward
       - Same as case_1
     * - `"tank_1"`
       - tank
@@ -974,6 +1050,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.09,y=0.065,z=0.24
+      - Forward
       - Toy tank
     * - `"tank_2"`
       - tank
@@ -982,6 +1059,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.065,y=0.067,z=0.17
+      - Forward
       - Toy tank
     * - `"toolbox_1"`
       - toolbox
@@ -990,6 +1068,7 @@ All of the following object types have the `pickupable` attribute by default.
       - X
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
       - x=0.51,y=0.29,z=0.48
+      - Forward
       - Toolbox
     * - `"toolbox_2"`
       - toolbox
@@ -998,6 +1077,7 @@ All of the following object types have the `pickupable` attribute by default.
       - X
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
       - x=0.58,y=0.33,z=0.44
+      - Forward
       - Toolbox
     * - `"toolbox_3"`
       - toolbox
@@ -1006,6 +1086,7 @@ All of the following object types have the `pickupable` attribute by default.
       - X
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
       - x=0.15,y=0.1,z=0.136
+      - Forward
       - Toolbox
     * - `"toolbox_4"`
       - toolbox
@@ -1014,6 +1095,7 @@ All of the following object types have the `pickupable` attribute by default.
       - X
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
       - x=0.13,y=0.036,z=0.116
+      - Forward
       - Toolbox
     * - `"train_1"`
       - train
@@ -1022,14 +1104,16 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.16,y=0.2,z=0.23
+      - Forward
       - Toy train
-    * - `"tank_2"`
-      - tank
+    * - `"train_2"`
+      - train
       - 0.5
       - 
       - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.09,y=0.064,z=0.036
+      - Right
       - Toy train
     * - `"trolley_1"`
       - trolley
@@ -1038,6 +1122,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.16,y=0.2,z=0.23
+      - Forward
       - Toy trolley
     * - `"trophy"`
       - trophy
@@ -1046,6 +1131,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - none
       - x=0.19,y=0.3,z=0.14
+      -
       - 
     * - `"truck_1"`
       - truck
@@ -1054,6 +1140,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.2,y=0.18,z=0.25
+      - Forward
       - Toy truck
     * - `"truck_2"`
       - truck
@@ -1062,6 +1149,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.14,y=0.2,z=0.28
+      - Forward
       - Toy truck
     * - `"truck_3"`
       - truck
@@ -1070,6 +1158,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.33,y=0.345,z=0.61
+      - Forward
       - Toy truck
     * - `"truck_4"`
       - truck
@@ -1078,6 +1167,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.25,y=0.26,z=0.4
+      - Forward
       - Toy truck
     * - `"turtle_on_wheels"`
       - turtle
@@ -1086,6 +1176,7 @@ All of the following object types have the `pickupable` attribute by default.
       - 0.5
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.24,y=0.14,z=0.085
+      - Right
       - Toy turtle on wheels
 
 Furniture Objects
@@ -2774,40 +2865,46 @@ Skin Options
       - Description
     * - 0
       - 0
-      - Light tone
+      - Medium-light tone
     * - 1
       - 1
-      - Dark tone
+      - Darkest tone
     * - 2
       - 2
-      - Medium-light tone
+      - Medium-dark tone
     * - 3
       - 3
-      - Medium-dark tone
+      - Dark tone
+    * - 12
+      - 4
+      - Lightest tone
+    * - 13
+      - 5
+      - Light tone
     * - 4
       -
-      - Light tone, with makeup
+      - Medium-light tone, with makeup
     * - 5
       -
-      - Dark tone, with makeup
+      - Darkest tone, with makeup
     * - 6
       -
-      - Medium-light tone, with makeup
+      - Medium-dark tone, with makeup
     * - 7
       -
-      - Medium-dark tone, with makeup
+      - Dark tone, with makeup
     * - 8
       -
-      - Light tone, with makeup
+      - Medium-light tone, with makeup
     * - 9
       -
-      - Dark tone, with makeup
+      - Darkest tone, with makeup
     * - 10
       -
-      - Medium-light tone, with makeup
+      - Medium-dark tone, with makeup
     * - 11
       -
-      - Medium-dark tone, with makeup
+      - Dark tone, with makeup
 
 Tie Options
 ***********
@@ -2844,6 +2941,8 @@ Unrestricted Animations
 - disgust
 - happy
 - sad
+- Point_start
+- Point_hold
 
 Elder Animations
 ****************

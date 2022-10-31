@@ -2,8 +2,8 @@
 Installation and Setup
 =======================
 
-.. _Download and unzip the Mac ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.6.0/MCS-AI2-THOR-Unity-App-v0.6.0-mac.zip
-.. _Download and unzip the Linux ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.6.0/MCS-AI2-THOR-Unity-App-v0.6.0-linux.zip
+.. _Download and unzip the Mac ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.6.1/MCS-AI2-THOR-Unity-App-v0.6.1-mac.zip
+.. _Download and unzip the Linux ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.6.1/MCS-AI2-THOR-Unity-App-v0.6.1-linux.zip
 
 Virtual Environments
 ------------------------
