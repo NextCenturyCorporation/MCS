@@ -32,6 +32,11 @@ def add_test_args(parser: argparse.ArgumentParser,
         help='Specific test filename prefix to run (by default, all files)'
     )
     parser.add_argument(
+        '--ignore',
+        default=None,
+        help='Comma-separated list of each test filename prefix to ignore'
+    )
+    parser.add_argument(
         '--dev',
         default=False,
         action='store_true',

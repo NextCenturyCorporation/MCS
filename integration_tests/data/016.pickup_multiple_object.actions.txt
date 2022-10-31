@@ -1,2 +1,6 @@
 PickupObject,objectId=testBall1
 PickupObject,objectId=testBall2
+DropObject,objectId=testBall1
+PickupObject,objectId=testBall1
+DropObject,objectId=testBall2
+PickupObject,objectId=testBall2

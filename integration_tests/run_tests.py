@@ -24,5 +24,6 @@ if __name__ == "__main__":
         args.test,
         args.dev,
         args.autofix,
+        args.ignore,
         unity_version=args.mcs_unity_version
     )
