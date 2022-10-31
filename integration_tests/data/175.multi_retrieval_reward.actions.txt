@@ -1,0 +1,4 @@
+﻿LookDown
+PickupObject,objectId=soccer_ball_1
+Pass
+PickupObject,objectId=soccer_ball_2

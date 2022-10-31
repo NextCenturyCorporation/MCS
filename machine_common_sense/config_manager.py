@@ -242,6 +242,11 @@ class PerformerStart(BaseModel):
     rotation: Vector3d
 
 
+class LidConfig(BaseModel):
+    step_begin: int
+    lid_attachment_obj_id: str
+
+
 class SceneObject(BaseModel):
     id: str
     type: str  # should this be an enum?
@@ -256,6 +261,7 @@ class SceneObject(BaseModel):
     ghosts: List[StepBeginEndConfig] = None
     hides: List[SingleStepConfig] = None
     kinematic: Optional[bool]
+    lid_attachment: Optional[LidConfig]
     location_parent: Optional[str]
     locked: bool = False
     mass: Optional[float]
@@ -318,6 +324,7 @@ class ConfigManager:
     CONFIG_GOAL_REWARD = 'goal_reward'
     CONFIG_TOP_DOWN_PLOTTER = 'top_down_plotter'
     CONFIG_TOP_DOWN_CAMERA = 'top_down_camera'
+    CONFIG_TIMEOUT = 'timeout'
 
     # Please keep the aspect ratio as 3:2 because the IntPhys scenes are built
     # on this assumption.
@@ -326,6 +333,10 @@ class ConfigManager:
 
     # Default steps allowed in lava before calling end scene
     STEPS_ALLOWED_IN_LAVA_DEFAULT = 0
+
+    # Default time to allow on a single step before timing out
+    # is 1 hour (represented in seconds)
+    TIMEOUT_DEFAULT = 3600
 
     def __init__(self, config_file_or_dict=None):
         '''
@@ -507,6 +518,15 @@ class ConfigManager:
             fallback=self.STEPS_ALLOWED_IN_LAVA_DEFAULT
         )
 
+    def get_timeout(self):
+        """ Time (in seconds) to allow a run to be idle
+        before attempting to end scene"""
+        return self._config.getint(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_TIMEOUT,
+            fallback=self.TIMEOUT_DEFAULT
+        )
+
     def is_top_down_plotter(self) -> bool:
         """Toggles whether old plotter should be used to create top down
         videos if videos are enabled."""
@@ -654,17 +674,18 @@ class SceneConfiguration(BaseModel):
         return lava
 
     def update_goal_target_image(self, goal_output):
-        target_name_list = ['target', 'target_1', 'target_2']
-
-        for target_name in target_name_list:
-            # need to convert goal image data from string to array
-            if (
-                target_name in goal_output.metadata and
-                'image' in goal_output.metadata[target_name] and
-                isinstance(goal_output.metadata[target_name]['image'], str)
-            ):
-                image_list_string = goal_output.metadata[target_name]['image']
-                goal_output.metadata[target_name]['image'] = np.array(
-                    ast.literal_eval(image_list_string)).tolist()
-
+        metadata = goal_output.metadata or {}
+        # Different goal categories may use different property names
+        target_names = ['target', 'targets', 'target_1', 'target_2']
+        for target_name in target_names:
+            # Some properties may be dicts, and some may be lists of dicts
+            targets = metadata.get(target_name) or []
+            targets = targets if isinstance(targets, list) else [targets]
+            for target in targets:
+                # Backwards compatibility: target used to have image data
+                image = target.get('image')
+                # Convert the image data from a string to an array
+                if isinstance(image, str):
+                    image_array = np.array(ast.literal_eval(image)).tolist()
+                    target['image'] = image_array
         return goal_output

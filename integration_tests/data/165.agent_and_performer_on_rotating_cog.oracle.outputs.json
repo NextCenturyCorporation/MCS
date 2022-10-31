@@ -110,7 +110,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 340,
+                "rotation_y": 350,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -184,7 +184,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 320,
+                "rotation_y": 340,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -258,7 +258,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 300,
+                "rotation_y": 330,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -332,7 +332,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 280,
+                "rotation_y": 320,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -406,7 +406,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 260,
+                "rotation_y": 310,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -480,7 +480,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 240,
+                "rotation_y": 300,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -554,7 +554,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 220,
+                "rotation_y": 290,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -628,7 +628,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 200,
+                "rotation_y": 280,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -702,7 +702,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 180,
+                "rotation_y": 270,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -776,7 +776,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 160,
+                "rotation_y": 260,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -850,7 +850,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 140,
+                "rotation_y": 250,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -924,7 +924,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 120,
+                "rotation_y": 240,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -998,7 +998,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 100,
+                "rotation_y": 230,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -1072,7 +1072,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 80,
+                "rotation_y": 220,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -1146,7 +1146,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 60,
+                "rotation_y": 210,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -1220,7 +1220,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 40,
+                "rotation_y": 200,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -1294,7 +1294,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 20,
+                "rotation_y": 190,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -1368,7 +1368,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 0,
+                "rotation_y": 180,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -1442,7 +1442,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 340,
+                "rotation_y": 170,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -1516,7 +1516,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 320,
+                "rotation_y": 160,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -1590,7 +1590,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 300,
+                "rotation_y": 150,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -1664,7 +1664,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 280,
+                "rotation_y": 140,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -1738,7 +1738,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 260,
+                "rotation_y": 130,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -1812,7 +1812,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 240,
+                "rotation_y": 120,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -1886,7 +1886,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 220,
+                "rotation_y": 110,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -1957,7 +1957,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 200,
+                "rotation_y": 100,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -2028,7 +2028,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 2.0,
-                "rotation_y": 180,
+                "rotation_y": 90,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true

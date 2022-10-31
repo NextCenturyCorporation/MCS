@@ -239,7 +239,7 @@ class Action(Enum):
     """
     Pick up a nearby object and hold it in your hand. This action incorporates
     reaching out your hand in front of you, opening your fingers, and grabbing
-    the object.
+    the object. You may hold multiple objects simultaneously.
 
     Parameters
     ----------
@@ -259,8 +259,6 @@ class Action(Enum):
     -------
     "SUCCESSFUL"
         Action successful.
-    "HAND_IS_FULL"
-        If you cannot pick up the object because your hand is full.
     "NOT_INTERACTABLE"
         If the object corresponding to the "objectImageCoords" vector is not an
         interactable object.

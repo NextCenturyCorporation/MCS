@@ -2865,16 +2865,16 @@
             {
                 "associated_with_agent": "",
                 "direction_x": -0.04,
-                "direction_y": -0.54,
-                "direction_z": 0.84,
-                "distance": 1.41,
+                "direction_y": -0.47,
+                "direction_z": 0.88,
+                "distance": 1.63,
                 "id": "turtle_on_wheels",
                 "mass": 0.5,
                 "material_list": [
                     "WOOD"
                 ],
                 "position_x": 0.3,
-                "position_z": 0.54,
+                "position_z": 0.79,
                 "rotation_y": 45,
                 "shape": "turtle",
                 "texture_color_list": [
@@ -2937,16 +2937,16 @@
             {
                 "associated_with_agent": "",
                 "direction_x": -0.03,
-                "direction_y": -0.47,
-                "direction_z": 0.88,
-                "distance": 1.61,
+                "direction_y": -0.37,
+                "direction_z": 0.93,
+                "distance": 2.06,
                 "id": "turtle_on_wheels",
                 "mass": 0.5,
                 "material_list": [
                     "WOOD"
                 ],
                 "position_x": 0.3,
-                "position_z": 0.76,
+                "position_z": 1.26,
                 "rotation_y": 45,
                 "shape": "turtle",
                 "texture_color_list": [
@@ -3008,17 +3008,17 @@
             },
             {
                 "associated_with_agent": "",
-                "direction_x": -0.03,
-                "direction_y": -0.43,
-                "direction_z": 0.9,
-                "distance": 1.79,
+                "direction_x": -0.02,
+                "direction_y": -0.31,
+                "direction_z": 0.95,
+                "distance": 2.49,
                 "id": "turtle_on_wheels",
                 "mass": 0.5,
                 "material_list": [
                     "WOOD"
                 ],
                 "position_x": 0.3,
-                "position_z": 0.97,
+                "position_z": 1.72,
                 "rotation_y": 45,
                 "shape": "turtle",
                 "texture_color_list": [
@@ -3080,17 +3080,17 @@
             },
             {
                 "associated_with_agent": "",
-                "direction_x": -0.03,
-                "direction_y": -0.39,
-                "direction_z": 0.92,
-                "distance": 1.97,
+                "direction_x": -0.02,
+                "direction_y": -0.26,
+                "direction_z": 0.96,
+                "distance": 2.91,
                 "id": "turtle_on_wheels",
                 "mass": 0.5,
                 "material_list": [
                     "WOOD"
                 ],
                 "position_x": 0.3,
-                "position_z": 1.16,
+                "position_z": 2.16,
                 "rotation_y": 45,
                 "shape": "turtle",
                 "texture_color_list": [
@@ -3153,16 +3153,16 @@
             {
                 "associated_with_agent": "",
                 "direction_x": -0.02,
-                "direction_y": -0.36,
-                "direction_z": 0.93,
-                "distance": 2.13,
+                "direction_y": -0.23,
+                "direction_z": 0.97,
+                "distance": 3.32,
                 "id": "turtle_on_wheels",
                 "mass": 0.5,
                 "material_list": [
                     "WOOD"
                 ],
                 "position_x": 0.3,
-                "position_z": 1.33,
+                "position_z": 2.58,
                 "rotation_y": 45,
                 "shape": "turtle",
                 "texture_color_list": [
@@ -3225,16 +3225,16 @@
             {
                 "associated_with_agent": "",
                 "direction_x": -0.02,
-                "direction_y": -0.34,
-                "direction_z": 0.94,
-                "distance": 2.27,
+                "direction_y": -0.2,
+                "direction_z": 0.98,
+                "distance": 3.72,
                 "id": "turtle_on_wheels",
                 "mass": 0.5,
                 "material_list": [
                     "WOOD"
                 ],
                 "position_x": 0.3,
-                "position_z": 1.49,
+                "position_z": 2.99,
                 "rotation_y": 45,
                 "shape": "turtle",
                 "texture_color_list": [
@@ -3297,16 +3297,16 @@
             {
                 "associated_with_agent": "",
                 "direction_x": -0.02,
-                "direction_y": -0.32,
-                "direction_z": 0.95,
-                "distance": 2.41,
+                "direction_y": -0.19,
+                "direction_z": 0.98,
+                "distance": 4.1,
                 "id": "turtle_on_wheels",
                 "mass": 0.5,
                 "material_list": [
                     "WOOD"
                 ],
                 "position_x": 0.3,
-                "position_z": 1.63,
+                "position_z": 3.38,
                 "rotation_y": 45,
                 "shape": "turtle",
                 "texture_color_list": [
@@ -3369,16 +3369,16 @@
             {
                 "associated_with_agent": "",
                 "direction_x": -0.02,
-                "direction_y": -0.3,
-                "direction_z": 0.95,
-                "distance": 2.53,
+                "direction_y": -0.17,
+                "direction_z": 0.99,
+                "distance": 4.47,
                 "id": "turtle_on_wheels",
                 "mass": 0.5,
                 "material_list": [
                     "WOOD"
                 ],
                 "position_x": 0.3,
-                "position_z": 1.76,
+                "position_z": 3.76,
                 "rotation_y": 44,
                 "shape": "turtle",
                 "texture_color_list": [
@@ -3440,17 +3440,17 @@
             },
             {
                 "associated_with_agent": "",
-                "direction_x": -0.02,
-                "direction_y": -0.29,
-                "direction_z": 0.96,
-                "distance": 2.63,
+                "direction_x": -0.01,
+                "direction_y": -0.16,
+                "direction_z": 0.99,
+                "distance": 4.83,
                 "id": "turtle_on_wheels",
                 "mass": 0.5,
                 "material_list": [
                     "WOOD"
                 ],
                 "position_x": 0.3,
-                "position_z": 1.86,
+                "position_z": 4.11,
                 "rotation_y": 44,
                 "shape": "turtle",
                 "texture_color_list": [
@@ -3512,17 +3512,17 @@
             },
             {
                 "associated_with_agent": "",
-                "direction_x": -0.02,
-                "direction_y": -0.28,
-                "direction_z": 0.96,
-                "distance": 2.72,
+                "direction_x": -0.01,
+                "direction_y": -0.15,
+                "direction_z": 0.99,
+                "distance": 5.16,
                 "id": "turtle_on_wheels",
                 "mass": 0.5,
                 "material_list": [
                     "WOOD"
                 ],
                 "position_x": 0.3,
-                "position_z": 1.96,
+                "position_z": 4.46,
                 "rotation_y": 44,
                 "shape": "turtle",
                 "texture_color_list": [
@@ -3584,17 +3584,17 @@
             },
             {
                 "associated_with_agent": "",
-                "direction_x": -0.02,
-                "direction_y": -0.27,
-                "direction_z": 0.96,
-                "distance": 2.79,
+                "direction_x": -0.01,
+                "direction_y": -0.14,
+                "direction_z": 0.99,
+                "distance": 5.48,
                 "id": "turtle_on_wheels",
                 "mass": 0.5,
                 "material_list": [
                     "WOOD"
                 ],
                 "position_x": 0.3,
-                "position_z": 2.03,
+                "position_z": 4.78,
                 "rotation_y": 44,
                 "shape": "turtle",
                 "texture_color_list": [
@@ -3656,17 +3656,17 @@
             },
             {
                 "associated_with_agent": "",
-                "direction_x": -0.02,
-                "direction_y": -0.27,
-                "direction_z": 0.96,
-                "distance": 2.84,
+                "direction_x": -0.01,
+                "direction_y": -0.13,
+                "direction_z": 0.99,
+                "distance": 5.79,
                 "id": "turtle_on_wheels",
                 "mass": 0.5,
                 "material_list": [
                     "WOOD"
                 ],
                 "position_x": 0.3,
-                "position_z": 2.09,
+                "position_z": 5.09,
                 "rotation_y": 44,
                 "shape": "turtle",
                 "texture_color_list": [
@@ -3728,17 +3728,17 @@
             },
             {
                 "associated_with_agent": "",
-                "direction_x": -0.02,
-                "direction_y": -0.26,
-                "direction_z": 0.96,
-                "distance": 2.88,
+                "direction_x": -0.01,
+                "direction_y": -0.13,
+                "direction_z": 0.99,
+                "distance": 6.08,
                 "id": "turtle_on_wheels",
                 "mass": 0.5,
                 "material_list": [
                     "WOOD"
                 ],
                 "position_x": 0.3,
-                "position_z": 2.13,
+                "position_z": 5.38,
                 "rotation_y": 44,
                 "shape": "turtle",
                 "texture_color_list": [

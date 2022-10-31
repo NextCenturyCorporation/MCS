@@ -2,8 +2,8 @@
 Installation and Setup
 =======================
 
-.. _Download and unzip the Mac ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.6.0/MCS-AI2-THOR-Unity-App-v0.6.0-mac.zip
-.. _Download and unzip the Linux ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.6.0/MCS-AI2-THOR-Unity-App-v0.6.0-linux.zip
+.. _Download and unzip the Mac ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.6.1/MCS-AI2-THOR-Unity-App-v0.6.1-mac.zip
+.. _Download and unzip the Linux ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.6.1/MCS-AI2-THOR-Unity-App-v0.6.1-linux.zip
 
 Virtual Environments
 ------------------------
@@ -136,6 +136,13 @@ history_enabled
 
 Whether to save the scene history output data in your local directory. Default: True
 
+lava_penalty
+^^^^^^^^^^^^^^^
+
+(float, optional)
+
+Changes the negative penalty recieved for every step on lava.  Default: 100
+
 metadata
 ^^^^^^^^
 
@@ -150,13 +157,6 @@ The `metadata` property describes what metadata will be returned by the MCS Pyth
 
 If no metadata level is set:
 - `default`: Fallback if no metadata level is specified. Only meant for use during development (evaluations will never be run this way). Includes metadata for visible and held objects in the scene, as well as camera info and properties corresponding to the player. Does not include depth maps or object masks.
-
-lava_penalty
-^^^^^^^^^^^^^^^
-
-(float, optional)
-
-Changes the negative penalty recieved for every step on lava.  Default: 100
 
 steps_allowed_in_lava
 ^^^^^^^^^^^^^^^
@@ -200,26 +200,28 @@ step_penalty
 
 Changes the negative penalty recieved for every step. Default: 0.001
 
+top_down_camera
+^^^^^^^^^^^^^^^
+
+(boolean, optional)
+
+If both `video_enabled` and `top_down_camera` are `true`, generate videos using the new top-down camera. Default: `true`
+
+top_down_plotter
+^^^^^^^^^^^^^^^^
+
+(boolean, optional)
+
+If `video_enabled` and `top_down_plotter` are `true`, and `top_down_camera` is `false`, generate videos using the legacy top-down plotter. Default: `false`
+
+(boolean, optional)
+
 video_enabled
 ^^^^^^^^^^^^^
 
 (boolean, optional)
 
 Create and save videos of the RGB frames, depth masks, object instance segmentation masks (if returned in the output by the chosen metadata tier), and the 2D top-down scene views. Default: False
-
-top_down_camera
-^^^^^^^^^^^^^^^
-
-(boolean, optional)
-
-If `video_enabled` is true and `top_down_camera` is false, determines if the legacy top down plotter videos will be generated.  Default: False
-
-top_down_plotter
-^^^^^^^^^^^^^^^^
-
-If `video_enabled` is true, determines if the top down camera is used to generate videos instead of the old top down plotter.  Default: True
-
-(boolean, optional)
 
 Example Using the Config File to Generate Scene Graphs or Maps
 **************************************************************

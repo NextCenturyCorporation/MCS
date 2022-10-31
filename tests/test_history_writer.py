@@ -247,8 +247,8 @@ class TestHistoryWriter(unittest.TestCase):
         writer = mcs.HistoryWriter(self.prefix_config_data)
 
         goal = mcs.GoalMetadata(metadata={
-            'target': {'id': 'targetId',
-                       'image': 'something.png'}
+            'target': {'id': 'targetId', 'image': 'something.png'},
+            'targets': [{'id': 'targetId', 'image': 'something.png'}]
         })
         output = mcs.StepMetadata(
             action_list=[
@@ -285,6 +285,9 @@ class TestHistoryWriter(unittest.TestCase):
         self.assertEqual(
             writer.current_steps[0]["output"]["goal"]["metadata"]["target"],
             {'id': 'targetId', 'position': {'x': 1, 'y': 0.5, 'z': 1}})
+        self.assertEqual(
+            writer.current_steps[0]["output"]["goal"]["metadata"]["targets"],
+            [{'id': 'targetId', 'position': {'x': 1, 'y': 0.5, 'z': 1}}])
 
     def test_write_history_file_with_numpy(self):
         writer = mcs.HistoryWriter(self.prefix_config_data)
@@ -313,6 +316,80 @@ class TestHistoryWriter(unittest.TestCase):
         self.assertEqual(writer.history_obj["score"]["confidence"], "0.75")
 
         self.assertTrue(os.path.exists(writer.scene_history_file))
+
+    def test_is_target_visible_retrieval(self):
+        writer = mcs.HistoryWriter(self.prefix_config_data)
+
+        history_1 = mcs.SceneHistory(output=mcs.StepMetadata(
+            goal=mcs.GoalMetadata(category='retrieval', metadata={
+                'target': {'id': 'target_1'}
+            }),
+            object_list=[
+                mcs.ObjectMetadata(uuid='target_1', visible=False)
+            ]
+        ))
+        actual = writer.is_target_visible(history_1)
+        self.assertFalse(actual)
+
+        history_2 = mcs.SceneHistory(output=mcs.StepMetadata(
+            goal=mcs.GoalMetadata(category='retrieval', metadata={
+                'target': {'id': 'target_1'}
+            }),
+            object_list=[
+                mcs.ObjectMetadata(uuid='target_1', visible=True)
+            ]
+        ))
+        actual = writer.is_target_visible(history_2)
+        self.assertTrue(actual)
+
+    def test_is_target_visible_multi_retrieval(self):
+        writer = mcs.HistoryWriter(self.prefix_config_data)
+
+        history_1 = mcs.SceneHistory(output=mcs.StepMetadata(
+            goal=mcs.GoalMetadata(category='multi retrieval', metadata={
+                'targets': [{'id': 'target_1'}]
+            }),
+            object_list=[
+                mcs.ObjectMetadata(uuid='target_1', visible=False)
+            ]
+        ))
+        actual = writer.is_target_visible(history_1)
+        self.assertEqual(actual, [])
+
+        history_2 = mcs.SceneHistory(output=mcs.StepMetadata(
+            goal=mcs.GoalMetadata(category='multi retrieval', metadata={
+                'targets': [{'id': 'target_1'}]
+            }),
+            object_list=[
+                mcs.ObjectMetadata(uuid='target_1', visible=True)
+            ]
+        ))
+        actual = writer.is_target_visible(history_2)
+        self.assertEqual(actual, ['target_1'])
+
+        history_3 = mcs.SceneHistory(output=mcs.StepMetadata(
+            goal=mcs.GoalMetadata(category='multi retrieval', metadata={
+                'targets': [{'id': 'target_1'}, {'id': 'target_2'}]
+            }),
+            object_list=[
+                mcs.ObjectMetadata(uuid='target_1', visible=True),
+                mcs.ObjectMetadata(uuid='target_2', visible=False)
+            ]
+        ))
+        actual = writer.is_target_visible(history_3)
+        self.assertEqual(actual, ['target_1'])
+
+        history_4 = mcs.SceneHistory(output=mcs.StepMetadata(
+            goal=mcs.GoalMetadata(category='multi retrieval', metadata={
+                'targets': [{'id': 'target_1'}, {'id': 'target_2'}]
+            }),
+            object_list=[
+                mcs.ObjectMetadata(uuid='target_1', visible=True),
+                mcs.ObjectMetadata(uuid='target_2', visible=True)
+            ]
+        ))
+        actual = writer.is_target_visible(history_4)
+        self.assertEqual(actual, ['target_1', 'target_2'])
 
 
 if __name__ == '__main__':
