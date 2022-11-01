@@ -34,7 +34,6 @@ OpenObject,objectImageCoordsX=300,objectImageCoordsY=200
 CloseObject,objectImageCoordsX=300,objectImageCoordsY=200
 MoveAhead
 MoveAhead
-MoveAhead
 OpenObject,objectImageCoordsX=300,objectImageCoordsY=200
 CloseObject,objectImageCoordsX=300,objectImageCoordsY=200
 OpenObject,objectImageCoordsX=300,objectImageCoordsY=200
@@ -65,6 +64,7 @@ RotateLeft
 MoveLeft
 LookDown
 LookDown
+MoveRight
 OpenObject,objectImageCoordsX=300,objectImageCoordsY=200
 CloseObject,objectImageCoordsX=300,objectImageCoordsY=200
 MoveAhead
