@@ -1556,9 +1556,9 @@
         "objects_count": 1,
         "position_x": -0.5,
         "position_z": 4.6,
-        "resolved_object": "",
+        "resolved_object": "floor149",
         "resolved_receptacle": "",
-        "return_status": "HAND_IS_FULL",
+        "return_status": "NOT_PICKUPABLE",
         "rotation_y": 90,
         "step_number": 45,
         "structural_objects_count": 5

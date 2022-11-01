@@ -4,7 +4,6 @@ from enum import Enum, unique
 @unique
 class ReturnStatus(Enum):
     CANNOT_ROTATE = "CANNOT_ROTATE"
-    HAND_IS_FULL = "HAND_IS_FULL"
     IS_CLOSED_COMPLETELY = "IS_CLOSED_COMPLETELY"
     IS_OPENED_COMPLETELY = "IS_OPENED_COMPLETELY"
     NOT_HELD = "NOT_HELD"

@@ -218,6 +218,30 @@ class GoalCategory(Enum):
     `score`.
     """
 
+    IMITATION = "imitation"
+    """
+    In a trial that has an imitation goal, you must imitate the actions of
+    another agent in the scene to find and pickup a target object. Executing
+    the same actions, on the same objects, in the same order, is of critical
+    importance; if you do not imitate the actions correctly, you will be
+    forced to end the scene (by calling end_scene, or using the END_SCENE
+    action), without achieving the reward. In MCS Evaluation 4 and onward, the
+    target object will always be a soccer ball (football), and, in MCS
+    Evaluation 6, the imitated actions will always be opening containers of
+    various colors and shapes (using the normal OpenObject action).
+
+    Notes
+    -----
+    At `oracle` metadata level, the `metadata` dict property of this
+    GoalMetadata object will contain a `target` property, which is a dict
+    containing the following parameters:
+
+    Parameters
+    ----------
+    id : string
+        The unique objectId of the target object to retrieve.
+    """
+
     INTUITIVE_PHYSICS = "intuitive physics"
     """
     In a trial that has an Intuitive Physics goal, you must sit and observe a

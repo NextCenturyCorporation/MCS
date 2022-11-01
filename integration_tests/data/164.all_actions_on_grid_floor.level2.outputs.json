@@ -546,7 +546,7 @@
         "position_z": null,
         "resolved_object": null,
         "resolved_receptacle": null,
-        "return_status": "HAND_IS_FULL",
+        "return_status": "NOT_PICKUPABLE",
         "rotation_y": null,
         "step_number": 45,
         "structural_objects_count": 0
