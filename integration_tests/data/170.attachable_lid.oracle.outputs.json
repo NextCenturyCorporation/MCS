@@ -7080,7 +7080,7 @@
         "position_z": -1.9,
         "resolved_object": "container_1",
         "resolved_receptacle": "",
-        "return_status": "UNDEFINED",
+        "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 33,
         "structural_objects_count": 9
@@ -7290,7 +7290,7 @@
         "position_z": -1.9,
         "resolved_object": "container_1",
         "resolved_receptacle": "",
-        "return_status": "UNDEFINED",
+        "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 34,
         "structural_objects_count": 9
@@ -8130,7 +8130,7 @@
         "position_z": -1.6,
         "resolved_object": "lid_2",
         "resolved_receptacle": "",
-        "return_status": "UNDEFINED",
+        "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 38,
         "structural_objects_count": 9
@@ -8340,7 +8340,7 @@
         "position_z": -1.6,
         "resolved_object": "container_1",
         "resolved_receptacle": "",
-        "return_status": "UNDEFINED",
+        "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 39,
         "structural_objects_count": 9
@@ -8550,7 +8550,7 @@
         "position_z": -1.6,
         "resolved_object": "lid_2",
         "resolved_receptacle": "",
-        "return_status": "UNDEFINED",
+        "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 40,
         "structural_objects_count": 9
@@ -9180,7 +9180,7 @@
         "position_z": -1.6,
         "resolved_object": "lid_2",
         "resolved_receptacle": "",
-        "return_status": "UNDEFINED",
+        "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 43,
         "structural_objects_count": 9
@@ -14430,7 +14430,7 @@
         "position_z": -1.0,
         "resolved_object": "lid_2",
         "resolved_receptacle": "",
-        "return_status": "UNDEFINED",
+        "return_status": "SUCCESSFUL",
         "rotation_y": 270,
         "step_number": 68,
         "structural_objects_count": 9
@@ -16110,7 +16110,7 @@
         "position_z": -1.0,
         "resolved_object": "container_1",
         "resolved_receptacle": "",
-        "return_status": "UNDEFINED",
+        "return_status": "SUCCESSFUL",
         "rotation_y": 270,
         "step_number": 76,
         "structural_objects_count": 9
@@ -21360,7 +21360,7 @@
         "position_z": 0.0,
         "resolved_object": "bowl_1",
         "resolved_receptacle": "",
-        "return_status": "UNDEFINED",
+        "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 101,
         "structural_objects_count": 9
@@ -21570,7 +21570,7 @@
         "position_z": 0.0,
         "resolved_object": "bowl_1",
         "resolved_receptacle": "",
-        "return_status": "UNDEFINED",
+        "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 101,
         "structural_objects_count": 9
@@ -22830,7 +22830,7 @@
         "position_z": 0.4,
         "resolved_object": "lid_1",
         "resolved_receptacle": "",
-        "return_status": "UNDEFINED",
+        "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 107,
         "structural_objects_count": 9
@@ -23040,7 +23040,7 @@
         "position_z": 0.4,
         "resolved_object": "bowl_1",
         "resolved_receptacle": "",
-        "return_status": "UNDEFINED",
+        "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 109,
         "structural_objects_count": 9
