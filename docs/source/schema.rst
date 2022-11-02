@@ -305,6 +305,7 @@ Each **move config** has the following properties:
 - `vector` (:ref:`vector config <Vector Config>`, required): The coordinates to describe the movement. Default: `{ "x": 0, "y": 0, "z": 0 }`
 - `repeat` (bool, optional): Whether to indefinitely repeat this action. Will wait `stepWait` number of steps after `stepEnd`, then will execute this action for `stepEnd - stepBegin + 1` number of steps, then repeat. Default: `false`
 - `stepWait` (integer, optional): If `repeat` is `true`, the number of steps to wait after the `stepEnd` before repeating this action. Default: `0`
+- `globalSpace` (bool, optional): If `true` the object will move using a global orientaion space and ignore the object's rotation. If false the object will move in local space oriented on the object's rotation. Default: `false`
 
 Platform Lips Config
 **************
