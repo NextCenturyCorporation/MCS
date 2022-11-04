@@ -809,7 +809,7 @@
                 "direction_x": -0.22,
                 "direction_y": -0.29,
                 "direction_z": 0.93,
-                "distance": 2.58,
+                "distance": 2.67,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -827,9 +827,9 @@
             },
             {
                 "direction_x": 0.09,
-                "direction_y": -0.37,
+                "direction_y": -0.35,
                 "direction_z": 0.93,
-                "distance": 2.05,
+                "distance": 2.15,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -844,10 +844,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.23,
+                "direction_x": -0.22,
                 "direction_y": -0.23,
                 "direction_z": 0.95,
-                "distance": 2.53,
+                "distance": 2.63,
                 "held": false,
                 "id": "soccer_ball",
                 "mass": 1.0,
@@ -867,7 +867,7 @@
         ],
         "objects_count": 2,
         "position_x": 0.0,
-        "position_z": -0.4,
+        "position_z": -0.5,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
@@ -879,10 +879,10 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": -0.19,
-                "direction_y": -0.29,
+                "direction_x": -0.17,
+                "direction_y": -0.27,
                 "direction_z": 0.94,
-                "distance": 2.58,
+                "distance": 2.77,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -892,6 +892,152 @@
                 "position_x": -0.48,
                 "position_z": 2.12,
                 "rotation_y": 120,
+                "shape": "chest",
+                "texture_color_list": [
+                    "brown"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.1,
+                "direction_y": -0.35,
+                "direction_z": 0.93,
+                "distance": 2.15,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 1.5,
+                "rotation_y": 120,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.18,
+                "direction_y": -0.21,
+                "direction_z": 0.96,
+                "distance": 2.73,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": -0.48,
+                "position_z": 2.12,
+                "rotation_y": 120,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -0.5,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 12,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": -0.14,
+                "direction_y": -0.27,
+                "direction_z": 0.95,
+                "distance": 2.76,
+                "held": false,
+                "id": "chest",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": -0.36,
+                "position_z": 2.23,
+                "rotation_y": 130,
+                "shape": "chest",
+                "texture_color_list": [
+                    "brown"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.1,
+                "direction_y": -0.37,
+                "direction_z": 0.93,
+                "distance": 2.05,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 1.5,
+                "rotation_y": 130,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.14,
+                "direction_y": -0.21,
+                "direction_z": 0.96,
+                "distance": 2.72,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": -0.36,
+                "position_z": 2.23,
+                "rotation_y": 130,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -0.4,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 13,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": -0.08,
+                "direction_y": -0.28,
+                "direction_z": 0.95,
+                "distance": 2.73,
+                "held": false,
+                "id": "chest",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": -0.23,
+                "position_z": 2.32,
+                "rotation_y": 140,
                 "shape": "chest",
                 "texture_color_list": [
                     "brown"
@@ -911,25 +1057,25 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 1.5,
-                "rotation_y": 120,
+                "rotation_y": 140,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
             },
             {
-                "direction_x": -0.19,
-                "direction_y": -0.23,
-                "direction_z": 0.95,
-                "distance": 2.54,
+                "direction_x": -0.08,
+                "direction_y": -0.22,
+                "direction_z": 0.97,
+                "distance": 2.69,
                 "held": false,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": -0.48,
-                "position_z": 2.12,
-                "rotation_y": 120,
+                "position_x": -0.23,
+                "position_z": 2.32,
+                "rotation_y": 140,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -944,27 +1090,27 @@
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 0.0,
-        "step_number": 12,
+        "rotation_y": 0,
+        "step_number": 14,
         "structural_objects_count": 6
     },
     {
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": -0.14,
+                "direction_x": 0.08,
                 "direction_y": -0.29,
-                "direction_z": 0.95,
-                "distance": 2.57,
+                "direction_z": 0.96,
+                "distance": 2.64,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": -0.36,
-                "position_z": 2.23,
-                "rotation_y": 130,
+                "position_x": -0.08,
+                "position_z": 2.38,
+                "rotation_y": 150,
                 "shape": "chest",
                 "texture_color_list": [
                     "brown"
@@ -972,9 +1118,9 @@
                 "visible": true
             },
             {
-                "direction_x": 0.11,
+                "direction_x": 0.26,
                 "direction_y": -0.4,
-                "direction_z": 0.91,
+                "direction_z": 0.88,
                 "distance": 1.87,
                 "held": false,
                 "id": "rotating_cog_a",
@@ -984,25 +1130,25 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 1.5,
-                "rotation_y": 130,
+                "rotation_y": 150,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
             },
             {
-                "direction_x": -0.14,
-                "direction_y": -0.23,
-                "direction_z": 0.96,
-                "distance": 2.53,
+                "direction_x": 0.08,
+                "direction_y": -0.22,
+                "direction_z": 0.97,
+                "distance": 2.59,
                 "held": false,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": -0.36,
-                "position_z": 2.23,
-                "rotation_y": 130,
+                "position_x": -0.08,
+                "position_z": 2.38,
+                "rotation_y": 150,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -1012,32 +1158,32 @@
             }
         ],
         "objects_count": 2,
-        "position_x": 0.0,
-        "position_z": -0.2,
+        "position_x": -0.29,
+        "position_z": -0.14,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 0.0,
-        "step_number": 13,
+        "rotation_y": 10,
+        "step_number": 15,
         "structural_objects_count": 6
     },
     {
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.02,
-                "direction_y": -0.31,
-                "direction_z": 0.95,
-                "distance": 2.48,
+                "direction_x": 0.24,
+                "direction_y": -0.3,
+                "direction_z": 0.92,
+                "distance": 2.55,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": -0.23,
-                "position_z": 2.32,
-                "rotation_y": 140,
+                "position_x": 0.08,
+                "position_z": 2.41,
+                "rotation_y": 160,
                 "shape": "chest",
                 "texture_color_list": [
                     "brown"
@@ -1045,9 +1191,9 @@
                 "visible": true
             },
             {
-                "direction_x": 0.27,
+                "direction_x": 0.41,
                 "direction_y": -0.43,
-                "direction_z": 0.86,
+                "direction_z": 0.8,
                 "distance": 1.78,
                 "held": false,
                 "id": "rotating_cog_a",
@@ -1057,25 +1203,25 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 1.5,
-                "rotation_y": 140,
+                "rotation_y": 160,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
             },
             {
-                "direction_x": 0.02,
+                "direction_x": 0.25,
                 "direction_y": -0.24,
-                "direction_z": 0.97,
-                "distance": 2.43,
+                "direction_z": 0.94,
+                "distance": 2.5,
                 "held": false,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": -0.23,
-                "position_z": 2.32,
-                "rotation_y": 140,
+                "position_x": 0.08,
+                "position_z": 2.41,
+                "rotation_y": 160,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -1085,32 +1231,32 @@
             }
         ],
         "objects_count": 2,
-        "position_x": -0.27,
-        "position_z": -0.04,
+        "position_x": -0.54,
+        "position_z": 0.06,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 10,
-        "step_number": 14,
+        "rotation_y": 20,
+        "step_number": 16,
         "structural_objects_count": 6
     },
     {
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.18,
-                "direction_y": -0.32,
-                "direction_z": 0.93,
-                "distance": 2.39,
+                "direction_x": 0.39,
+                "direction_y": -0.31,
+                "direction_z": 0.87,
+                "distance": 2.45,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": -0.08,
-                "position_z": 2.38,
-                "rotation_y": 150,
+                "position_x": 0.24,
+                "position_z": 2.42,
+                "rotation_y": 170,
                 "shape": "chest",
                 "texture_color_list": [
                     "brown"
@@ -1118,9 +1264,9 @@
                 "visible": true
             },
             {
-                "direction_x": 0.41,
+                "direction_x": 0.54,
                 "direction_y": -0.45,
-                "direction_z": 0.79,
+                "direction_z": 0.71,
                 "distance": 1.69,
                 "held": false,
                 "id": "rotating_cog_a",
@@ -1130,25 +1276,25 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 1.5,
-                "rotation_y": 150,
+                "rotation_y": 170,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
             },
             {
-                "direction_x": 0.18,
+                "direction_x": 0.4,
                 "direction_y": -0.25,
-                "direction_z": 0.95,
-                "distance": 2.34,
+                "direction_z": 0.88,
+                "distance": 2.4,
                 "held": false,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": -0.08,
-                "position_z": 2.38,
-                "rotation_y": 150,
+                "position_x": 0.24,
+                "position_z": 2.42,
+                "rotation_y": 170,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -1158,32 +1304,32 @@
             }
         ],
         "objects_count": 2,
-        "position_x": -0.5,
-        "position_z": 0.16,
+        "position_x": -0.72,
+        "position_z": 0.3,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 20,
-        "step_number": 15,
+        "rotation_y": 30,
+        "step_number": 17,
         "structural_objects_count": 6
     },
     {
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.33,
-                "direction_y": -0.33,
-                "direction_z": 0.88,
-                "distance": 2.29,
+                "direction_x": 0.53,
+                "direction_y": -0.32,
+                "direction_z": 0.78,
+                "distance": 2.36,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": 0.08,
-                "position_z": 2.41,
-                "rotation_y": 160,
+                "position_x": 0.4,
+                "position_z": 2.4,
+                "rotation_y": 180,
                 "shape": "chest",
                 "texture_color_list": [
                     "brown"
@@ -1191,9 +1337,9 @@
                 "visible": true
             },
             {
-                "direction_x": 0.54,
+                "direction_x": 0.66,
                 "direction_y": -0.47,
-                "direction_z": 0.69,
+                "direction_z": 0.59,
                 "distance": 1.61,
                 "held": false,
                 "id": "rotating_cog_a",
@@ -1203,25 +1349,25 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 1.5,
-                "rotation_y": 160,
+                "rotation_y": 180,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
             },
             {
-                "direction_x": 0.34,
+                "direction_x": 0.54,
                 "direction_y": -0.26,
-                "direction_z": 0.9,
-                "distance": 2.24,
+                "direction_z": 0.8,
+                "distance": 2.31,
                 "held": false,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": 0.08,
-                "position_z": 2.41,
-                "rotation_y": 160,
+                "position_x": 0.4,
+                "position_z": 2.4,
+                "rotation_y": 180,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -1231,32 +1377,32 @@
             }
         ],
         "objects_count": 2,
-        "position_x": -0.67,
-        "position_z": 0.39,
+        "position_x": -0.85,
+        "position_z": 0.56,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 30,
-        "step_number": 16,
+        "rotation_y": 40,
+        "step_number": 18,
         "structural_objects_count": 6
     },
     {
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.47,
-                "direction_y": -0.35,
-                "direction_z": 0.81,
-                "distance": 2.2,
+                "direction_x": 0.65,
+                "direction_y": -0.34,
+                "direction_z": 0.68,
+                "distance": 2.26,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": 0.24,
-                "position_z": 2.42,
-                "rotation_y": 170,
+                "position_x": 0.55,
+                "position_z": 2.35,
+                "rotation_y": 190,
                 "shape": "chest",
                 "texture_color_list": [
                     "brown"
@@ -1264,9 +1410,9 @@
                 "visible": true
             },
             {
-                "direction_x": 0.65,
+                "direction_x": 0.74,
                 "direction_y": -0.5,
-                "direction_z": 0.57,
+                "direction_z": 0.45,
                 "distance": 1.52,
                 "held": false,
                 "id": "rotating_cog_a",
@@ -1276,25 +1422,25 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 1.5,
-                "rotation_y": 170,
+                "rotation_y": 190,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
             },
             {
-                "direction_x": 0.48,
-                "direction_y": -0.28,
-                "direction_z": 0.83,
-                "distance": 2.15,
+                "direction_x": 0.67,
+                "direction_y": -0.27,
+                "direction_z": 0.69,
+                "distance": 2.21,
                 "held": false,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": 0.24,
-                "position_z": 2.42,
-                "rotation_y": 170,
+                "position_x": 0.55,
+                "position_z": 2.35,
+                "rotation_y": 190,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -1304,158 +1450,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": -0.79,
-        "position_z": 0.63,
-        "resolved_object": "",
-        "resolved_receptacle": "",
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 40,
-        "step_number": 17,
-        "structural_objects_count": 6
-    },
-    {
-        "head_tilt": 30,
-        "objects": [
-            {
-                "direction_x": 0.59,
-                "direction_y": -0.36,
-                "direction_z": 0.72,
-                "distance": 2.11,
-                "held": false,
-                "id": "chest",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.4,
-                "position_z": 2.4,
-                "rotation_y": 180,
-                "shape": "chest",
-                "texture_color_list": [
-                    "brown"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.73,
-                "direction_y": -0.53,
-                "direction_z": 0.43,
-                "distance": 1.44,
-                "held": false,
-                "id": "rotating_cog_a",
-                "mass": 10.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.2,
-                "position_z": 1.5,
-                "rotation_y": 180,
-                "shape": "structural",
-                "texture_color_list": [],
-                "visible": true
-            },
-            {
-                "direction_x": 0.61,
-                "direction_y": -0.29,
-                "direction_z": 0.74,
-                "distance": 2.05,
-                "held": false,
-                "id": "soccer_ball",
-                "mass": 1.0,
-                "material_list": [
-                    "PLASTIC"
-                ],
-                "position_x": 0.4,
-                "position_z": 2.4,
-                "rotation_y": 180,
-                "shape": "ball",
-                "texture_color_list": [
-                    "white",
-                    "black"
-                ],
-                "visible": false
-            }
-        ],
-        "objects_count": 2,
-        "position_x": -0.85,
-        "position_z": 0.88,
+        "position_x": -0.92,
+        "position_z": 0.82,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 50,
-        "step_number": 18,
-        "structural_objects_count": 6
-    },
-    {
-        "head_tilt": 30,
-        "objects": [
-            {
-                "direction_x": 0.7,
-                "direction_y": -0.38,
-                "direction_z": 0.61,
-                "distance": 2.02,
-                "held": false,
-                "id": "chest",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.55,
-                "position_z": 2.35,
-                "rotation_y": 190,
-                "shape": "chest",
-                "texture_color_list": [
-                    "brown"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.78,
-                "direction_y": -0.56,
-                "direction_z": 0.28,
-                "distance": 1.35,
-                "held": false,
-                "id": "rotating_cog_a",
-                "mass": 10.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.2,
-                "position_z": 1.5,
-                "rotation_y": 190,
-                "shape": "structural",
-                "texture_color_list": [],
-                "visible": true
-            },
-            {
-                "direction_x": 0.72,
-                "direction_y": -0.3,
-                "direction_z": 0.63,
-                "distance": 1.96,
-                "held": false,
-                "id": "soccer_ball",
-                "mass": 1.0,
-                "material_list": [
-                    "PLASTIC"
-                ],
-                "position_x": 0.55,
-                "position_z": 2.35,
-                "rotation_y": 190,
-                "shape": "ball",
-                "texture_color_list": [
-                    "white",
-                    "black"
-                ],
-                "visible": false
-            }
-        ],
-        "objects_count": 2,
-        "position_x": -0.85,
-        "position_z": 1.12,
-        "resolved_object": "",
-        "resolved_receptacle": "",
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 60,
         "step_number": 19,
         "structural_objects_count": 6
     },
@@ -1463,10 +1463,10 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.78,
-                "direction_y": -0.4,
-                "direction_z": 0.48,
-                "distance": 1.93,
+                "direction_x": 0.75,
+                "direction_y": -0.35,
+                "direction_z": 0.56,
+                "distance": 2.17,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -1484,9 +1484,9 @@
             },
             {
                 "direction_x": 0.79,
-                "direction_y": -0.6,
-                "direction_z": 0.12,
-                "distance": 1.27,
+                "direction_y": -0.53,
+                "direction_z": 0.3,
+                "distance": 1.44,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -1501,10 +1501,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.81,
-                "direction_y": -0.32,
-                "direction_z": 0.5,
-                "distance": 1.87,
+                "direction_x": 0.77,
+                "direction_y": -0.28,
+                "direction_z": 0.57,
+                "distance": 2.12,
                 "held": false,
                 "id": "soccer_ball",
                 "mass": 1.0,
@@ -1523,12 +1523,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": -0.81,
-        "position_z": 1.35,
+        "position_x": -0.94,
+        "position_z": 1.07,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 70,
+        "rotation_y": 60,
         "step_number": 20,
         "structural_objects_count": 6
     },
@@ -1537,9 +1537,9 @@
         "objects": [
             {
                 "direction_x": 0.84,
-                "direction_y": -0.41,
-                "direction_z": 0.35,
-                "distance": 1.84,
+                "direction_y": -0.37,
+                "direction_z": 0.42,
+                "distance": 2.08,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -1556,10 +1556,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.77,
-                "direction_y": -0.64,
-                "direction_z": -0.03,
-                "distance": 1.2,
+                "direction_x": 0.81,
+                "direction_y": -0.56,
+                "direction_z": 0.14,
+                "distance": 1.35,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -1574,10 +1574,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.87,
-                "direction_y": -0.33,
-                "direction_z": 0.36,
-                "distance": 1.77,
+                "direction_x": 0.85,
+                "direction_y": -0.29,
+                "direction_z": 0.43,
+                "distance": 2.02,
                 "held": false,
                 "id": "soccer_ball",
                 "mass": 1.0,
@@ -1596,12 +1596,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": -0.72,
-        "position_z": 1.54,
+        "position_x": -0.9,
+        "position_z": 1.31,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 80,
+        "rotation_y": 70,
         "step_number": 21,
         "structural_objects_count": 6
     },
@@ -1610,9 +1610,9 @@
         "objects": [
             {
                 "direction_x": 0.88,
-                "direction_y": -0.44,
-                "direction_z": 0.21,
-                "distance": 1.75,
+                "direction_y": -0.38,
+                "direction_z": 0.27,
+                "distance": 1.98,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -1629,10 +1629,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.71,
-                "direction_y": -0.68,
-                "direction_z": -0.18,
-                "distance": 1.12,
+                "direction_x": 0.8,
+                "direction_y": -0.6,
+                "direction_z": -0.02,
+                "distance": 1.27,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -1648,9 +1648,9 @@
             },
             {
                 "direction_x": 0.91,
-                "direction_y": -0.35,
-                "direction_z": 0.21,
-                "distance": 1.68,
+                "direction_y": -0.31,
+                "direction_z": 0.28,
+                "distance": 1.93,
                 "held": false,
                 "id": "soccer_ball",
                 "mass": 1.0,
@@ -1669,12 +1669,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": -0.6,
-        "position_z": 1.7,
+        "position_x": -0.82,
+        "position_z": 1.52,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 90,
+        "rotation_y": 80,
         "step_number": 22,
         "structural_objects_count": 6
     },
@@ -1682,10 +1682,10 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.89,
-                "direction_y": -0.46,
-                "direction_z": 0.06,
-                "distance": 1.66,
+                "direction_x": 0.91,
+                "direction_y": -0.4,
+                "direction_z": 0.12,
+                "distance": 1.89,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -1702,10 +1702,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.62,
-                "direction_y": -0.72,
-                "direction_z": -0.3,
-                "distance": 1.05,
+                "direction_x": 0.75,
+                "direction_y": -0.64,
+                "direction_z": -0.17,
+                "distance": 1.2,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -1721,9 +1721,9 @@
             },
             {
                 "direction_x": 0.93,
-                "direction_y": -0.37,
-                "direction_z": 0.07,
-                "distance": 1.59,
+                "direction_y": -0.32,
+                "direction_z": 0.12,
+                "distance": 1.83,
                 "held": false,
                 "id": "soccer_ball",
                 "mass": 1.0,
@@ -1742,12 +1742,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": -0.45,
-        "position_z": 1.82,
+        "position_x": -0.7,
+        "position_z": 1.7,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 100,
+        "rotation_y": 90,
         "step_number": 23,
         "structural_objects_count": 6
     },
@@ -1755,10 +1755,10 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.87,
-                "direction_y": -0.48,
-                "direction_z": -0.07,
-                "distance": 1.58,
+                "direction_x": 0.91,
+                "direction_y": -0.42,
+                "direction_z": -0.03,
+                "distance": 1.8,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -1775,9 +1775,155 @@
                 "visible": true
             },
             {
-                "direction_x": 0.5,
+                "direction_x": 0.67,
+                "direction_y": -0.68,
+                "direction_z": -0.3,
+                "distance": 1.12,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 1.5,
+                "rotation_y": 240,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.94,
+                "direction_y": -0.34,
+                "direction_z": -0.03,
+                "distance": 1.74,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.08,
+                "position_z": 1.78,
+                "rotation_y": 240,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": -0.55,
+        "position_z": 1.84,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 100,
+        "step_number": 24,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.88,
+                "direction_y": -0.44,
+                "direction_z": -0.18,
+                "distance": 1.71,
+                "held": false,
+                "id": "chest",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 1.11,
+                "position_z": 1.62,
+                "rotation_y": 250,
+                "shape": "chest",
+                "texture_color_list": [
+                    "brown"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.56,
+                "direction_y": -0.72,
+                "direction_z": -0.41,
+                "distance": 1.05,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 1.5,
+                "rotation_y": 250,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.91,
+                "direction_y": -0.36,
+                "direction_z": -0.19,
+                "distance": 1.64,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.11,
+                "position_z": 1.62,
+                "rotation_y": 250,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": -0.39,
+        "position_z": 1.92,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 110,
+        "step_number": 25,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.82,
+                "direction_y": -0.47,
+                "direction_z": -0.32,
+                "distance": 1.63,
+                "held": false,
+                "id": "chest",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 1.12,
+                "position_z": 1.46,
+                "rotation_y": 260,
+                "shape": "chest",
+                "texture_color_list": [
+                    "brown"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.42,
                 "direction_y": -0.77,
-                "direction_z": -0.4,
+                "direction_z": -0.48,
                 "distance": 0.99,
                 "held": false,
                 "id": "rotating_cog_a",
@@ -1787,25 +1933,25 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 1.5,
-                "rotation_y": 240,
+                "rotation_y": 260,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
             },
             {
-                "direction_x": 0.92,
-                "direction_y": -0.39,
-                "direction_z": -0.08,
-                "distance": 1.5,
+                "direction_x": 0.86,
+                "direction_y": -0.38,
+                "direction_z": -0.34,
+                "distance": 1.55,
                 "held": false,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": 1.08,
-                "position_z": 1.78,
-                "rotation_y": 240,
+                "position_x": 1.12,
+                "position_z": 1.46,
+                "rotation_y": 260,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -1815,32 +1961,32 @@
             }
         ],
         "objects_count": 2,
-        "position_x": -0.3,
-        "position_z": 1.89,
+        "position_x": -0.22,
+        "position_z": 1.97,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 110,
-        "step_number": 24,
+        "rotation_y": 120,
+        "step_number": 26,
         "structural_objects_count": 6
     },
     {
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.84,
-                "direction_y": -0.51,
-                "direction_z": -0.2,
-                "distance": 1.49,
+                "direction_x": 0.75,
+                "direction_y": -0.5,
+                "direction_z": -0.44,
+                "distance": 1.54,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": 1.11,
-                "position_z": 1.62,
-                "rotation_y": 250,
+                "position_x": 1.1,
+                "position_z": 1.3,
+                "rotation_y": 270,
                 "shape": "chest",
                 "texture_color_list": [
                     "brown"
@@ -1848,9 +1994,9 @@
                 "visible": true
             },
             {
-                "direction_x": 0.36,
+                "direction_x": 0.27,
                 "direction_y": -0.82,
-                "direction_z": -0.45,
+                "direction_z": -0.51,
                 "distance": 0.93,
                 "held": false,
                 "id": "rotating_cog_a",
@@ -1860,25 +2006,25 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 1.5,
-                "rotation_y": 250,
+                "rotation_y": 270,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
             },
             {
-                "direction_x": 0.88,
-                "direction_y": -0.42,
-                "direction_z": -0.21,
-                "distance": 1.41,
+                "direction_x": 0.79,
+                "direction_y": -0.4,
+                "direction_z": -0.46,
+                "distance": 1.46,
                 "held": false,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": 1.11,
-                "position_z": 1.62,
-                "rotation_y": 250,
+                "position_x": 1.1,
+                "position_z": 1.3,
+                "rotation_y": 270,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -1888,32 +2034,32 @@
             }
         ],
         "objects_count": 2,
-        "position_x": -0.13,
-        "position_z": 1.92,
+        "position_x": -0.05,
+        "position_z": 1.97,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 120,
-        "step_number": 25,
+        "rotation_y": 130,
+        "step_number": 27,
         "structural_objects_count": 6
     },
     {
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.78,
-                "direction_y": -0.54,
-                "direction_z": -0.32,
-                "distance": 1.41,
+                "direction_x": 0.66,
+                "direction_y": -0.52,
+                "direction_z": -0.54,
+                "distance": 1.45,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": 1.12,
-                "position_z": 1.46,
-                "rotation_y": 260,
+                "position_x": 1.05,
+                "position_z": 1.15,
+                "rotation_y": 280,
                 "shape": "chest",
                 "texture_color_list": [
                     "brown"
@@ -1921,9 +2067,9 @@
                 "visible": true
             },
             {
-                "direction_x": 0.2,
+                "direction_x": 0.12,
                 "direction_y": -0.86,
-                "direction_z": -0.46,
+                "direction_z": -0.49,
                 "distance": 0.88,
                 "held": false,
                 "id": "rotating_cog_a",
@@ -1933,25 +2079,25 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 1.5,
-                "rotation_y": 260,
+                "rotation_y": 280,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
             },
             {
-                "direction_x": 0.83,
-                "direction_y": -0.45,
-                "direction_z": -0.34,
-                "distance": 1.33,
+                "direction_x": 0.7,
+                "direction_y": -0.43,
+                "direction_z": -0.57,
+                "distance": 1.37,
                 "held": false,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": 1.12,
-                "position_z": 1.46,
-                "rotation_y": 260,
+                "position_x": 1.05,
+                "position_z": 1.15,
+                "rotation_y": 280,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -1961,158 +2107,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": 0.02,
-        "position_z": 1.91,
-        "resolved_object": "",
-        "resolved_receptacle": "",
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 130,
-        "step_number": 26,
-        "structural_objects_count": 6
-    },
-    {
-        "head_tilt": 30,
-        "objects": [
-            {
-                "direction_x": 0.71,
-                "direction_y": -0.57,
-                "direction_z": -0.42,
-                "distance": 1.33,
-                "held": false,
-                "id": "chest",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 1.1,
-                "position_z": 1.3,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "brown"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.05,
-                "direction_y": -0.9,
-                "direction_z": -0.43,
-                "distance": 0.84,
-                "held": false,
-                "id": "rotating_cog_a",
-                "mass": 10.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.2,
-                "position_z": 1.5,
-                "rotation_y": 270,
-                "shape": "structural",
-                "texture_color_list": [],
-                "visible": true
-            },
-            {
-                "direction_x": 0.76,
-                "direction_y": -0.48,
-                "direction_z": -0.45,
-                "distance": 1.24,
-                "held": false,
-                "id": "soccer_ball",
-                "mass": 1.0,
-                "material_list": [
-                    "PLASTIC"
-                ],
-                "position_x": 1.1,
-                "position_z": 1.3,
-                "rotation_y": 270,
-                "shape": "ball",
-                "texture_color_list": [
-                    "white",
-                    "black"
-                ],
-                "visible": false
-            }
-        ],
-        "objects_count": 2,
-        "position_x": 0.16,
-        "position_z": 1.86,
+        "position_x": 0.1,
+        "position_z": 1.93,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 140,
-        "step_number": 27,
-        "structural_objects_count": 6
-    },
-    {
-        "head_tilt": 30,
-        "objects": [
-            {
-                "direction_x": 0.62,
-                "direction_y": -0.61,
-                "direction_z": -0.5,
-                "distance": 1.26,
-                "held": false,
-                "id": "chest",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 1.05,
-                "position_z": 1.15,
-                "rotation_y": 280,
-                "shape": "chest",
-                "texture_color_list": [
-                    "brown"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": -0.09,
-                "direction_y": -0.94,
-                "direction_z": -0.34,
-                "distance": 0.81,
-                "held": false,
-                "id": "rotating_cog_a",
-                "mass": 10.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.2,
-                "position_z": 1.5,
-                "rotation_y": 280,
-                "shape": "structural",
-                "texture_color_list": [],
-                "visible": true
-            },
-            {
-                "direction_x": 0.67,
-                "direction_y": -0.51,
-                "direction_z": -0.54,
-                "distance": 1.16,
-                "held": false,
-                "id": "soccer_ball",
-                "mass": 1.0,
-                "material_list": [
-                    "PLASTIC"
-                ],
-                "position_x": 1.05,
-                "position_z": 1.15,
-                "rotation_y": 280,
-                "shape": "ball",
-                "texture_color_list": [
-                    "white",
-                    "black"
-                ],
-                "visible": false
-            }
-        ],
-        "objects_count": 2,
-        "position_x": 0.27,
-        "position_z": 1.77,
-        "resolved_object": "",
-        "resolved_receptacle": "",
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 150,
         "step_number": 28,
         "structural_objects_count": 6
     },
@@ -2120,10 +2120,10 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.53,
-                "direction_y": -0.64,
-                "direction_z": -0.56,
-                "distance": 1.18,
+                "direction_x": 0.55,
+                "direction_y": -0.56,
+                "direction_z": -0.62,
+                "distance": 1.37,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -2140,10 +2140,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.19,
-                "direction_y": -0.96,
-                "direction_z": -0.2,
-                "distance": 0.79,
+                "direction_x": -0.03,
+                "direction_y": -0.9,
+                "direction_z": -0.43,
+                "distance": 0.84,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -2159,9 +2159,9 @@
             },
             {
                 "direction_x": 0.58,
-                "direction_y": -0.55,
-                "direction_z": -0.61,
-                "distance": 1.08,
+                "direction_y": -0.46,
+                "direction_z": -0.67,
+                "distance": 1.28,
                 "held": false,
                 "id": "soccer_ball",
                 "mass": 1.0,
@@ -2180,12 +2180,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": 0.35,
-        "position_z": 1.66,
+        "position_x": 0.22,
+        "position_z": 1.86,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 160,
+        "rotation_y": 150,
         "step_number": 29,
         "structural_objects_count": 6
     },
@@ -2193,10 +2193,10 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.42,
-                "direction_y": -0.64,
-                "direction_z": -0.64,
-                "distance": 1.18,
+                "direction_x": 0.43,
+                "direction_y": -0.59,
+                "direction_z": -0.68,
+                "distance": 1.29,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -2206,6 +2206,79 @@
                 "position_x": 0.88,
                 "position_z": 0.88,
                 "rotation_y": 300,
+                "shape": "chest",
+                "texture_color_list": [
+                    "brown"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.15,
+                "direction_y": -0.94,
+                "direction_z": -0.32,
+                "distance": 0.81,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 1.5,
+                "rotation_y": 300,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.46,
+                "direction_y": -0.49,
+                "direction_z": -0.73,
+                "distance": 1.2,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.88,
+                "position_z": 0.88,
+                "rotation_y": 300,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.32,
+        "position_z": 1.76,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 160,
+        "step_number": 30,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.31,
+                "direction_y": -0.63,
+                "direction_z": -0.71,
+                "distance": 1.21,
+                "held": false,
+                "id": "chest",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.76,
+                "position_z": 0.77,
+                "rotation_y": 310,
                 "shape": "chest",
                 "texture_color_list": [
                     "brown"
@@ -2225,25 +2298,25 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 1.5,
-                "rotation_y": 300,
+                "rotation_y": 310,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
             },
             {
-                "direction_x": 0.46,
-                "direction_y": -0.55,
-                "direction_z": -0.7,
-                "distance": 1.08,
+                "direction_x": 0.34,
+                "direction_y": -0.53,
+                "direction_z": -0.77,
+                "distance": 1.12,
                 "held": false,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": 0.88,
-                "position_z": 0.88,
-                "rotation_y": 300,
+                "position_x": 0.76,
+                "position_z": 0.77,
+                "rotation_y": 310,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -2258,27 +2331,27 @@
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 160,
-        "step_number": 30,
+        "rotation_y": 170,
+        "step_number": 31,
         "structural_objects_count": 6
     },
     {
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.3,
-                "direction_y": -0.64,
-                "direction_z": -0.7,
-                "distance": 1.18,
+                "direction_x": 0.18,
+                "direction_y": -0.63,
+                "direction_z": -0.76,
+                "distance": 1.21,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": 0.76,
-                "position_z": 0.77,
-                "rotation_y": 310,
+                "position_x": 0.63,
+                "position_z": 0.68,
+                "rotation_y": 320,
                 "shape": "chest",
                 "texture_color_list": [
                     "brown"
@@ -2298,25 +2371,25 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 1.5,
-                "rotation_y": 310,
+                "rotation_y": 320,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
             },
             {
-                "direction_x": 0.33,
-                "direction_y": -0.55,
-                "direction_z": -0.77,
-                "distance": 1.08,
+                "direction_x": 0.2,
+                "direction_y": -0.53,
+                "direction_z": -0.82,
+                "distance": 1.12,
                 "held": false,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": 0.76,
-                "position_z": 0.77,
-                "rotation_y": 310,
+                "position_x": 0.63,
+                "position_z": 0.68,
+                "rotation_y": 320,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -2331,27 +2404,27 @@
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 160,
-        "step_number": 31,
+        "rotation_y": 170,
+        "step_number": 32,
         "structural_objects_count": 6
     },
     {
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.18,
-                "direction_y": -0.64,
-                "direction_z": -0.74,
-                "distance": 1.18,
+                "direction_x": 0.05,
+                "direction_y": -0.63,
+                "direction_z": -0.78,
+                "distance": 1.21,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": 0.63,
-                "position_z": 0.68,
-                "rotation_y": 320,
+                "position_x": 0.48,
+                "position_z": 0.62,
+                "rotation_y": 330,
                 "shape": "chest",
                 "texture_color_list": [
                     "brown"
@@ -2371,60 +2444,60 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 1.5,
-                "rotation_y": 320,
+                "rotation_y": 330,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
             },
             {
-                "direction_x": 0.19,
-                "direction_y": -0.55,
-                "direction_z": -0.81,
-                "distance": 1.08,
+                "direction_x": 0.06,
+                "direction_y": -0.53,
+                "direction_z": -0.85,
+                "distance": 1.12,
                 "held": false,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": 0.63,
-                "position_z": 0.68,
-                "rotation_y": 320,
+                "position_x": 0.48,
+                "position_z": 0.62,
+                "rotation_y": 330,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
                     "black"
                 ],
-                "visible": true
+                "visible": false
             }
         ],
         "objects_count": 2,
-        "position_x": 0.41,
+        "position_x": 0.42,
         "position_z": 1.56,
-        "resolved_object": "chest",
+        "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 170,
-        "step_number": 32,
+        "step_number": 33,
         "structural_objects_count": 6
     },
     {
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.05,
-                "direction_y": -0.64,
-                "direction_z": -0.76,
-                "distance": 1.18,
+                "direction_x": -0.09,
+                "direction_y": -0.63,
+                "direction_z": -0.77,
+                "distance": 1.21,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": 0.48,
-                "position_z": 0.62,
-                "rotation_y": 330,
+                "position_x": 0.32,
+                "position_z": 0.59,
+                "rotation_y": 340,
                 "shape": "chest",
                 "texture_color_list": [
                     "brown"
@@ -2444,25 +2517,25 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 1.5,
-                "rotation_y": 330,
+                "rotation_y": 340,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
             },
             {
-                "direction_x": 0.0,
-                "direction_y": -0.48,
-                "direction_z": -0.88,
-                "distance": 0.4,
-                "held": true,
+                "direction_x": -0.09,
+                "direction_y": -0.53,
+                "direction_z": -0.84,
+                "distance": 1.12,
+                "held": false,
                 "id": "soccer_ball",
                 "mass": 1.0,
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": 0.42,
-                "position_z": 1.17,
-                "rotation_y": 180,
+                "position_x": 0.32,
+                "position_z": 0.59,
+                "rotation_y": 340,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -2474,30 +2547,30 @@
         "objects_count": 2,
         "position_x": 0.42,
         "position_z": 1.53,
-        "resolved_object": "soccer_ball",
+        "resolved_object": "chest",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 180,
-        "step_number": 33,
+        "step_number": 34,
         "structural_objects_count": 6
     },
     {
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": -0.09,
-                "direction_y": -0.64,
-                "direction_z": -0.76,
-                "distance": 1.18,
+                "direction_x": -0.22,
+                "direction_y": -0.63,
+                "direction_z": -0.75,
+                "distance": 1.21,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": 0.32,
-                "position_z": 0.59,
-                "rotation_y": 340,
+                "position_x": 0.16,
+                "position_z": 0.58,
+                "rotation_y": 350,
                 "shape": "chest",
                 "texture_color_list": [
                     "brown"
@@ -2517,7 +2590,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 1.5,
-                "rotation_y": 340,
+                "rotation_y": 350,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -2547,83 +2620,10 @@
         "objects_count": 2,
         "position_x": 0.42,
         "position_z": 1.49,
-        "resolved_object": "chest",
+        "resolved_object": "soccer_ball",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 190,
-        "step_number": 34,
-        "structural_objects_count": 6
-    },
-    {
-        "head_tilt": 30,
-        "objects": [
-            {
-                "direction_x": -0.3,
-                "direction_y": -0.64,
-                "direction_z": -0.71,
-                "distance": 1.18,
-                "held": false,
-                "id": "chest",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.16,
-                "position_z": 0.58,
-                "rotation_y": 350,
-                "shape": "chest",
-                "texture_color_list": [
-                    "brown"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": -0.38,
-                "direction_y": -0.92,
-                "direction_z": 0.1,
-                "distance": 0.83,
-                "held": false,
-                "id": "rotating_cog_a",
-                "mass": 10.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.2,
-                "position_z": 1.5,
-                "rotation_y": 350,
-                "shape": "structural",
-                "texture_color_list": [],
-                "visible": true
-            },
-            {
-                "direction_x": -0.3,
-                "direction_y": -0.48,
-                "direction_z": -0.83,
-                "distance": 0.4,
-                "held": true,
-                "id": "soccer_ball",
-                "mass": 1.0,
-                "material_list": [
-                    "PLASTIC"
-                ],
-                "position_x": 0.39,
-                "position_z": 1.08,
-                "rotation_y": 200,
-                "shape": "ball",
-                "texture_color_list": [
-                    "white",
-                    "black"
-                ],
-                "visible": true
-            }
-        ],
-        "objects_count": 2,
-        "position_x": 0.51,
-        "position_z": 1.41,
-        "resolved_object": "",
-        "resolved_receptacle": "",
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 200,
         "step_number": 35,
         "structural_objects_count": 6
     },
@@ -2631,10 +2631,10 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": -0.49,
-                "direction_y": -0.64,
-                "direction_z": -0.6,
-                "distance": 1.19,
+                "direction_x": -0.34,
+                "direction_y": -0.63,
+                "direction_z": -0.7,
+                "distance": 1.21,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -2651,10 +2651,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.43,
-                "direction_y": -0.87,
-                "direction_z": 0.22,
-                "distance": 0.87,
+                "direction_x": -0.27,
+                "direction_y": -0.96,
+                "direction_z": 0.07,
+                "distance": 0.79,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -2669,9 +2669,9 @@
                 "visible": true
             },
             {
-                "direction_x": -0.44,
+                "direction_x": -0.3,
                 "direction_y": -0.48,
-                "direction_z": -0.76,
+                "direction_z": -0.83,
                 "distance": 0.4,
                 "held": true,
                 "id": "soccer_ball",
@@ -2679,9 +2679,9 @@
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": 0.4,
-                "position_z": 1.01,
-                "rotation_y": 210,
+                "position_x": 0.3,
+                "position_z": 1.12,
+                "rotation_y": 200,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -2691,12 +2691,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": 0.58,
-        "position_z": 1.31,
-        "resolved_object": "",
+        "position_x": 0.42,
+        "position_z": 1.45,
+        "resolved_object": "chest",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 210,
+        "rotation_y": 200,
         "step_number": 36,
         "structural_objects_count": 6
     },
@@ -2704,10 +2704,10 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": -0.64,
-                "direction_y": -0.64,
-                "direction_z": -0.44,
-                "distance": 1.21,
+                "direction_x": -0.53,
+                "direction_y": -0.62,
+                "direction_z": -0.58,
+                "distance": 1.23,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -2724,10 +2724,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.45,
-                "direction_y": -0.82,
-                "direction_z": 0.34,
-                "distance": 0.92,
+                "direction_x": -0.35,
+                "direction_y": -0.92,
+                "direction_z": 0.17,
+                "distance": 0.83,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -2742,9 +2742,9 @@
                 "visible": true
             },
             {
-                "direction_x": -0.57,
+                "direction_x": -0.44,
                 "direction_y": -0.48,
-                "direction_z": -0.67,
+                "direction_z": -0.76,
                 "distance": 0.4,
                 "held": true,
                 "id": "soccer_ball",
@@ -2752,9 +2752,9 @@
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": 0.39,
-                "position_z": 0.92,
-                "rotation_y": 220,
+                "position_x": 0.32,
+                "position_z": 1.06,
+                "rotation_y": 210,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -2764,12 +2764,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": 0.62,
-        "position_z": 1.18,
+        "position_x": 0.49,
+        "position_z": 1.36,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 220,
+        "rotation_y": 210,
         "step_number": 37,
         "structural_objects_count": 6
     },
@@ -2777,10 +2777,10 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": -0.74,
+                "direction_x": -0.67,
                 "direction_y": -0.62,
-                "direction_z": -0.26,
-                "distance": 1.23,
+                "direction_z": -0.42,
+                "distance": 1.25,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -2797,10 +2797,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.43,
-                "direction_y": -0.77,
-                "direction_z": 0.47,
-                "distance": 0.98,
+                "direction_x": -0.39,
+                "direction_y": -0.87,
+                "direction_z": 0.29,
+                "distance": 0.87,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -2815,9 +2815,9 @@
                 "visible": true
             },
             {
-                "direction_x": -0.67,
+                "direction_x": -0.57,
                 "direction_y": -0.48,
-                "direction_z": -0.57,
+                "direction_z": -0.67,
                 "distance": 0.4,
                 "held": true,
                 "id": "soccer_ball",
@@ -2825,9 +2825,9 @@
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": 0.35,
-                "position_z": 0.81,
-                "rotation_y": 230,
+                "position_x": 0.31,
+                "position_z": 0.98,
+                "rotation_y": 220,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -2837,12 +2837,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": 0.62,
-        "position_z": 1.04,
+        "position_x": 0.54,
+        "position_z": 1.25,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 230,
+        "rotation_y": 220,
         "step_number": 38,
         "structural_objects_count": 6
     },
@@ -2850,10 +2850,10 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": -0.8,
+                "direction_x": -0.77,
                 "direction_y": -0.6,
-                "direction_z": -0.05,
-                "distance": 1.26,
+                "direction_z": -0.23,
+                "distance": 1.27,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -2870,10 +2870,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.36,
-                "direction_y": -0.73,
-                "direction_z": 0.58,
-                "distance": 1.05,
+                "direction_x": -0.38,
+                "direction_y": -0.82,
+                "direction_z": 0.42,
+                "distance": 0.92,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -2888,9 +2888,9 @@
                 "visible": true
             },
             {
-                "direction_x": -0.76,
+                "direction_x": -0.67,
                 "direction_y": -0.48,
-                "direction_z": -0.44,
+                "direction_z": -0.57,
                 "distance": 0.4,
                 "held": true,
                 "id": "soccer_ball",
@@ -2899,8 +2899,8 @@
                     "PLASTIC"
                 ],
                 "position_x": 0.28,
-                "position_z": 0.71,
-                "rotation_y": 240,
+                "position_z": 0.89,
+                "rotation_y": 230,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -2910,12 +2910,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": 0.58,
-        "position_z": 0.89,
+        "position_x": 0.56,
+        "position_z": 1.12,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 240,
+        "rotation_y": 230,
         "step_number": 39,
         "structural_objects_count": 6
     },
@@ -2923,9 +2923,9 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": -0.8,
+                "direction_x": -0.81,
                 "direction_y": -0.58,
-                "direction_z": 0.16,
+                "direction_z": -0.03,
                 "distance": 1.3,
                 "held": false,
                 "id": "chest",
@@ -2943,10 +2943,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.27,
-                "direction_y": -0.68,
-                "direction_z": 0.68,
-                "distance": 1.12,
+                "direction_x": -0.34,
+                "direction_y": -0.77,
+                "direction_z": 0.53,
+                "distance": 0.98,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -2961,9 +2961,9 @@
                 "visible": true
             },
             {
-                "direction_x": -0.83,
+                "direction_x": -0.76,
                 "direction_y": -0.48,
-                "direction_z": -0.3,
+                "direction_z": -0.44,
                 "distance": 0.4,
                 "held": true,
                 "id": "soccer_ball",
@@ -2971,9 +2971,9 @@
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": 0.18,
-                "position_z": 0.62,
-                "rotation_y": 250,
+                "position_x": 0.23,
+                "position_z": 0.8,
+                "rotation_y": 240,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -2983,12 +2983,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": 0.51,
-        "position_z": 0.74,
+        "position_x": 0.53,
+        "position_z": 0.97,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 250,
+        "rotation_y": 240,
         "step_number": 40,
         "structural_objects_count": 6
     },
@@ -2996,9 +2996,9 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": -0.74,
+                "direction_x": -0.81,
                 "direction_y": -0.57,
-                "direction_z": 0.35,
+                "direction_z": 0.18,
                 "distance": 1.35,
                 "held": false,
                 "id": "chest",
@@ -3016,10 +3016,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.15,
-                "direction_y": -0.64,
-                "direction_z": 0.76,
-                "distance": 1.2,
+                "direction_x": -0.26,
+                "direction_y": -0.73,
+                "direction_z": 0.64,
+                "distance": 1.05,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -3034,9 +3034,9 @@
                 "visible": true
             },
             {
-                "direction_x": -0.87,
+                "direction_x": -0.83,
                 "direction_y": -0.48,
-                "direction_z": -0.15,
+                "direction_z": -0.3,
                 "distance": 0.4,
                 "held": true,
                 "id": "soccer_ball",
@@ -3044,9 +3044,9 @@
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": 0.04,
-                "position_z": 0.54,
-                "rotation_y": 260,
+                "position_x": 0.14,
+                "position_z": 0.71,
+                "rotation_y": 250,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -3056,12 +3056,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": 0.39,
-        "position_z": 0.6,
+        "position_x": 0.47,
+        "position_z": 0.83,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 260,
+        "rotation_y": 250,
         "step_number": 41,
         "structural_objects_count": 6
     },
@@ -3069,9 +3069,9 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": -0.65,
+                "direction_x": -0.75,
                 "direction_y": -0.54,
-                "direction_z": 0.53,
+                "direction_z": 0.38,
                 "distance": 1.4,
                 "held": false,
                 "id": "chest",
@@ -3089,10 +3089,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.03,
-                "direction_y": -0.6,
-                "direction_z": 0.8,
-                "distance": 1.28,
+                "direction_x": -0.15,
+                "direction_y": -0.68,
+                "direction_z": 0.72,
+                "distance": 1.12,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -3107,9 +3107,9 @@
                 "visible": true
             },
             {
-                "direction_x": -0.88,
+                "direction_x": -0.87,
                 "direction_y": -0.48,
-                "direction_z": 0.0,
+                "direction_z": -0.15,
                 "distance": 0.4,
                 "held": true,
                 "id": "soccer_ball",
@@ -3117,9 +3117,9 @@
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": -0.13,
-                "position_z": 0.48,
-                "rotation_y": 270,
+                "position_x": 0.02,
+                "position_z": 0.63,
+                "rotation_y": 260,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -3129,12 +3129,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": 0.23,
-        "position_z": 0.48,
+        "position_x": 0.37,
+        "position_z": 0.69,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 270,
+        "rotation_y": 260,
         "step_number": 42,
         "structural_objects_count": 6
     },
@@ -3142,9 +3142,9 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": -0.51,
+                "direction_x": -0.65,
                 "direction_y": -0.52,
-                "direction_z": 0.68,
+                "direction_z": 0.55,
                 "distance": 1.45,
                 "held": false,
                 "id": "chest",
@@ -3162,10 +3162,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.13,
-                "direction_y": -0.56,
-                "direction_z": 0.82,
-                "distance": 1.36,
+                "direction_x": -0.02,
+                "direction_y": -0.64,
+                "direction_z": 0.77,
+                "distance": 1.2,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -3182,7 +3182,7 @@
             {
                 "direction_x": -0.87,
                 "direction_y": -0.48,
-                "direction_z": 0.15,
+                "direction_z": 0.0,
                 "distance": 0.4,
                 "held": true,
                 "id": "soccer_ball",
@@ -3190,9 +3190,9 @@
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": -0.32,
-                "position_z": 0.45,
-                "rotation_y": 280,
+                "position_x": -0.13,
+                "position_z": 0.58,
+                "rotation_y": 270,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -3202,12 +3202,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": 0.03,
-        "position_z": 0.39,
+        "position_x": 0.23,
+        "position_z": 0.58,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 280,
+        "rotation_y": 270,
         "step_number": 43,
         "structural_objects_count": 6
     },
@@ -3215,10 +3215,10 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": -0.34,
-                "direction_y": -0.55,
-                "direction_z": 0.77,
-                "distance": 1.39,
+                "direction_x": -0.51,
+                "direction_y": -0.5,
+                "direction_z": 0.7,
+                "distance": 1.51,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -3235,10 +3235,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.33,
-                "direction_y": -0.56,
-                "direction_z": 0.76,
-                "distance": 1.36,
+                "direction_x": 0.12,
+                "direction_y": -0.6,
+                "direction_z": 0.79,
+                "distance": 1.28,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -3253,9 +3253,9 @@
                 "visible": true
             },
             {
-                "direction_x": -0.83,
+                "direction_x": -0.87,
                 "direction_y": -0.48,
-                "direction_z": 0.3,
+                "direction_z": 0.15,
                 "distance": 0.4,
                 "held": true,
                 "id": "soccer_ball",
@@ -3263,9 +3263,9 @@
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": -0.58,
-                "position_z": 0.59,
-                "rotation_y": 290,
+                "position_x": -0.3,
+                "position_z": 0.55,
+                "rotation_y": 280,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -3275,12 +3275,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": -0.25,
-        "position_z": 0.47,
+        "position_x": 0.05,
+        "position_z": 0.49,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 290,
+        "rotation_y": 280,
         "step_number": 44,
         "structural_objects_count": 6
     },
@@ -3288,10 +3288,10 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": -0.14,
-                "direction_y": -0.57,
+                "direction_x": -0.34,
+                "direction_y": -0.49,
                 "direction_z": 0.81,
-                "distance": 1.35,
+                "distance": 1.57,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -3308,9 +3308,9 @@
                 "visible": true
             },
             {
-                "direction_x": 0.52,
+                "direction_x": 0.27,
                 "direction_y": -0.56,
-                "direction_z": 0.65,
+                "direction_z": 0.78,
                 "distance": 1.37,
                 "held": false,
                 "id": "rotating_cog_a",
@@ -3326,9 +3326,9 @@
                 "visible": true
             },
             {
-                "direction_x": -0.76,
+                "direction_x": -0.83,
                 "direction_y": -0.48,
-                "direction_z": 0.44,
+                "direction_z": 0.3,
                 "distance": 0.4,
                 "held": true,
                 "id": "soccer_ball",
@@ -3336,9 +3336,9 @@
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": -0.82,
-                "position_z": 0.79,
-                "rotation_y": 300,
+                "position_x": -0.49,
+                "position_z": 0.56,
+                "rotation_y": 290,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -3348,12 +3348,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": -0.51,
-        "position_z": 0.62,
+        "position_x": -0.16,
+        "position_z": 0.44,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 300,
+        "rotation_y": 290,
         "step_number": 45,
         "structural_objects_count": 6
     },
@@ -3361,10 +3361,10 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.06,
-                "direction_y": -0.59,
-                "direction_z": 0.8,
-                "distance": 1.29,
+                "direction_x": -0.15,
+                "direction_y": -0.5,
+                "direction_z": 0.85,
+                "distance": 1.51,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -3381,10 +3381,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.67,
-                "direction_y": -0.55,
-                "direction_z": 0.49,
-                "distance": 1.38,
+                "direction_x": 0.46,
+                "direction_y": -0.56,
+                "direction_z": 0.69,
+                "distance": 1.36,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -3399,9 +3399,9 @@
                 "visible": true
             },
             {
-                "direction_x": -0.67,
+                "direction_x": -0.76,
                 "direction_y": -0.48,
-                "direction_z": 0.57,
+                "direction_z": 0.44,
                 "distance": 0.4,
                 "held": true,
                 "id": "soccer_ball",
@@ -3409,9 +3409,9 @@
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": -1.0,
-                "position_z": 1.04,
-                "rotation_y": 310,
+                "position_x": -0.73,
+                "position_z": 0.74,
+                "rotation_y": 300,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -3421,12 +3421,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": -0.73,
-        "position_z": 0.82,
+        "position_x": -0.43,
+        "position_z": 0.57,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 310,
+        "rotation_y": 300,
         "step_number": 46,
         "structural_objects_count": 6
     },
@@ -3434,10 +3434,10 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.26,
-                "direction_y": -0.61,
-                "direction_z": 0.75,
-                "distance": 1.25,
+                "direction_x": 0.05,
+                "direction_y": -0.52,
+                "direction_z": 0.85,
+                "distance": 1.46,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -3454,10 +3454,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.78,
-                "direction_y": -0.54,
-                "direction_z": 0.31,
-                "distance": 1.41,
+                "direction_x": 0.63,
+                "direction_y": -0.56,
+                "direction_z": 0.55,
+                "distance": 1.37,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -3467,6 +3467,79 @@
                 "position_x": 0.2,
                 "position_z": 1.5,
                 "rotation_y": 110,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.67,
+                "direction_y": -0.48,
+                "direction_z": 0.57,
+                "distance": 0.4,
+                "held": true,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": -0.92,
+                "position_z": 0.98,
+                "rotation_y": 310,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": -0.65,
+        "position_z": 0.75,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 310,
+        "step_number": 47,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.25,
+                "direction_y": -0.54,
+                "direction_z": 0.8,
+                "distance": 1.41,
+                "held": false,
+                "id": "chest",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": -0.48,
+                "position_z": 2.12,
+                "rotation_y": 120,
+                "shape": "chest",
+                "texture_color_list": [
+                    "brown"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.75,
+                "direction_y": -0.55,
+                "direction_z": 0.37,
+                "distance": 1.38,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 1.5,
+                "rotation_y": 120,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -3482,8 +3555,8 @@
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": -1.13,
-                "position_z": 1.33,
+                "position_x": -1.06,
+                "position_z": 1.26,
                 "rotation_y": 320,
                 "shape": "ball",
                 "texture_color_list": [
@@ -3494,13 +3567,13 @@
             }
         ],
         "objects_count": 2,
-        "position_x": -0.9,
-        "position_z": 1.07,
+        "position_x": -0.84,
+        "position_z": 0.99,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 320,
-        "step_number": 47,
+        "step_number": 48,
         "structural_objects_count": 6
     },
     {
@@ -3508,29 +3581,29 @@
         "objects": [
             {
                 "direction_x": 0.44,
-                "direction_y": -0.63,
-                "direction_z": 0.64,
-                "distance": 1.21,
+                "direction_y": -0.56,
+                "direction_z": 0.71,
+                "distance": 1.37,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": -0.48,
-                "position_z": 2.12,
-                "rotation_y": 120,
+                "position_x": -0.36,
+                "position_z": 2.23,
+                "rotation_y": 130,
                 "shape": "chest",
                 "texture_color_list": [
                     "brown"
                 ],
-                "visible": false
+                "visible": true
             },
             {
-                "direction_x": 0.84,
-                "direction_y": -0.53,
-                "direction_z": 0.1,
-                "distance": 1.44,
+                "direction_x": 0.82,
+                "direction_y": -0.54,
+                "direction_z": 0.17,
+                "distance": 1.41,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -3539,7 +3612,7 @@
                 ],
                 "position_x": 0.2,
                 "position_z": 1.5,
-                "rotation_y": 120,
+                "rotation_y": 130,
                 "shape": "structural",
                 "texture_color_list": [],
                 "visible": true
@@ -3555,8 +3628,8 @@
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": -1.18,
-                "position_z": 1.65,
+                "position_x": -1.13,
+                "position_z": 1.57,
                 "rotation_y": 330,
                 "shape": "ball",
                 "texture_color_list": [
@@ -3567,85 +3640,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": -1.01,
-        "position_z": 1.35,
+        "position_x": -0.96,
+        "position_z": 1.26,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 330,
-        "step_number": 48,
-        "structural_objects_count": 6
-    },
-    {
-        "head_tilt": 30,
-        "objects": [
-            {
-                "direction_x": 0.59,
-                "direction_y": -0.65,
-                "direction_z": 0.49,
-                "distance": 1.18,
-                "held": false,
-                "id": "chest",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": -0.36,
-                "position_z": 2.23,
-                "rotation_y": 130,
-                "shape": "chest",
-                "texture_color_list": [
-                    "brown"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.85,
-                "direction_y": -0.52,
-                "direction_z": -0.11,
-                "distance": 1.47,
-                "held": false,
-                "id": "rotating_cog_a",
-                "mass": 10.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.2,
-                "position_z": 1.5,
-                "rotation_y": 130,
-                "shape": "structural",
-                "texture_color_list": [],
-                "visible": true
-            },
-            {
-                "direction_x": -0.3,
-                "direction_y": -0.48,
-                "direction_z": 0.83,
-                "distance": 0.4,
-                "held": true,
-                "id": "soccer_ball",
-                "mass": 1.0,
-                "material_list": [
-                    "PLASTIC"
-                ],
-                "position_x": -1.17,
-                "position_z": 1.99,
-                "rotation_y": 340,
-                "shape": "ball",
-                "texture_color_list": [
-                    "white",
-                    "black"
-                ],
-                "visible": true
-            }
-        ],
-        "objects_count": 2,
-        "position_x": -1.05,
-        "position_z": 1.66,
-        "resolved_object": "",
-        "resolved_receptacle": "",
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 340,
         "step_number": 49,
         "structural_objects_count": 6
     },
@@ -3653,10 +3653,10 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.69,
-                "direction_y": -0.66,
-                "direction_z": 0.3,
-                "distance": 1.16,
+                "direction_x": 0.59,
+                "direction_y": -0.57,
+                "direction_z": 0.57,
+                "distance": 1.33,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -3673,10 +3673,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.81,
-                "direction_y": -0.5,
-                "direction_z": -0.31,
-                "distance": 1.51,
+                "direction_x": 0.85,
+                "direction_y": -0.53,
+                "direction_z": -0.04,
+                "distance": 1.44,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -3691,9 +3691,9 @@
                 "visible": true
             },
             {
-                "direction_x": -0.15,
+                "direction_x": -0.3,
                 "direction_y": -0.48,
-                "direction_z": 0.87,
+                "direction_z": 0.83,
                 "distance": 0.4,
                 "held": true,
                 "id": "soccer_ball",
@@ -3701,9 +3701,9 @@
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": -1.08,
-                "position_z": 2.31,
-                "rotation_y": 350,
+                "position_x": -1.14,
+                "position_z": 1.89,
+                "rotation_y": 340,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -3714,11 +3714,11 @@
         ],
         "objects_count": 2,
         "position_x": -1.02,
-        "position_z": 1.97,
+        "position_z": 1.56,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 350,
+        "rotation_y": 340,
         "step_number": 50,
         "structural_objects_count": 6
     },
@@ -3726,10 +3726,10 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.74,
-                "direction_y": -0.67,
-                "direction_z": 0.09,
-                "distance": 1.14,
+                "direction_x": 0.71,
+                "direction_y": -0.58,
+                "direction_z": 0.39,
+                "distance": 1.3,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -3746,10 +3746,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.72,
-                "direction_y": -0.49,
-                "direction_z": -0.5,
-                "distance": 1.56,
+                "direction_x": 0.82,
+                "direction_y": -0.52,
+                "direction_z": -0.25,
+                "distance": 1.47,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -3764,9 +3764,9 @@
                 "visible": true
             },
             {
-                "direction_x": 0.0,
+                "direction_x": -0.15,
                 "direction_y": -0.48,
-                "direction_z": 0.88,
+                "direction_z": 0.87,
                 "distance": 0.4,
                 "held": true,
                 "id": "soccer_ball",
@@ -3774,9 +3774,9 @@
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": -0.92,
-                "position_z": 2.63,
-                "rotation_y": 0,
+                "position_x": -1.07,
+                "position_z": 2.22,
+                "rotation_y": 350,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -3786,12 +3786,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": -0.92,
-        "position_z": 2.27,
+        "position_x": -1.0,
+        "position_z": 1.87,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 0.0,
+        "rotation_y": 350,
         "step_number": 51,
         "structural_objects_count": 6
     },
@@ -3799,10 +3799,10 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.73,
-                "direction_y": -0.67,
-                "direction_z": -0.12,
-                "distance": 1.14,
+                "direction_x": 0.78,
+                "direction_y": -0.59,
+                "direction_z": 0.19,
+                "distance": 1.28,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -3819,10 +3819,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.59,
-                "direction_y": -0.47,
-                "direction_z": -0.65,
-                "distance": 1.61,
+                "direction_x": 0.74,
+                "direction_y": -0.5,
+                "direction_z": -0.45,
+                "distance": 1.51,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -3837,7 +3837,7 @@
                 "visible": true
             },
             {
-                "direction_x": 0.15,
+                "direction_x": 0.0,
                 "direction_y": -0.48,
                 "direction_z": 0.87,
                 "distance": 0.4,
@@ -3847,9 +3847,9 @@
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": -0.69,
-                "position_z": 2.9,
-                "rotation_y": 10,
+                "position_x": -0.92,
+                "position_z": 2.53,
+                "rotation_y": 0,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -3859,12 +3859,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": -0.75,
-        "position_z": 2.56,
+        "position_x": -0.92,
+        "position_z": 2.17,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 10,
+        "rotation_y": 0,
         "step_number": 52,
         "structural_objects_count": 6
     },
@@ -3872,10 +3872,10 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.67,
-                "direction_y": -0.67,
-                "direction_z": -0.33,
-                "distance": 1.14,
+                "direction_x": 0.8,
+                "direction_y": -0.6,
+                "direction_z": -0.03,
+                "distance": 1.27,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -3892,10 +3892,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.43,
-                "direction_y": -0.46,
-                "direction_z": -0.78,
-                "distance": 1.67,
+                "direction_x": 0.62,
+                "direction_y": -0.49,
+                "direction_z": -0.61,
+                "distance": 1.56,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -3910,9 +3910,9 @@
                 "visible": true
             },
             {
-                "direction_x": 0.3,
+                "direction_x": 0.15,
                 "direction_y": -0.48,
-                "direction_z": 0.83,
+                "direction_z": 0.87,
                 "distance": 0.4,
                 "held": true,
                 "id": "soccer_ball",
@@ -3920,9 +3920,9 @@
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": -0.4,
-                "position_z": 3.13,
-                "rotation_y": 20,
+                "position_x": -0.71,
+                "position_z": 2.8,
+                "rotation_y": 10,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -3932,12 +3932,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": -0.52,
-        "position_z": 2.8,
+        "position_x": -0.77,
+        "position_z": 2.46,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 20,
+        "rotation_y": 10,
         "step_number": 53,
         "structural_objects_count": 6
     },
@@ -3945,9 +3945,9 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.7,
+                "direction_x": 0.76,
                 "direction_y": -0.6,
-                "direction_z": -0.39,
+                "direction_z": -0.24,
                 "distance": 1.27,
                 "held": false,
                 "id": "chest",
@@ -3965,10 +3965,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.4,
-                "direction_y": -0.44,
-                "direction_z": -0.81,
-                "distance": 1.73,
+                "direction_x": 0.47,
+                "direction_y": -0.47,
+                "direction_z": -0.75,
+                "distance": 1.61,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -3993,8 +3993,8 @@
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": -0.37,
-                "position_z": 3.22,
+                "position_x": -0.44,
+                "position_z": 3.04,
                 "rotation_y": 20,
                 "shape": "ball",
                 "texture_color_list": [
@@ -4005,8 +4005,8 @@
             }
         ],
         "objects_count": 2,
-        "position_x": -0.49,
-        "position_z": 2.89,
+        "position_x": -0.56,
+        "position_z": 2.71,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
@@ -4018,10 +4018,10 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.71,
-                "direction_y": -0.54,
-                "direction_z": -0.45,
-                "distance": 1.41,
+                "direction_x": 0.66,
+                "direction_y": -0.6,
+                "direction_z": -0.44,
+                "distance": 1.26,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -4038,10 +4038,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.36,
-                "direction_y": -0.42,
-                "direction_z": -0.83,
-                "distance": 1.79,
+                "direction_x": 0.29,
+                "direction_y": -0.46,
+                "direction_z": -0.84,
+                "distance": 1.67,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -4056,9 +4056,9 @@
                 "visible": true
             },
             {
-                "direction_x": 0.3,
+                "direction_x": 0.44,
                 "direction_y": -0.48,
-                "direction_z": 0.83,
+                "direction_z": 0.76,
                 "distance": 0.4,
                 "held": true,
                 "id": "soccer_ball",
@@ -4066,9 +4066,9 @@
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": -0.33,
-                "position_z": 3.32,
-                "rotation_y": 20,
+                "position_x": -0.11,
+                "position_z": 3.21,
+                "rotation_y": 30,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -4078,12 +4078,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": -0.45,
-        "position_z": 2.99,
+        "position_x": -0.28,
+        "position_z": 2.9,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 20,
+        "rotation_y": 30,
         "step_number": 55,
         "structural_objects_count": 6
     },
@@ -4091,10 +4091,10 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.58,
-                "direction_y": -0.53,
-                "direction_z": -0.62,
-                "distance": 1.43,
+                "direction_x": 0.52,
+                "direction_y": -0.6,
+                "direction_z": -0.6,
+                "distance": 1.27,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -4111,10 +4111,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.18,
-                "direction_y": -0.41,
+                "direction_x": 0.1,
+                "direction_y": -0.44,
                 "direction_z": -0.89,
-                "distance": 1.86,
+                "distance": 1.73,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -4129,9 +4129,9 @@
                 "visible": true
             },
             {
-                "direction_x": 0.44,
+                "direction_x": 0.57,
                 "direction_y": -0.48,
-                "direction_z": 0.76,
+                "direction_z": 0.67,
                 "distance": 0.4,
                 "held": true,
                 "id": "soccer_ball",
@@ -4139,9 +4139,9 @@
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": 0.04,
-                "position_z": 3.47,
-                "rotation_y": 30,
+                "position_x": 0.26,
+                "position_z": 3.31,
+                "rotation_y": 40,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -4151,12 +4151,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": -0.13,
-        "position_z": 3.16,
+        "position_x": 0.03,
+        "position_z": 3.04,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 30,
+        "rotation_y": 40,
         "step_number": 56,
         "structural_objects_count": 6
     },
@@ -4164,10 +4164,10 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.57,
-                "direction_y": -0.47,
-                "direction_z": -0.68,
-                "distance": 1.6,
+                "direction_x": 0.35,
+                "direction_y": -0.59,
+                "direction_z": -0.73,
+                "distance": 1.29,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -4184,10 +4184,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.15,
-                "direction_y": -0.39,
-                "direction_z": -0.91,
-                "distance": 1.93,
+                "direction_x": -0.1,
+                "direction_y": -0.42,
+                "direction_z": -0.9,
+                "distance": 1.79,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -4202,9 +4202,9 @@
                 "visible": true
             },
             {
-                "direction_x": 0.44,
+                "direction_x": 0.67,
                 "direction_y": -0.48,
-                "direction_z": 0.76,
+                "direction_z": 0.57,
                 "distance": 0.4,
                 "held": true,
                 "id": "soccer_ball",
@@ -4212,9 +4212,9 @@
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": 0.09,
-                "position_z": 3.56,
-                "rotation_y": 30,
+                "position_x": 0.65,
+                "position_z": 3.34,
+                "rotation_y": 50,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -4224,12 +4224,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": -0.08,
-        "position_z": 3.25,
+        "position_x": 0.38,
+        "position_z": 3.11,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 30,
+        "rotation_y": 50,
         "step_number": 57,
         "structural_objects_count": 6
     },
@@ -4237,10 +4237,10 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.39,
-                "direction_y": -0.47,
-                "direction_z": -0.79,
-                "distance": 1.63,
+                "direction_x": 0.14,
+                "direction_y": -0.58,
+                "direction_z": -0.8,
+                "distance": 1.31,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -4257,10 +4257,10 @@
                 "visible": false
             },
             {
-                "direction_x": -0.04,
-                "direction_y": -0.38,
-                "direction_z": -0.92,
-                "distance": 2.0,
+                "direction_x": -0.29,
+                "direction_y": -0.41,
+                "direction_z": -0.87,
+                "distance": 1.86,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -4275,9 +4275,9 @@
                 "visible": true
             },
             {
-                "direction_x": 0.57,
+                "direction_x": 0.76,
                 "direction_y": -0.48,
-                "direction_z": 0.67,
+                "direction_z": 0.44,
                 "distance": 0.4,
                 "held": true,
                 "id": "soccer_ball",
@@ -4285,9 +4285,9 @@
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": 0.51,
-                "position_z": 3.62,
-                "rotation_y": 40,
+                "position_x": 1.05,
+                "position_z": 3.28,
+                "rotation_y": 60,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -4297,12 +4297,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": 0.29,
-        "position_z": 3.35,
+        "position_x": 0.74,
+        "position_z": 3.11,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 40,
+        "rotation_y": 60,
         "step_number": 58,
         "structural_objects_count": 6
     },
@@ -4310,10 +4310,10 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.37,
-                "direction_y": -0.42,
+                "direction_x": -0.07,
+                "direction_y": -0.57,
                 "direction_z": -0.83,
-                "distance": 1.81,
+                "distance": 1.34,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -4330,10 +4330,10 @@
                 "visible": false
             },
             {
-                "direction_x": -0.07,
-                "direction_y": -0.36,
-                "direction_z": -0.93,
-                "distance": 2.07,
+                "direction_x": -0.47,
+                "direction_y": -0.39,
+                "direction_z": -0.79,
+                "distance": 1.93,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -4348,9 +4348,9 @@
                 "visible": true
             },
             {
-                "direction_x": 0.57,
+                "direction_x": 0.83,
                 "direction_y": -0.48,
-                "direction_z": 0.67,
+                "direction_z": 0.3,
                 "distance": 0.4,
                 "held": true,
                 "id": "soccer_ball",
@@ -4358,9 +4358,9 @@
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": 0.58,
-                "position_z": 3.7,
-                "rotation_y": 40,
+                "position_x": 1.44,
+                "position_z": 3.14,
+                "rotation_y": 70,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -4370,12 +4370,12 @@
             }
         ],
         "objects_count": 2,
-        "position_x": 0.35,
-        "position_z": 3.43,
+        "position_x": 1.11,
+        "position_z": 3.02,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 40,
+        "rotation_y": 70,
         "step_number": 59,
         "structural_objects_count": 6
     },
@@ -4383,10 +4383,10 @@
         "head_tilt": 30,
         "objects": [
             {
-                "direction_x": 0.33,
-                "direction_y": -0.38,
-                "direction_z": -0.86,
-                "distance": 2.0,
+                "direction_x": -0.27,
+                "direction_y": -0.55,
+                "direction_z": -0.79,
+                "distance": 1.37,
                 "held": false,
                 "id": "chest",
                 "mass": 15.0,
@@ -4403,10 +4403,10 @@
                 "visible": false
             },
             {
-                "direction_x": -0.1,
-                "direction_y": -0.35,
-                "direction_z": -0.93,
-                "distance": 2.15,
+                "direction_x": -0.63,
+                "direction_y": -0.38,
+                "direction_z": -0.68,
+                "distance": 2.0,
                 "held": false,
                 "id": "rotating_cog_a",
                 "mass": 10.0,
@@ -4421,9 +4421,9 @@
                 "visible": true
             },
             {
-                "direction_x": 0.57,
+                "direction_x": 0.87,
                 "direction_y": -0.48,
-                "direction_z": 0.67,
+                "direction_z": 0.15,
                 "distance": 0.4,
                 "held": true,
                 "id": "soccer_ball",
@@ -4431,9 +4431,9 @@
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": 0.64,
-                "position_z": 3.77,
-                "rotation_y": 40,
+                "position_x": 1.8,
+                "position_z": 2.92,
+                "rotation_y": 80,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -4443,13 +4443,159 @@
             }
         ],
         "objects_count": 2,
-        "position_x": 0.42,
-        "position_z": 3.5,
+        "position_x": 1.46,
+        "position_z": 2.86,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
-        "rotation_y": 40,
+        "rotation_y": 80,
         "step_number": 60,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": -0.29,
+                "direction_y": -0.49,
+                "direction_z": -0.83,
+                "distance": 1.53,
+                "held": false,
+                "id": "chest",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 1.11,
+                "position_z": 1.62,
+                "rotation_y": 250,
+                "shape": "chest",
+                "texture_color_list": [
+                    "brown"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": -0.65,
+                "direction_y": -0.36,
+                "direction_z": -0.66,
+                "distance": 2.07,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 1.5,
+                "rotation_y": 250,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.87,
+                "direction_y": -0.48,
+                "direction_z": 0.15,
+                "distance": 0.4,
+                "held": true,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.9,
+                "position_z": 2.94,
+                "rotation_y": 80,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 1.56,
+        "position_z": 2.88,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 80,
+        "step_number": 61,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": -0.31,
+                "direction_y": -0.44,
+                "direction_z": -0.84,
+                "distance": 1.71,
+                "held": false,
+                "id": "chest",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 1.12,
+                "position_z": 1.46,
+                "rotation_y": 260,
+                "shape": "chest",
+                "texture_color_list": [
+                    "brown"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": -0.68,
+                "direction_y": -0.35,
+                "direction_z": -0.65,
+                "distance": 2.15,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 1.5,
+                "rotation_y": 260,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.87,
+                "direction_y": -0.48,
+                "direction_z": 0.15,
+                "distance": 0.4,
+                "held": true,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 2.0,
+                "position_z": 2.96,
+                "rotation_y": 80,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 1.65,
+        "position_z": 2.9,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 80,
+        "step_number": 62,
         "structural_objects_count": 6
     }
 ]
