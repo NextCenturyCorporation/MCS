@@ -76,6 +76,9 @@ class GoalMetadata:
         :mod:`Goal <machine_common_sense.GoalCategory>`.
     steps_allowed_in_lava : integer
         The number of steps allowed in lava before the scene ends
+    triggered_by_target_sequence : List of strings
+        The target sequence the performer must open containers to trigger
+        the targets placement by a placer for imitation tasks.
     """
 
     # Don't allow a user to call the EndHabituation action unless it's
@@ -97,7 +100,8 @@ class GoalMetadata:
         last_preview_phase_step=0,
         last_step=None,
         metadata=None,
-        steps_allowed_in_lava=0
+        steps_allowed_in_lava=0,
+        triggered_by_target_sequence=None
     ):
         # The action_list must be None by default
         self.action_list = action_list
@@ -108,6 +112,7 @@ class GoalMetadata:
         self.last_step = last_step
         self.metadata = {} if metadata is None else metadata
         self.steps_allowed_in_lava = steps_allowed_in_lava
+        self.triggered_by_target_sequence = triggered_by_target_sequence
 
     def __str__(self):
         return Stringifier.class_to_str(self)
@@ -124,6 +129,7 @@ class GoalMetadata:
         yield 'last_step', self.last_step
         # yield 'type_list', self.type_list
         yield 'metadata', self.metadata
+        yield 'triggered_by_target_sequence', self.triggered_by_target_sequence
 
     @typeguard.typechecked
     def retrieve_action_list_at_step(

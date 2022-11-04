@@ -493,7 +493,7 @@ class TestSceneConfig(unittest.TestCase):
                     'z': 0.43
                 }
             }],
-            "triggeredBy": ["obj_1", "obj_2"],
+            "triggeredBy": True,
             'togglePhysics': [{
                 'stepBegin': 27
             }],
@@ -719,7 +719,7 @@ class TestSceneConfig(unittest.TestCase):
             position=Vector3d(x=0.41, y=0.42, z=0.43)
         )])
         self.assertEqual(
-            object_2.triggered_by, ["obj_1", "obj_2"])
+            object_2.triggered_by, True)
         self.assertEqual(
             object_2.toggle_physics, [
                 SingleStepConfig(
