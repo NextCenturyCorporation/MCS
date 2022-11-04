@@ -403,7 +403,8 @@ class TestSceneConfig(unittest.TestCase):
                     'x': 0.07,
                     'y': 0.08,
                     'z': 0.09
-                }
+                },
+                'globalSpace': True
             }],
             'nullParent': {
                 'position': {
@@ -659,7 +660,8 @@ class TestSceneConfig(unittest.TestCase):
         self.assertEqual(object_2.moves, [MoveConfig(
             step_begin=16,
             step_end=17,
-            vector=Vector3d(x=0.07, y=0.08, z=0.09)
+            vector=Vector3d(x=0.07, y=0.08, z=0.09),
+            global_space=True
         )])
         self.assertEqual(object_2.null_parent, TransformConfig(
             position=Vector3d(x=0.11, y=0.12, z=0.13),
