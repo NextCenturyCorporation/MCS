@@ -290,8 +290,7 @@ class ControllerOutputHandler():
             action_list=goal.retrieve_action_list_at_step(
                 self._step_number,
                 self._scene_event.steps_on_lava,
-                self._scene_config.intuitive_physics or
-                self._scene_config.isometric
+                self._scene_config.is_passive_scene()
             ),
             camera_aspect_ratio=self._config.get_screen_size(),
             camera_clipping_planes=self._scene_event.clipping_plane,
