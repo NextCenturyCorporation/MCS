@@ -397,6 +397,7 @@ class ControllerOutputHandler():
         # Copy the goal object to avoid deleting data from the original object
         step_output.goal = copy.deepcopy(step_output.goal)
 
+        step_output.goal.triggered_by_target_sequence = None
         metadata = step_output.goal.metadata or {}
         # Different goal categories may use different property names
         target_names = ['target', 'targets', 'target_1', 'target_2']
