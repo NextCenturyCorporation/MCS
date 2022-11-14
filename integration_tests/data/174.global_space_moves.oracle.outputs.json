@@ -15,7 +15,7 @@
                 "position_y": 0.0,
                 "position_z": 0.2,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -48,7 +48,7 @@
                 "position_y": 0.0,
                 "position_z": 0.2,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -81,7 +81,7 @@
                 "position_y": 0.0,
                 "position_z": 0.2,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -114,7 +114,7 @@
                 "position_y": 0.0,
                 "position_z": 0.2,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -147,7 +147,7 @@
                 "position_y": 0.0,
                 "position_z": 0.2,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -180,7 +180,7 @@
                 "position_y": 0.0,
                 "position_z": 0.28,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -213,7 +213,7 @@
                 "position_y": 0.0,
                 "position_z": 0.37,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -246,7 +246,7 @@
                 "position_y": 0.0,
                 "position_z": 0.45,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -279,7 +279,7 @@
                 "position_y": 0.0,
                 "position_z": 0.54,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -312,7 +312,7 @@
                 "position_y": 0.0,
                 "position_z": 0.62,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -345,7 +345,7 @@
                 "position_y": 0.0,
                 "position_z": 0.7,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -378,7 +378,7 @@
                 "position_y": 0.0,
                 "position_z": 0.75,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -411,7 +411,7 @@
                 "position_y": 0.0,
                 "position_z": 0.8,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -444,7 +444,7 @@
                 "position_y": 0.0,
                 "position_z": 0.85,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -477,7 +477,7 @@
                 "position_y": 0.0,
                 "position_z": 0.9,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -510,7 +510,7 @@
                 "position_y": 0.0,
                 "position_z": 0.95,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -543,7 +543,7 @@
                 "position_y": 0.0,
                 "position_z": 1.05,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -576,7 +576,7 @@
                 "position_y": 0.0,
                 "position_z": 1.15,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -609,7 +609,7 @@
                 "position_y": 0.0,
                 "position_z": 1.25,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -642,7 +642,7 @@
                 "position_y": 0.0,
                 "position_z": 1.36,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -675,7 +675,7 @@
                 "position_y": 0.0,
                 "position_z": 1.46,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -708,7 +708,7 @@
                 "position_y": 0.0,
                 "position_z": 1.51,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -741,7 +741,7 @@
                 "position_y": 0.0,
                 "position_z": 1.56,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -774,7 +774,7 @@
                 "position_y": 0.0,
                 "position_z": 1.62,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -807,7 +807,7 @@
                 "position_y": 0.0,
                 "position_z": 1.52,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -840,7 +840,7 @@
                 "position_y": 0.0,
                 "position_z": 1.42,
                 "rotation_y": 33,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
