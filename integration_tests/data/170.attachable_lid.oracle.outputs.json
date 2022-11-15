@@ -1779,7 +1779,7 @@
             {
                 "direction_x": 0.18,
                 "direction_y": 0.87,
-                "direction_z": 0.45,
+                "direction_z": 0.46,
                 "distance": 5.45,
                 "held": false,
                 "id": "placer_3",
@@ -2396,7 +2396,7 @@
             },
             {
                 "direction_x": 0.2,
-                "direction_y": 0.84,
+                "direction_y": 0.83,
                 "direction_z": 0.52,
                 "distance": 4.84,
                 "held": false,
