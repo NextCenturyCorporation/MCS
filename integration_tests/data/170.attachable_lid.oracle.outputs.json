@@ -6098,8 +6098,7 @@
                 "texture_color_list": [
                     "black",
                     "grey"
-                ],
-                "visible": true
+                ]
             },
             {
                 "direction_x": 0.0,
@@ -9038,8 +9037,7 @@
                 "texture_color_list": [
                     "black",
                     "grey"
-                ],
-                "visible": false
+                ]
             },
             {
                 "direction_x": -0.0,
@@ -9248,8 +9246,7 @@
                 "texture_color_list": [
                     "black",
                     "grey"
-                ],
-                "visible": false
+                ]
             },
             {
                 "direction_x": -0.12,
@@ -12818,8 +12815,7 @@
                 "texture_color_list": [
                     "black",
                     "grey"
-                ],
-                "visible": true
+                ]
             },
             {
                 "direction_x": -0.77,
@@ -13028,8 +13024,7 @@
                 "texture_color_list": [
                     "black",
                     "grey"
-                ],
-                "visible": true
+                ]
             },
             {
                 "direction_x": -0.77,
@@ -13238,8 +13233,7 @@
                 "texture_color_list": [
                     "black",
                     "grey"
-                ],
-                "visible": true
+                ]
             },
             {
                 "direction_x": -0.77,
@@ -13448,8 +13442,7 @@
                 "texture_color_list": [
                     "black",
                     "grey"
-                ],
-                "visible": true
+                ]
             },
             {
                 "direction_x": -0.77,
@@ -13658,8 +13651,7 @@
                 "texture_color_list": [
                     "black",
                     "grey"
-                ],
-                "visible": true
+                ]
             },
             {
                 "direction_x": -0.77,

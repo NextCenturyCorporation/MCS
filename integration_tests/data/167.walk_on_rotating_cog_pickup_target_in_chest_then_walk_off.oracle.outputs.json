@@ -3596,8 +3596,7 @@
                 "shape": "chest",
                 "texture_color_list": [
                     "brown"
-                ],
-                "visible": true
+                ]
             },
             {
                 "direction_x": 0.82,
