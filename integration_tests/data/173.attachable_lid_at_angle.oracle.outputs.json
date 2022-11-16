@@ -4516,8 +4516,7 @@
                 "texture_color_list": [
                     "black",
                     "grey"
-                ],
-                "visible": true
+                ]
             },
             {
                 "direction_x": 0.0,
@@ -4682,8 +4681,7 @@
                 "texture_color_list": [
                     "black",
                     "grey"
-                ],
-                "visible": true
+                ]
             },
             {
                 "direction_x": 0.0,
@@ -4848,8 +4846,7 @@
                 "texture_color_list": [
                     "black",
                     "grey"
-                ],
-                "visible": true
+                ]
             },
             {
                 "direction_x": 0.0,

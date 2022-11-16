@@ -730,5 +730,29 @@
         "rotation_y": null,
         "step_number": 60,
         "structural_objects_count": 0
+    },
+    {
+        "head_tilt": 30,
+        "objects_count": 0,
+        "position_x": null,
+        "position_z": null,
+        "resolved_object": null,
+        "resolved_receptacle": null,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": null,
+        "step_number": 61,
+        "structural_objects_count": 0
+    },
+    {
+        "head_tilt": 30,
+        "objects_count": 0,
+        "position_x": null,
+        "position_z": null,
+        "resolved_object": null,
+        "resolved_receptacle": null,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": null,
+        "step_number": 62,
+        "structural_objects_count": 0
     }
 ]
