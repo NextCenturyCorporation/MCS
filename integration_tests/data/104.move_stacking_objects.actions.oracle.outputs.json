@@ -549,9 +549,9 @@
             {
                 "id": "block_blank_a",
                 "mass": 0.66,
-                "position_x": -1.95,
+                "position_x": -1.92,
                 "position_y": 0.05,
-                "position_z": -0.19,
+                "position_z": -0.17,
                 "visible": true
             },
             {
@@ -565,17 +565,17 @@
             {
                 "id": "block_blank_c",
                 "mass": 0.66,
-                "position_x": -1.95,
+                "position_x": -1.92,
                 "position_y": 0.15,
-                "position_z": -0.19,
+                "position_z": -0.17,
                 "visible": true
             },
             {
                 "id": "block_blank_d",
                 "mass": 0.66,
-                "position_x": -1.95,
+                "position_x": -1.92,
                 "position_y": 0.25,
-                "position_z": -0.18,
+                "position_z": -0.16,
                 "visible": true
             },
             {
@@ -609,9 +609,9 @@
             {
                 "id": "block_blank_a",
                 "mass": 0.66,
-                "position_x": -1.9,
+                "position_x": -1.85,
                 "position_y": 0.05,
-                "position_z": -0.28,
+                "position_z": -0.24,
                 "visible": true
             },
             {
@@ -625,17 +625,17 @@
             {
                 "id": "block_blank_c",
                 "mass": 0.66,
-                "position_x": -1.9,
+                "position_x": -1.85,
                 "position_y": 0.15,
-                "position_z": -0.28,
+                "position_z": -0.24,
                 "visible": true
             },
             {
                 "id": "block_blank_d",
                 "mass": 0.66,
-                "position_x": -1.9,
+                "position_x": -1.85,
                 "position_y": 0.25,
-                "position_z": -0.26,
+                "position_z": -0.23,
                 "visible": true
             },
             {
@@ -669,9 +669,9 @@
             {
                 "id": "block_blank_a",
                 "mass": 0.66,
-                "position_x": -1.9,
+                "position_x": -1.77,
                 "position_y": 0.05,
-                "position_z": -0.28,
+                "position_z": -0.3,
                 "visible": true
             },
             {
@@ -685,17 +685,17 @@
             {
                 "id": "block_blank_c",
                 "mass": 0.66,
-                "position_x": -1.9,
+                "position_x": -1.77,
                 "position_y": 0.15,
-                "position_z": -0.28,
+                "position_z": -0.3,
                 "visible": true
             },
             {
                 "id": "block_blank_d",
                 "mass": 0.66,
-                "position_x": -1.9,
+                "position_x": -1.77,
                 "position_y": 0.25,
-                "position_z": -0.26,
+                "position_z": -0.29,
                 "visible": true
             },
             {
@@ -729,9 +729,9 @@
             {
                 "id": "block_blank_a",
                 "mass": 0.66,
-                "position_x": -1.9,
+                "position_x": -1.69,
                 "position_y": 0.05,
-                "position_z": -0.28,
+                "position_z": -0.37,
                 "visible": true
             },
             {
@@ -745,18 +745,18 @@
             {
                 "id": "block_blank_c",
                 "mass": 0.66,
-                "position_x": -1.9,
+                "position_x": -1.69,
                 "position_y": 0.15,
-                "position_z": -0.28,
+                "position_z": -0.37,
                 "visible": true
             },
             {
                 "id": "block_blank_d",
                 "mass": 0.66,
-                "position_x": -1.9,
+                "position_x": -1.69,
                 "position_y": 0.25,
-                "position_z": -0.26,
-                "visible": true
+                "position_z": -0.36,
+                "visible": false
             },
             {
                 "id": "block_blank_e",
@@ -789,9 +789,9 @@
             {
                 "id": "block_blank_a",
                 "mass": 0.66,
-                "position_x": -1.9,
+                "position_x": -1.69,
                 "position_y": 0.05,
-                "position_z": -0.28,
+                "position_z": -0.37,
                 "visible": true
             },
             {
@@ -805,17 +805,17 @@
             {
                 "id": "block_blank_c",
                 "mass": 0.66,
-                "position_x": -1.9,
+                "position_x": -1.69,
                 "position_y": 0.15,
-                "position_z": -0.28,
+                "position_z": -0.37,
                 "visible": true
             },
             {
                 "id": "block_blank_d",
                 "mass": 0.66,
-                "position_x": -1.9,
+                "position_x": -1.69,
                 "position_y": 0.25,
-                "position_z": -0.26,
+                "position_z": -0.36,
                 "visible": true
             },
             {
@@ -849,41 +849,41 @@
             {
                 "id": "block_blank_a",
                 "mass": 0.66,
-                "position_x": -1.97,
+                "position_x": -1.69,
                 "position_y": 0.05,
-                "position_z": -0.35,
+                "position_z": -0.37,
                 "visible": true
             },
             {
                 "id": "block_blank_b",
                 "mass": 0.66,
-                "position_x": -1.76,
+                "position_x": -1.69,
                 "position_y": 0.05,
-                "position_z": -0.22,
+                "position_z": -0.15,
                 "visible": true
             },
             {
                 "id": "block_blank_c",
                 "mass": 0.66,
-                "position_x": -1.97,
+                "position_x": -1.69,
                 "position_y": 0.15,
-                "position_z": -0.35,
+                "position_z": -0.37,
                 "visible": true
             },
             {
                 "id": "block_blank_d",
                 "mass": 0.66,
-                "position_x": -1.97,
+                "position_x": -1.69,
                 "position_y": 0.25,
-                "position_z": -0.32,
+                "position_z": -0.36,
                 "visible": true
             },
             {
                 "id": "block_blank_e",
                 "mass": 0.66,
-                "position_x": -1.76,
+                "position_x": -1.69,
                 "position_y": 0.2,
-                "position_z": -0.23,
+                "position_z": -0.16,
                 "visible": true
             },
             {
@@ -897,7 +897,7 @@
         ],
         "objects_count": 6,
         "position_x": -2.37,
-        "return_status": "SUCCESSFUL",
+        "return_status": "OBSTRUCTED",
         "rotation_y": 130.0,
         "step_number": 14,
         "structural_objects_count": 5
@@ -909,41 +909,41 @@
             {
                 "id": "block_blank_a",
                 "mass": 0.66,
-                "position_x": -1.97,
+                "position_x": -1.69,
                 "position_y": 0.05,
-                "position_z": -0.35,
+                "position_z": -0.37,
                 "visible": true
             },
             {
                 "id": "block_blank_b",
                 "mass": 0.66,
-                "position_x": -1.76,
+                "position_x": -1.69,
                 "position_y": 0.05,
-                "position_z": -0.22,
+                "position_z": -0.15,
                 "visible": true
             },
             {
                 "id": "block_blank_c",
                 "mass": 0.66,
-                "position_x": -1.97,
+                "position_x": -1.69,
                 "position_y": 0.15,
-                "position_z": -0.35,
+                "position_z": -0.37,
                 "visible": true
             },
             {
                 "id": "block_blank_d",
                 "mass": 0.66,
-                "position_x": -1.97,
+                "position_x": -1.69,
                 "position_y": 0.25,
-                "position_z": -0.32,
+                "position_z": -0.35,
                 "visible": true
             },
             {
                 "id": "block_blank_e",
                 "mass": 0.66,
-                "position_x": -1.76,
+                "position_x": -1.69,
                 "position_y": 0.2,
-                "position_z": -0.23,
+                "position_z": -0.16,
                 "visible": true
             },
             {

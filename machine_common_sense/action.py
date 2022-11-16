@@ -283,7 +283,9 @@ class Action(Enum):
     )
     """
     Pull a nearby object by applying a physical force directly toward you on
-    the X/Z axis to the center point of the object.
+    the X/Z axis to the center point of the object (note that this means it
+    does not matter where you Pull on the object, since the force is always
+    applied to the center point).
 
     Parameters
     ----------
@@ -330,7 +332,9 @@ class Action(Enum):
     )
     """
     Push a nearby object by applying a physical force directly away from you on
-    the X/Z axis to the center point of the object.
+    the X/Z axis to the center point of the object (note that this means it
+    does not matter where you Push on the object, since the force is always
+    applied to the center point).
 
     Parameters
     ----------
@@ -485,7 +489,9 @@ class Action(Enum):
         "objectImageCoordsY=float)"
     )
     """
-    Apply a rotation of 5 degrees to a nearby object.
+    Apply a rotation of 5 degrees to a nearby object. Will fail if rotating
+    the object would cause it to collide with another object or the performer
+    agent, returning OBSTRUCTED.
 
     Parameters
     ----------
@@ -538,7 +544,14 @@ class Action(Enum):
         "objectImageCoordsY=float)"
     )
     """
-    Apply a movement of 0.1 meters units to a nearby object.
+    Apply a movement of 0.1 meters units to a nearby object. If the object
+    would come into contact with another object, and the other object is small
+    and moveable, the other object will also move 0.1 meters in the same
+    direction. This movement does not attempt to simulate realistic physics
+    in regard to collisions with other object(s). If you wish to simulate
+    realistic physical movement, please use the PullObject and PushObject
+    actions instead, which apply a force using the environment's physics
+    simulation engine.
 
     Parameters
     ----------
