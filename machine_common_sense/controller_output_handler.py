@@ -100,6 +100,10 @@ class SceneEvent():
         return self._raw_output.metadata.get('stepsOnLava')
 
     @property
+    def triggered_by_sequence_incorrect(self):
+        return self._raw_output.metadata.get('triggeredBySequenceIncorrect')
+
+    @property
     def performer_radius(self):
         return self._raw_output.metadata.get('performerRadius')
 
@@ -290,6 +294,7 @@ class ControllerOutputHandler():
             action_list=goal.retrieve_action_list_at_step(
                 self._step_number,
                 self._scene_event.steps_on_lava,
+                self._scene_event.triggered_by_sequence_incorrect,
                 self._scene_config.intuitive_physics or
                 self._scene_config.isometric
             ),
@@ -348,6 +353,8 @@ class ControllerOutputHandler():
             ),
             step_number=self._step_number,
             steps_on_lava=self._scene_event.steps_on_lava,
+            triggered_by_sequence_incorrect=(
+                self._scene_event.triggered_by_sequence_incorrect),
             physics_frames_per_second=(
                 self._scene_event.physics_frames_per_second),
             structural_object_list=([] if restrict_non_oracle else
@@ -390,6 +397,7 @@ class ControllerOutputHandler():
         # Copy the goal object to avoid deleting data from the original object
         step_output.goal = copy.deepcopy(step_output.goal)
 
+        step_output.goal.triggered_by_target_sequence = None
         metadata = step_output.goal.metadata or {}
         # Different goal categories may use different property names
         target_names = ['target', 'targets', 'target_1', 'target_2']

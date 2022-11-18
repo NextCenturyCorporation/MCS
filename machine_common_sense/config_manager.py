@@ -75,6 +75,7 @@ class Goal(BaseModel):
     skip_preview_phase: Optional[bool]
     task_list: List[str] = None
     type_list: List[str] = None
+    triggered_by_target_sequence: Optional[List[str]]
 
 
 class ActionConfig(BaseModel):
@@ -294,6 +295,7 @@ class SceneObject(BaseModel):
     states: List[List[str]] = None
     structure: Optional[bool]
     teleports: List[TeleportConfig] = None
+    triggered_by: Optional[bool]
     toggle_physics: List[SingleStepConfig] = None
     torques: List[ForceConfig] = None
 
@@ -651,7 +653,8 @@ class SceneConfiguration(BaseModel):
                 last_preview_phase_step=(goal.last_preview_phase_step or 0),
                 last_step=goal.last_step or None,
                 metadata=goal.metadata or {},
-                steps_allowed_in_lava=steps_allowed_in_lava
+                steps_allowed_in_lava=steps_allowed_in_lava,
+                triggered_by_target_sequence=goal.triggered_by_target_sequence or None  # noqa
             )
         )
 

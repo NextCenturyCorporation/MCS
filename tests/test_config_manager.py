@@ -493,6 +493,7 @@ class TestSceneConfig(unittest.TestCase):
                     'z': 0.43
                 }
             }],
+            "triggeredBy": True,
             'togglePhysics': [{
                 'stepBegin': 27
             }],
@@ -565,6 +566,7 @@ class TestSceneConfig(unittest.TestCase):
         self.assertIsNone(object_1.shrouds)
         self.assertIsNone(object_1.states)
         self.assertIsNone(object_1.structure)
+        self.assertIsNone(object_1.triggered_by)
         self.assertIsNone(object_1.teleports)
         self.assertIsNone(object_1.toggle_physics)
         self.assertIsNone(object_1.torques)
@@ -716,6 +718,8 @@ class TestSceneConfig(unittest.TestCase):
             step_begin=26,
             position=Vector3d(x=0.41, y=0.42, z=0.43)
         )])
+        self.assertEqual(
+            object_2.triggered_by, True)
         self.assertEqual(
             object_2.toggle_physics, [
                 SingleStepConfig(

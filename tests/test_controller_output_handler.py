@@ -498,7 +498,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         goal = GoalMetadata(metadata={
             'target': {'id': 'target_id_1'},
             'targets': [{'id': 'target_id_2'}, {'id': 'target_id_3'}]
-        })
+        }, triggered_by_target_sequence=['chest_1', 'chest_3'])
         (res, actual) = coh.handle_output(mock_event, goal, 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
@@ -507,6 +507,8 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
         self.assertEqual(actual.goal.metadata, goal.metadata)
+        self.assertEqual(actual.goal.triggered_by_target_sequence,
+                         goal.triggered_by_target_sequence)
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.holes, [(0, 0), (1, 2), (9, 8)])
@@ -645,7 +647,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         goal = GoalMetadata(metadata={
             'target': {'id': 'target_id_1'},
             'targets': [{'id': 'target_id_2'}, {'id': 'target_id_3'}]
-        })
+        }, triggered_by_target_sequence=['chest_1', 'chest_3'])
         (res, actual) = coh.handle_output(mock_event, goal, 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
@@ -657,6 +659,7 @@ class TestControllerOutputHandler(unittest.TestCase):
             'target': {},
             'targets': [],
         })
+        self.assertEqual(actual.goal.triggered_by_target_sequence, None)
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.position, None)
@@ -710,7 +713,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         goal = GoalMetadata(metadata={
             'target': {'id': 'target_id_1'},
             'targets': [{'id': 'target_id_2'}, {'id': 'target_id_3'}]
-        })
+        }, triggered_by_target_sequence=['chest_1', 'chest_3'])
         (res, actual) = coh.handle_output(mock_event, goal, 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
@@ -722,6 +725,7 @@ class TestControllerOutputHandler(unittest.TestCase):
             'target': {},
             'targets': [],
         })
+        self.assertEqual(actual.goal.triggered_by_target_sequence, None)
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.position, None)
@@ -763,7 +767,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         goal = GoalMetadata(metadata={
             'target': {'id': 'target_id_1'},
             'targets': [{'id': 'target_id_2'}, {'id': 'target_id_3'}]
-        })
+        }, triggered_by_target_sequence=['chest_1', 'chest_3'])
         (res, actual) = coh.handle_output(mock_event, goal, 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
@@ -775,6 +779,7 @@ class TestControllerOutputHandler(unittest.TestCase):
             'target': {},
             'targets': [],
         })
+        self.assertEqual(actual.triggered_by_sequence_incorrect, None)
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.position, None)
@@ -816,7 +821,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         goal = GoalMetadata(metadata={
             'target': {'id': 'target_id_1'},
             'targets': [{'id': 'target_id_2'}, {'id': 'target_id_3'}]
-        })
+        }, triggered_by_target_sequence=['chest_1', 'chest_3'])
         (actual, res) = coh.handle_output(mock_event, goal, 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
@@ -825,6 +830,8 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
         self.assertEqual(actual.goal.metadata, goal.metadata)
+        self.assertEqual(actual.goal.triggered_by_target_sequence,
+                         goal.triggered_by_target_sequence)
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
@@ -882,7 +889,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         goal = GoalMetadata(metadata={
             'target': {'id': 'target_id_1'},
             'targets': [{'id': 'target_id_2'}, {'id': 'target_id_3'}]
-        })
+        }, triggered_by_target_sequence=['chest_1', 'chest_3'])
         (res, actual) = coh.handle_output(mock_event, goal, 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
@@ -891,6 +898,8 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
         self.assertEqual(actual.goal.metadata, goal.metadata)
+        self.assertEqual(actual.goal.triggered_by_target_sequence,
+                         goal.triggered_by_target_sequence)
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
