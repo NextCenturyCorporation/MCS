@@ -58,7 +58,7 @@
                 "position_y": 0.1,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -112,7 +112,7 @@
                 "direction_x": 0.15,
                 "direction_y": 0.91,
                 "direction_z": 0.39,
-                "distance": 6.47,
+                "distance": 6.27,
                 "held": false,
                 "id": "placer_3",
                 "mass": 5.0,
@@ -120,7 +120,7 @@
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 6.65,
+                "position_y": 6.42,
                 "position_z": 0.0,
                 "rotation_y": 0,
                 "shape": "structural",
@@ -131,21 +131,21 @@
                 "visible": true
             },
             {
-                "direction_x": 0.3,
-                "direction_y": 0.57,
-                "direction_z": 0.76,
-                "distance": 3.28,
+                "direction_x": 0.32,
+                "direction_y": 0.52,
+                "direction_z": 0.79,
+                "distance": 3.15,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 2.63,
+                "position_y": 2.4,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -221,7 +221,7 @@
                 "position_y": 0.1,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -275,7 +275,7 @@
                 "direction_x": 0.15,
                 "direction_y": 0.91,
                 "direction_z": 0.39,
-                "distance": 6.47,
+                "distance": 6.27,
                 "held": false,
                 "id": "placer_3",
                 "mass": 5.0,
@@ -283,7 +283,7 @@
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 6.65,
+                "position_y": 6.42,
                 "position_z": 0.0,
                 "rotation_y": 0,
                 "shape": "structural",
@@ -294,21 +294,21 @@
                 "visible": true
             },
             {
-                "direction_x": 0.3,
-                "direction_y": 0.57,
-                "direction_z": 0.76,
-                "distance": 3.28,
+                "direction_x": 0.32,
+                "direction_y": 0.52,
+                "direction_z": 0.79,
+                "distance": 3.15,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 2.63,
+                "position_y": 2.4,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -384,7 +384,7 @@
                 "position_y": 0.1,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -439,7 +439,7 @@
                 "direction_x": 0.15,
                 "direction_y": 0.91,
                 "direction_z": 0.39,
-                "distance": 6.47,
+                "distance": 6.27,
                 "held": false,
                 "id": "placer_3",
                 "mass": 5.0,
@@ -447,7 +447,7 @@
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 6.65,
+                "position_y": 6.42,
                 "position_z": 0.0,
                 "rotation_y": 0,
                 "shape": "structural",
@@ -458,21 +458,21 @@
                 "visible": true
             },
             {
-                "direction_x": 0.3,
-                "direction_y": 0.57,
-                "direction_z": 0.76,
-                "distance": 3.28,
+                "direction_x": 0.32,
+                "direction_y": 0.52,
+                "direction_z": 0.79,
+                "distance": 3.15,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 2.63,
+                "position_y": 2.4,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -548,7 +548,7 @@
                 "position_y": 0.1,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -603,7 +603,7 @@
                 "direction_x": 0.15,
                 "direction_y": 0.91,
                 "direction_z": 0.39,
-                "distance": 6.47,
+                "distance": 6.27,
                 "held": false,
                 "id": "placer_3",
                 "mass": 5.0,
@@ -611,7 +611,7 @@
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 6.65,
+                "position_y": 6.42,
                 "position_z": 0.0,
                 "rotation_y": 0,
                 "shape": "structural",
@@ -622,21 +622,21 @@
                 "visible": true
             },
             {
-                "direction_x": 0.3,
-                "direction_y": 0.57,
-                "direction_z": 0.76,
-                "distance": 3.28,
+                "direction_x": 0.32,
+                "direction_y": 0.52,
+                "direction_z": 0.79,
+                "distance": 3.15,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 2.63,
+                "position_y": 2.4,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -712,7 +712,7 @@
                 "position_y": 0.1,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -730,7 +730,7 @@
                     "RUBBER"
                 ],
                 "position_x": 1.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": 0.0,
                 "rotation_y": 0,
                 "shape": "ball",
@@ -767,7 +767,7 @@
                 "direction_x": 0.15,
                 "direction_y": 0.91,
                 "direction_z": 0.39,
-                "distance": 6.47,
+                "distance": 6.27,
                 "held": false,
                 "id": "placer_3",
                 "mass": 5.0,
@@ -775,7 +775,7 @@
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 6.65,
+                "position_y": 6.42,
                 "position_z": 0.0,
                 "rotation_y": 0,
                 "shape": "structural",
@@ -786,21 +786,21 @@
                 "visible": true
             },
             {
-                "direction_x": 0.3,
-                "direction_y": 0.57,
-                "direction_z": 0.76,
-                "distance": 3.28,
+                "direction_x": 0.32,
+                "direction_y": 0.52,
+                "direction_z": 0.79,
+                "distance": 3.15,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 2.63,
+                "position_y": 2.4,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -876,7 +876,7 @@
                 "position_y": 0.1,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -894,7 +894,7 @@
                     "RUBBER"
                 ],
                 "position_x": 1.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": 0.0,
                 "rotation_y": 0,
                 "shape": "ball",
@@ -930,8 +930,8 @@
             {
                 "direction_x": 0.16,
                 "direction_y": 0.9,
-                "direction_z": 0.4,
-                "distance": 6.26,
+                "direction_z": 0.41,
+                "distance": 6.05,
                 "held": false,
                 "id": "placer_3",
                 "mass": 5.0,
@@ -939,7 +939,7 @@
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 6.41,
+                "position_y": 6.18,
                 "position_z": 0.0,
                 "rotation_y": 0,
                 "shape": "structural",
@@ -951,20 +951,20 @@
             },
             {
                 "direction_x": 0.32,
-                "direction_y": 0.52,
-                "direction_z": 0.79,
-                "distance": 3.15,
+                "direction_y": 0.46,
+                "direction_z": 0.82,
+                "distance": 3.04,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 2.4,
+                "position_y": 2.16,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -1040,7 +1040,7 @@
                 "position_y": 0.1,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -1058,7 +1058,7 @@
                     "RUBBER"
                 ],
                 "position_x": 1.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": 0.0,
                 "rotation_y": 0,
                 "shape": "ball",
@@ -1093,9 +1093,9 @@
             },
             {
                 "direction_x": 0.17,
-                "direction_y": 0.9,
-                "direction_z": 0.41,
-                "distance": 6.05,
+                "direction_y": 0.89,
+                "direction_z": 0.43,
+                "distance": 5.84,
                 "held": false,
                 "id": "placer_3",
                 "mass": 5.0,
@@ -1103,7 +1103,7 @@
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 6.17,
+                "position_y": 5.94,
                 "position_z": 0.0,
                 "rotation_y": 0,
                 "shape": "structural",
@@ -1114,21 +1114,21 @@
                 "visible": true
             },
             {
-                "direction_x": 0.33,
-                "direction_y": 0.46,
-                "direction_z": 0.82,
-                "distance": 3.03,
+                "direction_x": 0.34,
+                "direction_y": 0.4,
+                "direction_z": 0.85,
+                "distance": 2.93,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 2.16,
+                "position_y": 1.93,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -1204,7 +1204,7 @@
                 "position_y": 0.1,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -1222,7 +1222,7 @@
                     "RUBBER"
                 ],
                 "position_x": 1.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": 0.0,
                 "rotation_y": 0,
                 "shape": "ball",
@@ -1257,9 +1257,9 @@
             },
             {
                 "direction_x": 0.17,
-                "direction_y": 0.89,
-                "direction_z": 0.43,
-                "distance": 5.83,
+                "direction_y": 0.88,
+                "direction_z": 0.44,
+                "distance": 5.63,
                 "held": false,
                 "id": "placer_3",
                 "mass": 5.0,
@@ -1267,7 +1267,7 @@
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 5.94,
+                "position_y": 5.71,
                 "position_z": 0.0,
                 "rotation_y": 0,
                 "shape": "structural",
@@ -1278,25 +1278,25 @@
                 "visible": true
             },
             {
-                "direction_x": 0.34,
-                "direction_y": 0.4,
-                "direction_z": 0.85,
-                "distance": 2.93,
+                "direction_x": 0.35,
+                "direction_y": 0.33,
+                "direction_z": 0.88,
+                "distance": 2.85,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 1.92,
+                "position_y": 1.69,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
-                "visible": false
+                "visible": true
             }
         ],
         "objects_count": 3,
@@ -1368,7 +1368,7 @@
                 "position_y": 0.1,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -1386,7 +1386,7 @@
                     "RUBBER"
                 ],
                 "position_x": 1.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": 0.0,
                 "rotation_y": 0,
                 "shape": "ball",
@@ -1421,9 +1421,9 @@
             },
             {
                 "direction_x": 0.18,
-                "direction_y": 0.88,
-                "direction_z": 0.44,
-                "distance": 5.62,
+                "direction_y": 0.87,
+                "direction_z": 0.46,
+                "distance": 5.42,
                 "held": false,
                 "id": "placer_3",
                 "mass": 5.0,
@@ -1431,7 +1431,7 @@
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 5.7,
+                "position_y": 5.47,
                 "position_z": 0.0,
                 "rotation_y": 0,
                 "shape": "structural",
@@ -1443,20 +1443,20 @@
             },
             {
                 "direction_x": 0.35,
-                "direction_y": 0.32,
-                "direction_z": 0.88,
-                "distance": 2.85,
+                "direction_y": 0.25,
+                "direction_z": 0.9,
+                "distance": 2.78,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 1.69,
+                "position_y": 1.45,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -1532,7 +1532,7 @@
                 "position_y": 0.1,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -1550,7 +1550,7 @@
                     "RUBBER"
                 ],
                 "position_x": 1.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": 0.0,
                 "rotation_y": 0,
                 "shape": "ball",
@@ -1584,10 +1584,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.18,
-                "direction_y": 0.87,
-                "direction_z": 0.46,
-                "distance": 5.42,
+                "direction_x": 0.19,
+                "direction_y": 0.86,
+                "direction_z": 0.48,
+                "distance": 5.22,
                 "held": false,
                 "id": "placer_3",
                 "mass": 5.0,
@@ -1595,7 +1595,7 @@
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 5.46,
+                "position_y": 5.23,
                 "position_z": 0.0,
                 "rotation_y": 0,
                 "shape": "structural",
@@ -1607,20 +1607,20 @@
             },
             {
                 "direction_x": 0.36,
-                "direction_y": 0.25,
-                "direction_z": 0.9,
-                "distance": 2.78,
+                "direction_y": 0.17,
+                "direction_z": 0.92,
+                "distance": 2.73,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 1.45,
+                "position_y": 1.21,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -1696,7 +1696,7 @@
                 "position_y": 0.1,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -1714,7 +1714,7 @@
                     "RUBBER"
                 ],
                 "position_x": 1.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": 0.0,
                 "rotation_y": 0,
                 "shape": "ball",
@@ -1749,9 +1749,9 @@
             },
             {
                 "direction_x": 0.19,
-                "direction_y": 0.86,
-                "direction_z": 0.48,
-                "distance": 5.21,
+                "direction_y": 0.84,
+                "direction_z": 0.5,
+                "distance": 5.02,
                 "held": false,
                 "id": "placer_3",
                 "mass": 5.0,
@@ -1759,7 +1759,7 @@
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 5.22,
+                "position_y": 4.99,
                 "position_z": 0.0,
                 "rotation_y": 0,
                 "shape": "structural",
@@ -1771,20 +1771,20 @@
             },
             {
                 "direction_x": 0.37,
-                "direction_y": 0.16,
+                "direction_y": 0.08,
                 "direction_z": 0.92,
-                "distance": 2.73,
+                "distance": 2.7,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 1.21,
+                "position_y": 0.98,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -1860,7 +1860,7 @@
                 "position_y": 0.1,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -1878,7 +1878,7 @@
                     "RUBBER"
                 ],
                 "position_x": 1.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": 0.0,
                 "rotation_y": 0,
                 "shape": "ball",
@@ -1913,9 +1913,9 @@
             },
             {
                 "direction_x": 0.2,
-                "direction_y": 0.84,
-                "direction_z": 0.5,
-                "distance": 5.01,
+                "direction_y": 0.83,
+                "direction_z": 0.52,
+                "distance": 4.82,
                 "held": false,
                 "id": "placer_3",
                 "mass": 5.0,
@@ -1923,7 +1923,7 @@
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 4.99,
+                "position_y": 4.76,
                 "position_z": 0.0,
                 "rotation_y": 0,
                 "shape": "structural",
@@ -1935,20 +1935,20 @@
             },
             {
                 "direction_x": 0.37,
-                "direction_y": 0.08,
+                "direction_y": -0.01,
                 "direction_z": 0.93,
                 "distance": 2.7,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 0.97,
+                "position_y": 0.74,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -2024,7 +2024,7 @@
                 "position_y": 0.1,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black"
                 ],
@@ -2042,7 +2042,7 @@
                     "RUBBER"
                 ],
                 "position_x": 1.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": 0.0,
                 "rotation_y": 0,
                 "shape": "ball",
@@ -2077,9 +2077,9 @@
             },
             {
                 "direction_x": 0.21,
-                "direction_y": 0.83,
-                "direction_z": 0.52,
-                "distance": 4.81,
+                "direction_y": 0.81,
+                "direction_z": 0.54,
+                "distance": 4.62,
                 "held": false,
                 "id": "placer_3",
                 "mass": 5.0,
@@ -2087,7 +2087,7 @@
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 4.75,
+                "position_y": 4.52,
                 "position_z": 0.0,
                 "rotation_y": 0,
                 "shape": "structural",
@@ -2099,20 +2099,20 @@
             },
             {
                 "direction_x": 0.37,
-                "direction_y": -0.01,
+                "direction_y": -0.1,
                 "direction_z": 0.93,
                 "distance": 2.69,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
                 "position_x": 1.0,
-                "position_y": 0.74,
+                "position_y": 0.5,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -2188,7 +2188,7 @@
                 "position_y": 0.1,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -2207,7 +2207,7 @@
                     "RUBBER"
                 ],
                 "position_x": 1.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": 0.0,
                 "rotation_y": 0,
                 "shape": "ball",
@@ -2270,7 +2270,7 @@
                 "distance": 2.71,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -2278,7 +2278,7 @@
                 "position_y": 0.5,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -2354,7 +2354,7 @@
                 "position_y": 0.1,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -2373,7 +2373,7 @@
                     "RUBBER"
                 ],
                 "position_x": 1.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": 0.0,
                 "rotation_y": 0,
                 "shape": "ball",
@@ -2436,7 +2436,7 @@
                 "distance": 2.71,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -2444,7 +2444,7 @@
                 "position_y": 0.5,
                 "position_z": 0.0,
                 "rotation_y": 45,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -2520,7 +2520,7 @@
                 "position_y": 0.1,
                 "position_z": -0.17,
                 "rotation_y": 55,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -2539,7 +2539,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.98,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -0.17,
                 "rotation_y": 10,
                 "shape": "ball",
@@ -2602,7 +2602,7 @@
                 "distance": 2.54,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -2610,7 +2610,7 @@
                 "position_y": 0.5,
                 "position_z": -0.17,
                 "rotation_y": 55,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -2686,7 +2686,7 @@
                 "position_y": 0.1,
                 "position_z": -0.34,
                 "rotation_y": 65,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -2705,7 +2705,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.94,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -0.34,
                 "rotation_y": 20,
                 "shape": "ball",
@@ -2768,7 +2768,7 @@
                 "distance": 2.37,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -2776,7 +2776,7 @@
                 "position_y": 0.5,
                 "position_z": -0.34,
                 "rotation_y": 65,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -2852,7 +2852,7 @@
                 "position_y": 0.1,
                 "position_z": -0.5,
                 "rotation_y": 75,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -2871,7 +2871,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.87,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -0.5,
                 "rotation_y": 30,
                 "shape": "ball",
@@ -2934,7 +2934,7 @@
                 "distance": 2.2,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -2942,7 +2942,7 @@
                 "position_y": 0.5,
                 "position_z": -0.5,
                 "rotation_y": 75,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -3018,7 +3018,7 @@
                 "position_y": 0.1,
                 "position_z": -0.64,
                 "rotation_y": 85,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -3037,7 +3037,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.77,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -0.64,
                 "rotation_y": 40,
                 "shape": "ball",
@@ -3100,7 +3100,7 @@
                 "distance": 2.03,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -3108,7 +3108,7 @@
                 "position_y": 0.5,
                 "position_z": -0.64,
                 "rotation_y": 85,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -3184,7 +3184,7 @@
                 "position_y": 0.1,
                 "position_z": -0.77,
                 "rotation_y": 95,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -3203,7 +3203,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.64,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -0.77,
                 "rotation_y": 50,
                 "shape": "ball",
@@ -3266,7 +3266,7 @@
                 "distance": 1.87,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -3274,7 +3274,7 @@
                 "position_y": 0.5,
                 "position_z": -0.77,
                 "rotation_y": 95,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -3350,7 +3350,7 @@
                 "position_y": 0.1,
                 "position_z": -0.87,
                 "rotation_y": 105,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -3369,7 +3369,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.5,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -0.87,
                 "rotation_y": 60,
                 "shape": "ball",
@@ -3432,7 +3432,7 @@
                 "distance": 1.73,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -3440,7 +3440,7 @@
                 "position_y": 0.5,
                 "position_z": -0.87,
                 "rotation_y": 105,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -3516,7 +3516,7 @@
                 "position_y": 0.1,
                 "position_z": -0.94,
                 "rotation_y": 115,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -3535,7 +3535,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.34,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -0.94,
                 "rotation_y": 70,
                 "shape": "ball",
@@ -3598,7 +3598,7 @@
                 "distance": 1.62,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -3606,7 +3606,7 @@
                 "position_y": 0.5,
                 "position_z": -0.94,
                 "rotation_y": 115,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -3682,7 +3682,7 @@
                 "position_y": 0.1,
                 "position_z": -0.98,
                 "rotation_y": 125,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -3701,7 +3701,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.17,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -0.98,
                 "rotation_y": 80,
                 "shape": "ball",
@@ -3764,7 +3764,7 @@
                 "distance": 1.55,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -3772,7 +3772,7 @@
                 "position_y": 0.5,
                 "position_z": -0.98,
                 "rotation_y": 125,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -3848,7 +3848,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -3867,7 +3867,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -3930,7 +3930,7 @@
                 "distance": 1.42,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -3938,7 +3938,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -4014,7 +4014,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -4033,7 +4033,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -4096,7 +4096,7 @@
                 "distance": 1.33,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -4104,7 +4104,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -4180,7 +4180,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -4199,7 +4199,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -4262,7 +4262,7 @@
                 "distance": 1.23,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -4270,7 +4270,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -4346,7 +4346,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -4365,7 +4365,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -4428,7 +4428,7 @@
                 "distance": 1.13,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -4436,7 +4436,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -4512,12 +4512,11 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
-                ],
-                "visible": true
+                ]
             },
             {
                 "direction_x": 0.0,
@@ -4531,7 +4530,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -4594,7 +4593,7 @@
                 "distance": 1.03,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -4602,7 +4601,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -4678,12 +4677,11 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
-                ],
-                "visible": true
+                ]
             },
             {
                 "direction_x": 0.0,
@@ -4697,7 +4695,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -4760,7 +4758,7 @@
                 "distance": 0.94,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -4768,7 +4766,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -4844,12 +4842,11 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
-                ],
-                "visible": true
+                ]
             },
             {
                 "direction_x": 0.0,
@@ -4863,7 +4860,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -4926,7 +4923,7 @@
                 "distance": 0.84,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -4934,7 +4931,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -5010,7 +5007,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -5029,7 +5026,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -5092,7 +5089,7 @@
                 "distance": 0.84,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -5100,7 +5097,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -5176,7 +5173,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -5195,7 +5192,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -5258,7 +5255,7 @@
                 "distance": 0.84,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -5266,7 +5263,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -5342,7 +5339,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -5361,7 +5358,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -5424,7 +5421,7 @@
                 "distance": 0.84,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -5432,7 +5429,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -5508,7 +5505,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -5527,7 +5524,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -5590,7 +5587,7 @@
                 "distance": 0.95,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -5598,7 +5595,7 @@
                 "position_y": 0.7,
                 "position_z": -0.86,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -5674,7 +5671,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -5693,7 +5690,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -5756,7 +5753,7 @@
                 "distance": 0.84,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -5764,7 +5761,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -5840,7 +5837,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -5859,7 +5856,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -5922,7 +5919,7 @@
                 "distance": 0.78,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -5930,7 +5927,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -6006,7 +6003,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -6025,7 +6022,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -6088,7 +6085,7 @@
                 "distance": 0.7,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -6096,7 +6093,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -6172,7 +6169,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -6191,7 +6188,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -6254,7 +6251,7 @@
                 "distance": 0.77,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -6262,7 +6259,7 @@
                 "position_y": 0.7,
                 "position_z": -0.86,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -6338,7 +6335,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -6357,7 +6354,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -6420,7 +6417,7 @@
                 "distance": 0.7,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -6428,7 +6425,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -6504,7 +6501,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -6523,7 +6520,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -6586,7 +6583,7 @@
                 "distance": 0.77,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -6594,7 +6591,7 @@
                 "position_y": 0.7,
                 "position_z": -0.86,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -6670,7 +6667,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -6689,7 +6686,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -6752,7 +6749,7 @@
                 "distance": 0.77,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -6760,7 +6757,7 @@
                 "position_y": 0.7,
                 "position_z": -0.86,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -6836,7 +6833,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -6855,7 +6852,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -6918,7 +6915,7 @@
                 "distance": 0.7,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -6926,7 +6923,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -7002,7 +6999,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -7021,7 +7018,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -7084,7 +7081,7 @@
                 "distance": 0.7,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -7092,7 +7089,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -7168,7 +7165,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -7187,7 +7184,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -7250,7 +7247,7 @@
                 "distance": 0.72,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -7258,7 +7255,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -7334,7 +7331,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -7353,7 +7350,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -7416,7 +7413,7 @@
                 "distance": 0.76,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -7424,7 +7421,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -7500,7 +7497,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -7519,7 +7516,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -7582,7 +7579,7 @@
                 "distance": 0.8,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -7590,7 +7587,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -7666,7 +7663,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -7685,7 +7682,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -7748,7 +7745,7 @@
                 "distance": 0.86,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -7756,7 +7753,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -7832,7 +7829,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -7851,7 +7848,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -7914,7 +7911,7 @@
                 "distance": 0.92,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -7922,7 +7919,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -7998,7 +7995,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -8017,7 +8014,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -8080,7 +8077,7 @@
                 "distance": 0.99,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -8088,7 +8085,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -8164,7 +8161,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -8183,7 +8180,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -8246,7 +8243,7 @@
                 "distance": 0.92,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -8254,7 +8251,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -8330,7 +8327,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -8349,7 +8346,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -8412,7 +8409,7 @@
                 "distance": 0.88,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -8420,7 +8417,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -8496,7 +8493,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -8505,7 +8502,7 @@
             },
             {
                 "direction_x": -0.73,
-                "direction_y": -0.61,
+                "direction_y": -0.6,
                 "direction_z": 0.31,
                 "distance": 0.96,
                 "held": false,
@@ -8515,7 +8512,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -8578,7 +8575,7 @@
                 "distance": 0.84,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -8586,7 +8583,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -8662,7 +8659,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -8681,7 +8678,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -8744,7 +8741,7 @@
                 "distance": 0.81,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -8752,7 +8749,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -8828,7 +8825,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -8847,7 +8844,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -8910,7 +8907,7 @@
                 "distance": 0.79,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -8918,7 +8915,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -8994,7 +8991,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -9013,7 +9010,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -9076,7 +9073,7 @@
                 "distance": 0.78,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -9084,7 +9081,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -9160,7 +9157,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -9179,7 +9176,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -9242,7 +9239,7 @@
                 "distance": 0.79,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -9250,7 +9247,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -9326,7 +9323,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -9345,7 +9342,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -9408,7 +9405,7 @@
                 "distance": 0.78,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -9416,7 +9413,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -9492,7 +9489,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -9511,7 +9508,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -9574,7 +9571,7 @@
                 "distance": 0.78,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -9582,7 +9579,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -9658,7 +9655,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -9677,7 +9674,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -9740,7 +9737,7 @@
                 "distance": 0.78,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -9748,7 +9745,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -9824,7 +9821,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -9843,7 +9840,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -9906,7 +9903,7 @@
                 "distance": 0.78,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -9914,7 +9911,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -9990,7 +9987,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -10009,7 +10006,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -10072,7 +10069,7 @@
                 "distance": 0.78,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -10080,7 +10077,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -10156,7 +10153,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -10175,7 +10172,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -10238,7 +10235,7 @@
                 "distance": 0.78,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -10246,7 +10243,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -10322,7 +10319,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -10341,7 +10338,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -10404,7 +10401,7 @@
                 "distance": 0.78,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -10412,7 +10409,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -10488,7 +10485,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -10507,7 +10504,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -10570,7 +10567,7 @@
                 "distance": 0.78,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -10578,7 +10575,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -10654,7 +10651,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -10663,7 +10660,7 @@
             },
             {
                 "direction_x": -0.77,
-                "direction_y": -0.64,
+                "direction_y": -0.63,
                 "direction_z": 0.11,
                 "distance": 0.91,
                 "held": false,
@@ -10673,7 +10670,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -10736,7 +10733,7 @@
                 "distance": 0.78,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -10744,7 +10741,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -10820,7 +10817,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -10829,7 +10826,7 @@
             },
             {
                 "direction_x": -0.77,
-                "direction_y": -0.64,
+                "direction_y": -0.63,
                 "direction_z": 0.11,
                 "distance": 0.91,
                 "held": false,
@@ -10839,7 +10836,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -10902,7 +10899,7 @@
                 "distance": 0.78,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -10910,7 +10907,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -10986,7 +10983,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -10995,7 +10992,7 @@
             },
             {
                 "direction_x": -0.77,
-                "direction_y": -0.64,
+                "direction_y": -0.63,
                 "direction_z": 0.11,
                 "distance": 0.91,
                 "held": false,
@@ -11005,7 +11002,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -11068,7 +11065,7 @@
                 "distance": 0.78,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -11076,7 +11073,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -11152,7 +11149,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -11171,7 +11168,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -11234,7 +11231,7 @@
                 "distance": 0.78,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -11242,7 +11239,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -11318,7 +11315,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -11337,7 +11334,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -11400,7 +11397,7 @@
                 "distance": 0.87,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -11408,7 +11405,7 @@
                 "position_y": 0.7,
                 "position_z": -1.14,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -11484,7 +11481,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -11503,7 +11500,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -11566,7 +11563,7 @@
                 "distance": 0.78,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -11574,7 +11571,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -11650,7 +11647,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -11669,7 +11666,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -11732,7 +11729,7 @@
                 "distance": 0.7,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -11740,7 +11737,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -11816,7 +11813,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -11827,7 +11824,7 @@
                 "direction_x": -0.65,
                 "direction_y": -0.76,
                 "direction_z": 0.0,
-                "distance": 0.77,
+                "distance": 0.76,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -11835,7 +11832,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -11898,7 +11895,7 @@
                 "distance": 0.61,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -11906,7 +11903,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -11982,7 +11979,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -11993,7 +11990,7 @@
                 "direction_x": -0.65,
                 "direction_y": -0.76,
                 "direction_z": 0.0,
-                "distance": 0.77,
+                "distance": 0.76,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -12001,7 +11998,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -12064,7 +12061,7 @@
                 "distance": 0.67,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -12072,7 +12069,7 @@
                 "position_y": 0.7,
                 "position_z": -0.86,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -12148,7 +12145,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -12159,7 +12156,7 @@
                 "direction_x": -0.65,
                 "direction_y": -0.76,
                 "direction_z": 0.0,
-                "distance": 0.77,
+                "distance": 0.76,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -12167,7 +12164,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -12230,7 +12227,7 @@
                 "distance": 0.67,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -12238,7 +12235,7 @@
                 "position_y": 0.7,
                 "position_z": -0.86,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -12314,7 +12311,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -12325,7 +12322,7 @@
                 "direction_x": -0.65,
                 "direction_y": -0.76,
                 "direction_z": 0.0,
-                "distance": 0.77,
+                "distance": 0.76,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -12333,7 +12330,7 @@
                     "RUBBER"
                 ],
                 "position_x": 0.0,
-                "position_y": 0.27,
+                "position_y": 0.28,
                 "position_z": -1.0,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -12396,7 +12393,7 @@
                 "distance": 0.67,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -12404,7 +12401,7 @@
                 "position_y": 0.7,
                 "position_z": -0.86,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -12480,7 +12477,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -12562,7 +12559,7 @@
                 "distance": 0.67,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -12570,7 +12567,7 @@
                 "position_y": 0.7,
                 "position_z": -0.86,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -12646,7 +12643,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -12728,7 +12725,7 @@
                 "distance": 0.61,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -12736,7 +12733,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],
@@ -12812,7 +12809,7 @@
                 "position_y": 0.1,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "container",
                 "texture_color_list": [
                     "black",
                     "grey"
@@ -12894,7 +12891,7 @@
                 "distance": 0.61,
                 "held": false,
                 "id": "lid_2",
-                "mass": 2.0,
+                "mass": 0.25,
                 "material_list": [
                     "UNDEFINED"
                 ],
@@ -12902,7 +12899,7 @@
                 "position_y": 0.5,
                 "position_z": -1.0,
                 "rotation_y": 135,
-                "shape": "cube",
+                "shape": "lid",
                 "texture_color_list": [
                     "grey"
                 ],

@@ -64,7 +64,8 @@ def create_step_test_case_list(expected, actual):
         ('room_dimensions', actual.room_dimensions),
         ('step_number', actual.step_number),
         ('physics_frames_per_second', actual.physics_frames_per_second),
-        ('structural_objects_count', len(actual.structural_object_list))
+        ('structural_objects_count', len(actual.structural_object_list)),
+        ('triggered_by_sequence_incorrect', actual.triggered_by_sequence_incorrect)  # noqa
     ]
     return [
         create_test_case([case_name], expected[case_name], actual_data)

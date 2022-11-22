@@ -199,6 +199,7 @@ class Controller():
         self.__habituation_trial = 1
         self.__step_number = 0
         self.__steps_in_lava = 0
+        self.__triggered_by_sequence_incorrect = False
         self._goal = self._scene_config.retrieve_goal(
             self._config.get_steps_allowed_in_lava())
         self._end_scene_called = False
@@ -231,6 +232,8 @@ class Controller():
             self.__habituation_trial)
 
         self.__steps_in_lava = output.steps_on_lava
+        self.__triggered_by_sequence_incorrect = \
+            output.triggered_by_sequence_incorrect
 
         if not skip_preview_phase:
             if (self._goal is not None and
@@ -328,7 +331,8 @@ class Controller():
 
         is_passive_scene = self._scene_config.is_passive_scene()
         action_list = self._goal.retrieve_action_list_at_step(
-            self.__step_number, self.__steps_in_lava, is_passive_scene)
+            self.__step_number, self.__steps_in_lava,
+            self.__triggered_by_sequence_incorrect, is_passive_scene)
 
         # Only continue with this action step if the given action and
         # parameters are in the restricted action list.
@@ -381,6 +385,8 @@ class Controller():
             self.__habituation_trial)
 
         self.__steps_in_lava = output.steps_on_lava
+        self.__triggered_by_sequence_incorrect = \
+            output.triggered_by_sequence_incorrect
 
         payload = self._create_post_step_event_payload_kwargs(
             ai2thor_step, step_output, pre_restrict_output, output)
