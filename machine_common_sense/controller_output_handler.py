@@ -295,8 +295,7 @@ class ControllerOutputHandler():
                 self._step_number,
                 self._scene_event.steps_on_lava,
                 self._scene_event.triggered_by_sequence_incorrect,
-                self._scene_config.intuitive_physics or
-                self._scene_config.isometric
+                self._scene_config.is_passive_scene()
             ),
             camera_aspect_ratio=self._config.get_screen_size(),
             camera_clipping_planes=self._scene_event.clipping_plane,

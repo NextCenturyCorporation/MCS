@@ -9,7 +9,7 @@ import numpy as np
 from pydantic import BaseModel as PydanticBaseModel
 
 from .action import Action
-from .goal_metadata import GoalMetadata
+from .goal_metadata import GoalCategory, GoalMetadata
 
 logger = logging.getLogger(__name__)
 
@@ -583,6 +583,19 @@ class SceneConfiguration(BaseModel):
     scene_number: Optional[int]
     sequence_number: Optional[int]
     training: Optional[bool]
+
+    def is_passive_scene(self) -> bool:
+        """Return whether this scene is a passive scene."""
+        goal = self.goal or Goal()
+        # Passive physics scenes will have the intuitive_physics property and
+        # the INTUITIVE_PHYSICS goal category; passive agent (NYU) scenes will
+        # have the isometric property and the AGENTS goal category; other
+        # passive scenes will have the PASSIVE goal category.
+        return self.intuitive_physics or self.isometric or goal.category in [
+            GoalCategory.AGENTS.value,
+            GoalCategory.INTUITIVE_PHYSICS.value,
+            GoalCategory.PASSIVE.value
+        ]
 
     """
     @post_dump

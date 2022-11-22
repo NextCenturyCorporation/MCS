@@ -730,6 +730,33 @@ class TestSceneConfig(unittest.TestCase):
             vector=Vector3d(x=0.44, y=0.45, z=0.46)
         )])
 
+    def test_is_passive_scene(self):
+        goal_1 = Goal(category='retrieval')
+        goal_2 = Goal(category='imitation')
+        goal_3 = Goal(category='passive')
+        goal_4 = Goal(category='intuitive physics')
+        goal_5 = Goal(category='agents')
+
+        config_1 = SceneConfiguration(goal=goal_1)
+        config_2 = SceneConfiguration(goal=goal_2)
+        config_3 = SceneConfiguration(goal=goal_3)
+        config_4 = SceneConfiguration(goal=goal_4)
+        config_5 = SceneConfiguration(goal=goal_5)
+
+        assert not config_1.is_passive_scene()
+        assert not config_2.is_passive_scene()
+        assert config_3.is_passive_scene()
+        assert config_4.is_passive_scene()
+        assert config_5.is_passive_scene()
+
+        config_6 = SceneConfiguration()
+        config_7 = SceneConfiguration(intuitive_physics=True)
+        config_8 = SceneConfiguration(isometric=True)
+
+        assert not config_6.is_passive_scene()
+        assert config_7.is_passive_scene()
+        assert config_8.is_passive_scene()
+
     def test_retrieve_goal_with_config_metadata(self):
         # self.controller.set_metadata_tier('oracle')
         goal = {

@@ -329,10 +329,7 @@ class Controller():
         if ',' in action:
             action, kwargs = Action.input_to_action_and_params(action)
 
-        is_passive_scene = (
-            self._scene_config.intuitive_physics or
-            self._scene_config.isometric
-        )
+        is_passive_scene = self._scene_config.is_passive_scene()
         action_list = self._goal.retrieve_action_list_at_step(
             self.__step_number, self.__steps_in_lava,
             self.__triggered_by_sequence_incorrect, is_passive_scene)
