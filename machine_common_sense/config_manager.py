@@ -567,6 +567,7 @@ class SceneConfiguration(BaseModel):
     partition_floor: Optional[FloorPartitionConfig]
     performer_start: Optional[PerformerStart]
     restrict_open_doors: Optional[bool]
+    restrict_open_objects: Optional[bool]
     room_dimensions: Vector3d = ConfigManager.DEFAULT_ROOM_DIMENSIONS
     room_materials: Optional[RoomMaterials]
     screenshot: bool = False  # developer use only; for the image generator
