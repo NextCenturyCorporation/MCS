@@ -158,7 +158,7 @@
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
-        "return_status": "SUCCESSFUL",
+        "return_status": "OBSTRUCTED",
         "reward": -0.008,
         "rotation_y": null,
         "step_number": 14,

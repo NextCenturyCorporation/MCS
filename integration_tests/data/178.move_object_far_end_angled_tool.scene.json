@@ -1,0 +1,66 @@
+﻿{
+    "name": "MoveObject on the far end of an angled tool",
+    "version": 2,
+    "ceilingMaterial": "Custom/Materials/WhiteDrywallMCS",
+    "floorMaterial": "Custom/Materials/TanWoodMCS",
+    "wallMaterial": "Custom/Materials/PurpleDrywallMCS",
+    "roomDimensions": {
+        "x": 15,
+        "y": 3,
+        "z": 15
+    },
+    "performerStart": {
+        "position": {
+            "x": 1.75,
+            "z": -3.25
+        },
+        "rotation": {
+            "x": 10,
+            "y": 45
+        }
+    },
+    "objects": [{
+        "id": "target_1",
+        "type": "soccer_ball",
+        "mass": 2,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": -2,
+                "y": 0.22,
+                "z": 3
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 2,
+                "y": 2,
+                "z": 2
+            }
+        }]
+    }, {
+        "id": "tool",
+        "type": "tool_rect_1_00_x_9_00",
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0.15,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": -45,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        }]
+    }]
+}

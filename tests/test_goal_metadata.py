@@ -14,7 +14,8 @@ class TestGoalMetadata(unittest.TestCase):
         "last_preview_phase_step": 0,
         "last_step": null,
         "metadata": {},
-        "steps_allowed_in_lava": 0
+        "steps_allowed_in_lava": 0,
+        "triggered_by_target_sequence": null
     }'''
 
     @classmethod
@@ -44,6 +45,9 @@ class TestGoalMetadata(unittest.TestCase):
 
     def test_last_step(self):
         self.assertIsNone(self.goal_metadata.last_step)
+
+    def test_triggered_by_target_sequence(self):
+        self.assertIsNone(self.goal_metadata.triggered_by_target_sequence)
 
     def test_metadata(self):
         self.assertFalse(self.goal_metadata.metadata)
@@ -121,6 +125,21 @@ class TestGoalMetadata(unittest.TestCase):
         self.assertEqual(goal_metadata.retrieve_action_list_at_step(11, 1), [
             ('EndScene', {})
         ])
+
+    def test_retrieve_action_incorrect_triggered_by_sequence(self):
+        goal_metadata = mcs.GoalMetadata(
+            action_list=[])
+        self.assertEqual(goal_metadata.retrieve_action_list_at_step(
+            0, triggered_by_sequence_incorrect=True), [
+            ('EndScene', {})
+        ])
+
+    def test_set_triggered_by_target_sequence(self):
+        goal_metadata = mcs.GoalMetadata(
+            triggered_by_target_sequence=["chest_1", "chest_3"])
+        self.assertEqual(
+            goal_metadata.triggered_by_target_sequence, [
+                "chest_1", "chest_3"])
 
     def test_retrieve_action_too_many_steps(self):
         goal_metadata = mcs.GoalMetadata(
@@ -262,7 +281,7 @@ class TestGoalMetadata(unittest.TestCase):
     def test_retrieve_action_list_passive_scene(self):
         goal_metadata = mcs.GoalMetadata(action_list=[], last_step=10)
         self.assertEqual(
-            goal_metadata.retrieve_action_list_at_step(0, 0, True),
+            goal_metadata.retrieve_action_list_at_step(0, 0, False, True),
             [('Pass', {})]
         )
 

@@ -90,7 +90,8 @@ Each **scene config** has the following properties:
 - `name` (string, required): A unique name for the scene used for our logs. Default: the filename
 - `objects` (:ref:`object config <Object Config>` array, optional): The objects for the scene. Default: `[]`
 - `performerStart` (:ref:`transform config <Transform Config>`, optional): The starting position and rotation of the performer (the "player"). Only the `position.x`, `position.z`, `rotation.x` (head tilt), and `rotation.y` properties are used. Default: `{ "position": { "x": 0, "z": 0 }, "rotation": { "y": 0 } }`
-- `restrictOpenDoors` (bool, optional): If there are multiple doors in a scene, only allow for one door to ever be opened.
+- `restrictOpenDoors` (bool, optional): If there are multiple doors in a scene, only allow one door to ever be opened. Default: `false`
+- `restrictOpenObjects` (bool, optional): If there are multiple openable objects in a scene, including containers and doors, only allow one of them to ever be opened. Default: `false`
 - `roomDimensions` (Vector3, optional): Specify the size of the room, not including the thickness of walls, floor, and ceiling.  If omitted or set to 0, 0, 0, the default will be used.  Note: There is a maximum visibility which for objects and structures beyond will not be rendered.  Use caution when creating rooms where the maximum distance exceeds this maximum visibility.  The maximum visibility is 15 meters. Default: 10, 3, 10.
 - `roomMaterials` (:ref:`room material config <Room Material Config>`, optional): The materials for each individual wall.  For any individual wall not provided, or all outer walls if object is not provided, they will use 'wallMaterial' property.
 - `partitionFloor` (:ref:`floor partition config <Floor Partition Config>`, optional): Settings to partition the floor in specific ways. Overrides the `floorTextures`, `holes`, and `lava` configurations. Default: none
@@ -305,6 +306,7 @@ Each **move config** has the following properties:
 - `vector` (:ref:`vector config <Vector Config>`, required): The coordinates to describe the movement. Default: `{ "x": 0, "y": 0, "z": 0 }`
 - `repeat` (bool, optional): Whether to indefinitely repeat this action. Will wait `stepWait` number of steps after `stepEnd`, then will execute this action for `stepEnd - stepBegin + 1` number of steps, then repeat. Default: `false`
 - `stepWait` (integer, optional): If `repeat` is `true`, the number of steps to wait after the `stepEnd` before repeating this action. Default: `0`
+- `globalSpace` (bool, optional): If `true` the object will move using a global orientaion space and ignore the object's rotation. If false the object will move in local space oriented on the object's rotation. Default: `false`
 
 Platform Lips Config
 **************

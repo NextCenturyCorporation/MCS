@@ -22,48 +22,8 @@ class TestStepMetadata(unittest.TestCase):
             "last_preview_phase_step": 0,
             "last_step": null,
             "metadata": {},
-            "steps_allowed_in_lava": 0
-        },
-        "habituation_trial": null,
-        "haptic_feedback": {},
-        "head_tilt": 0.0,
-        "holes": [],
-        "image_list": [],
-        "lava": [],
-        "object_list": [],
-        "object_mask_list": [],
-        "performer_radius": 0.0,
-        "performer_reach": 0.0,
-        "physics_frames_per_second": 0,
-        "position": {},
-        "resolved_object": "",
-        "resolved_receptacle": "",
-        "return_status": "UNDEFINED",
-        "reward": 0,
-        "room_dimensions": {},
-        "rotation": 0.0,
-        "segmentation_colors": [],
-        "step_number": 0,
-        "steps_on_lava": 0,
-        "structural_object_list": []
-    }'''
-
-    str_output_segment_map_ints = '''    {
-        "action_list": [],
-        "camera_aspect_ratio": [0.0,0.0],
-        "camera_clipping_planes": [0.0,0.0],
-        "camera_field_of_view": 0.0,
-        "camera_height": 0.0,
-        "depth_map_list": [],
-        "goal": {
-            "action_list": null,
-            "category": "",
-            "description": "",
-            "habituation_total": 0,
-            "last_preview_phase_step": 0,
-            "last_step": null,
-            "metadata": {},
-            "steps_allowed_in_lava": 0
+            "steps_allowed_in_lava": 0,
+            "triggered_by_target_sequence": null
         },
         "habituation_trial": null,
         "haptic_feedback": {},
@@ -87,6 +47,50 @@ class TestStepMetadata(unittest.TestCase):
         "step_number": 0,
         "steps_on_lava": 0,
         "structural_object_list": [],
+        "triggered_by_sequence_incorrect": false
+    }'''
+
+    str_output_segment_map_ints = '''    {
+        "action_list": [],
+        "camera_aspect_ratio": [0.0,0.0],
+        "camera_clipping_planes": [0.0,0.0],
+        "camera_field_of_view": 0.0,
+        "camera_height": 0.0,
+        "depth_map_list": [],
+        "goal": {
+            "action_list": null,
+            "category": "",
+            "description": "",
+            "habituation_total": 0,
+            "last_preview_phase_step": 0,
+            "last_step": null,
+            "metadata": {},
+            "steps_allowed_in_lava": 0,
+            "triggered_by_target_sequence": null
+        },
+        "habituation_trial": null,
+        "haptic_feedback": {},
+        "head_tilt": 0.0,
+        "holes": [],
+        "image_list": [],
+        "lava": [],
+        "object_list": [],
+        "object_mask_list": [],
+        "performer_radius": 0.0,
+        "performer_reach": 0.0,
+        "physics_frames_per_second": 0,
+        "position": {},
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "UNDEFINED",
+        "reward": 0,
+        "room_dimensions": {},
+        "rotation": 0.0,
+        "segmentation_colors": [],
+        "step_number": 0,
+        "steps_on_lava": 0,
+        "structural_object_list": [],
+        "triggered_by_sequence_incorrect": false,
         "segment_map": {
             "0": {
                 "r": 218,
@@ -247,6 +251,12 @@ class TestStepMetadata(unittest.TestCase):
         self.assertEqual(str(metadata),
                          textwrap.dedent(self.str_output_segment_map_ints))
 
+    def test_triggered_by_sequence_incorrect(self):
+        self.assertEqual(
+            self.step_metadata.triggered_by_sequence_incorrect, False)
+        self.assertIsInstance(
+            self.step_metadata.triggered_by_sequence_incorrect, bool)
+
     def test_copy_without_depth_or_images(self):
         data = mcs.StepMetadata(
             action_list=['action_1', 'action_2'],
@@ -279,7 +289,8 @@ class TestStepMetadata(unittest.TestCase):
             structural_object_list=[
                 mcs.ObjectMetadata(uuid='structure_1'),
                 mcs.ObjectMetadata(uuid='structure_2')
-            ]
+            ],
+            triggered_by_sequence_incorrect=True
         )
         copy = data.copy_without_depth_or_images()
         # Assert are exactly equal
@@ -330,6 +341,10 @@ class TestStepMetadata(unittest.TestCase):
         self.assertNotEqual(
             data.structural_object_list,
             copy.structural_object_list
+        )
+        self.assertEqual(
+            data.triggered_by_sequence_incorrect,
+            copy.triggered_by_sequence_incorrect
         )
 
 

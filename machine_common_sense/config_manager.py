@@ -9,7 +9,7 @@ import numpy as np
 from pydantic import BaseModel as PydanticBaseModel
 
 from .action import Action
-from .goal_metadata import GoalMetadata
+from .goal_metadata import GoalCategory, GoalMetadata
 
 logger = logging.getLogger(__name__)
 
@@ -75,6 +75,7 @@ class Goal(BaseModel):
     skip_preview_phase: Optional[bool]
     task_list: List[str] = None
     type_list: List[str] = None
+    triggered_by_target_sequence: Optional[List[str]]
 
 
 class ActionConfig(BaseModel):
@@ -141,6 +142,7 @@ class MoveConfig(BaseModel):
     vector: Vector3d = Vector3d(x=0, y=0, z=0)
     repeat: bool = False
     step_wait: int = 0
+    global_space: bool = False
 
 
 class OpenCloseConfig(BaseModel):
@@ -293,6 +295,7 @@ class SceneObject(BaseModel):
     states: List[List[str]] = None
     structure: Optional[bool]
     teleports: List[TeleportConfig] = None
+    triggered_by: Optional[bool]
     toggle_physics: List[SingleStepConfig] = None
     torques: List[ForceConfig] = None
 
@@ -564,6 +567,7 @@ class SceneConfiguration(BaseModel):
     partition_floor: Optional[FloorPartitionConfig]
     performer_start: Optional[PerformerStart]
     restrict_open_doors: Optional[bool]
+    restrict_open_objects: Optional[bool]
     room_dimensions: Vector3d = ConfigManager.DEFAULT_ROOM_DIMENSIONS
     room_materials: Optional[RoomMaterials]
     screenshot: bool = False  # developer use only; for the image generator
@@ -580,6 +584,19 @@ class SceneConfiguration(BaseModel):
     scene_number: Optional[int]
     sequence_number: Optional[int]
     training: Optional[bool]
+
+    def is_passive_scene(self) -> bool:
+        """Return whether this scene is a passive scene."""
+        goal = self.goal or Goal()
+        # Passive physics scenes will have the intuitive_physics property and
+        # the INTUITIVE_PHYSICS goal category; passive agent (NYU) scenes will
+        # have the isometric property and the AGENTS goal category; other
+        # passive scenes will have the PASSIVE goal category.
+        return self.intuitive_physics or self.isometric or goal.category in [
+            GoalCategory.AGENTS.value,
+            GoalCategory.INTUITIVE_PHYSICS.value,
+            GoalCategory.PASSIVE.value
+        ]
 
     """
     @post_dump
@@ -650,7 +667,8 @@ class SceneConfiguration(BaseModel):
                 last_preview_phase_step=(goal.last_preview_phase_step or 0),
                 last_step=goal.last_step or None,
                 metadata=goal.metadata or {},
-                steps_allowed_in_lava=steps_allowed_in_lava
+                steps_allowed_in_lava=steps_allowed_in_lava,
+                triggered_by_target_sequence=goal.triggered_by_target_sequence or None  # noqa
             )
         )
 
