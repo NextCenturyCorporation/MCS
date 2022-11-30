@@ -1,0 +1,87 @@
+{
+    "name": "Can only open one container if restrict_open_objects is true",
+    "version": 2,
+    "objects": [
+      {
+        "id": "container_1",
+        "type": "chest_1",
+        "mass": 5,
+        "materials": ["AI2-THOR/Materials/Wood/WornWood"],
+        "salientMaterials": ["wood"],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+            },
+            "rotation": {
+                "x": 0,
+                "y": 180,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        }]
+      },
+      {
+        "id": "container_2",
+        "type": "chest_2",
+        "mass": 5,
+        "materials": ["AI2-THOR/Materials/Wood/WornWood"],
+        "salientMaterials": ["wood"],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 1.5,
+                "y": 0,
+                "z": 1
+            },
+            "rotation": {
+                "x": 0,
+                "y": 180,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        }]
+      }
+    ],
+    "goal": {
+      "metadata": {}
+    },
+    "roomDimensions": {
+      "x": 10,
+      "y": 4,
+      "z": 10
+    },
+    "performerStart": {
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "rotation": {
+        "x": 10,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "ceilingMaterial": "Custom/Materials/WhiteDrywallMCS",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite",
+    "roomMaterials": {
+      "back": "AI2-THOR/Materials/Metals/WhiteMetal",
+      "front": "AI2-THOR/Materials/Metals/WhiteMetal",
+      "left": "AI2-THOR/Materials/Metals/WhiteMetal",
+      "right": "AI2-THOR/Materials/Metals/WhiteMetal"
+    },
+    "restrictOpenObjects": true,
+    "holes": [],
+    "floorTextures": []
+  }
