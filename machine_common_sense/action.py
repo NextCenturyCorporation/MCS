@@ -642,7 +642,10 @@ class Action(Enum):
         If the object being interacted with is not a simulation agent
     "AGENT_CURRENTLY_INTERACTING_WTIH_PERFORMER"
         If the object being interacted with is a simulation agent already
-        interacting with the performer
+        interacting with the performer.
+    "AGENT_IS_BUSY"
+        If the object being interacted with is a simulation agent that is
+        currently rotating to face an object or beginning its point animation.
     "NOT_VISIBLE"
         If the object corresponding to the "objectId" is not in the viewport.
     "OUT_OF_REACH"

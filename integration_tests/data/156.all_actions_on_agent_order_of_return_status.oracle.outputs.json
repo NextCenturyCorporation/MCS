@@ -1146,7 +1146,7 @@
         "position_z": 0.0,
         "resolved_object": "agent",
         "resolved_receptacle": "",
-        "return_status": "AGENT_CURRENTLY_INTERACTING_WTIH_PERFORMER",
+        "return_status": "AGENT_CURRENTLY_INTERACTING_WITH_PERFORMER",
         "rotation_y": 0,
         "step_number": 35,
         "structural_objects_count": 5
