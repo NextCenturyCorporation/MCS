@@ -613,6 +613,8 @@ class Action(Enum):
     """
     Interact with an agent. If that agent has an object, it will hold
     out the object for you to pickup; otherwise, the agent will look sad.
+    If the agent was pointing at an object, the agent will resume pointing
+    afterward.
 
     Parameters
     ----------
