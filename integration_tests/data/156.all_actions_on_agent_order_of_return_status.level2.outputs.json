@@ -426,7 +426,7 @@
         "position_z": null,
         "resolved_object": null,
         "resolved_receptacle": null,
-        "return_status": "AGENT_CURRENTLY_INTERACTING_WTIH_PERFORMER",
+        "return_status": "AGENT_CURRENTLY_INTERACTING_WITH_PERFORMER",
         "rotation_y": null,
         "step_number": 35,
         "structural_objects_count": 0

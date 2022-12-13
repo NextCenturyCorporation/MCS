@@ -1,0 +1,291 @@
+﻿{
+    "name": "Test that an agent rotates back to its original point direction after interaction and restarts its animation",
+    "goal": {
+      "metadata": {
+        "target": {
+          "id": "ed42a7ba-a81c-4bdc-a3d0-50102d9d249b"
+        }
+      },
+      "category": "retrieval",
+      "description": "Find and pick up the tiny light black white rubber ball."
+    },
+    "holes": [],
+    "isometric": false,
+    "lava": [],
+    "objects": [
+      {
+        "id": "toolbox_0",
+        "type": "toolbox_4",
+        "mass": 157.5,
+        "salientMaterials": ["metal"],
+        "receptacle": true,
+        "openable": true,
+        "shows": [
+          {
+            "rotation": {
+              "x": 0.0,
+              "y": 45.0,
+              "z": 0.0
+            },
+            "position": {
+              "x": 1.53,
+              "y": 0.0,
+              "z": -7.42
+            },
+            "stepBegin": 0,
+            "scale": {
+              "x": 10.5,
+              "y": 10.5,
+              "z": 10.5
+            }
+          }
+        ],
+        "materials": ["AI2-THOR/Materials/Metals/BlackSmoothMeta"]
+      },
+      {
+        "id": "target",
+        "type": "soccer_ball",
+        "mass": 1.0,
+        "salientMaterials": ["rubber"],
+        "moveable": true,
+        "pickupable": true,
+        "shows": [
+          {
+            "position": {
+              "x": 0.0,
+              "y": 0.131,
+              "z": 0.0
+            },
+            "rotation": {
+              "x": 0.0,
+              "y": 0,
+              "z": 0.0
+            },
+            "stepBegin": 0,
+            "scale": {
+              "x": 1.0,
+              "y": 1.0,
+              "z": 1.0
+            }
+          }
+        ],
+        "materials": [],
+        "locationParent": "54127c1e-7bf7-4b93-9520-eef6a1a71bfa"
+      },
+      {
+        "id": "toolbox_1",
+        "type": "toolbox_4",
+        "mass": 52.5,
+        "salientMaterials": [],
+        "receptacle": true,
+        "openable": true,
+        "shows": [
+          {
+            "position": {
+              "x": 4.392,
+              "y": 0.0,
+              "z": -0.8107
+            },
+            "rotation": {
+              "x": 0.0,
+              "y": 315.0,
+              "z": 0.0
+            },
+            "stepBegin": 0,
+            "scale": {
+              "x": 10.5,
+              "y": 10.5,
+              "z": 10.5
+            }
+          }
+        ],
+        "materials": ["AI2-THOR/Materials/Metals/BlackSmoothMeta"],
+        "moveable": true,
+        "locked": false
+      },
+      {
+        "id": "toolbox_2",
+        "type": "toolbox_4",
+        "mass": 52.5,
+        "salientMaterials": [],
+        "receptacle": true,
+        "openable": true,
+        "shows": [
+          {
+            "position": {
+              "x": -0.2934,
+              "y": 0.0,
+              "z": -2.3471
+            },
+            "rotation": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            },
+            "stepBegin": 0,
+            "scale": {
+              "x": 10.5,
+              "y": 10.5,
+              "z": 10.5
+            }
+          }
+        ],
+        "materials": ["AI2-THOR/Materials/Metals/BlackSmoothMeta"],
+        "moveable": true,
+        "locked": false
+      },
+      {
+        "id": "toolbox_3",
+        "type": "toolbox_4",
+        "mass": 52.5,
+        "salientMaterials": [],
+        "receptacle": true,
+        "openable": true,
+        "shows": [
+          {
+            "position": {
+              "x": -3.1647,
+              "y": 0.0,
+              "z": -9.1102
+            },
+            "rotation": {
+              "x": 0.0,
+              "y": 270.0,
+              "z": 0.0
+            },
+            "stepBegin": 0,
+            "scale": {
+              "x": 10.5,
+              "y": 10.5,
+              "z": 10.5
+            }
+          }
+        ],
+        "materials": ["AI2-THOR/Materials/Metals/BlackSmoothMeta"],
+        "moveable": true,
+        "locked": false
+      },
+      {
+        "id": "toolbox_4",
+        "type": "toolbox_4",
+        "mass": 52.5,
+        "salientMaterials": [],
+        "receptacle": true,
+        "openable": true,
+        "shows": [
+          {
+            "position": {
+              "x": 1.4885,
+              "y": 0.0,
+              "z": 2.1048
+            },
+            "rotation": {
+              "x": 0.0,
+              "y": 45.0,
+              "z": 0.0
+            },
+            "stepBegin": 0,
+            "scale": {
+              "x": 10.5,
+              "y": 10.5,
+              "z": 10.5
+            }
+          }
+        ],
+        "materials": ["AI2-THOR/Materials/Metals/BlackSmoothMeta"],
+        "moveable": true,
+        "locked": false
+      },
+      {
+        "id": "agent",
+        "type": "agent_female_01",
+        "mass": 75,
+        "agentSettings": {
+          "chest": 4,
+          "chestMaterial": 14,
+          "eyes": 1,
+          "feet": 2,
+          "feetMaterial": 3,
+          "glasses": 6,
+          "hair": 6,
+          "hairMaterial": 8,
+          "hatMaterial": 5,
+          "hideHair": true,
+          "isElder": true,
+          "jacket": 0,
+          "jacketMaterial": 0,
+          "legs": 0,
+          "legsMaterial": 14,
+          "showBeard": false,
+          "showGlasses": false,
+          "showJacket": false,
+          "showTie": true,
+          "skin": 2,
+          "tie": 1,
+          "tieMaterial": 9
+        },
+        "actions": [
+          {
+            "id": "Point_start_index_finger",
+            "stepBegin": 1,
+            "stepEnd": 8
+          },
+          {
+            "id": "Point_hold_index_finger",
+            "stepBegin": 8,
+            "isLoopAnimation": true
+          }
+        ],
+        "shows": [
+          {
+            "stepBegin": 0,
+            "position": {
+              "x": 2.3809,
+              "y": 0.0,
+              "z": -0.583
+            },
+            "rotation": {
+              "x": 0,
+              "y": 187,
+              "z": 0
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            }
+          }
+        ]
+      }
+    ],
+    "screenshot": false,
+    "version": 2,
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "UnityAssetStore/Baby_Room/Models/Materials/wood 1",
+    "floorTextures": [],
+    "intuitivePhysics": false,
+    "performerStart": {
+      "position": {
+        "x": 3,
+        "y": 0.0,
+        "z": -0.2
+      },
+      "rotation": {
+        "x": 0.0,
+        "y": -125,
+        "z": 0.0
+      }
+    },
+    "restrictOpenDoors": false,
+    "roomDimensions": {
+      "x": 13.0,
+      "y": 7.0,
+      "z": 20.0
+    },
+    "roomMaterials": {
+      "back": "Custom/Materials/OrangeDrywallMCS",
+      "front": "Custom/Materials/OrangeDrywallMCS",
+      "left": "Custom/Materials/OrangeDrywallMCS",
+      "right": "Custom/Materials/OrangeDrywallMCS"
+    }
+  }

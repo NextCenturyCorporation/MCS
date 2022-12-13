@@ -94,7 +94,7 @@
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
-        "return_status": "AGENT_CURRENTLY_INTERACTING_WTIH_PERFORMER",
+        "return_status": "AGENT_CURRENTLY_INTERACTING_WITH_PERFORMER",
         "rotation_y": null,
         "step_number": 9,
         "structural_objects_count": 0
@@ -194,7 +194,7 @@
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
-        "return_status": "AGENT_CURRENTLY_INTERACTING_WTIH_PERFORMER",
+        "return_status": "AGENT_CURRENTLY_INTERACTING_WITH_PERFORMER",
         "rotation_y": null,
         "step_number": 19,
         "structural_objects_count": 0
@@ -204,7 +204,7 @@
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
-        "return_status": "AGENT_CURRENTLY_INTERACTING_WTIH_PERFORMER",
+        "return_status": "AGENT_CURRENTLY_INTERACTING_WITH_PERFORMER",
         "rotation_y": null,
         "step_number": 20,
         "structural_objects_count": 0
