@@ -1,0 +1,188 @@
+﻿{
+    "name": "Test that ghosted objects are visible",
+    "version": 3,
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall4Tiled",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/Carpet3",
+    "wallMaterial": "Custom/Materials/AzureDrywallMCS",
+    "performerStart": {
+        "position": {
+            "x": 0,
+            "y": 0,
+            "z": -4.5
+        },
+        "rotation": {
+            "y": 0
+        }
+    },
+    "objects": [
+        {
+            "id": "purple_truck",
+            "type": "truck_2",
+            "mass": 16.95,
+            "salientMaterials": [
+                "wood"
+            ],
+            "moveable": true,
+            "pickupable": true,
+            "shows": [
+                {
+                    "position": {
+                        "x": -8.45,
+                        "y": 0.0169,
+                        "z": 8.75
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 90.0,
+                        "z": 0.0
+                    },
+                    "stepBegin": 5,
+                    "scale": {
+                        "x": 3.39,
+                        "y": 3.39,
+                        "z": 3.39
+                    },
+                    "boundingBox": [
+                        {
+                            "x": -8.2127,
+                            "y": 0.0,
+                            "z": 8.2754
+                        },
+                        {
+                            "x": -8.6873,
+                            "y": 0.0,
+                            "z": 8.2754
+                        },
+                        {
+                            "x": -8.6873,
+                            "y": 0.0,
+                            "z": 9.2246
+                        },
+                        {
+                            "x": -8.2127,
+                            "y": 0.0,
+                            "z": 9.2246
+                        },
+                        {
+                            "x": -8.2127,
+                            "y": 0.678,
+                            "z": 8.2754
+                        },
+                        {
+                            "x": -8.6873,
+                            "y": 0.678,
+                            "z": 8.2754
+                        },
+                        {
+                            "x": -8.6873,
+                            "y": 0.678,
+                            "z": 9.2246
+                        },
+                        {
+                            "x": -8.2127,
+                            "y": 0.678,
+                            "z": 9.2246
+                        }
+                    ]
+                }
+            ],
+            "materials": [
+                "Custom/Materials/Magenta"
+            ],
+            "forces": [
+                {
+                    "stepBegin": 5,
+                    "stepEnd": 6,
+                    "vector": {
+                        "x": 14916.0,
+                        "y": 0.0,
+                        "z": 0.0
+                    }
+                }
+            ]
+        },
+        {
+            "id": "green_truck",
+            "type": "truck_2",
+            "mass": 16.95,
+            "salientMaterials": [
+                "wood"
+            ],
+            "moveable": true,
+            "pickupable": true,
+            "shows": [
+                {
+                    "position": {
+                        "x": 0.5416,
+                        "y": 0.0169,
+                        "z": 8.75
+                    },
+                    "rotation": {
+                        "x": 0.0,
+                        "y": 90.0,
+                        "z": 0.0
+                    },
+                    "stepBegin": 3,
+                    "scale": {
+                        "x": 3.39,
+                        "y": 3.39,
+                        "z": 3.39
+                    },
+                    "boundingBox": [
+                        {
+                            "x": -8.2127,
+                            "y": 0.0,
+                            "z": 8.2754
+                        },
+                        {
+                            "x": -8.6873,
+                            "y": 0.0,
+                            "z": 8.2754
+                        },
+                        {
+                            "x": -8.6873,
+                            "y": 0.0,
+                            "z": 9.2246
+                        },
+                        {
+                            "x": -8.2127,
+                            "y": 0.0,
+                            "z": 9.2246
+                        },
+                        {
+                            "x": -8.2127,
+                            "y": 0.678,
+                            "z": 8.2754
+                        },
+                        {
+                            "x": -8.6873,
+                            "y": 0.678,
+                            "z": 8.2754
+                        },
+                        {
+                            "x": -8.6873,
+                            "y": 0.678,
+                            "z": 9.2246
+                        },
+                        {
+                            "x": -8.2127,
+                            "y": 0.678,
+                            "z": 9.2246
+                        }
+                    ]
+                }
+            ],
+            "materials": [
+                "Custom/Materials/Lime"
+            ],
+            "forces": [],
+            "ghosts": [
+                {
+                    "stepBegin": 4,
+                    "stepEnd": 201
+                }
+            ]
+        }
+    ],
+    "intuitivePhysics": true
+  }

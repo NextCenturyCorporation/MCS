@@ -19,7 +19,7 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": false
+                "visible": true
             },
             {
                 "direction_x": 0.0,
@@ -38,7 +38,7 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": true
+                "visible": false
             }
         ],
         "objects_count": 2,
@@ -69,11 +69,11 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": false
+                "visible": true
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.248,
+                "direction_y": -0.27,
                 "direction_z": 0.969,
                 "distance": 2.064,
                 "held": false,
@@ -88,7 +88,7 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": true
+                "visible": false
             }
         ],
         "objects_count": 2,
@@ -119,11 +119,11 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": false
+                "visible": true
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.248,
+                "direction_y": -0.27,
                 "direction_z": 0.969,
                 "distance": 2.064,
                 "held": false,
@@ -138,7 +138,7 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": true
+                "visible": false
             }
         ],
         "objects_count": 2,
@@ -169,11 +169,11 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": false
+                "visible": true
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.248,
+                "direction_y": -0.27,
                 "direction_z": 0.969,
                 "distance": 2.064,
                 "held": false,
@@ -188,7 +188,7 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": true
+                "visible": false
             }
         ],
         "objects_count": 2,
@@ -219,11 +219,11 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": false
+                "visible": true
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.248,
+                "direction_y": -0.27,
                 "direction_z": 0.969,
                 "distance": 2.064,
                 "held": false,
@@ -238,7 +238,7 @@
                 "texture_color_list": [
                     "blue"
                 ],
-                "visible": true
+                "visible": false
             }
         ],
         "objects_count": 2,
