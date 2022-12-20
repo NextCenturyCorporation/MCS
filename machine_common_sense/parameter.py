@@ -110,6 +110,8 @@ class Parameter:
             recordTopDown=(self.config.is_video_enabled() and
                            self.config.is_top_down_camera()),
             topDownImagePath=output_folder,
+            disableObjectList=False,
+            disablePosition=False,
             **kwargs
         )
 
