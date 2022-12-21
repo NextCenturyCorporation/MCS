@@ -97,21 +97,35 @@ class Parameter:
     def wrap_step(self, output_folder, **kwargs) -> Dict:
         # whether or not to randomize segmentation mask colors
         metadata_tier = self.config.get_metadata_tier()
-        consistent_colors = (metadata_tier == MetadataTier.ORACLE)
+        # consistent_colors = (metadata_tier == MetadataTier.ORACLE)
         # Create the step data dict for the AI2-THOR step function.
         return dict(
             continuous=True,
             gridSize=self.GRID_SIZE,
             logs=True,
-            renderDepthImage=self.config.is_depth_maps_enabled(),
-            renderObjectImage=self.config.is_object_masks_enabled(),
+            # renderDepthImage=self.config.is_depth_maps_enabled(),
+            renderDepthImage=not (metadata_tier in [MetadataTier.NONE]),
+            # renderObjectImage=self.config.is_object_masks_enabled(),
+            renderObjectImage=not (
+                metadata_tier in [
+                    MetadataTier.NONE,
+                    MetadataTier.LEVEL_1]),
             snapToGrid=False,
-            consistentColors=consistent_colors,
+            # consistentColors=consistent_colors,
+            consistentColors=(metadata_tier == MetadataTier.ORACLE),
             recordTopDown=(self.config.is_video_enabled() and
                            self.config.is_top_down_camera()),
             topDownImagePath=output_folder,
-            disableObjectList=False,
-            disablePosition=False,
+            disableObjectList=(
+                metadata_tier in [
+                    MetadataTier.NONE,
+                    MetadataTier.LEVEL_1,
+                    MetadataTier.LEVEL_2]),
+            disablePosition=(
+                metadata_tier in [
+                    MetadataTier.NONE,
+                    MetadataTier.LEVEL_1,
+                    MetadataTier.LEVEL_2]),
             **kwargs
         )
 
@@ -131,7 +145,7 @@ class Parameter:
         if not isinstance(y_coord, int):
             raise TypeError(f"{y_coord} y_coord is not an integer")
         screen_height = self.config.get_screen_height()
-        if(0 <= y_coord < screen_height):
+        if (0 <= y_coord < screen_height):
             return screen_height - y_coord - 1
         raise ValueError(f"{y_coord} is not in range 0-{screen_height-1}")
 
