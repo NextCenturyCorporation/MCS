@@ -354,7 +354,7 @@ class ConfigManager:
                 self._read_in_config_file(os.getenv(self.CONFIG_FILE_ENV_VAR))
             elif (isinstance(config_file_or_dict, dict)):
                 self._read_in_config_dict(config_file_or_dict)
-            elif(isinstance(config_file_or_dict, str)):
+            elif (isinstance(config_file_or_dict, str)):
                 self._read_in_config_file(config_file_or_dict)
             else:
                 raise FileNotFoundError("No config options given")
@@ -378,7 +378,7 @@ class ConfigManager:
             raise FileNotFoundError()
 
     def _validate_screen_size(self):
-        if(self.get_size() < self.SCREEN_WIDTH_MIN):
+        if (self.get_size() < self.SCREEN_WIDTH_MIN):
             self._config.set(
                 self.CONFIG_DEFAULT_SECTION,
                 self.CONFIG_SIZE,
@@ -471,6 +471,56 @@ class ConfigManager:
             MetadataTier.LEVEL_2,
             MetadataTier.ORACLE,
         ]
+
+    # Phi did this
+    def is_holes_enabled(self) -> bool:
+        metadata_tier = self.get_metadata_tier()
+        return metadata_tier in [
+            MetadataTier.ORACLE,
+        ]
+
+    def is_lava_enabled(self) -> bool:
+        metadata_tier = self.get_metadata_tier()
+        return metadata_tier in [
+            MetadataTier.ORACLE,
+        ]
+
+    def is_object_list_enabled(self) -> bool:
+        metadata_tier = self.get_metadata_tier()
+        return metadata_tier in [
+            MetadataTier.ORACLE,
+        ]
+
+    def is_position_enabled(self) -> bool:
+        metadata_tier = self.get_metadata_tier()
+        return metadata_tier in [
+            MetadataTier.ORACLE,
+        ]
+
+    def is_room_dimensions_enabled(self) -> bool:
+        metadata_tier = self.get_metadata_tier()
+        return metadata_tier in [
+            MetadataTier.ORACLE,
+        ]
+
+    def is_rotation_enabled(self) -> bool:
+        metadata_tier = self.get_metadata_tier()
+        return metadata_tier in [
+            MetadataTier.ORACLE,
+        ]
+
+    def is_segmentation_colors_enabled(self) -> bool:
+        metadata_tier = self.get_metadata_tier()
+        return metadata_tier in [
+            MetadataTier.ORACLE,
+        ]
+
+    def is_structure_objects_enabled(self) -> bool:
+        metadata_tier = self.get_metadata_tier()
+        return metadata_tier in [
+            MetadataTier.ORACLE,
+        ]
+    ######
 
     def is_object_masks_enabled(self) -> bool:
         metadata_tier = self.get_metadata_tier()
