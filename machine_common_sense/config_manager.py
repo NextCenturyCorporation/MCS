@@ -485,16 +485,20 @@ class ConfigManager:
             MetadataTier.ORACLE,
         ]
 
-    def is_object_list_enabled(self) -> bool:
+    def is_object_list_disabled(self) -> bool:
         metadata_tier = self.get_metadata_tier()
         return metadata_tier in [
-            MetadataTier.ORACLE,
+            MetadataTier.NONE,
+            MetadataTier.LEVEL_1,
+            MetadataTier.LEVEL_2,
         ]
 
-    def is_position_enabled(self) -> bool:
+    def is_position_disabled(self) -> bool:
         metadata_tier = self.get_metadata_tier()
         return metadata_tier in [
-            MetadataTier.ORACLE,
+            MetadataTier.NONE,
+            MetadataTier.LEVEL_1,
+            MetadataTier.LEVEL_2,
         ]
 
     def is_room_dimensions_enabled(self) -> bool:

@@ -97,35 +97,21 @@ class Parameter:
     def wrap_step(self, output_folder, **kwargs) -> Dict:
         # whether or not to randomize segmentation mask colors
         metadata_tier = self.config.get_metadata_tier()
-        # consistent_colors = (metadata_tier == MetadataTier.ORACLE)
+        consistent_colors = (metadata_tier == MetadataTier.ORACLE)
         # Create the step data dict for the AI2-THOR step function.
         return dict(
             continuous=True,
             gridSize=self.GRID_SIZE,
             logs=True,
-            # renderDepthImage=self.config.is_depth_maps_enabled(),
-            renderDepthImage=not (metadata_tier in [MetadataTier.NONE]),
-            # renderObjectImage=self.config.is_object_masks_enabled(),
-            renderObjectImage=not (
-                metadata_tier in [
-                    MetadataTier.NONE,
-                    MetadataTier.LEVEL_1]),
+            renderDepthImage=self.config.is_depth_maps_enabled(),
+            renderObjectImage=self.config.is_object_masks_enabled(),
             snapToGrid=False,
-            # consistentColors=consistent_colors,
-            consistentColors=(metadata_tier == MetadataTier.ORACLE),
+            consistentColors=consistent_colors,
             recordTopDown=(self.config.is_video_enabled() and
                            self.config.is_top_down_camera()),
             topDownImagePath=output_folder,
-            disableObjectList=(
-                metadata_tier in [
-                    MetadataTier.NONE,
-                    MetadataTier.LEVEL_1,
-                    MetadataTier.LEVEL_2]),
-            disablePosition=(
-                metadata_tier in [
-                    MetadataTier.NONE,
-                    MetadataTier.LEVEL_1,
-                    MetadataTier.LEVEL_2]),
+            disableObjectList=self.config.is_object_list_disabled(),
+            disablePosition=self.config.is_position_disabled(),
             **kwargs
         )
 
