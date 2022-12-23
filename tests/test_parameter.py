@@ -97,6 +97,8 @@ class TestParameter(unittest.TestCase):
         expected = {
             "action": "TestAction",
             "continuous": True,
+            "disableObjectList": False,
+            "disablePosition": False,
             "gridSize": 0.1,
             "logs": True,
             "numberProperty": 1234,
@@ -107,6 +109,7 @@ class TestParameter(unittest.TestCase):
             "consistentColors": False,
             "recordTopDown": False,
             "topDownImagePath": "path"
+
         }
         self.assertEqual(actual, expected)
 
@@ -123,6 +126,8 @@ class TestParameter(unittest.TestCase):
         expected = {
             "action": "TestAction",
             "continuous": True,
+            "disableObjectList": False,
+            "disablePosition": False,
             "gridSize": 0.1,
             "logs": True,
             "numberProperty": 1234,
@@ -144,11 +149,11 @@ class TestParameter(unittest.TestCase):
             action="TestAction",
             numberProperty=1234,
             stringProperty="test_property")
-        # Changed depth and object because oracle should result in both being
-        # true.
         expected = {
             "action": "TestAction",
             "continuous": True,
+            "disableObjectList": True,
+            "disablePosition": True,            
             "gridSize": 0.1,
             "logs": True,
             "numberProperty": 1234,
@@ -170,11 +175,11 @@ class TestParameter(unittest.TestCase):
             action="TestAction",
             numberProperty=1234,
             stringProperty="test_property")
-        # Changed depth and object because oracle should result in both being
-        # true.
         expected = {
             "action": "TestAction",
             "continuous": True,
+            "disableObjectList": True,
+            "disablePosition": True,            
             "gridSize": 0.1,
             "logs": True,
             "numberProperty": 1234,
@@ -187,6 +192,32 @@ class TestParameter(unittest.TestCase):
             "topDownImagePath": "path"
         }
         self.assertEqual(actual, expected)
+
+    def test_wrap_step_metadata_none(self):
+        config = ConfigManager(config_file_or_dict={'metadata': 'none'})
+        parameter_converter = Parameter(config)
+        actual = parameter_converter.wrap_step(
+            output_folder="path",
+            action="TestAction",
+            numberProperty=1234,
+            stringProperty="test_property")
+        expected = {
+            "action": "TestAction",
+            "continuous": True,
+            "disableObjectList": True,
+            "disablePosition": True,
+            "gridSize": 0.1,
+            "logs": True,
+            "numberProperty": 1234,
+            "renderDepthImage": False,
+            "renderObjectImage": False,
+            "snapToGrid": False,
+            "stringProperty": "test_property",
+            "consistentColors": False,
+            "recordTopDown": False,
+            "topDownImagePath": "path"
+        }
+        self.assertEqual(actual, expected)        
 
     def test_generate_noise(self):
         min_noise = self.parameter_converter.MIN_NOISE

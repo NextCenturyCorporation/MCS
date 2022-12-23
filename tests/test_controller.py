@@ -46,10 +46,14 @@ class TestController(unittest.TestCase):
 
     def create_step_data(self, **kwargs):
         data = dict(
+            clockwise=True,
             consistentColors=False,
             continuous=True,
+            disableObjectList=False,
+            disablePosition=False,
             gridSize=Parameter.GRID_SIZE,
             horizon=0.0,
+            lateral=0,
             logs=True,
             moveMagnitude=mcs.controller.DEFAULT_MOVE,
             objectId=None,
@@ -67,12 +71,10 @@ class TestController(unittest.TestCase):
             renderObjectImage=False,
             rotation={'y': 0.0},
             snapToGrid=False,
+            straight=1,
             teleportPosition=None,
             teleportRotation=None,
-            topDownImagePath=None,
-            clockwise=True,
-            lateral=0,
-            straight=1
+            topDownImagePath=None
         )
 
         for key, value in kwargs.items():

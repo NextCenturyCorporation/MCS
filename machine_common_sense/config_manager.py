@@ -312,6 +312,8 @@ class ConfigManager:
     DEFAULT_ROOM_DIMENSIONS = Vector3d(x=10, y=3, z=10)
     CONFIG_FILE_ENV_VAR = 'MCS_CONFIG_FILE_PATH'
     CONFIG_DEFAULT_SECTION = 'MCS'
+    CONFIG_DISABLE_OBJECT_LIST = 'disable_object_list'
+    CONFIG_DISABLE_POSITION = 'disable_position'
     CONFIG_EVALUATION_NAME = 'evaluation_name'
     CONFIG_HISTORY_ENABLED = 'history_enabled'
     CONFIG_METADATA_TIER = 'metadata'
@@ -472,59 +474,72 @@ class ConfigManager:
             MetadataTier.ORACLE,
         ]
 
-    # Phi did this
-    def is_holes_enabled(self) -> bool:
-        metadata_tier = self.get_metadata_tier()
-        return metadata_tier in [
-            MetadataTier.ORACLE,
-        ]
+    # TODO: Added for future use?
+    # def is_holes_enabled(self) -> bool:
+    #     metadata_tier = self.get_metadata_tier()
+    #     return metadata_tier in [
+    #         MetadataTier.ORACLE,
+    #     ]
 
-    def is_lava_enabled(self) -> bool:
-        metadata_tier = self.get_metadata_tier()
-        return metadata_tier in [
-            MetadataTier.ORACLE,
-        ]
+    # def is_lava_enabled(self) -> bool:
+    #     metadata_tier = self.get_metadata_tier()
+    #     return metadata_tier in [
+    #         MetadataTier.ORACLE,
+    #     ]
+    # def is_room_dimensions_enabled(self) -> bool:
+    #     metadata_tier = self.get_metadata_tier()
+    #     return metadata_tier in [
+    #         MetadataTier.ORACLE,
+    #     ]
+
+    # def is_rotation_enabled(self) -> bool:
+    #     metadata_tier = self.get_metadata_tier()
+    #     return metadata_tier in [
+    #         MetadataTier.ORACLE,
+    #     ]
+
+    # def is_segmentation_colors_enabled(self) -> bool:
+    #     metadata_tier = self.get_metadata_tier()
+    #     return metadata_tier in [
+    #         MetadataTier.ORACLE,
+    #     ]
+
+    # def is_structure_objects_enabled(self) -> bool:
+    #     metadata_tier = self.get_metadata_tier()
+    #     return metadata_tier in [
+    #         MetadataTier.ORACLE,
+    #     ]
+    #####
 
     def is_object_list_disabled(self) -> bool:
         metadata_tier = self.get_metadata_tier()
-        return metadata_tier in [
-            MetadataTier.NONE,
-            MetadataTier.LEVEL_1,
-            MetadataTier.LEVEL_2,
+        allowed_by_config = not self._config.getboolean(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_DISABLE_OBJECT_LIST,
+            fallback=False
+        )
+        allowed_by_metadata_tier = metadata_tier in [
+            MetadataTier.ORACLE
         ]
+        if allowed_by_metadata_tier and allowed_by_config:
+            return False
+        else:
+            return True
 
     def is_position_disabled(self) -> bool:
         metadata_tier = self.get_metadata_tier()
-        return metadata_tier in [
-            MetadataTier.NONE,
-            MetadataTier.LEVEL_1,
-            MetadataTier.LEVEL_2,
+        allowed_by_config = not self._config.getboolean(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_DISABLE_POSITION,
+            fallback=False
+        )
+        allowed_by_metadata_tier = metadata_tier in [
+            MetadataTier.ORACLE
         ]
-
-    def is_room_dimensions_enabled(self) -> bool:
-        metadata_tier = self.get_metadata_tier()
-        return metadata_tier in [
-            MetadataTier.ORACLE,
-        ]
-
-    def is_rotation_enabled(self) -> bool:
-        metadata_tier = self.get_metadata_tier()
-        return metadata_tier in [
-            MetadataTier.ORACLE,
-        ]
-
-    def is_segmentation_colors_enabled(self) -> bool:
-        metadata_tier = self.get_metadata_tier()
-        return metadata_tier in [
-            MetadataTier.ORACLE,
-        ]
-
-    def is_structure_objects_enabled(self) -> bool:
-        metadata_tier = self.get_metadata_tier()
-        return metadata_tier in [
-            MetadataTier.ORACLE,
-        ]
-    ######
+        if allowed_by_metadata_tier and allowed_by_config:
+            return False
+        else:
+            return True
 
     def is_object_masks_enabled(self) -> bool:
         metadata_tier = self.get_metadata_tier()
