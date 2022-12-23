@@ -121,6 +121,21 @@ To use a specific configuration, you can either pass in a file path or dictionar
 Config File Properties
 **********************
 
+disable_object_list
+^^^^^^^^^^^^^^^
+
+(boolean, optional)
+
+If `true` does not generate object list output in the metadata. Default: false
+
+disable_position
+^^^^^^^^^^^^^^^
+
+(true, false)
+
+If `true` does not generate position information output in the metadata. Default: false
+
+
 goal_reward
 ^^^^^^^^^^^^^^^
 

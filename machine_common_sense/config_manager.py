@@ -536,6 +536,7 @@ class ConfigManager:
         allowed_by_metadata_tier = metadata_tier in [
             MetadataTier.ORACLE
         ]
+
         if allowed_by_metadata_tier and allowed_by_config:
             return False
         else:
