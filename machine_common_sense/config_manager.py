@@ -474,43 +474,6 @@ class ConfigManager:
             MetadataTier.ORACLE,
         ]
 
-    # TODO: Added for future use?
-    # def is_holes_enabled(self) -> bool:
-    #     metadata_tier = self.get_metadata_tier()
-    #     return metadata_tier in [
-    #         MetadataTier.ORACLE,
-    #     ]
-
-    # def is_lava_enabled(self) -> bool:
-    #     metadata_tier = self.get_metadata_tier()
-    #     return metadata_tier in [
-    #         MetadataTier.ORACLE,
-    #     ]
-    # def is_room_dimensions_enabled(self) -> bool:
-    #     metadata_tier = self.get_metadata_tier()
-    #     return metadata_tier in [
-    #         MetadataTier.ORACLE,
-    #     ]
-
-    # def is_rotation_enabled(self) -> bool:
-    #     metadata_tier = self.get_metadata_tier()
-    #     return metadata_tier in [
-    #         MetadataTier.ORACLE,
-    #     ]
-
-    # def is_segmentation_colors_enabled(self) -> bool:
-    #     metadata_tier = self.get_metadata_tier()
-    #     return metadata_tier in [
-    #         MetadataTier.ORACLE,
-    #     ]
-
-    # def is_structure_objects_enabled(self) -> bool:
-    #     metadata_tier = self.get_metadata_tier()
-    #     return metadata_tier in [
-    #         MetadataTier.ORACLE,
-    #     ]
-    #####
-
     def is_object_list_disabled(self) -> bool:
         metadata_tier = self.get_metadata_tier()
         allowed_by_config = not self._config.getboolean(
