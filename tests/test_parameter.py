@@ -142,8 +142,11 @@ class TestParameter(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     def test_wrap_step_metadata_oracle_disable_object_pos(self):
-        config = ConfigManager(config_file_or_dict={'metadata': 'oracle', \
-            'disable_object_list': True, 'disable_position': True})
+        config = ConfigManager(
+            config_file_or_dict={
+                'metadata': 'oracle',
+                'disable_object_list': True,
+                'disable_position': True})
         parameter_converter = Parameter(config)
         actual = parameter_converter.wrap_step(
             output_folder="path",
@@ -169,8 +172,11 @@ class TestParameter(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     def test_wrap_step_metadata_level2(self):
-        config = ConfigManager(config_file_or_dict={'metadata': 'level2', \
-            'disable_object_list': False, 'disable_position': False})
+        config = ConfigManager(
+            config_file_or_dict={
+                'metadata': 'level2',
+                'disable_object_list': False,
+                'disable_position': False})
         parameter_converter = Parameter(config)
         actual = parameter_converter.wrap_step(
             output_folder="path",
@@ -196,8 +202,11 @@ class TestParameter(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     def test_wrap_step_metadata_level1(self):
-        config = ConfigManager(config_file_or_dict={'metadata': 'level1',\
-            'disable_object_list': False, 'disable_position': False})
+        config = ConfigManager(
+            config_file_or_dict={
+                'metadata': 'level1',
+                'disable_object_list': False,
+                'disable_position': False})
         parameter_converter = Parameter(config)
         actual = parameter_converter.wrap_step(
             output_folder="path",
@@ -208,7 +217,7 @@ class TestParameter(unittest.TestCase):
             "action": "TestAction",
             "continuous": True,
             "disableObjectList": True,
-            "disablePosition": True,            
+            "disablePosition": True,
             "gridSize": 0.1,
             "logs": True,
             "numberProperty": 1234,
@@ -223,8 +232,11 @@ class TestParameter(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     def test_wrap_step_metadata_none(self):
-        config = ConfigManager(config_file_or_dict={'metadata': 'none', \
-            'disable_object_list': False, 'disable_position': False})
+        config = ConfigManager(
+            config_file_or_dict={
+                'metadata': 'none',
+                'disable_object_list': False,
+                'disable_position': False})
         parameter_converter = Parameter(config)
         actual = parameter_converter.wrap_step(
             output_folder="path",
@@ -247,7 +259,7 @@ class TestParameter(unittest.TestCase):
             "recordTopDown": False,
             "topDownImagePath": "path"
         }
-        self.assertEqual(actual, expected)        
+        self.assertEqual(actual, expected)
 
     def test_generate_noise(self):
         min_noise = self.parameter_converter.MIN_NOISE
