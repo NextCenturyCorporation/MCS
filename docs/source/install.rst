@@ -126,14 +126,14 @@ disable_object_list
 
 (boolean, optional)
 
-If `true` does not generate object list output in the metadata. Default: false
+If `true` does not generate object list output in the metadata. Metadata Tier will override `disable_object_list`. Cannot be false for Metadata tier [none, level1, level2]. Default: false
 
 disable_position
 ^^^^^^^^^^^^^^^
 
-(true, false)
+(boolean, optional)
 
-If `true` does not generate position information output in the metadata. Default: false
+If `true` does not generate position information output in the metadata. Metadata Tier will override `disable_object_list`. Cannot be false for Metadata tier [none, level1, level2]. Default: false
 
 
 goal_reward
