@@ -126,15 +126,28 @@ disable_object_list
 
 (boolean, optional)
 
-If `true` does not generate object list output in the metadata. Metadata Tier will override `disable_object_list`. Cannot be false for Metadata tier [none, level1, level2]. Default: false
+If `true`, does not generate object list output in the metadata. Metadata Tier will override `disable_object_list`. Cannot be false for Metadata tier [none, level1, level2]. Default: false
 
 disable_position
 ^^^^^^^^^^^^^^^
 
 (boolean, optional)
 
-If `true` does not generate position information output in the metadata. Metadata Tier will override `disable_object_list`. Cannot be false for Metadata tier [none, level1, level2]. Default: false
+If `true`, does not generate position information output in the metadata. Metadata Tier will override `disable_object_list`. Cannot be false for Metadata tier [none, level1, level2]. Default: false
 
+enable_depth_maps
+^^^^^^^^^^^^^^^
+
+(boolean, optional)
+
+If `true`, will generate depth maps. Metadata Tier will override `enable_depth_maps`. Will only generate dept maps for Metadata tier [level1, level2, oracle]. Default: true
+
+enable_object_masks
+^^^^^^^^^^^^^^^
+
+(boolean, optional)
+
+If `true`, will generate object masks. Metadata Tier will override `enable_depth_maps`. Will only generate object masks for Metadata tier [level2, oracle]. Default: true
 
 goal_reward
 ^^^^^^^^^^^^^^^

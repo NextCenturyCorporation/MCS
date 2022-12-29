@@ -100,18 +100,18 @@ class Parameter:
         consistent_colors = (metadata_tier == MetadataTier.ORACLE)
         # Create the step data dict for the AI2-THOR step function.
         return dict(
+            consistentColors=consistent_colors,
             continuous=True,
+            disableObjectList=self.config.is_object_list_disabled(),
+            disablePosition=self.config.is_position_disabled(),
             gridSize=self.GRID_SIZE,
             logs=True,
+            recordTopDown=(self.config.is_video_enabled() and
+                           self.config.is_top_down_camera()),
             renderDepthImage=self.config.is_depth_maps_enabled(),
             renderObjectImage=self.config.is_object_masks_enabled(),
             snapToGrid=False,
-            consistentColors=consistent_colors,
-            recordTopDown=(self.config.is_video_enabled() and
-                           self.config.is_top_down_camera()),
             topDownImagePath=output_folder,
-            disableObjectList=self.config.is_object_list_disabled(),
-            disablePosition=self.config.is_position_disabled(),
             **kwargs
         )
 

@@ -141,12 +141,15 @@ class TestParameter(unittest.TestCase):
         }
         self.assertEqual(actual, expected)
 
-    def test_wrap_step_metadata_oracle_disable_object_pos(self):
+    def test_wrap_step_metadata_oracle_disable_parameters(self):
         config = ConfigManager(
             config_file_or_dict={
                 'metadata': 'oracle',
                 'disable_object_list': True,
-                'disable_position': True})
+                'disable_position': True,
+                'enable_depth_maps': False,
+                'enable_object_masks': False
+                })
         parameter_converter = Parameter(config)
         actual = parameter_converter.wrap_step(
             output_folder="path",
@@ -161,6 +164,39 @@ class TestParameter(unittest.TestCase):
             "gridSize": 0.1,
             "logs": True,
             "numberProperty": 1234,
+            "renderDepthImage": False,
+            "renderObjectImage": False,
+            "snapToGrid": False,
+            "stringProperty": "test_property",
+            "consistentColors": True,
+            "recordTopDown": False,
+            "topDownImagePath": "path"
+        }
+        self.assertEqual(actual, expected)
+
+    def test_wrap_step_metadata_oracle_enable_parameters(self):
+        config = ConfigManager(
+            config_file_or_dict={
+                'metadata': 'oracle',
+                'disable_object_list': False,
+                'disable_position': False,
+                'enable_depth_maps': True,
+                'enable_object_masks': True
+                })
+        parameter_converter = Parameter(config)
+        actual = parameter_converter.wrap_step(
+            output_folder="path",
+            action="TestAction",
+            numberProperty=1234,
+            stringProperty="test_property")
+        expected = {
+            "action": "TestAction",
+            "continuous": True,
+            "disableObjectList": False,
+            "disablePosition": False,
+            "gridSize": 0.1,
+            "logs": True,
+            "numberProperty": 1234,
             "renderDepthImage": True,
             "renderObjectImage": True,
             "snapToGrid": False,
@@ -171,12 +207,14 @@ class TestParameter(unittest.TestCase):
         }
         self.assertEqual(actual, expected)
 
-    def test_wrap_step_metadata_level2(self):
+    def test_wrap_step_metadata_level2_enable_parameters(self):
         config = ConfigManager(
             config_file_or_dict={
                 'metadata': 'level2',
                 'disable_object_list': False,
-                'disable_position': False})
+                'disable_position': False,
+                'enable_depth_maps': True,
+                'enable_object_masks': True})
         parameter_converter = Parameter(config)
         actual = parameter_converter.wrap_step(
             output_folder="path",
@@ -201,12 +239,46 @@ class TestParameter(unittest.TestCase):
         }
         self.assertEqual(actual, expected)
 
-    def test_wrap_step_metadata_level1(self):
+    def test_wrap_step_metadata_level2_disable_parameters(self):
+        config = ConfigManager(
+            config_file_or_dict={
+                'metadata': 'level2',
+                'disable_object_list': True,
+                'disable_position': True,
+                'enable_depth_maps': False,
+                'enable_object_masks': False})
+        parameter_converter = Parameter(config)
+        actual = parameter_converter.wrap_step(
+            output_folder="path",
+            action="TestAction",
+            numberProperty=1234,
+            stringProperty="test_property")
+        expected = {
+            "action": "TestAction",
+            "continuous": True,
+            "disableObjectList": True,
+            "disablePosition": True,
+            "gridSize": 0.1,
+            "logs": True,
+            "numberProperty": 1234,
+            "renderDepthImage": False,
+            "renderObjectImage": False,
+            "snapToGrid": False,
+            "stringProperty": "test_property",
+            "consistentColors": False,
+            "recordTopDown": False,
+            "topDownImagePath": "path"
+        }
+        self.assertEqual(actual, expected)
+
+    def test_wrap_step_metadata_level1_enable_parameters(self):
         config = ConfigManager(
             config_file_or_dict={
                 'metadata': 'level1',
                 'disable_object_list': False,
-                'disable_position': False})
+                'disable_position': False,
+                'enable_depth_maps': True,
+                'enable_object_masks': True})
         parameter_converter = Parameter(config)
         actual = parameter_converter.wrap_step(
             output_folder="path",
@@ -231,12 +303,78 @@ class TestParameter(unittest.TestCase):
         }
         self.assertEqual(actual, expected)
 
-    def test_wrap_step_metadata_none(self):
+    def test_wrap_step_metadata_level1_disable_parameters(self):
+        config = ConfigManager(
+            config_file_or_dict={
+                'metadata': 'level1',
+                'disable_object_list': True,
+                'disable_position': True,
+                'enable_depth_maps': False,
+                'enable_object_masks': False})
+        parameter_converter = Parameter(config)
+        actual = parameter_converter.wrap_step(
+            output_folder="path",
+            action="TestAction",
+            numberProperty=1234,
+            stringProperty="test_property")
+        expected = {
+            "action": "TestAction",
+            "continuous": True,
+            "disableObjectList": True,
+            "disablePosition": True,
+            "gridSize": 0.1,
+            "logs": True,
+            "numberProperty": 1234,
+            "renderDepthImage": False,
+            "renderObjectImage": False,
+            "snapToGrid": False,
+            "stringProperty": "test_property",
+            "consistentColors": False,
+            "recordTopDown": False,
+            "topDownImagePath": "path"
+        }
+        self.assertEqual(actual, expected)
+
+    def test_wrap_step_metadata_none_enable_parameters(self):
         config = ConfigManager(
             config_file_or_dict={
                 'metadata': 'none',
                 'disable_object_list': False,
-                'disable_position': False})
+                'disable_position': False,
+                'enable_depth_maps': True,
+                'enable_object_masks': True})
+        parameter_converter = Parameter(config)
+        actual = parameter_converter.wrap_step(
+            output_folder="path",
+            action="TestAction",
+            numberProperty=1234,
+            stringProperty="test_property")
+        expected = {
+            "action": "TestAction",
+            "continuous": True,
+            "disableObjectList": True,
+            "disablePosition": True,
+            "gridSize": 0.1,
+            "logs": True,
+            "numberProperty": 1234,
+            "renderDepthImage": False,
+            "renderObjectImage": False,
+            "snapToGrid": False,
+            "stringProperty": "test_property",
+            "consistentColors": False,
+            "recordTopDown": False,
+            "topDownImagePath": "path"
+        }
+        self.assertEqual(actual, expected)
+
+    def test_wrap_step_metadata_none_disable_parameters(self):
+        config = ConfigManager(
+            config_file_or_dict={
+                'metadata': 'none',
+                'disable_object_list': True,
+                'disable_position': True,
+                'enable_depth_maps': False,
+                'enable_object_masks': False})
         parameter_converter = Parameter(config)
         actual = parameter_converter.wrap_step(
             output_folder="path",
