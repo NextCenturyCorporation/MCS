@@ -148,8 +148,7 @@ class TestParameter(unittest.TestCase):
                 'disable_object_list': True,
                 'disable_position': True,
                 'enable_depth_maps': False,
-                'enable_object_masks': False
-                })
+                'enable_object_masks': False})
         parameter_converter = Parameter(config)
         actual = parameter_converter.wrap_step(
             output_folder="path",
@@ -181,8 +180,7 @@ class TestParameter(unittest.TestCase):
                 'disable_object_list': False,
                 'disable_position': False,
                 'enable_depth_maps': True,
-                'enable_object_masks': True
-                })
+                'enable_object_masks': True})
         parameter_converter = Parameter(config)
         actual = parameter_converter.wrap_step(
             output_folder="path",
