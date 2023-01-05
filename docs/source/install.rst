@@ -140,7 +140,7 @@ enable_depth_maps
 
 (boolean, optional)
 
-If `true`, will generate depth maps. Metadata Tier will override `enable_depth_maps`. Will only generate dept maps for Metadata tier [level1, level2, oracle]. Default: true
+If `true`, will generate depth maps. Metadata Tier will override `enable_depth_maps`. Will only generate depth maps for Metadata tier [level1, level2, oracle]. Default: true
 
 enable_object_masks
 ^^^^^^^^^^^^^^^
