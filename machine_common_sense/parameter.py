@@ -105,7 +105,8 @@ class Parameter:
             disablePosition=self.config.is_position_disabled(),
             gridSize=self.GRID_SIZE,
             logs=True,
-            onlyReturnObjectGoal=self.config.is_only_return_object_goal(),
+            # onlyReturnObjectGoal=self.config.is_only_return_object_goal(),
+            onlyReturnObjectGoal=True,
             recordTopDown=(self.config.is_video_enabled() and
                            self.config.is_top_down_camera()),
             renderDepthImage=self.config.is_depth_maps_enabled(),

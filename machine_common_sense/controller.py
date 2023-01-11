@@ -197,6 +197,11 @@ class Controller():
 
         self._scene_config = scene_config
         self.__goal_object_ids = config_data['goal']['metadata']['target']
+
+        print("#######################")
+        print(self.__goal_object_ids)
+        print("#######################")
+
         self.__habituation_trial = 1
         self.__step_number = 0
         self.__steps_in_lava = 0
