@@ -94,7 +94,7 @@ class Parameter:
     def __init__(self, config: ConfigManager):
         self.config = config
 
-    def wrap_step(self, output_folder, **kwargs) -> Dict:
+    def wrap_step(self, output_folder, goal_object_ids, **kwargs) -> Dict:
         # whether or not to randomize segmentation mask colors
         metadata_tier = self.config.get_metadata_tier()
         consistent_colors = (metadata_tier == MetadataTier.ORACLE)
@@ -102,25 +102,33 @@ class Parameter:
         return dict(
             consistentColors=consistent_colors,
             continuous=True,
-            disableObjectList=self.config.is_object_list_disabled(),
             disablePosition=self.config.is_position_disabled(),
             gridSize=self.GRID_SIZE,
             logs=True,
+            onlyReturnObjectGoal=self.config.is_only_return_object_goal(),
             recordTopDown=(self.config.is_video_enabled() and
                            self.config.is_top_down_camera()),
             renderDepthImage=self.config.is_depth_maps_enabled(),
             renderObjectImage=self.config.is_object_masks_enabled(),
             snapToGrid=False,
             topDownImagePath=output_folder,
+            goalObjectIds=goal_object_ids,
             **kwargs
         )
 
-    def build_ai2thor_step(self, output_path, **kwargs) -> Tuple:
+    def build_ai2thor_step(
+            self,
+            output_path,
+            goal_object_ids,
+            **kwargs
+    ) -> Tuple:
+
         action, params = self._validate_and_convert_params(**kwargs)
         action = self._mcs_action_to_ai2thor_action(action)
         wrapped_step = self.wrap_step(
             output_folder=output_path,
             action=action,
+            goal_object_ids=goal_object_ids,
             **params)
         return wrapped_step, params
 

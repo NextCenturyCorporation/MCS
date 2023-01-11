@@ -121,19 +121,19 @@ To use a specific configuration, you can either pass in a file path or dictionar
 Config File Properties
 **********************
 
-disable_object_list
+only_return_goal_object
 ^^^^^^^^^^^^^^^
 
 (boolean, optional)
 
-If `true`, does not generate object list output in the metadata. Metadata Tier will override `disable_object_list`. Cannot be false for Metadata tier [none, level1, level2]. Default: false
+If `true`, only returns the goal object from the object list output in the metadata. Metadata Tier will override `only_return_goal_object`. Default: false
 
 disable_position
 ^^^^^^^^^^^^^^^
 
 (boolean, optional)
 
-If `true`, does not generate position information output in the metadata. Metadata Tier will override `disable_object_list`. Cannot be false for Metadata tier [none, level1, level2]. Default: false
+If `true`, does not generate position information output in the metadata. Metadata Tier will override `disable_position`. Default: false
 
 enable_depth_maps
 ^^^^^^^^^^^^^^^

@@ -314,7 +314,7 @@ class ConfigManager:
     CONFIG_DEFAULT_SECTION = 'MCS'
     CONFIG_ENABLE_DEPTH_MAPS = 'enable_depth_maps'
     CONFIG_ENABLE_OBJECT_MASKS = 'enable_object_masks'
-    CONFIG_DISABLE_OBJECT_LIST = 'disable_object_list'
+    CONFIG_ONLY_RETURN_GOAL_OBJECT = 'only_return_goal_object'
     CONFIG_DISABLE_POSITION = 'disable_position'
     CONFIG_EVALUATION_NAME = 'evaluation_name'
     CONFIG_HISTORY_ENABLED = 'history_enabled'
@@ -486,20 +486,20 @@ class ConfigManager:
         else:
             return False
 
-    def is_object_list_disabled(self) -> bool:
+    def is_only_return_object_goal(self) -> bool:
         metadata_tier = self.get_metadata_tier()
         allowed_by_config = not self._config.getboolean(
             self.CONFIG_DEFAULT_SECTION,
-            self.CONFIG_DISABLE_OBJECT_LIST,
+            self.CONFIG_ONLY_RETURN_GOAL_OBJECT,
             fallback=False
         )
         allowed_by_metadata_tier = metadata_tier in [
             MetadataTier.ORACLE
         ]
         if allowed_by_metadata_tier and allowed_by_config:
-            return False
-        else:
             return True
+        else:
+            return False
 
     def is_position_disabled(self) -> bool:
         metadata_tier = self.get_metadata_tier()
