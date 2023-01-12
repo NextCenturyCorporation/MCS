@@ -49,8 +49,8 @@ class TestController(unittest.TestCase):
             clockwise=True,
             consistentColors=False,
             continuous=True,
-            disableObjectList=True,
             disablePosition=True,
+            goalObjectIds=[],
             gridSize=Parameter.GRID_SIZE,
             horizon=0.0,
             lateral=0,
@@ -61,6 +61,7 @@ class TestController(unittest.TestCase):
                 'x': 0,
                 'y': 0
             },
+            onlyReturnObjectGoal=False,
             receptacleObjectId=None,
             receptacleObjectImageCoords={
                 'x': 0,

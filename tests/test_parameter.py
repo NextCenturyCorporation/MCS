@@ -76,6 +76,7 @@ class TestParameter(unittest.TestCase):
         wrapped_step = self.parameter_converter.wrap_step(
             output_folder="path",
             action='Initialize',
+            goal_object_ids=[],
             sceneConfig=self.sc)
         # sceneConfig does not get removed
         self.assertIsNotNone(wrapped_step.get('sceneConfig'))
@@ -84,6 +85,7 @@ class TestParameter(unittest.TestCase):
         wrapped_step, params = self.parameter_converter.build_ai2thor_step(
             output_path="path",
             action='Initialize',
+            goal_object_ids=[],
             sceneConfig=self.sc)
         # sceneConfig gets removed
         self.assertIsNone(wrapped_step.get('sceneConfig'))
@@ -93,15 +95,17 @@ class TestParameter(unittest.TestCase):
             output_folder="path",
             action="TestAction",
             numberProperty=1234,
+            goal_object_ids=[],
             stringProperty="test_property")
         expected = {
             "action": "TestAction",
             "continuous": True,
-            "disableObjectList": True,
             "disablePosition": True,
+            "goalObjectIds": [],
             "gridSize": 0.1,
             "logs": True,
             "numberProperty": 1234,
+            "onlyReturnObjectGoal": False,
             "renderDepthImage": False,
             "renderObjectImage": False,
             "snapToGrid": False,
@@ -120,17 +124,19 @@ class TestParameter(unittest.TestCase):
             output_folder="path",
             action="TestAction",
             numberProperty=1234,
+            goal_object_ids=[],
             stringProperty="test_property")
         # Changed depth and object because oracle should result in both being
         # true.
         expected = {
             "action": "TestAction",
             "continuous": True,
-            "disableObjectList": False,
             "disablePosition": False,
+            "goalObjectIds": [],
             "gridSize": 0.1,
             "logs": True,
             "numberProperty": 1234,
+            "onlyReturnObjectGoal": False,
             "renderDepthImage": True,
             "renderObjectImage": True,
             "snapToGrid": False,
@@ -145,7 +151,7 @@ class TestParameter(unittest.TestCase):
         config = ConfigManager(
             config_file_or_dict={
                 'metadata': 'oracle',
-                'disable_object_list': True,
+                'only_return_goal_object': True,
                 'disable_position': True,
                 'enable_depth_maps': False,
                 'enable_object_masks': False})
@@ -154,21 +160,23 @@ class TestParameter(unittest.TestCase):
             output_folder="path",
             action="TestAction",
             numberProperty=1234,
+            goal_object_ids=[],
             stringProperty="test_property")
         expected = {
             "action": "TestAction",
+            "consistentColors": True,
             "continuous": True,
-            "disableObjectList": True,
             "disablePosition": True,
+            "goalObjectIds": [],
             "gridSize": 0.1,
             "logs": True,
             "numberProperty": 1234,
+            "onlyReturnObjectGoal": True,
             "renderDepthImage": False,
             "renderObjectImage": False,
+            "recordTopDown": False,
             "snapToGrid": False,
             "stringProperty": "test_property",
-            "consistentColors": True,
-            "recordTopDown": False,
             "topDownImagePath": "path"
         }
         self.assertEqual(actual, expected)
@@ -177,7 +185,7 @@ class TestParameter(unittest.TestCase):
         config = ConfigManager(
             config_file_or_dict={
                 'metadata': 'oracle',
-                'disable_object_list': False,
+                'only_return_goal_object': False,
                 'disable_position': False,
                 'enable_depth_maps': True,
                 'enable_object_masks': True})
@@ -186,15 +194,17 @@ class TestParameter(unittest.TestCase):
             output_folder="path",
             action="TestAction",
             numberProperty=1234,
+            goal_object_ids=[],
             stringProperty="test_property")
         expected = {
             "action": "TestAction",
             "continuous": True,
-            "disableObjectList": False,
             "disablePosition": False,
+            "goalObjectIds": [],
             "gridSize": 0.1,
             "logs": True,
             "numberProperty": 1234,
+            "onlyReturnObjectGoal": False,
             "renderDepthImage": True,
             "renderObjectImage": True,
             "snapToGrid": False,
@@ -209,7 +219,7 @@ class TestParameter(unittest.TestCase):
         config = ConfigManager(
             config_file_or_dict={
                 'metadata': 'level2',
-                'disable_object_list': False,
+                'only_return_goal_object': False,
                 'disable_position': False,
                 'enable_depth_maps': True,
                 'enable_object_masks': True})
@@ -218,15 +228,17 @@ class TestParameter(unittest.TestCase):
             output_folder="path",
             action="TestAction",
             numberProperty=1234,
+            goal_object_ids=[],
             stringProperty="test_property")
         expected = {
             "action": "TestAction",
             "continuous": True,
-            "disableObjectList": True,
             "disablePosition": True,
+            "goalObjectIds": [],
             "gridSize": 0.1,
             "logs": True,
             "numberProperty": 1234,
+            "onlyReturnObjectGoal": False,
             "renderDepthImage": True,
             "renderObjectImage": True,
             "snapToGrid": False,
@@ -241,7 +253,7 @@ class TestParameter(unittest.TestCase):
         config = ConfigManager(
             config_file_or_dict={
                 'metadata': 'level2',
-                'disable_object_list': True,
+                'only_return_goal_object': True,
                 'disable_position': True,
                 'enable_depth_maps': False,
                 'enable_object_masks': False})
@@ -250,15 +262,17 @@ class TestParameter(unittest.TestCase):
             output_folder="path",
             action="TestAction",
             numberProperty=1234,
+            goal_object_ids=[],
             stringProperty="test_property")
         expected = {
             "action": "TestAction",
             "continuous": True,
-            "disableObjectList": True,
             "disablePosition": True,
+            "goalObjectIds": [],
             "gridSize": 0.1,
             "logs": True,
             "numberProperty": 1234,
+            "onlyReturnObjectGoal": False,
             "renderDepthImage": False,
             "renderObjectImage": False,
             "snapToGrid": False,
@@ -273,7 +287,7 @@ class TestParameter(unittest.TestCase):
         config = ConfigManager(
             config_file_or_dict={
                 'metadata': 'level1',
-                'disable_object_list': False,
+                'only_return_goal_object': False,
                 'disable_position': False,
                 'enable_depth_maps': True,
                 'enable_object_masks': True})
@@ -282,14 +296,16 @@ class TestParameter(unittest.TestCase):
             output_folder="path",
             action="TestAction",
             numberProperty=1234,
+            goal_object_ids=[],
             stringProperty="test_property")
         expected = {
             "action": "TestAction",
             "continuous": True,
-            "disableObjectList": True,
             "disablePosition": True,
+            "goalObjectIds": [],
             "gridSize": 0.1,
             "logs": True,
+            "onlyReturnObjectGoal": False,
             "numberProperty": 1234,
             "renderDepthImage": True,
             "renderObjectImage": False,
@@ -305,7 +321,7 @@ class TestParameter(unittest.TestCase):
         config = ConfigManager(
             config_file_or_dict={
                 'metadata': 'level1',
-                'disable_object_list': True,
+                'only_return_goal_object': True,
                 'disable_position': True,
                 'enable_depth_maps': False,
                 'enable_object_masks': False})
@@ -314,15 +330,17 @@ class TestParameter(unittest.TestCase):
             output_folder="path",
             action="TestAction",
             numberProperty=1234,
+            goal_object_ids=[],
             stringProperty="test_property")
         expected = {
             "action": "TestAction",
             "continuous": True,
-            "disableObjectList": True,
             "disablePosition": True,
+            "goalObjectIds": [],
             "gridSize": 0.1,
             "logs": True,
             "numberProperty": 1234,
+            "onlyReturnObjectGoal": False,
             "renderDepthImage": False,
             "renderObjectImage": False,
             "snapToGrid": False,
@@ -337,7 +355,7 @@ class TestParameter(unittest.TestCase):
         config = ConfigManager(
             config_file_or_dict={
                 'metadata': 'none',
-                'disable_object_list': False,
+                'only_return_goal_object': False,
                 'disable_position': False,
                 'enable_depth_maps': True,
                 'enable_object_masks': True})
@@ -346,15 +364,17 @@ class TestParameter(unittest.TestCase):
             output_folder="path",
             action="TestAction",
             numberProperty=1234,
+            goal_object_ids=[],
             stringProperty="test_property")
         expected = {
             "action": "TestAction",
             "continuous": True,
-            "disableObjectList": True,
             "disablePosition": True,
+            "goalObjectIds": [],
             "gridSize": 0.1,
             "logs": True,
             "numberProperty": 1234,
+            "onlyReturnObjectGoal": False,
             "renderDepthImage": False,
             "renderObjectImage": False,
             "snapToGrid": False,
@@ -369,7 +389,7 @@ class TestParameter(unittest.TestCase):
         config = ConfigManager(
             config_file_or_dict={
                 'metadata': 'none',
-                'disable_object_list': True,
+                'only_return_goal_object': True,
                 'disable_position': True,
                 'enable_depth_maps': False,
                 'enable_object_masks': False})
@@ -378,15 +398,17 @@ class TestParameter(unittest.TestCase):
             output_folder="path",
             action="TestAction",
             numberProperty=1234,
+            goal_object_ids=[],
             stringProperty="test_property")
         expected = {
             "action": "TestAction",
             "continuous": True,
-            "disableObjectList": True,
             "disablePosition": True,
+            "goalObjectIds": [],
             "gridSize": 0.1,
             "logs": True,
             "numberProperty": 1234,
+            "onlyReturnObjectGoal": False,
             "renderDepthImage": False,
             "renderObjectImage": False,
             "snapToGrid": False,
