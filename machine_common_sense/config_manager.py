@@ -488,7 +488,7 @@ class ConfigManager:
 
     def is_only_return_object_goal(self) -> bool:
         metadata_tier = self.get_metadata_tier()
-        allowed_by_config = not self._config.getboolean(
+        allowed_by_config = self._config.getboolean(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_ONLY_RETURN_GOAL_OBJECT,
             fallback=False

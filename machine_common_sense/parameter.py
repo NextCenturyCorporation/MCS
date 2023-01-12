@@ -99,14 +99,14 @@ class Parameter:
         metadata_tier = self.config.get_metadata_tier()
         consistent_colors = (metadata_tier == MetadataTier.ORACLE)
         # Create the step data dict for the AI2-THOR step function.
+
         return dict(
             consistentColors=consistent_colors,
             continuous=True,
             disablePosition=self.config.is_position_disabled(),
             gridSize=self.GRID_SIZE,
             logs=True,
-            # onlyReturnObjectGoal=self.config.is_only_return_object_goal(),
-            onlyReturnObjectGoal=True,
+            onlyReturnObjectGoal=self.config.is_only_return_object_goal(),
             recordTopDown=(self.config.is_video_enabled() and
                            self.config.is_top_down_camera()),
             renderDepthImage=self.config.is_depth_maps_enabled(),
@@ -123,7 +123,6 @@ class Parameter:
             goal_object_ids,
             **kwargs
     ) -> Tuple:
-
         action, params = self._validate_and_convert_params(**kwargs)
         action = self._mcs_action_to_ai2thor_action(action)
         wrapped_step = self.wrap_step(
