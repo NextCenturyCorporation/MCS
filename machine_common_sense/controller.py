@@ -196,7 +196,7 @@ class Controller():
         scene_config = self._convert_scene_config(config_data)
 
         self._scene_config = scene_config
-        # When one target key is 'target' 
+        # When one target key is 'target'
         # When multiple targets key is 'targets'
         if config_data.get('goal') is not None and \
             config_data['goal'].get('metadata') is not None and \
