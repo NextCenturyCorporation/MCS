@@ -196,8 +196,14 @@ class Controller():
         scene_config = self._convert_scene_config(config_data)
 
         self._scene_config = scene_config
-        self.__goal_object_ids = \
-            [sub['id'] for sub in config_data['goal']['metadata']['targets']]
+        if config_data.get('goal') is not None and \
+            config_data.get('metadata') is not None and \
+                config_data.get('targets') is not None:
+            self.__goal_object_ids = \
+                [sub['id'] for sub in
+                    config_data['goal']['metadata']['targets']]
+        else:
+            self.__goal_object_ids = []
         self.__habituation_trial = 1
         self.__step_number = 0
         self.__steps_in_lava = 0

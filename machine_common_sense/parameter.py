@@ -104,6 +104,7 @@ class Parameter:
             consistentColors=consistent_colors,
             continuous=True,
             disablePosition=self.config.is_position_disabled(),
+            goalObjectIds=goal_object_ids,
             gridSize=self.GRID_SIZE,
             logs=True,
             onlyReturnObjectGoal=self.config.is_only_return_object_goal(),
@@ -113,7 +114,6 @@ class Parameter:
             renderObjectImage=self.config.is_object_masks_enabled(),
             snapToGrid=False,
             topDownImagePath=output_folder,
-            goalObjectIds=goal_object_ids,
             **kwargs
         )
 
