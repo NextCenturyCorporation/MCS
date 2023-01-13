@@ -1,0 +1,410 @@
+﻿{
+  "goal": {
+    "metadata": {
+      "targets": [
+        {
+          "id": "a9b7bbb2-107e-4ed2-b2cf-b789f288396c"
+        },
+        {
+          "id": "1244a5fc-dfb9-48ba-a2b9-ec88b89bfbe1"
+        },
+        {
+          "id": "755a6b61-523a-47ee-8704-50fe856ff178"
+        },
+        {
+          "id": "460d9b68-63ca-433c-8b7d-84ae1d50c1ee"
+        }
+      ]
+    },
+    "category": "multi retrieval",
+    "description": "Find and pick up as many objects as possible of type: small light black white rubber ball."
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [],
+  "name": "phi_000001",
+  "objects": [
+    {
+      "id": "a9b7bbb2-107e-4ed2-b2cf-b789f288396c",
+      "type": "soccer_ball",
+      "mass": 1.3968,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -6.591,
+            "y": 0.1536,
+            "z": -5.2412
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 45.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.3968,
+            "y": 1.3968,
+            "z": 1.3968
+          }
+        }
+      ],
+      "materials": []
+    },
+    {
+      "id": "1244a5fc-dfb9-48ba-a2b9-ec88b89bfbe1",
+      "type": "soccer_ball",
+      "mass": 1.3968,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -5.7603,
+            "y": 0.1536,
+            "z": 0.2543
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 180.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.3968,
+            "y": 1.3968,
+            "z": 1.3968
+          }
+        }
+      ],
+      "materials": []
+    },
+    {
+      "id": "755a6b61-523a-47ee-8704-50fe856ff178",
+      "type": "soccer_ball",
+      "mass": 1.3968,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -10.8063,
+            "y": 0.1536,
+            "z": 0.2367
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 225.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.3968,
+            "y": 1.3968,
+            "z": 1.3968
+          }
+        }
+      ],
+      "materials": []
+    },
+    {
+      "id": "460d9b68-63ca-433c-8b7d-84ae1d50c1ee",
+      "type": "soccer_ball",
+      "mass": 1.3968,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -3.8366,
+            "y": 0.1536,
+            "z": -3.3044
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 45.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.3968,
+            "y": 1.3968,
+            "z": 1.3968
+          }
+        }
+      ],
+      "materials": []
+    },
+    {
+      "id": "tool_6bc1f0d8-89d1-4653-a421-2ef8a911d437",
+      "type": "tool_rect_1_00_x_8_00",
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -0.7612,
+            "y": 0.15,
+            "z": -1.968
+          },
+          "rotation": {
+            "x": 0,
+            "y": 322,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "ramp_cdde2759-3a47-425b-a42d-9065159d14cd",
+      "type": "triangle",
+      "mass": 9469,
+      "materials": ["Custom/Materials/OrangeWoodMCS"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 7.8114,
+            "y": 1.3549,
+            "z": -0.6012
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 5.1875,
+            "y": 2.7099,
+            "z": 5.3885
+          }
+        }
+      ]
+    },
+    {
+      "id": "dfb17e52-c0e8-442c-b313-9abf9db1707e",
+      "type": "bed_1",
+      "mass": 40.0,
+      "salientMaterials": ["wood"],
+      "receptacle": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 90.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": 1.47,
+            "y": 0,
+            "z": 0.68
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/LimeWoodMCS"]
+    },
+    {
+      "id": "5c70905a-4d3b-4939-b86a-a636ba4cba84",
+      "type": "toolbox_4",
+      "mass": 52.5,
+      "salientMaterials": ["plastic"],
+      "receptacle": true,
+      "openable": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 225.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": 4.88,
+            "y": 0.0,
+            "z": -4.51
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 10.5,
+            "y": 10.5,
+            "z": 10.5
+          }
+        }
+      ],
+      "materials": ["AI2-THOR/Materials/Plastics/WhitePlastic"]
+    },
+    {
+      "id": "4f8de2d8-57c6-4d9b-b72d-9c97a5d31ff5",
+      "type": "table_1",
+      "mass": 8.025,
+      "salientMaterials": ["metal"],
+      "moveable": true,
+      "receptacle": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 45.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": 2.3,
+            "y": 0.0,
+            "z": -5.24
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.175,
+            "y": 1.0,
+            "z": 0.5
+          }
+        }
+      ],
+      "materials": ["AI2-THOR/Materials/Metals/Metal","AI2-THOR/Materials/Metals/Metal"]
+    },
+    {
+      "id": "e5abec4a-e8f7-4b60-a1b3-b74c2160b3d8",
+      "type": "chair_11",
+      "mass": 24.0,
+      "salientMaterials": ["metal"],
+      "moveable": true,
+      "receptacle": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 180.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": -3.11,
+            "y": 0,
+            "z": -5.6
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": ["AI2-THOR/Materials/Metals/BrownMetal 1"]
+    },
+    {
+      "id": "c8dcac36-9e6d-44a6-947f-04571b8bb157",
+      "type": "train_1",
+      "mass": 4.0,
+      "salientMaterials": ["wood"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 360.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": -9.3,
+            "y": 0.01,
+            "z": -2.94
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/VioletWoodMCS"]
+    },
+    {
+      "id": "90315299-432d-4ac9-bda9-b32fd407f7d8",
+      "type": "block_blank_wood_cylinder",
+      "mass": 1.11,
+      "salientMaterials": ["wood"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 315.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": 0.23,
+            "y": 0.05,
+            "z": 0.79
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 1.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": ["UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/red_1x1"]
+    }
+  ],
+  "screenshot": false,
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+  "floorMaterial": "UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 3",
+  "floorTextures": [
+    {
+      "material": "Custom/Materials/BrownWoodMCS",
+      "positions": [
+        {
+          "x": -10,
+          "z": 3
+        }
+      ]
+    }
+  ],
+  "intuitivePhysics": false,
+  "performerStart": {
+    "position": {
+      "x": -5.0288,
+      "y": 0.0,
+      "z": -3.9728
+    },
+    "rotation": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  },
+  "restrictOpenDoors": false,
+  "restrictOpenObjects": false,
+  "roomDimensions": {
+    "x": 25.0,
+    "y": 4.0,
+    "z": 13.0
+  },
+  "roomMaterials": {
+    "back": "Custom/Materials/TealWoodMCS",
+    "front": "Custom/Materials/TealWoodMCS",
+    "left": "Custom/Materials/TealWoodMCS",
+    "right": "Custom/Materials/TealWoodMCS"
+  }
+}

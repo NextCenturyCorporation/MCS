@@ -135,19 +135,19 @@ disable_position
 
 If `true`, does not generate position information output in the metadata. Metadata Tier will override `disable_position`. Default: false
 
-enable_depth_maps
+disable_depth_maps
 ^^^^^^^^^^^^^^^
 
 (boolean, optional)
 
-If `true`, will generate depth maps. Metadata Tier will override `enable_depth_maps`. Will only generate depth maps for Metadata tier [level1, level2, oracle]. Default: true
+If `false`, will generate depth maps. Metadata Tier will override `disable_depth_maps`. Will only generate depth maps for Metadata tier [level1, level2, oracle]. Default: false
 
-enable_object_masks
+disable_object_masks
 ^^^^^^^^^^^^^^^
 
 (boolean, optional)
 
-If `true`, will generate object masks. Metadata Tier will override `enable_depth_maps`. Will only generate object masks for Metadata tier [level2, oracle]. Default: true
+If `false`, will generate object masks. Metadata Tier will override `disable_depth_maps`. Will only generate object masks for Metadata tier [level2, oracle]. Default: false
 
 goal_reward
 ^^^^^^^^^^^^^^^

@@ -312,8 +312,8 @@ class ConfigManager:
     DEFAULT_ROOM_DIMENSIONS = Vector3d(x=10, y=3, z=10)
     CONFIG_FILE_ENV_VAR = 'MCS_CONFIG_FILE_PATH'
     CONFIG_DEFAULT_SECTION = 'MCS'
-    CONFIG_ENABLE_DEPTH_MAPS = 'enable_depth_maps'
-    CONFIG_ENABLE_OBJECT_MASKS = 'enable_object_masks'
+    CONFIG_DISABLE_DEPTH_MAPS = 'disable_depth_maps'
+    CONFIG_DISABLE_OBJECT_MASKS = 'disable_object_masks'
     CONFIG_ONLY_RETURN_GOAL_OBJECT = 'only_return_goal_object'
     CONFIG_DISABLE_POSITION = 'disable_position'
     CONFIG_EVALUATION_NAME = 'evaluation_name'
@@ -471,10 +471,10 @@ class ConfigManager:
     def is_depth_maps_enabled(self) -> bool:
         metadata_tier = self.get_metadata_tier()
 
-        allowed_by_config = self._config.getboolean(
+        allowed_by_config = not self._config.getboolean(
             self.CONFIG_DEFAULT_SECTION,
-            self.CONFIG_ENABLE_DEPTH_MAPS,
-            fallback=True
+            self.CONFIG_DISABLE_DEPTH_MAPS,
+            fallback=False
         )
         allowed_by_metadata_tier = metadata_tier in [
             MetadataTier.LEVEL_1,
@@ -519,10 +519,10 @@ class ConfigManager:
 
     def is_object_masks_enabled(self) -> bool:
         metadata_tier = self.get_metadata_tier()
-        allowed_by_config = self._config.getboolean(
+        allowed_by_config = not self._config.getboolean(
             self.CONFIG_DEFAULT_SECTION,
-            self.CONFIG_ENABLE_OBJECT_MASKS,
-            fallback=True
+            self.CONFIG_DISABLE_OBJECT_MASKS,
+            fallback=False
         )
         allowed_by_metadata_tier = (metadata_tier != MetadataTier.LEVEL_1 and
                                     metadata_tier in

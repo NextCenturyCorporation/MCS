@@ -153,8 +153,8 @@ class TestParameter(unittest.TestCase):
                 'metadata': 'oracle',
                 'only_return_goal_object': True,
                 'disable_position': True,
-                'enable_depth_maps': False,
-                'enable_object_masks': False})
+                'disable_depth_maps': True,
+                'disable_object_masks': True})
         parameter_converter = Parameter(config)
         actual = parameter_converter.wrap_step(
             output_folder="path",
@@ -187,8 +187,8 @@ class TestParameter(unittest.TestCase):
                 'metadata': 'oracle',
                 'only_return_goal_object': False,
                 'disable_position': False,
-                'enable_depth_maps': True,
-                'enable_object_masks': True})
+                'disable_depth_maps': False,
+                'disable_object_masks': False})
         parameter_converter = Parameter(config)
         actual = parameter_converter.wrap_step(
             output_folder="path",
@@ -221,8 +221,8 @@ class TestParameter(unittest.TestCase):
                 'metadata': 'level2',
                 'only_return_goal_object': False,
                 'disable_position': False,
-                'enable_depth_maps': True,
-                'enable_object_masks': True})
+                'disable_depth_maps': False,
+                'disable_object_masks': False})
         parameter_converter = Parameter(config)
         actual = parameter_converter.wrap_step(
             output_folder="path",
@@ -255,8 +255,8 @@ class TestParameter(unittest.TestCase):
                 'metadata': 'level2',
                 'only_return_goal_object': True,
                 'disable_position': True,
-                'enable_depth_maps': False,
-                'enable_object_masks': False})
+                'disable_depth_maps': True,
+                'disable_object_masks': True})
         parameter_converter = Parameter(config)
         actual = parameter_converter.wrap_step(
             output_folder="path",
@@ -289,8 +289,8 @@ class TestParameter(unittest.TestCase):
                 'metadata': 'level1',
                 'only_return_goal_object': False,
                 'disable_position': False,
-                'enable_depth_maps': True,
-                'enable_object_masks': True})
+                'disable_depth_maps': False,
+                'disable_object_masks': False})
         parameter_converter = Parameter(config)
         actual = parameter_converter.wrap_step(
             output_folder="path",
@@ -323,8 +323,8 @@ class TestParameter(unittest.TestCase):
                 'metadata': 'level1',
                 'only_return_goal_object': True,
                 'disable_position': True,
-                'enable_depth_maps': False,
-                'enable_object_masks': False})
+                'disable_depth_maps': True,
+                'disable_object_masks': True})
         parameter_converter = Parameter(config)
         actual = parameter_converter.wrap_step(
             output_folder="path",
@@ -357,8 +357,8 @@ class TestParameter(unittest.TestCase):
                 'metadata': 'none',
                 'only_return_goal_object': False,
                 'disable_position': False,
-                'enable_depth_maps': True,
-                'enable_object_masks': True})
+                'disable_depth_maps': False,
+                'disable_object_masks': False})
         parameter_converter = Parameter(config)
         actual = parameter_converter.wrap_step(
             output_folder="path",
@@ -391,8 +391,8 @@ class TestParameter(unittest.TestCase):
                 'metadata': 'none',
                 'only_return_goal_object': True,
                 'disable_position': True,
-                'enable_depth_maps': False,
-                'enable_object_masks': False})
+                'disable_depth_maps': True,
+                'disable_object_masks': True})
         parameter_converter = Parameter(config)
         actual = parameter_converter.wrap_step(
             output_folder="path",
