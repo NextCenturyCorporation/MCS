@@ -196,6 +196,21 @@ class Controller():
         scene_config = self._convert_scene_config(config_data)
 
         self._scene_config = scene_config
+        # When one target key is 'target'
+        # When multiple targets key is 'targets'
+        if config_data.get('goal') is not None and \
+            config_data['goal'].get('metadata') is not None and \
+                config_data['goal']['metadata'].get('target') is not None:
+            self.__goal_object_ids = \
+                [config_data['goal']['metadata']['target']['id']]
+        elif config_data.get('goal') is not None and \
+            config_data['goal'].get('metadata') is not None and \
+                config_data['goal']['metadata'].get('targets') is not None:
+            self.__goal_object_ids = \
+                [sub['id'] for sub in
+                    config_data['goal']['metadata']['targets']]
+        else:
+            self.__goal_object_ids = []
         self.__habituation_trial = 1
         self.__step_number = 0
         self.__steps_in_lava = 0
@@ -223,7 +238,8 @@ class Controller():
         ai2thor_step = self.parameter_converter.wrap_step(
             output_folder=self.__output_folder,
             action='Initialize',
-            sceneConfig=sc)
+            sceneConfig=sc,
+            goal_object_ids=self.__goal_object_ids)
         step_output = self._controller.step(ai2thor_step)
 
         self._output_handler.set_scene_config(scene_config)
@@ -377,6 +393,7 @@ class Controller():
         ai2thor_step, params = self.parameter_converter.build_ai2thor_step(
             output_path=self.__output_folder,
             action=action,
+            goal_object_ids=self.__goal_object_ids,
             **kwargs)
         step_output = self._controller.step(ai2thor_step)
 

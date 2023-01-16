@@ -312,6 +312,10 @@ class ConfigManager:
     DEFAULT_ROOM_DIMENSIONS = Vector3d(x=10, y=3, z=10)
     CONFIG_FILE_ENV_VAR = 'MCS_CONFIG_FILE_PATH'
     CONFIG_DEFAULT_SECTION = 'MCS'
+    CONFIG_DISABLE_DEPTH_MAPS = 'disable_depth_maps'
+    CONFIG_DISABLE_OBJECT_MASKS = 'disable_object_masks'
+    CONFIG_ONLY_RETURN_GOAL_OBJECT = 'only_return_goal_object'
+    CONFIG_DISABLE_POSITION = 'disable_position'
     CONFIG_EVALUATION_NAME = 'evaluation_name'
     CONFIG_HISTORY_ENABLED = 'history_enabled'
     CONFIG_METADATA_TIER = 'metadata'
@@ -354,7 +358,7 @@ class ConfigManager:
                 self._read_in_config_file(os.getenv(self.CONFIG_FILE_ENV_VAR))
             elif (isinstance(config_file_or_dict, dict)):
                 self._read_in_config_dict(config_file_or_dict)
-            elif(isinstance(config_file_or_dict, str)):
+            elif (isinstance(config_file_or_dict, str)):
                 self._read_in_config_file(config_file_or_dict)
             else:
                 raise FileNotFoundError("No config options given")
@@ -378,7 +382,7 @@ class ConfigManager:
             raise FileNotFoundError()
 
     def _validate_screen_size(self):
-        if(self.get_size() < self.SCREEN_WIDTH_MIN):
+        if (self.get_size() < self.SCREEN_WIDTH_MIN):
             self._config.set(
                 self.CONFIG_DEFAULT_SECTION,
                 self.CONFIG_SIZE,
@@ -466,22 +470,70 @@ class ConfigManager:
 
     def is_depth_maps_enabled(self) -> bool:
         metadata_tier = self.get_metadata_tier()
-        return metadata_tier in [
+
+        allowed_by_config = not self._config.getboolean(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_DISABLE_DEPTH_MAPS,
+            fallback=False
+        )
+        allowed_by_metadata_tier = metadata_tier in [
             MetadataTier.LEVEL_1,
             MetadataTier.LEVEL_2,
             MetadataTier.ORACLE,
         ]
+        if allowed_by_metadata_tier and allowed_by_config:
+            return True
+        else:
+            return False
+
+    def is_only_return_object_goal(self) -> bool:
+        metadata_tier = self.get_metadata_tier()
+        allowed_by_config = self._config.getboolean(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_ONLY_RETURN_GOAL_OBJECT,
+            fallback=False
+        )
+        allowed_by_metadata_tier = metadata_tier in [
+            MetadataTier.ORACLE
+        ]
+        if allowed_by_metadata_tier and allowed_by_config:
+            return True
+        else:
+            return False
+
+    def is_position_disabled(self) -> bool:
+        metadata_tier = self.get_metadata_tier()
+        allowed_by_config = not self._config.getboolean(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_DISABLE_POSITION,
+            fallback=False
+        )
+        allowed_by_metadata_tier = metadata_tier in [
+            MetadataTier.ORACLE
+        ]
+
+        if allowed_by_metadata_tier and allowed_by_config:
+            return False
+        else:
+            return True
 
     def is_object_masks_enabled(self) -> bool:
         metadata_tier = self.get_metadata_tier()
-        return (
-            metadata_tier != MetadataTier.LEVEL_1 and
-            metadata_tier in
-            [
-                MetadataTier.LEVEL_2,
-                MetadataTier.ORACLE,
-            ]
+        allowed_by_config = not self._config.getboolean(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_DISABLE_OBJECT_MASKS,
+            fallback=False
         )
+        allowed_by_metadata_tier = (metadata_tier != MetadataTier.LEVEL_1 and
+                                    metadata_tier in
+                                    [
+                                        MetadataTier.LEVEL_2,
+                                        MetadataTier.ORACLE,
+                                    ])
+        if allowed_by_metadata_tier and allowed_by_config:
+            return True
+        else:
+            return False
 
     def get_screen_size(self) -> Tuple[int, int]:
         return (self.get_screen_width(), self.get_screen_height())
