@@ -349,10 +349,6 @@ def start_handmade_tests(
                 reset_config = True
                 mcs.change_config(
                     controller, config_file_or_dict=config_override_filename)
-            elif reset_config is True:
-                reset_config = False
-                mcs.change_config(
-                    controller, config_file_or_dict=config_filename)
 
             print(f'RUNNING SCENE: {os.path.basename(scene_filename)}')
             try:
@@ -375,6 +371,11 @@ def start_handmade_tests(
                 successful_test_list.append((test_name, metadata_tier))
             else:
                 failed_test_list.append((test_name, metadata_tier, status))
+
+            if reset_config is True:
+                reset_config = False
+                mcs.change_config(
+                    controller, config_file_or_dict=config_filename)
 
         # Run each additional test at this metadata tier.
         for runner_function in (
