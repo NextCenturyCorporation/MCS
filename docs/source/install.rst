@@ -2,8 +2,8 @@
 Installation and Setup
 =======================
 
-.. _Download and unzip the Mac ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.6.3/MCS-AI2-THOR-Unity-App-v0.6.3-mac.zip
-.. _Download and unzip the Linux ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.6.3/MCS-AI2-THOR-Unity-App-v0.6.3-linux.zip
+.. _Download and unzip the Mac ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.6.4/MCS-AI2-THOR-Unity-App-v0.6.4-mac.zip
+.. _Download and unzip the Linux ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.6.4/MCS-AI2-THOR-Unity-App-v0.6.4-linux.zip
 
 Virtual Environments
 ------------------------
@@ -120,6 +120,34 @@ To use a specific configuration, you can either pass in a file path or dictionar
 
 Config File Properties
 **********************
+
+only_return_goal_object
+^^^^^^^^^^^^^^^
+
+(boolean, optional)
+
+If `true`, only returns the goal object from the object list output in the metadata. Metadata Tier will override `only_return_goal_object`. Default: false
+
+disable_position
+^^^^^^^^^^^^^^^
+
+(boolean, optional)
+
+If `true`, does not generate position information output in the metadata. Metadata Tier will override `disable_position`. Default: false
+
+disable_depth_maps
+^^^^^^^^^^^^^^^
+
+(boolean, optional)
+
+If `false`, will generate depth maps. Metadata Tier will override `disable_depth_maps`. Will only generate depth maps for Metadata tier [level1, level2, oracle]. Default: false
+
+disable_object_masks
+^^^^^^^^^^^^^^^
+
+(boolean, optional)
+
+If `false`, will generate object masks. Metadata Tier will override `disable_depth_maps`. Will only generate object masks for Metadata tier [level2, oracle]. Default: false
 
 goal_reward
 ^^^^^^^^^^^^^^^

@@ -46,10 +46,14 @@ class TestController(unittest.TestCase):
 
     def create_step_data(self, **kwargs):
         data = dict(
+            clockwise=True,
             consistentColors=False,
             continuous=True,
+            disablePosition=True,
+            goalObjectIds=[],
             gridSize=Parameter.GRID_SIZE,
             horizon=0.0,
+            lateral=0,
             logs=True,
             moveMagnitude=mcs.controller.DEFAULT_MOVE,
             objectId=None,
@@ -57,6 +61,7 @@ class TestController(unittest.TestCase):
                 'x': 0,
                 'y': 0
             },
+            onlyReturnObjectGoal=False,
             receptacleObjectId=None,
             receptacleObjectImageCoords={
                 'x': 0,
@@ -67,12 +72,10 @@ class TestController(unittest.TestCase):
             renderObjectImage=False,
             rotation={'y': 0.0},
             snapToGrid=False,
+            straight=1,
             teleportPosition=None,
             teleportRotation=None,
-            topDownImagePath=None,
-            clockwise=True,
-            lateral=0,
-            straight=1
+            topDownImagePath=None
         )
 
         for key, value in kwargs.items():
