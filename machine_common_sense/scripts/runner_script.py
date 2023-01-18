@@ -14,7 +14,6 @@ mcs.LoggingConfig.init_logging(mcs.LoggingConfig.get_dev_logging_config())
 
 
 SCRIPT_FOLDER = os.path.dirname(os.path.abspath(__file__))
-BLACK_IMAGE_PATH = SCRIPT_FOLDER + '/black_image.png'
 
 
 class AbstractRunnerScript():
@@ -59,8 +58,6 @@ class AbstractRunnerScript():
             init_callback(controller)
 
         for filename in filenames:
-            print('Starting next scene timer')
-            begin_time = time.perf_counter()
             scene_name = self.run_scene(
                 controller,
                 filename,
@@ -69,17 +66,6 @@ class AbstractRunnerScript():
                 args.prefix,
                 args.rename
             )
-            end_time = time.perf_counter()
-            time_diff = end_time - begin_time
-            print(f'{scene_name} scene timer: {time_diff:0.4f} seconds')
-            if args.save_videos or args.save_gifs:
-                # Copy the black image into the debug folder as the last frame.
-                frame_image_list = glob.glob(scene_name + '/frame_image_*')
-                frame_count = len(frame_image_list)
-                black_frame = (
-                    scene_name + '/frame_image_' + str(frame_count) + '.png'
-                )
-                subprocess.call(['cp', BLACK_IMAGE_PATH, black_frame])
             if args.save_videos:
                 subprocess.call([
                     'ffmpeg', '-y', '-r', '20', '-i',
@@ -228,11 +214,18 @@ class AbstractRunnerScript():
         step_metadata = controller.start_scene(scene_data)
         action, params = action_callback(scene_data, step_metadata, self)
 
+        print(f'STARTING SCENE TIMER: {scene_data["name"]}')
+        begin_time = time.perf_counter()
+
         while action is not None:
             step_metadata = controller.step(action, **params)
             if step_metadata is None:
                 break
             action, params = action_callback(scene_data, step_metadata, self)
+
+        end_time = time.perf_counter()
+        time_diff = end_time - begin_time
+        print(f'{scene_data["name"]} SCENE TIMER: {time_diff:0.4f} seconds')
 
         controller.end_scene()
 
