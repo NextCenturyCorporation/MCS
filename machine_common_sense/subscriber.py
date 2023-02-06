@@ -37,7 +37,7 @@ def add_subscribers(controller: Controller, config: ConfigManager):
             controller.subscribe(DepthVideoEventHandler())
         if (config.is_object_masks_enabled()):
             controller.subscribe(SegmentationVideoEventHandler())
-    # Add the logger unless the mode is falsey (False, None, etc.)
+    # Add the logger unless no modes are configured.
     if config.get_terminal_output_mode():
         controller.subscribe(ControllerLogger())
     # TODO once we remove evaulation code, we can better handle when,
