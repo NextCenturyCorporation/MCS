@@ -91,7 +91,7 @@ class Reward(object):
                 [obj.get('isPickedUp', False) for obj in goal_objects]):
             reward = goal_reward
 
-        return reward
+        return round(reward, 4)
 
     @staticmethod
     def _adjust_score_penalty(
