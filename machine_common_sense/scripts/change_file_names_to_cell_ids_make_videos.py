@@ -1,7 +1,8 @@
 import argparse
-import os
 import json
+import os
 import shutil
+
 DESCRIPTION = (
     "This script does two things. First you need to copy and paste your "
     "generated hypercube scenes both debug and non-debug to a directory "
