@@ -29,7 +29,7 @@ class FileRenamerVideoCreator:
     def __init__(self, files: bool, videos: bool,
                  unity: str, action_file: str):
         self._files = files
-        self._videos = videos = videos
+        self._videos = videos
         self._unity_build_path = unity
         self._action_file = action_file
         self._actions = None
@@ -38,7 +38,7 @@ class FileRenamerVideoCreator:
             self._actions = ["Pass"] * 10
 
     def run(self):
-        if self._change_file_names:
+        if self._files:
             self._change_file_names()
         if self._videos:
             self._make_videos()
