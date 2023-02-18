@@ -323,8 +323,9 @@ class ControllerOutputHandler():
                 [] if restrict_non_oracle else self._scene_event.object_list),
             object_mask_list=([] if restrict_object_mask_list else
                               self._scene_event.object_mask_list),
-            position=(
-                None if restrict_non_oracle else self._scene_event.position),
+            position=(None if (
+                restrict_non_oracle or self._config.is_position_disabled()
+            ) else self._scene_event.position),
             performer_radius=self._scene_event.performer_radius,
             performer_reach=self._scene_event.performer_reach,
             return_status=self._scene_event.return_status,
@@ -362,6 +363,8 @@ class ControllerOutputHandler():
 
         if (restrict_non_oracle):
             self.filter_step_output(step_output)
+        elif self._config.is_position_disabled():
+            step_output.position = None
 
         return step_output
 

@@ -6,19 +6,47 @@ from machine_common_sense.controller import Controller
 from machine_common_sense.controller_events import (
     AbstractControllerSubscriber, ControllerEventPayload)
 
+LAST_ACTION = None
 MAX_DISTANCE = 0.06
 MAX_DELTA_ANGLE = 11
+WAIT = 0
 
 
 def get_waypoint_action(delta_angle, step_metadata):
+    global LAST_ACTION, WAIT
     if len(step_metadata.action_list) == 1:
         return step_metadata.action_list[0]
-    if step_metadata.return_status == 'OBSTRUCTED':
+    status = step_metadata.return_status
+    if LAST_ACTION == 'OPEN' and status == 'SUCCESSFUL':
+        # Successfully opened the container; end scene.
+        return None, None
+    if LAST_ACTION == 'INTERACT' and status == 'SUCCESSFUL':
+        # Wait for the agent to turn and produce the target.
+        WAIT += 1
+        if WAIT == 10:
+            return None, None
+        return ('Pass', {})
+    if status == 'OBSTRUCTED':
+        # Try opening a container.
+        LAST_ACTION = 'OPEN'
         return 'OpenObject', {
-            'objectImageCoordsX': 160, 'objectImageCoordsY': 120}
+            'objectImageCoordsX': 160,
+            'objectImageCoordsY': 120
+        }
+    if LAST_ACTION == 'OPEN':
+        # Try asking an agent to produce the target.
+        LAST_ACTION = 'INTERACT'
+        return 'InteractWithAgent', {
+            'objectImageCoordsX': 300,
+            'objectImageCoordsY': 200
+        }
+    if LAST_ACTION == 'INTERACT':
+        return None, None
     if abs(delta_angle) > MAX_DELTA_ANGLE:
+        LAST_ACTION = 'ROTATE'
         return ('RotateLeft' if delta_angle > 0 else 'RotateRight', {})
     else:
+        LAST_ACTION = 'MOVE'
         return ('MoveAhead', {})
 
 
@@ -70,7 +98,6 @@ class PathFollower(AbstractControllerSubscriber):
                 return None, None
             waypoint = path[self.waypoint_index]
             sq_dist, delta_angle = get_deltas(step_metadata, waypoint)
-
         return get_waypoint_action(delta_angle, step_metadata)
 
 
