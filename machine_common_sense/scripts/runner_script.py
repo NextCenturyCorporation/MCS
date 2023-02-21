@@ -29,7 +29,7 @@ class AbstractRunnerScript():
         self._name = name
         args, filenames = self._read_args()
         if not len(filenames):
-            print('No matching files found... Exiting')
+            logger.debug('No matching files found... Exiting')
             exit()
         self.args = args
 
@@ -47,7 +47,7 @@ class AbstractRunnerScript():
             SCRIPT_FOLDER + '/config_' + config_suffix + '.ini'
         )
 
-        print('========================================')
+        logger.debug('+' * 79)
         controller = mcs.create_controller(
             unity_app_file_path=args.mcs_unity_build_file,
             unity_cache_version=args.mcs_unity_version,
@@ -214,7 +214,7 @@ class AbstractRunnerScript():
         step_metadata = controller.start_scene(scene_data)
         action, params = action_callback(scene_data, step_metadata, self)
 
-        print(f'STARTING SCENE TIMER: {scene_data["name"]}')
+        logger.debug(f'[SCENE TIMER] {scene_data["name"]} STARTING')
         begin_time = time.perf_counter()
 
         while action is not None:
@@ -225,7 +225,10 @@ class AbstractRunnerScript():
 
         end_time = time.perf_counter()
         time_diff = end_time - begin_time
-        print(f'{scene_data["name"]} SCENE TIMER: {time_diff:0.4f} seconds')
+        logger.debug(
+            f'[SCENE TIMER] {scene_data["name"]} ENDING: '
+            f'{time_diff:0.4f} seconds'
+        )
 
         controller.end_scene()
 
@@ -297,14 +300,14 @@ class MultipleFileRunnerScript(AbstractRunnerScript):
     ) -> Tuple[argparse.Namespace, List[str]]:
         args = parser.parse_args()
         filenames = glob.glob(args.mcs_scene_prefix + '*_debug.json')
-        print(
+        logger.debug(
             f'Found {len(filenames)} files matching '
             f'{args.mcs_scene_prefix + "*_debug.json"}'
         )
         if not len(filenames):
-            print('No matching files found... trying non-debug files')
+            logger.debug('No matching files found... trying non-debug files')
             filenames = glob.glob(args.mcs_scene_prefix + '*.json')
-            print(
+            logger.debug(
                 f'Found {len(filenames)} files matching '
                 f'{args.mcs_scene_prefix + "*.json"}'
             )
