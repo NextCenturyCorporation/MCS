@@ -273,8 +273,6 @@ class Controller():
                 output.depth_map_list = depth_map_list
                 output.object_mask_list = object_mask_list
 
-            logger.debug('NO PREVIEW PHASE')
-
             # TODO Should this be in the if block?  Now that we are using
             # subscribers, we may want to always register
             if(self._failure_handler_registered is False and
