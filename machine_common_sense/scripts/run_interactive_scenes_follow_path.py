@@ -6,66 +6,15 @@ from machine_common_sense.controller import Controller
 from machine_common_sense.controller_events import (
     AbstractControllerSubscriber, ControllerEventPayload)
 
-LAST_ACTION = None
 MAX_DISTANCE = 0.06
 MAX_DELTA_ANGLE = 11
-WAIT = 0
-
-
-def get_waypoint_action(delta_angle, step_metadata):
-    global LAST_ACTION, WAIT
-    if len(step_metadata.action_list) == 1:
-        return step_metadata.action_list[0]
-    status = step_metadata.return_status
-    if LAST_ACTION == 'OPEN' and status == 'SUCCESSFUL':
-        # Successfully opened the container; end scene.
-        return None, None
-    if LAST_ACTION == 'INTERACT' and status == 'SUCCESSFUL':
-        # Wait for the agent to turn and produce the target.
-        WAIT += 1
-        if WAIT == 10:
-            return None, None
-        return ('Pass', {})
-    if status == 'OBSTRUCTED':
-        # Try opening a container.
-        LAST_ACTION = 'OPEN'
-        return 'OpenObject', {
-            'objectImageCoordsX': 160,
-            'objectImageCoordsY': 120
-        }
-    if LAST_ACTION == 'OPEN':
-        # Try asking an agent to produce the target.
-        LAST_ACTION = 'INTERACT'
-        return 'InteractWithAgent', {
-            'objectImageCoordsX': 300,
-            'objectImageCoordsY': 200
-        }
-    if LAST_ACTION == 'INTERACT':
-        return None, None
-    if abs(delta_angle) > MAX_DELTA_ANGLE:
-        LAST_ACTION = 'ROTATE'
-        return ('RotateLeft' if delta_angle > 0 else 'RotateRight', {})
-    else:
-        LAST_ACTION = 'MOVE'
-        return ('MoveAhead', {})
-
-
-def get_deltas(previous_output, waypoint):
-    pos = previous_output.position
-    rot = previous_output.rotation
-    delta_x = waypoint['x'] - pos['x']
-    delta_z = waypoint['z'] - pos['z']
-    square_distance = delta_x * delta_x + delta_z * delta_z
-    target_angle = math.degrees(math.atan2(delta_x, delta_z))
-    delta_angle = (rot - target_angle + 720) % 360
-    delta_angle = delta_angle if delta_angle <= 180 else delta_angle - 360
-    return square_distance, delta_angle
 
 
 class PathFollower(AbstractControllerSubscriber):
-    waypoint_index = 0
-
+    last_action = None
     scene_name = ""
+    wait = 0
+    waypoint_index = 0
 
     def on_start_scene(self, payload: ControllerEventPayload):
         self.previous_output = payload.step_output
@@ -80,6 +29,8 @@ class PathFollower(AbstractControllerSubscriber):
         step_metadata = self.previous_output
         if scene_data['name'] != self.scene_name:
             self.scene_name = scene_data['name']
+            self.last_action = None
+            self.wait = 0
             self.waypoint_index = 0
 
         path = scene_data.get('debug', {}).get('path')
@@ -91,14 +42,61 @@ class PathFollower(AbstractControllerSubscriber):
             print("No position provided.")
             return None, None
         waypoint = path[self.waypoint_index]
-        sq_dist, delta_angle = get_deltas(step_metadata, waypoint)
+        sq_dist, delta_angle = self.get_deltas(step_metadata, waypoint)
         while sq_dist < MAX_DISTANCE**2:
             self.waypoint_index += 1
             if self.waypoint_index >= len(path):
                 return None, None
             waypoint = path[self.waypoint_index]
-            sq_dist, delta_angle = get_deltas(step_metadata, waypoint)
-        return get_waypoint_action(delta_angle, step_metadata)
+            sq_dist, delta_angle = self.get_deltas(step_metadata, waypoint)
+        return self.get_waypoint_action(delta_angle, step_metadata)
+
+    def get_waypoint_action(self, delta_angle, step_metadata):
+        if len(step_metadata.action_list) == 1:
+            return step_metadata.action_list[0]
+        status = step_metadata.return_status
+        if self.last_action == 'OPEN' and status == 'SUCCESSFUL':
+            # Successfully opened the container; end scene.
+            return None, None
+        if self.last_action == 'INTERACT' and status == 'SUCCESSFUL':
+            # Wait for the agent to turn and produce the target.
+            self.wait += 1
+            if self.wait == 10:
+                return None, None
+            return ('Pass', {})
+        if status == 'OBSTRUCTED':
+            # Try opening a container.
+            self.last_action = 'OPEN'
+            return 'OpenObject', {
+                'objectImageCoordsX': 160,
+                'objectImageCoordsY': 120
+            }
+        if self.last_action == 'OPEN':
+            # Try asking an agent to produce the target.
+            self.last_action = 'INTERACT'
+            return 'InteractWithAgent', {
+                'objectImageCoordsX': 300,
+                'objectImageCoordsY': 200
+            }
+        if self.last_action == 'INTERACT':
+            return None, None
+        if abs(delta_angle) > MAX_DELTA_ANGLE:
+            self.last_action = 'ROTATE'
+            return ('RotateLeft' if delta_angle > 0 else 'RotateRight', {})
+        else:
+            self.last_action = 'MOVE'
+            return ('MoveAhead', {})
+
+    def get_deltas(self, previous_output, waypoint):
+        pos = previous_output.position
+        rot = previous_output.rotation
+        delta_x = waypoint['x'] - pos['x']
+        delta_z = waypoint['z'] - pos['z']
+        square_distance = delta_x * delta_x + delta_z * delta_z
+        target_angle = math.degrees(math.atan2(delta_x, delta_z))
+        delta_angle = (rot - target_angle + 720) % 360
+        delta_angle = delta_angle if delta_angle <= 180 else delta_angle - 360
+        return square_distance, delta_angle
 
 
 follower = PathFollower()
