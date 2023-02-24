@@ -10,6 +10,11 @@ MAX_DISTANCE = 0.06
 MAX_DELTA_ANGLE = 11
 
 
+"""
+Must be run at oracle metadata level on debug scene(s) with a "path" section.
+"""
+
+
 class PathFollower(AbstractControllerSubscriber):
     last_action = None
     scene_name = ""
@@ -35,17 +40,25 @@ class PathFollower(AbstractControllerSubscriber):
 
         path = scene_data.get('debug', {}).get('path')
         if not path:
-            print("Scene did not have 'debug.path' section")
+            print("[ERROR] Scene doesn't have a 'debug.path' section.")
+            print("[DEBUG] Now exiting...")
             return None, None
 
         if not step_metadata.position:
-            print("No position provided.")
+            print(
+                "[ERROR] No performer position found (are you running "
+                "with oracle metadata?)."
+            )
+            print("[DEBUG] Now exiting...")
             return None, None
+
         waypoint = path[self.waypoint_index]
         sq_dist, delta_angle = self.get_deltas(step_metadata, waypoint)
         while sq_dist < MAX_DISTANCE**2:
             self.waypoint_index += 1
             if self.waypoint_index >= len(path):
+                print("[DEBUG] Reached destination.")
+                print("[DEBUG] Now exiting...")
                 return None, None
             waypoint = path[self.waypoint_index]
             sq_dist, delta_angle = self.get_deltas(step_metadata, waypoint)
@@ -57,11 +70,15 @@ class PathFollower(AbstractControllerSubscriber):
         status = step_metadata.return_status
         if self.last_action == 'OPEN' and status == 'SUCCESSFUL':
             # Successfully opened the container; end scene.
+            print("[DEBUG] Container opened.")
+            print("[DEBUG] Now exiting...")
             return None, None
         if self.last_action == 'INTERACT' and status == 'SUCCESSFUL':
             # Wait for the agent to turn and produce the target.
             self.wait += 1
             if self.wait == 10:
+                print("[DEBUG] Successful interaction with agent.")
+                print("[DEBUG] Now exiting...")
                 return None, None
             return ('Pass', {})
         if status == 'OBSTRUCTED':
@@ -79,6 +96,8 @@ class PathFollower(AbstractControllerSubscriber):
                 'objectImageCoordsY': 200
             }
         if self.last_action == 'INTERACT':
+            print("[DEBUG] No container to open, no agent for interaction.")
+            print("[DEBUG] Now exiting...")
             return None, None
         if abs(delta_angle) > MAX_DELTA_ANGLE:
             self.last_action = 'ROTATE'
