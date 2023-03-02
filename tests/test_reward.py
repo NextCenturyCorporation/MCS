@@ -286,6 +286,120 @@ class TestReward(unittest.TestCase):
         self.assertEqual(reward, 0)
         self.assertIsInstance(reward, int)
 
+    def test_retrieval_reward_multi_target_pickup_one_of_two(self):
+        goal = mcs.GoalMetadata()
+        goal.metadata['targets'] = [{'id': '0'}, {'id': '1'}]
+        goal.metadata['pickup_number'] = 1
+
+        # Test: Picking up no targets should return a reward of 0
+        obj_list = [
+            {'objectId': '0', 'isPickedUp': False},
+            {'objectId': '1', 'isPickedUp': False}
+        ]
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
+        self.assertEqual(reward, 0)
+
+        # Test: Picking up only the 1st target should return a reward of 1
+        obj_list = [
+            {'objectId': '0', 'isPickedUp': True},
+            {'objectId': '1', 'isPickedUp': False}
+        ]
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
+        self.assertEqual(reward, 1)
+
+        # Test: Picking up only the 2nd target should return a reward of 1
+        obj_list = [
+            {'objectId': '0', 'isPickedUp': False},
+            {'objectId': '1', 'isPickedUp': True}
+        ]
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
+        self.assertEqual(reward, 1)
+
+        # Test: Picking up all targets should return a reward of 1
+        obj_list = [
+            {'objectId': '0', 'isPickedUp': True},
+            {'objectId': '1', 'isPickedUp': True}
+        ]
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
+        self.assertEqual(reward, 1)
+
+    def test_retrieval_reward_multi_target_pickup_two_of_three(self):
+        goal = mcs.GoalMetadata()
+        goal.metadata['targets'] = [{'id': '0'}, {'id': '1'}, {'id': '2'}]
+        goal.metadata['pickup_number'] = 2
+
+        # Test: Picking up no targets should return a reward of 0
+        obj_list = [
+            {'objectId': '0', 'isPickedUp': False},
+            {'objectId': '1', 'isPickedUp': False},
+            {'objectId': '2', 'isPickedUp': False}
+        ]
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
+        self.assertEqual(reward, 0)
+
+        # Test: Picking up only the 1st target should return a reward of 0
+        obj_list = [
+            {'objectId': '0', 'isPickedUp': True},
+            {'objectId': '1', 'isPickedUp': False},
+            {'objectId': '2', 'isPickedUp': False}
+        ]
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
+        self.assertEqual(reward, 0)
+
+        # Test: Picking up only the 2nd target should return a reward of 0
+        obj_list = [
+            {'objectId': '0', 'isPickedUp': False},
+            {'objectId': '1', 'isPickedUp': True},
+            {'objectId': '2', 'isPickedUp': False}
+        ]
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
+        self.assertEqual(reward, 0)
+
+        # Test: Picking up only the 3rd target should return a reward of 0
+        obj_list = [
+            {'objectId': '0', 'isPickedUp': False},
+            {'objectId': '1', 'isPickedUp': False},
+            {'objectId': '2', 'isPickedUp': True}
+        ]
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
+        self.assertEqual(reward, 0)
+
+        # Test: Picking up the 1st and 2nd targets should return a reward of 1
+        obj_list = [
+            {'objectId': '0', 'isPickedUp': True},
+            {'objectId': '1', 'isPickedUp': True},
+            {'objectId': '2', 'isPickedUp': False}
+        ]
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
+        self.assertEqual(reward, 1)
+
+        # Test: Picking up the 1st and 3rd targets should return a reward of 1
+        obj_list = [
+            {'objectId': '0', 'isPickedUp': True},
+            {'objectId': '1', 'isPickedUp': False},
+            {'objectId': '2', 'isPickedUp': True}
+        ]
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
+        self.assertEqual(reward, 1)
+
+        # Test: Picking up the 2nd and 3rd targets should return a reward of 1
+        obj_list = [
+            {'objectId': '0', 'isPickedUp': False},
+            {'objectId': '1', 'isPickedUp': True},
+            {'objectId': '2', 'isPickedUp': True}
+        ]
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
+        self.assertEqual(reward, 1)
+
+        # Test: Picking up all targets should return a reward of 1
+        obj_list = [
+            {'objectId': '0', 'isPickedUp': True},
+            {'objectId': '1', 'isPickedUp': True},
+            {'objectId': '2', 'isPickedUp': True}
+        ]
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
+        self.assertEqual(reward, 1)
+
 
 if __name__ == '__main__':
     unittest.main()
