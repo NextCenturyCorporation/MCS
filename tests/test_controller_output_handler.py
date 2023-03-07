@@ -515,7 +515,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual.lava, [
             (2.5, 2.5, 3.5, 3.5), (6.5, 4.5, 7.5, 5.5), (3.5, 5.5, 4.5, 6.5)
         ])
-        self.assertEqual(actual.position, None)
+        self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
         self.assertEqual(actual.resolved_object, 'testResolvedId')
         self.assertEqual(actual.resolved_receptacle, '')
         self.assertEqual(actual.rotation, 2.222)
@@ -613,9 +613,9 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         # IF we are at default level, shouldn't depth maps, object masks be
         # restricted?
-        self.assertEqual(len(actual.depth_map_list), 0)
+        self.assertEqual(len(actual.depth_map_list), 1)
         self.assertEqual(len(actual.image_list), 1)
-        self.assertEqual(len(actual.object_mask_list), 0)
+        self.assertEqual(len(actual.object_mask_list), 1)
         '''numpy.testing.assert_almost_equal(
             numpy.array(actual.depth_map_list[0]),
             numpy.array([[30, 60], [90, 120]], dtype=numpy.float32),

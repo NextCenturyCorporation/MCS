@@ -506,71 +506,32 @@ class ConfigManager:
         )
 
     def is_depth_maps_enabled(self) -> bool:
-        metadata_tier = self.get_metadata_tier()
-
-        allowed_by_config = not self._config.getboolean(
+        return not self._config.getboolean(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_DISABLE_DEPTH_MAPS,
             fallback=False
         )
-        allowed_by_metadata_tier = metadata_tier in [
-            MetadataTier.LEVEL_1,
-            MetadataTier.LEVEL_2,
-            MetadataTier.ORACLE,
-        ]
-        if allowed_by_metadata_tier and allowed_by_config:
-            return True
-        else:
-            return False
 
     def is_only_return_object_goal(self) -> bool:
-        metadata_tier = self.get_metadata_tier()
-        allowed_by_config = self._config.getboolean(
+        return self._config.getboolean(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_ONLY_RETURN_GOAL_OBJECT,
             fallback=False
         )
-        allowed_by_metadata_tier = metadata_tier in [
-            MetadataTier.ORACLE
-        ]
-        if allowed_by_metadata_tier and allowed_by_config:
-            return True
-        else:
-            return False
 
     def is_position_disabled(self) -> bool:
-        metadata_tier = self.get_metadata_tier()
-        allowed_by_config = not self._config.getboolean(
+        return self._config.getboolean(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_DISABLE_POSITION,
             fallback=False
         )
-        allowed_by_metadata_tier = metadata_tier in [
-            MetadataTier.ORACLE
-        ]
-
-        if allowed_by_metadata_tier and allowed_by_config:
-            return False
-        else:
-            return True
 
     def is_object_masks_enabled(self) -> bool:
-        metadata_tier = self.get_metadata_tier()
-        allowed_by_config = not self._config.getboolean(
+        return not self._config.getboolean(
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_DISABLE_OBJECT_MASKS,
             fallback=False
         )
-        allowed_by_metadata_tier = (metadata_tier != MetadataTier.LEVEL_1 and
-                                    metadata_tier in
-                                    [
-                                        MetadataTier.LEVEL_2,
-                                        MetadataTier.ORACLE,
-                                    ])
-        if allowed_by_metadata_tier and allowed_by_config:
-            return True
-        else:
-            return False
 
     def get_screen_size(self) -> Tuple[int, int]:
         return (self.get_screen_width(), self.get_screen_height())
