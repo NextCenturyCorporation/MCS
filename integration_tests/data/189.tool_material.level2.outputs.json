@@ -1,0 +1,970 @@
+[
+    {
+      "objects": [
+        {
+            "associatedWithAgent": "",
+            "colorsFromMaterials": [
+                "grey",
+                "black"
+            ],
+            "direction": {
+                "x": -0.8301391005516052,
+                "y": -0.0677393451333046,
+                "z": 0.553426206111908
+            },
+            "distance": 9.03463077545166,
+            "distanceXZ": 9.01387882232666,
+            "heading": {
+                "x": -7.5,
+                "y": -0.6119999885559082,
+                "z": 5.000001430511475
+            },
+            "isMoving": false,
+            "isOpen": false,
+            "isPickedUp": false,
+            "locked": false,
+            "mass": 6.0,
+            "moveable": true,
+            "name": "tool",
+            "objectBounds": {
+                "objectBoundsCorners": [
+                    {
+                        "x": -7.0,
+                        "y": 0.0,
+                        "z": 9.000001907348633
+                    },
+                    {
+                        "x": -8.0,
+                        "y": 0.0,
+                        "z": 9.000001907348633
+                    },
+                    {
+                        "x": -8.0,
+                        "y": 0.0,
+                        "z": 1.0000014305114746
+                    },
+                    {
+                        "x": -7.0,
+                        "y": 0.0,
+                        "z": 1.0000014305114746
+                    },
+                    {
+                        "x": -7.0,
+                        "y": 0.30000001192092896,
+                        "z": 9.000001907348633
+                    },
+                    {
+                        "x": -8.0,
+                        "y": 0.30000001192092896,
+                        "z": 9.000001907348633
+                    },
+                    {
+                        "x": -8.0,
+                        "y": 0.30000001192092896,
+                        "z": 1.0000014305114746
+                    },
+                    {
+                        "x": -7.0,
+                        "y": 0.30000001192092896,
+                        "z": 1.0000014305114746
+                    }
+                ]
+            },
+            "objectId": "tool",
+            "objectType": null,
+            "openPercent": 0.0,
+            "openable": false,
+            "parentReceptacles": null,
+            "pickupable": false,
+            "points": null,
+            "position": {
+                "x": -7.5,
+                "y": 0.15000000596046448,
+                "z": 5.000001430511475
+            },
+            "receptacleObjectIds": null,
+            "rotation": {
+                "x": 5.657408053139079e-08,
+                "y": -1.5337783452196163e-06,
+                "z": 3.5225340866418264e-07
+            },
+            "salientMaterials": [
+                "Metal"
+            ],
+            "shape": "tool",
+            "simulationAgentHeldObject": "",
+            "simulationAgentIsHoldingHeldObject": false,
+            "visible": false,
+            "visibleInCamera": false
+        },
+        {
+            "associatedWithAgent": "",
+            "colorsFromMaterials": [
+                "blue"
+            ],
+            "direction": {
+                "x": -0.8726169466972351,
+                "y": -0.05933795124292374,
+                "z": 0.4847872853279114
+            },
+            "distance": 10.313803672790527,
+            "distanceXZ": 10.29563045501709,
+            "heading": {
+                "x": -9.0,
+                "y": -0.6119999885559082,
+                "z": 5.000000953674316
+            },
+            "isMoving": false,
+            "isOpen": false,
+            "isPickedUp": false,
+            "locked": false,
+            "mass": 5.5,
+            "moveable": true,
+            "name": "tool",
+            "objectBounds": {
+                "objectBoundsCorners": [
+                    {
+                        "x": -8.500000953674316,
+                        "y": 1.4901161193847656e-08,
+                        "z": 8.500000953674316
+                    },
+                    {
+                        "x": -9.500000953674316,
+                        "y": -1.4901161193847656e-08,
+                        "z": 8.500000953674316
+                    },
+                    {
+                        "x": -9.499999046325684,
+                        "y": -1.4901161193847656e-08,
+                        "z": 1.5000009536743164
+                    },
+                    {
+                        "x": -8.499999046325684,
+                        "y": 1.4901161193847656e-08,
+                        "z": 1.5000009536743164
+                    },
+                    {
+                        "x": -8.500000953674316,
+                        "y": 0.30000001192092896,
+                        "z": 8.500000953674316
+                    },
+                    {
+                        "x": -9.500000953674316,
+                        "y": 0.30000001192092896,
+                        "z": 8.500000953674316
+                    },
+                    {
+                        "x": -9.499999046325684,
+                        "y": 0.30000001192092896,
+                        "z": 1.5000009536743164
+                    },
+                    {
+                        "x": -8.499999046325684,
+                        "y": 0.30000001192092896,
+                        "z": 1.5000009536743164
+                    }
+                ]
+            },
+            "objectId": "tool",
+            "objectType": null,
+            "openPercent": 0.0,
+            "openable": false,
+            "parentReceptacles": null,
+            "pickupable": false,
+            "points": null,
+            "position": {
+                "x": -9.0,
+                "y": 0.15000000596046448,
+                "z": 5.000000953674316
+            },
+            "receptacleObjectIds": null,
+            "rotation": {
+                "x": 8.328763811960016e-08,
+                "y": -1.019760293274885e-05,
+                "z": 1.7090678738895804e-06
+            },
+            "salientMaterials": [
+                "Metal"
+            ],
+            "shape": "tool",
+            "simulationAgentHeldObject": "",
+            "simulationAgentIsHoldingHeldObject": false,
+            "visible": false,
+            "visibleInCamera": false
+        },
+        {
+            "associatedWithAgent": "",
+            "colorsFromMaterials": [
+                "green"
+            ],
+            "direction": {
+                "x": -0.9016129970550537,
+                "y": -0.052551157772541046,
+                "z": 0.42933952808380127
+            },
+            "distance": 11.645794868469238,
+            "distanceXZ": 11.629703521728516,
+            "heading": {
+                "x": -10.5,
+                "y": -0.6119999885559082,
+                "z": 5.0
+            },
+            "isMoving": false,
+            "isOpen": false,
+            "isPickedUp": false,
+            "locked": false,
+            "mass": 5.0,
+            "moveable": true,
+            "name": "tool",
+            "objectBounds": {
+                "objectBoundsCorners": [
+                    {
+                        "x": -10.0,
+                        "y": 0.0,
+                        "z": 8.0
+                    },
+                    {
+                        "x": -11.0,
+                        "y": 0.0,
+                        "z": 8.0
+                    },
+                    {
+                        "x": -11.0,
+                        "y": 0.0,
+                        "z": 2.0
+                    },
+                    {
+                        "x": -10.0,
+                        "y": 0.0,
+                        "z": 2.0
+                    },
+                    {
+                        "x": -10.0,
+                        "y": 0.30000001192092896,
+                        "z": 8.0
+                    },
+                    {
+                        "x": -11.0,
+                        "y": 0.30000001192092896,
+                        "z": 8.0
+                    },
+                    {
+                        "x": -11.0,
+                        "y": 0.30000001192092896,
+                        "z": 2.0
+                    },
+                    {
+                        "x": -10.0,
+                        "y": 0.30000001192092896,
+                        "z": 2.0
+                    }
+                ]
+            },
+            "objectId": "tool",
+            "objectType": null,
+            "openPercent": 0.0,
+            "openable": false,
+            "parentReceptacles": null,
+            "pickupable": false,
+            "points": null,
+            "position": {
+                "x": -10.5,
+                "y": 0.15000000596046448,
+                "z": 5.0
+            },
+            "receptacleObjectIds": null,
+            "rotation": {
+                "x": 4.476224546579033e-08,
+                "y": -4.54772305147344e-07,
+                "z": 4.944379270455102e-07
+            },
+            "salientMaterials": [
+                "Metal"
+            ],
+            "shape": "tool",
+            "simulationAgentHeldObject": "",
+            "simulationAgentIsHoldingHeldObject": false,
+            "visible": false,
+            "visibleInCamera": false
+        },
+        {
+            "associatedWithAgent": "",
+            "colorsFromMaterials": [
+                "pink"
+            ],
+            "direction": {
+                "x": -0.9220556616783142,
+                "y": -0.04702483490109444,
+                "z": 0.38419008255004883
+            },
+            "distance": 13.014399528503418,
+            "distanceXZ": 13.000001907348633,
+            "heading": {
+                "x": -12.000000953674316,
+                "y": -0.6119999885559082,
+                "z": 5.000003337860107
+            },
+            "isMoving": false,
+            "isOpen": false,
+            "isPickedUp": false,
+            "locked": false,
+            "mass": 4.5,
+            "moveable": true,
+            "name": "tool",
+            "objectBounds": {
+                "objectBoundsCorners": [
+                    {
+                        "x": -11.500001907348633,
+                        "y": 1.4901161193847656e-08,
+                        "z": 7.500003814697266
+                    },
+                    {
+                        "x": -12.500001907348633,
+                        "y": -1.4901161193847656e-08,
+                        "z": 7.500002861022949
+                    },
+                    {
+                        "x": -12.5,
+                        "y": -1.4901161193847656e-08,
+                        "z": 2.5000030994415283
+                    },
+                    {
+                        "x": -11.5,
+                        "y": 1.4901161193847656e-08,
+                        "z": 2.5000035762786865
+                    },
+                    {
+                        "x": -11.500001907348633,
+                        "y": 0.30000001192092896,
+                        "z": 7.500003814697266
+                    },
+                    {
+                        "x": -12.500001907348633,
+                        "y": 0.30000001192092896,
+                        "z": 7.500002861022949
+                    },
+                    {
+                        "x": -12.5,
+                        "y": 0.30000001192092896,
+                        "z": 2.5000030994415283
+                    },
+                    {
+                        "x": -11.5,
+                        "y": 0.30000001192092896,
+                        "z": 2.5000035762786865
+                    }
+                ]
+            },
+            "objectId": "tool",
+            "objectType": null,
+            "openPercent": 0.0,
+            "openable": false,
+            "parentReceptacles": null,
+            "pickupable": false,
+            "points": null,
+            "position": {
+                "x": -12.000000953674316,
+                "y": 0.15000000596046448,
+                "z": 5.000003337860107
+            },
+            "receptacleObjectIds": null,
+            "rotation": {
+                "x": 2.755912476004596e-08,
+                "y": -1.584843994351104e-05,
+                "z": 1.6972013554550358e-06
+            },
+            "salientMaterials": [
+                "Metal"
+            ],
+            "shape": "tool",
+            "simulationAgentHeldObject": "",
+            "simulationAgentIsHoldingHeldObject": false,
+            "visible": false,
+            "visibleInCamera": false
+        },
+        {
+            "associatedWithAgent": "",
+            "colorsFromMaterials": [
+                "brown"
+            ],
+            "direction": {
+                "x": -0.9369025826454163,
+                "y": -0.04247291386127472,
+                "z": 0.34700098633766174
+            },
+            "distance": 14.40918254852295,
+            "distanceXZ": 14.396180152893066,
+            "heading": {
+                "x": -13.5,
+                "y": -0.6119999885559082,
+                "z": 5.000000476837158
+            },
+            "isMoving": false,
+            "isOpen": false,
+            "isPickedUp": false,
+            "locked": false,
+            "mass": 4.0,
+            "moveable": true,
+            "name": "tool",
+            "objectBounds": {
+                "objectBoundsCorners": [
+                    {
+                        "x": -13.0,
+                        "y": 1.4901161193847656e-08,
+                        "z": 7.000000476837158
+                    },
+                    {
+                        "x": -14.0,
+                        "y": -1.4901161193847656e-08,
+                        "z": 7.000000476837158
+                    },
+                    {
+                        "x": -14.0,
+                        "y": -1.4901161193847656e-08,
+                        "z": 3.000000476837158
+                    },
+                    {
+                        "x": -13.0,
+                        "y": 1.4901161193847656e-08,
+                        "z": 3.000000476837158
+                    },
+                    {
+                        "x": -13.0,
+                        "y": 0.30000001192092896,
+                        "z": 7.000000476837158
+                    },
+                    {
+                        "x": -14.0,
+                        "y": 0.30000001192092896,
+                        "z": 7.000000476837158
+                    },
+                    {
+                        "x": -14.0,
+                        "y": 0.30000001192092896,
+                        "z": 3.000000476837158
+                    },
+                    {
+                        "x": -13.0,
+                        "y": 0.30000001192092896,
+                        "z": 3.000000476837158
+                    }
+                ]
+            },
+            "objectId": "tool",
+            "objectType": null,
+            "openPercent": 0.0,
+            "openable": false,
+            "parentReceptacles": null,
+            "pickupable": false,
+            "points": null,
+            "position": {
+                "x": -13.5,
+                "y": 0.15000000596046448,
+                "z": 5.000000476837158
+            },
+            "receptacleObjectIds": null,
+            "rotation": {
+                "x": 6.02543082095508e-08,
+                "y": -3.2448392630612943e-06,
+                "z": 1.2518243011072627e-06
+            },
+            "salientMaterials": [
+                "Metal"
+            ],
+            "shape": "tool",
+            "simulationAgentHeldObject": "",
+            "simulationAgentIsHoldingHeldObject": false,
+            "visible": false,
+            "visibleInCamera": false
+        }
+    ],
+      "objects_count": 0,
+      "position_x": null,
+      "position_z": null
+    },
+    {
+      "objects": [
+        {
+            "associatedWithAgent": "",
+            "colorsFromMaterials": [
+                "grey",
+                "black"
+            ],
+            "direction": {
+                "x": -0.8301391005516052,
+                "y": -0.0677393451333046,
+                "z": 0.553426206111908
+            },
+            "distance": 9.03463077545166,
+            "distanceXZ": 9.01387882232666,
+            "heading": {
+                "x": -7.5,
+                "y": -0.6119999885559082,
+                "z": 5.000001430511475
+            },
+            "isMoving": false,
+            "isOpen": false,
+            "isPickedUp": false,
+            "locked": false,
+            "mass": 6.0,
+            "moveable": true,
+            "name": "tool",
+            "objectBounds": {
+                "objectBoundsCorners": [
+                    {
+                        "x": -7.0,
+                        "y": 0.0,
+                        "z": 9.000001907348633
+                    },
+                    {
+                        "x": -8.0,
+                        "y": 0.0,
+                        "z": 9.000001907348633
+                    },
+                    {
+                        "x": -8.0,
+                        "y": 0.0,
+                        "z": 1.0000014305114746
+                    },
+                    {
+                        "x": -7.0,
+                        "y": 0.0,
+                        "z": 1.0000014305114746
+                    },
+                    {
+                        "x": -7.0,
+                        "y": 0.30000001192092896,
+                        "z": 9.000001907348633
+                    },
+                    {
+                        "x": -8.0,
+                        "y": 0.30000001192092896,
+                        "z": 9.000001907348633
+                    },
+                    {
+                        "x": -8.0,
+                        "y": 0.30000001192092896,
+                        "z": 1.0000014305114746
+                    },
+                    {
+                        "x": -7.0,
+                        "y": 0.30000001192092896,
+                        "z": 1.0000014305114746
+                    }
+                ]
+            },
+            "objectId": "tool",
+            "objectType": null,
+            "openPercent": 0.0,
+            "openable": false,
+            "parentReceptacles": null,
+            "pickupable": false,
+            "points": null,
+            "position": {
+                "x": -7.5,
+                "y": 0.15000000596046448,
+                "z": 5.000001430511475
+            },
+            "receptacleObjectIds": null,
+            "rotation": {
+                "x": 5.657408053139079e-08,
+                "y": -1.5337783452196163e-06,
+                "z": 3.5225340866418264e-07
+            },
+            "salientMaterials": [
+                "Metal"
+            ],
+            "shape": "tool",
+            "simulationAgentHeldObject": "",
+            "simulationAgentIsHoldingHeldObject": false,
+            "visible": false,
+            "visibleInCamera": false
+        },
+        {
+            "associatedWithAgent": "",
+            "colorsFromMaterials": [
+                "blue"
+            ],
+            "direction": {
+                "x": -0.8726169466972351,
+                "y": -0.05933795124292374,
+                "z": 0.4847872853279114
+            },
+            "distance": 10.313803672790527,
+            "distanceXZ": 10.29563045501709,
+            "heading": {
+                "x": -9.0,
+                "y": -0.6119999885559082,
+                "z": 5.000000953674316
+            },
+            "isMoving": false,
+            "isOpen": false,
+            "isPickedUp": false,
+            "locked": false,
+            "mass": 5.5,
+            "moveable": true,
+            "name": "tool",
+            "objectBounds": {
+                "objectBoundsCorners": [
+                    {
+                        "x": -8.500000953674316,
+                        "y": 1.4901161193847656e-08,
+                        "z": 8.500000953674316
+                    },
+                    {
+                        "x": -9.500000953674316,
+                        "y": -1.4901161193847656e-08,
+                        "z": 8.500000953674316
+                    },
+                    {
+                        "x": -9.499999046325684,
+                        "y": -1.4901161193847656e-08,
+                        "z": 1.5000009536743164
+                    },
+                    {
+                        "x": -8.499999046325684,
+                        "y": 1.4901161193847656e-08,
+                        "z": 1.5000009536743164
+                    },
+                    {
+                        "x": -8.500000953674316,
+                        "y": 0.30000001192092896,
+                        "z": 8.500000953674316
+                    },
+                    {
+                        "x": -9.500000953674316,
+                        "y": 0.30000001192092896,
+                        "z": 8.500000953674316
+                    },
+                    {
+                        "x": -9.499999046325684,
+                        "y": 0.30000001192092896,
+                        "z": 1.5000009536743164
+                    },
+                    {
+                        "x": -8.499999046325684,
+                        "y": 0.30000001192092896,
+                        "z": 1.5000009536743164
+                    }
+                ]
+            },
+            "objectId": "tool",
+            "objectType": null,
+            "openPercent": 0.0,
+            "openable": false,
+            "parentReceptacles": null,
+            "pickupable": false,
+            "points": null,
+            "position": {
+                "x": -9.0,
+                "y": 0.15000000596046448,
+                "z": 5.000000953674316
+            },
+            "receptacleObjectIds": null,
+            "rotation": {
+                "x": 8.328763811960016e-08,
+                "y": -1.019760293274885e-05,
+                "z": 1.7090678738895804e-06
+            },
+            "salientMaterials": [
+                "Metal"
+            ],
+            "shape": "tool",
+            "simulationAgentHeldObject": "",
+            "simulationAgentIsHoldingHeldObject": false,
+            "visible": false,
+            "visibleInCamera": false
+        },
+        {
+            "associatedWithAgent": "",
+            "colorsFromMaterials": [
+                "green"
+            ],
+            "direction": {
+                "x": -0.9016129970550537,
+                "y": -0.052551157772541046,
+                "z": 0.42933952808380127
+            },
+            "distance": 11.645794868469238,
+            "distanceXZ": 11.629703521728516,
+            "heading": {
+                "x": -10.5,
+                "y": -0.6119999885559082,
+                "z": 5.0
+            },
+            "isMoving": false,
+            "isOpen": false,
+            "isPickedUp": false,
+            "locked": false,
+            "mass": 5.0,
+            "moveable": true,
+            "name": "tool",
+            "objectBounds": {
+                "objectBoundsCorners": [
+                    {
+                        "x": -10.0,
+                        "y": 0.0,
+                        "z": 8.0
+                    },
+                    {
+                        "x": -11.0,
+                        "y": 0.0,
+                        "z": 8.0
+                    },
+                    {
+                        "x": -11.0,
+                        "y": 0.0,
+                        "z": 2.0
+                    },
+                    {
+                        "x": -10.0,
+                        "y": 0.0,
+                        "z": 2.0
+                    },
+                    {
+                        "x": -10.0,
+                        "y": 0.30000001192092896,
+                        "z": 8.0
+                    },
+                    {
+                        "x": -11.0,
+                        "y": 0.30000001192092896,
+                        "z": 8.0
+                    },
+                    {
+                        "x": -11.0,
+                        "y": 0.30000001192092896,
+                        "z": 2.0
+                    },
+                    {
+                        "x": -10.0,
+                        "y": 0.30000001192092896,
+                        "z": 2.0
+                    }
+                ]
+            },
+            "objectId": "tool",
+            "objectType": null,
+            "openPercent": 0.0,
+            "openable": false,
+            "parentReceptacles": null,
+            "pickupable": false,
+            "points": null,
+            "position": {
+                "x": -10.5,
+                "y": 0.15000000596046448,
+                "z": 5.0
+            },
+            "receptacleObjectIds": null,
+            "rotation": {
+                "x": 4.476224546579033e-08,
+                "y": -4.54772305147344e-07,
+                "z": 4.944379270455102e-07
+            },
+            "salientMaterials": [
+                "Metal"
+            ],
+            "shape": "tool",
+            "simulationAgentHeldObject": "",
+            "simulationAgentIsHoldingHeldObject": false,
+            "visible": false,
+            "visibleInCamera": false
+        },
+        {
+            "associatedWithAgent": "",
+            "colorsFromMaterials": [
+                "pink"
+            ],
+            "direction": {
+                "x": -0.9220556616783142,
+                "y": -0.04702483490109444,
+                "z": 0.38419008255004883
+            },
+            "distance": 13.014399528503418,
+            "distanceXZ": 13.000001907348633,
+            "heading": {
+                "x": -12.000000953674316,
+                "y": -0.6119999885559082,
+                "z": 5.000003337860107
+            },
+            "isMoving": false,
+            "isOpen": false,
+            "isPickedUp": false,
+            "locked": false,
+            "mass": 4.5,
+            "moveable": true,
+            "name": "tool",
+            "objectBounds": {
+                "objectBoundsCorners": [
+                    {
+                        "x": -11.500001907348633,
+                        "y": 1.4901161193847656e-08,
+                        "z": 7.500003814697266
+                    },
+                    {
+                        "x": -12.500001907348633,
+                        "y": -1.4901161193847656e-08,
+                        "z": 7.500002861022949
+                    },
+                    {
+                        "x": -12.5,
+                        "y": -1.4901161193847656e-08,
+                        "z": 2.5000030994415283
+                    },
+                    {
+                        "x": -11.5,
+                        "y": 1.4901161193847656e-08,
+                        "z": 2.5000035762786865
+                    },
+                    {
+                        "x": -11.500001907348633,
+                        "y": 0.30000001192092896,
+                        "z": 7.500003814697266
+                    },
+                    {
+                        "x": -12.500001907348633,
+                        "y": 0.30000001192092896,
+                        "z": 7.500002861022949
+                    },
+                    {
+                        "x": -12.5,
+                        "y": 0.30000001192092896,
+                        "z": 2.5000030994415283
+                    },
+                    {
+                        "x": -11.5,
+                        "y": 0.30000001192092896,
+                        "z": 2.5000035762786865
+                    }
+                ]
+            },
+            "objectId": "tool",
+            "objectType": null,
+            "openPercent": 0.0,
+            "openable": false,
+            "parentReceptacles": null,
+            "pickupable": false,
+            "points": null,
+            "position": {
+                "x": -12.000000953674316,
+                "y": 0.15000000596046448,
+                "z": 5.000003337860107
+            },
+            "receptacleObjectIds": null,
+            "rotation": {
+                "x": 2.755912476004596e-08,
+                "y": -1.584843994351104e-05,
+                "z": 1.6972013554550358e-06
+            },
+            "salientMaterials": [
+                "Metal"
+            ],
+            "shape": "tool",
+            "simulationAgentHeldObject": "",
+            "simulationAgentIsHoldingHeldObject": false,
+            "visible": false,
+            "visibleInCamera": false
+        },
+        {
+            "associatedWithAgent": "",
+            "colorsFromMaterials": [
+                "brown"
+            ],
+            "direction": {
+                "x": -0.9369025826454163,
+                "y": -0.04247291386127472,
+                "z": 0.34700098633766174
+            },
+            "distance": 14.40918254852295,
+            "distanceXZ": 14.396180152893066,
+            "heading": {
+                "x": -13.5,
+                "y": -0.6119999885559082,
+                "z": 5.000000476837158
+            },
+            "isMoving": false,
+            "isOpen": false,
+            "isPickedUp": false,
+            "locked": false,
+            "mass": 4.0,
+            "moveable": true,
+            "name": "tool",
+            "objectBounds": {
+                "objectBoundsCorners": [
+                    {
+                        "x": -13.0,
+                        "y": 1.4901161193847656e-08,
+                        "z": 7.000000476837158
+                    },
+                    {
+                        "x": -14.0,
+                        "y": -1.4901161193847656e-08,
+                        "z": 7.000000476837158
+                    },
+                    {
+                        "x": -14.0,
+                        "y": -1.4901161193847656e-08,
+                        "z": 3.000000476837158
+                    },
+                    {
+                        "x": -13.0,
+                        "y": 1.4901161193847656e-08,
+                        "z": 3.000000476837158
+                    },
+                    {
+                        "x": -13.0,
+                        "y": 0.30000001192092896,
+                        "z": 7.000000476837158
+                    },
+                    {
+                        "x": -14.0,
+                        "y": 0.30000001192092896,
+                        "z": 7.000000476837158
+                    },
+                    {
+                        "x": -14.0,
+                        "y": 0.30000001192092896,
+                        "z": 3.000000476837158
+                    },
+                    {
+                        "x": -13.0,
+                        "y": 0.30000001192092896,
+                        "z": 3.000000476837158
+                    }
+                ]
+            },
+            "objectId": "tool",
+            "objectType": null,
+            "openPercent": 0.0,
+            "openable": false,
+            "parentReceptacles": null,
+            "pickupable": false,
+            "points": null,
+            "position": {
+                "x": -13.5,
+                "y": 0.15000000596046448,
+                "z": 5.000000476837158
+            },
+            "receptacleObjectIds": null,
+            "rotation": {
+                "x": 6.02543082095508e-08,
+                "y": -3.2448392630612943e-06,
+                "z": 1.2518243011072627e-06
+            },
+            "salientMaterials": [
+                "Metal"
+            ],
+            "shape": "tool",
+            "simulationAgentHeldObject": "",
+            "simulationAgentIsHoldingHeldObject": false,
+            "visible": false,
+            "visibleInCamera": false
+        }
+    ],
+      "objects_count": 0,
+      "position_x": null,
+      "position_z": null
+    }
+  ]
+
+
