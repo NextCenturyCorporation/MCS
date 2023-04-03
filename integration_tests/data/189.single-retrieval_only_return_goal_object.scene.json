@@ -1,0 +1,45 @@
+﻿{
+    "name": "soccer ball can be picked up and will roll an expected distance",
+    "version": 2,
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+    "wallMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "performerStart": {
+        "position": {
+            "x": 0,
+            "z": 0
+        },
+        "rotation": {
+            "x": 30,
+            "y": 0
+        }
+    },
+    "objects": [{
+        "id": "soccer_ball",
+        "type": "soccer_ball",
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0.11,
+                "z": 0.9
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        }]
+    }],
+    "goal": {
+        "category": "retrieval",
+        "description": "Find and pick up the trophy.",
+        "last_step": 3000,
+        "metadata": {
+            "target": {
+                "id": "soccer_ball",
+                "image": null
+            }
+        }
+    }
+}
