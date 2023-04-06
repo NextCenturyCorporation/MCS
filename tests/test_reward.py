@@ -223,7 +223,7 @@ class TestReward(unittest.TestCase):
         goal.metadata['target'] = {'id': '0'}
         obj_list = []
         for i in range(10):
-            obj = {"objectId": str(i), 'isPickedUp': not i}
+            obj = {"objectId": str(i), 'wasPickedUp': not i}
             obj_list.append(obj)
         reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, agent={},
                                                    performer_reach=1.0)
@@ -235,7 +235,7 @@ class TestReward(unittest.TestCase):
         goal.metadata['target'] = {'id': '0'}
         obj_list = []
         for i in range(10):
-            obj = {"objectId": str(i), 'isPickedUp': False}
+            obj = {"objectId": str(i), 'wasPickedUp': False}
             obj_list.append(obj)
         reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, agent={},
                                                    performer_reach=1.0)
@@ -247,7 +247,7 @@ class TestReward(unittest.TestCase):
         goal.metadata['targets'] = [{'id': '0'}, {'id': '1'}, {'id': '2'}]
         obj_list = []
         for i in range(10):
-            obj_list.append({'objectId': str(i), 'isPickedUp': True})
+            obj_list.append({'objectId': str(i), 'wasPickedUp': True})
         reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, agent={},
                                                    performer_reach=1.0)
         self.assertEqual(reward, 1)
@@ -258,7 +258,7 @@ class TestReward(unittest.TestCase):
         goal.metadata['targets'] = [{'id': '0'}, {'id': '1'}, {'id': '2'}]
         obj_list = []
         for i in range(10):
-            obj_list.append({'objectId': str(i), 'isPickedUp': False})
+            obj_list.append({'objectId': str(i), 'wasPickedUp': False})
         reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, agent={},
                                                    performer_reach=1.0)
         self.assertEqual(reward, 0)
@@ -269,7 +269,7 @@ class TestReward(unittest.TestCase):
         goal.metadata['targets'] = [{'id': '0'}, {'id': '1'}, {'id': '2'}]
         obj_list = []
         for i in range(10):
-            obj_list.append({'objectId': str(i), 'isPickedUp': (i == 0)})
+            obj_list.append({'objectId': str(i), 'wasPickedUp': (i == 0)})
         reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, agent={},
                                                    performer_reach=1.0)
         self.assertEqual(reward, 0)
@@ -280,7 +280,7 @@ class TestReward(unittest.TestCase):
         goal.metadata['targets'] = [{'id': '0'}, {'id': '1'}, {'id': '2'}]
         obj_list = []
         for i in range(10):
-            obj_list.append({'objectId': str(i), 'isPickedUp': (i != 0)})
+            obj_list.append({'objectId': str(i), 'wasPickedUp': (i != 0)})
         reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, agent={},
                                                    performer_reach=1.0)
         self.assertEqual(reward, 0)
@@ -293,32 +293,32 @@ class TestReward(unittest.TestCase):
 
         # Test: Picking up no targets should return a reward of 0
         obj_list = [
-            {'objectId': '0', 'isPickedUp': False},
-            {'objectId': '1', 'isPickedUp': False}
+            {'objectId': '0', 'wasPickedUp': False},
+            {'objectId': '1', 'wasPickedUp': False}
         ]
         reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
         self.assertEqual(reward, 0)
 
         # Test: Picking up only the 1st target should return a reward of 1
         obj_list = [
-            {'objectId': '0', 'isPickedUp': True},
-            {'objectId': '1', 'isPickedUp': False}
+            {'objectId': '0', 'wasPickedUp': True},
+            {'objectId': '1', 'wasPickedUp': False}
         ]
         reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
         self.assertEqual(reward, 1)
 
         # Test: Picking up only the 2nd target should return a reward of 1
         obj_list = [
-            {'objectId': '0', 'isPickedUp': False},
-            {'objectId': '1', 'isPickedUp': True}
+            {'objectId': '0', 'wasPickedUp': False},
+            {'objectId': '1', 'wasPickedUp': True}
         ]
         reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
         self.assertEqual(reward, 1)
 
         # Test: Picking up all targets should return a reward of 1
         obj_list = [
-            {'objectId': '0', 'isPickedUp': True},
-            {'objectId': '1', 'isPickedUp': True}
+            {'objectId': '0', 'wasPickedUp': True},
+            {'objectId': '1', 'wasPickedUp': True}
         ]
         reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
         self.assertEqual(reward, 1)
@@ -330,72 +330,72 @@ class TestReward(unittest.TestCase):
 
         # Test: Picking up no targets should return a reward of 0
         obj_list = [
-            {'objectId': '0', 'isPickedUp': False},
-            {'objectId': '1', 'isPickedUp': False},
-            {'objectId': '2', 'isPickedUp': False}
+            {'objectId': '0', 'wasPickedUp': False},
+            {'objectId': '1', 'wasPickedUp': False},
+            {'objectId': '2', 'wasPickedUp': False}
         ]
         reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
         self.assertEqual(reward, 0)
 
         # Test: Picking up only the 1st target should return a reward of 0
         obj_list = [
-            {'objectId': '0', 'isPickedUp': True},
-            {'objectId': '1', 'isPickedUp': False},
-            {'objectId': '2', 'isPickedUp': False}
+            {'objectId': '0', 'wasPickedUp': True},
+            {'objectId': '1', 'wasPickedUp': False},
+            {'objectId': '2', 'wasPickedUp': False}
         ]
         reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
         self.assertEqual(reward, 0)
 
         # Test: Picking up only the 2nd target should return a reward of 0
         obj_list = [
-            {'objectId': '0', 'isPickedUp': False},
-            {'objectId': '1', 'isPickedUp': True},
-            {'objectId': '2', 'isPickedUp': False}
+            {'objectId': '0', 'wasPickedUp': False},
+            {'objectId': '1', 'wasPickedUp': True},
+            {'objectId': '2', 'wasPickedUp': False}
         ]
         reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
         self.assertEqual(reward, 0)
 
         # Test: Picking up only the 3rd target should return a reward of 0
         obj_list = [
-            {'objectId': '0', 'isPickedUp': False},
-            {'objectId': '1', 'isPickedUp': False},
-            {'objectId': '2', 'isPickedUp': True}
+            {'objectId': '0', 'wasPickedUp': False},
+            {'objectId': '1', 'wasPickedUp': False},
+            {'objectId': '2', 'wasPickedUp': True}
         ]
         reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
         self.assertEqual(reward, 0)
 
         # Test: Picking up the 1st and 2nd targets should return a reward of 1
         obj_list = [
-            {'objectId': '0', 'isPickedUp': True},
-            {'objectId': '1', 'isPickedUp': True},
-            {'objectId': '2', 'isPickedUp': False}
+            {'objectId': '0', 'wasPickedUp': True},
+            {'objectId': '1', 'wasPickedUp': True},
+            {'objectId': '2', 'wasPickedUp': False}
         ]
         reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
         self.assertEqual(reward, 1)
 
         # Test: Picking up the 1st and 3rd targets should return a reward of 1
         obj_list = [
-            {'objectId': '0', 'isPickedUp': True},
-            {'objectId': '1', 'isPickedUp': False},
-            {'objectId': '2', 'isPickedUp': True}
+            {'objectId': '0', 'wasPickedUp': True},
+            {'objectId': '1', 'wasPickedUp': False},
+            {'objectId': '2', 'wasPickedUp': True}
         ]
         reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
         self.assertEqual(reward, 1)
 
         # Test: Picking up the 2nd and 3rd targets should return a reward of 1
         obj_list = [
-            {'objectId': '0', 'isPickedUp': False},
-            {'objectId': '1', 'isPickedUp': True},
-            {'objectId': '2', 'isPickedUp': True}
+            {'objectId': '0', 'wasPickedUp': False},
+            {'objectId': '1', 'wasPickedUp': True},
+            {'objectId': '2', 'wasPickedUp': True}
         ]
         reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
         self.assertEqual(reward, 1)
 
         # Test: Picking up all targets should return a reward of 1
         obj_list = [
-            {'objectId': '0', 'isPickedUp': True},
-            {'objectId': '1', 'isPickedUp': True},
-            {'objectId': '2', 'isPickedUp': True}
+            {'objectId': '0', 'wasPickedUp': True},
+            {'objectId': '1', 'wasPickedUp': True},
+            {'objectId': '2', 'wasPickedUp': True}
         ]
         reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
         self.assertEqual(reward, 1)

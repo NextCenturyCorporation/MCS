@@ -93,7 +93,7 @@ class Reward(object):
 
         picked_up = len([
             object_metadata for object_metadata in goal_objects
-            if object_metadata.get('isPickedUp', True)
+            if object_metadata.get('wasPickedUp')
         ])
         # Attain the reward if the required number of targets were picked-up.
         if goal_objects and pickup_number and picked_up >= pickup_number:
