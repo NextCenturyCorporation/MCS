@@ -581,6 +581,15 @@ class ConfigManager:
             self.CONFIG_TIMEOUT,
             fallback=self.TIMEOUT_DEFAULT
         )
+    
+    def set_timeout(self, seconds):
+        """ Setting the time (in seconds) to allow a run to be idle
+        before attempting to end scene"""
+        return self._config.getint(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_TIMEOUT,
+            seconds
+        )
 
     def is_top_down_plotter(self) -> bool:
         """Toggles whether old plotter should be used to create top down
