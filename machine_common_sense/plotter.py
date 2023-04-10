@@ -304,7 +304,9 @@ class TopDownPlotter():
             r0=int(buffer_y),
             c1=img_x,
             r1=img.shape[0] - 1 - int(buffer_y))
-        img[rr, cc] = self.CENTER_COLOR if x_coord == 0 else self.GRID_COLOR
+        img[rr, cc] = np.array(
+            self.CENTER_COLOR if x_coord == 0 else self.GRID_COLOR
+        ).astype(np.int8)
         return img
 
     def _draw_horizontal_grid_lines(
@@ -326,7 +328,9 @@ class TopDownPlotter():
             r0=img_y,
             c1=img.shape[1] - 1 - int(buffer_x),
             r1=img_y)
-        img[rr, cc] = self.CENTER_COLOR if y_coord == 0 else self.GRID_COLOR
+        img[rr, cc] = np.array(
+            self.CENTER_COLOR if y_coord == 0 else self.GRID_COLOR
+        ).astype(np.int8)
         return img
 
     def _draw_room_border(self, img: np.ndarray,
@@ -338,7 +342,7 @@ class TopDownPlotter():
             end=(z_dim - buffer.y - 1, x_dim - buffer.x - 1),
             shape=img.shape[:2],
             clip=True)
-        img[rr, cc] = self.BORDER_COLOR
+        img[rr, cc] = np.array(self.BORDER_COLOR).astype(np.int8)
         return img
 
     def _out_of_bounds(
@@ -462,7 +466,7 @@ class TopDownPlotter():
             start=(upper_left.y, upper_left.x),
             end=(lower_right.y, lower_right.x),
             shape=img.shape[:2])
-        img[rr, cc] = texture_color
+        img[rr, cc] = np.array(texture_color).astype(np.int8)
         return img
 
     def _draw_holes(self, img: np.ndarray, holes: List,
@@ -518,7 +522,7 @@ class TopDownPlotter():
             end=(lower_right.y + 1, lower_right.x - 1),
             shape=img.shape[:2],
             clip=True)
-        img[rr, cc] = color
+        img[rr, cc] = np.array(color).astype(np.int8)
         return img
 
     def _draw_x(
@@ -532,14 +536,14 @@ class TopDownPlotter():
             c0=upper_left.x,
             r1=lower_right.y,
             c1=lower_right.x)
-        img[rr, cc] = color
+        img[rr, cc] = np.array(color).astype(np.int8)
 
         rr, cc = skimage.draw.line(
             r0=lower_right.y,
             c0=upper_left.x,
             r1=upper_left.y,
             c1=lower_right.x)
-        img[rr, cc] = color
+        img[rr, cc] = np.array(color).astype(np.int8)
         return img
 
     def _export_plot(self, img: np.ndarray) -> PIL.Image.Image:
@@ -603,7 +607,7 @@ class TopDownPlotter():
             points = list(polygon.exterior.coords)
             cs, rs = self._convert_points(points)
             rr, cc = skimage.draw.polygon(rs, cs, shape=img.shape[:2])
-            img[rr, cc] = color
+            img[rr, cc] = np.array(color).astype(np.int8)
         return img
 
     def _find_plottable_objects(
@@ -715,7 +719,7 @@ class TopDownPlotter():
                 rs,
                 cs,
                 shape=img.shape[:2])
-        img[rr, cc] = clr
+        img[rr, cc] = np.array(clr).astype(np.int8)
 
         # using ramp string prefix assumpation to make ramp determination
         # might be better to have an attribute to leverage
@@ -748,7 +752,9 @@ class TopDownPlotter():
                 self.BACKGROUND_COLOR if ramp_color != self.BACKGROUND_COLOR
                 else self.DEFAULT_COLOR
             )
-            img[rr, cc] = arrow_color if ramp.visible else ramp_color
+            img[rr, cc] = np.array(
+                arrow_color if ramp.visible else ramp_color
+            ).astype(np.int8)
         return img
 
     def _draw_goal(self, img: np.ndarray,
@@ -773,7 +779,7 @@ class TopDownPlotter():
         # Draw a correctly-sized polygon with the opposite of the goal's color.
         # This will create a thick border around the 2nd polygon (see below).
         rr, cc = skimage.draw.polygon(rs, cs, shape=img.shape[:2])
-        img[rr, cc] = opposite_color
+        img[rr, cc] = np.array(opposite_color).astype(np.int8)
 
         # Then draw a smaller polygon on top of the 1st polygon in its middle.
         return self._draw_object(img, obj, is_goal=True)
