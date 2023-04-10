@@ -719,7 +719,7 @@ class TopDownPlotter():
 
         # using ramp string prefix assumpation to make ramp determination
         # might be better to have an attribute to leverage
-        if(obj.uuid.startswith('ramp')):
+        if (obj.uuid.startswith('ramp')):
             self._draw_ramp_arrow(img, obj, clr)
 
         return img
