@@ -2,7 +2,8 @@ ai2thor==2.5.0
 autopep8==2.0.2
 colour==0.1.5
 commonmark==0.9.1
-flake8==6.0.0
+flake8==5.0.4; python_version<"3.8"
+flake8==6.0.0; python_version>="3.8"
 flake8-implicit-str-concat==0.4.0
 flake8-use-fstring==1.4
 importlib-metadata==6.3.0
