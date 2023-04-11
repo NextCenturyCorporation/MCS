@@ -5,9 +5,9 @@ commonmark==0.9.1
 flake8==6.0.0
 flake8-implicit-str-concat==0.4.0
 flake8-use-fstring==1.4
-importlib-metadata==4.13.0; python_version<"3.8"
+importlib-metadata==6.3.0
 isort==5.12.0
-Jinja2<3.1
+Jinja2==3.1.2
 matplotlib==3.7.1
 msgpack==1.0.5
 numpyencoder==0.3.0
