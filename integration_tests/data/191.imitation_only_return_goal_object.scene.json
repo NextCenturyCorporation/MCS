@@ -1,6 +1,6 @@
 ﻿{
-    "name": "imitation_goal_example",
-    "version": 2,
+    "name": "imitation only_return_goal_object",
+    "version": 1,
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
     "wallMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
