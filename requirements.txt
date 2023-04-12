@@ -31,5 +31,5 @@ Sphinx==4.3.2; python_version<"3.8"
 Sphinx==6.1.3; python_version>="3.8"
 sphinxcontrib-websupport==1.2.4
 sphinx-markdown-builder==0.5.5
-typeguard==2.13.2
+typeguard==3.0.2
 git+https://github.com/sphinx-contrib/video.git
