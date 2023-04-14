@@ -48,7 +48,7 @@ def get_controller_with_timeout(unity_exec: str, config: ConfigManager):
     with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
         future = executor.submit(get_controller, unity_exec, config)
         try:
-            controller = future.result(timeout=TIME_LIMIT_SECONDS)
+            controller = future.result(timeout=config.get_controller_timeout)
             return controller
         except concurrent.futures.TimeoutError as Msg:
             logger.error("Timeout error in creating controller", exc_info=Msg)

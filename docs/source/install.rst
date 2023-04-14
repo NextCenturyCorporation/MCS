@@ -228,6 +228,20 @@ step_penalty
 
 Changes the negative penalty recieved for every step. Default: 0.001
 
+timeout
+^^^^^^^
+
+(int, optional)
+
+Sets the time (in seconds) to allow on a single step before timing out. Default 3600
+
+controller_timeout
+^^^^^^^^^^^^^^^^^^
+
+(int, optional)
+
+Sets the time (in seconds) to allow on controller initialization before timing out. Default 180
+
 top_down_camera
 ^^^^^^^^^^^^^^^
 

@@ -189,6 +189,11 @@ class TestConfigManager(unittest.TestCase):
             self.config_mngr.get_metadata_tier().value,
             'oracle')
 
+    def test_controller_timeout(self):
+        self.assertEquals(self.config_mngr.get_controller_timeout(), 180)
+        self.config_mngr.set_controller_timeout(str(90))
+        self.assertEquals(self.config_mngr.get_controller_timeout(), 90)
+
     def test_get_size(self):
         self.assertEqual(self.config_mngr.get_size(), 600)
 
@@ -279,6 +284,8 @@ class TestConfigManager(unittest.TestCase):
         ] = '50'
 
         self.assertEqual(self.config_mngr.get_timeout(), 50)
+        self.config_mngr.set_timeout(str(51))
+        self.assertEqual(self.config_mngr.get_timeout(), 51)
 
 
 class TestSceneConfig(unittest.TestCase):
