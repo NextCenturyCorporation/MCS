@@ -344,7 +344,6 @@ class ConfigManager:
     CONFIG_CONTROLLER_TIMEOUT = 'controller_timeout'
     CONFIG_VIDEO_ENABLED = 'video_enabled'
 
-
     # Please keep the aspect ratio as 3:2 because the IntPhys scenes are built
     # on this assumption.
     SCREEN_WIDTH_DEFAULT = 600
