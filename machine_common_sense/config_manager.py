@@ -307,6 +307,14 @@ class SceneObject(BaseModel):
     stack_target: Optional[bool]
 
 
+class TerminalOutputMode(Enum):
+    ACTIONS = 'actions'
+    MINIMAL = 'minimal'
+    OBJECTS = 'objects'
+    PERFORMER = 'performer'
+    SCENE = 'scene'
+
+
 class ConfigManager:
 
     DEFAULT_ROOM_DIMENSIONS = Vector3d(x=10, y=3, z=10)
@@ -314,25 +322,28 @@ class ConfigManager:
     CONFIG_DEFAULT_SECTION = 'MCS'
     CONFIG_DISABLE_DEPTH_MAPS = 'disable_depth_maps'
     CONFIG_DISABLE_OBJECT_MASKS = 'disable_object_masks'
-    CONFIG_ONLY_RETURN_GOAL_OBJECT = 'only_return_goal_object'
     CONFIG_DISABLE_POSITION = 'disable_position'
     CONFIG_EVALUATION_NAME = 'evaluation_name'
+    CONFIG_GOAL_REWARD = 'goal_reward'
     CONFIG_HISTORY_ENABLED = 'history_enabled'
+    CONFIG_LAVA_PENALTY = 'lava_penalty'
     CONFIG_METADATA_TIER = 'metadata'
     CONFIG_NOISE_ENABLED = 'noise_enabled'
+    CONFIG_ONLY_RETURN_GOAL_OBJECT = 'only_return_goal_object'
     CONFIG_SAVE_DEBUG_IMAGES = 'save_debug_images'
     CONFIG_SAVE_DEBUG_JSON = 'save_debug_json'
     CONFIG_SIZE = 'size'
-    CONFIG_TEAM = 'team'
-    CONFIG_VIDEO_ENABLED = 'video_enabled'
-    CONFIG_LAVA_PENALTY = 'lava_penalty'
-    CONFIG_STEPS_ALLOWED_IN_LAVA = 'steps_allowed_in_lava'
     CONFIG_STEP_PENALTY = 'step_penalty'
-    CONFIG_GOAL_REWARD = 'goal_reward'
+    CONFIG_STEPS_ALLOWED_IN_LAVA = 'steps_allowed_in_lava'
+    CONFIG_TEAM = 'team'
+    CONFIG_TERMINAL_OUTPUT = 'terminal_output'
+    CONFIG_TIMEOUT = 'timeout'
     CONFIG_TOP_DOWN_PLOTTER = 'top_down_plotter'
     CONFIG_TOP_DOWN_CAMERA = 'top_down_camera'
     CONFIG_TIMEOUT = 'timeout'
     CONFIG_CONTROLLER_TIMEOUT = 'controller_timeout'
+    CONFIG_VIDEO_ENABLED = 'video_enabled'
+
 
     # Please keep the aspect ratio as 3:2 because the IntPhys scenes are built
     # on this assumption.
@@ -436,6 +447,34 @@ class ConfigManager:
             self.CONFIG_TEAM,
             fallback=''
         )
+
+    def get_terminal_output_mode(self) -> List[TerminalOutputMode]:
+        try:
+            # If mode is boolean, return all or nothing.
+            terminal_output_mode = self._config.getboolean(
+                self.CONFIG_DEFAULT_SECTION,
+                self.CONFIG_TERMINAL_OUTPUT,
+                fallback=True
+            )
+            if terminal_output_mode:
+                return [mode for mode in TerminalOutputMode]
+            return []
+        except ValueError:
+            # If mode is string, assume comma separated list.
+            terminal_output_mode = self._config.get(
+                self.CONFIG_DEFAULT_SECTION,
+                self.CONFIG_TERMINAL_OUTPUT,
+                fallback=True
+            )
+            if not terminal_output_mode:
+                return []
+            inputs = terminal_output_mode.split(',')
+            if 'all' in inputs or 'ALL' in inputs:
+                return [mode for mode in TerminalOutputMode]
+            return [
+                mode for mode in TerminalOutputMode
+                if mode.value in inputs or mode.value.upper() in inputs
+            ]
 
     def is_history_enabled(self):
         return self._config.getboolean(

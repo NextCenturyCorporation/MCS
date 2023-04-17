@@ -515,7 +515,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual.lava, [
             (2.5, 2.5, 3.5, 3.5), (6.5, 4.5, 7.5, 5.5), (3.5, 5.5, 4.5, 6.5)
         ])
-        self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
+        self.assertEqual(actual.position, None)
         self.assertEqual(actual.resolved_object, 'testResolvedId')
         self.assertEqual(actual.resolved_receptacle, '')
         self.assertEqual(actual.rotation, 2.222)

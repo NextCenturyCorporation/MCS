@@ -17,6 +17,7 @@ from machine_common_sense.config_manager import (ActionConfig,
                                                  SizeConfig,
                                                  StepBeginEndConfig,
                                                  TeleportConfig,
+                                                 TerminalOutputMode,
                                                  TransformConfig, Vector3d)
 
 
@@ -217,6 +218,80 @@ class TestConfigManager(unittest.TestCase):
         self.assertEqual(
             self.config_mngr.get_team(),
             'team-name')
+
+    def test_terminal_output_mode(self):
+        all_modes = [
+            TerminalOutputMode.ACTIONS, TerminalOutputMode.MINIMAL,
+            TerminalOutputMode.OBJECTS, TerminalOutputMode.PERFORMER,
+            TerminalOutputMode.SCENE
+        ]
+        self.assertEqual(
+            self.config_mngr.get_terminal_output_mode(),
+            all_modes
+        )
+        default_section = self.config_mngr._config[
+            self.config_mngr.CONFIG_DEFAULT_SECTION
+        ]
+
+        default_section['terminal_output'] = 'true'
+        self.assertEqual(
+            self.config_mngr.get_terminal_output_mode(),
+            all_modes
+        )
+
+        default_section['terminal_output'] = 'all'
+        self.assertEqual(
+            self.config_mngr.get_terminal_output_mode(),
+            all_modes
+        )
+
+        default_section['terminal_output'] = 'false'
+        self.assertEqual(self.config_mngr.get_terminal_output_mode(), [])
+
+        default_section['terminal_output'] = 'none'
+        self.assertEqual(self.config_mngr.get_terminal_output_mode(), [])
+
+        default_section['terminal_output'] = 'MINIMAL'
+        self.assertEqual(
+            self.config_mngr.get_terminal_output_mode(),
+            [TerminalOutputMode.MINIMAL]
+        )
+
+        default_section['terminal_output'] = 'minimal'
+        self.assertEqual(
+            self.config_mngr.get_terminal_output_mode(),
+            [TerminalOutputMode.MINIMAL]
+        )
+
+        default_section['terminal_output'] = 'actions'
+        self.assertEqual(
+            self.config_mngr.get_terminal_output_mode(),
+            [TerminalOutputMode.ACTIONS]
+        )
+
+        default_section['terminal_output'] = 'objects'
+        self.assertEqual(
+            self.config_mngr.get_terminal_output_mode(),
+            [TerminalOutputMode.OBJECTS]
+        )
+
+        default_section['terminal_output'] = 'performer'
+        self.assertEqual(
+            self.config_mngr.get_terminal_output_mode(),
+            [TerminalOutputMode.PERFORMER]
+        )
+
+        default_section['terminal_output'] = 'scene'
+        self.assertEqual(
+            self.config_mngr.get_terminal_output_mode(),
+            [TerminalOutputMode.SCENE]
+        )
+
+        default_section['terminal_output'] = 'objects,scene'
+        self.assertEqual(
+            self.config_mngr.get_terminal_output_mode(),
+            [TerminalOutputMode.OBJECTS, TerminalOutputMode.SCENE]
+        )
 
     def test_is_history_enabled(self):
         self.assertTrue(self.config_mngr.is_history_enabled())

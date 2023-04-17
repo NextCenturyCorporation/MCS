@@ -242,6 +242,21 @@ controller_timeout
 
 Sets the time (in seconds) to allow on controller initialization before timing out. Default 180
 
+terminal_output
+^^^^^^^^^^^^^^^
+
+(boolean or string, optional)
+
+The terminal output mode controls what output metadata is logged to the terminal during a run (using the debug logger). Multiple modes can be configured together using commas-delimited strings (for example: "actions,performer").
+
+- `all` or `true` (default): Prints all terminal output (listed below).
+- `minimal`: Prints minimal output, including step number, selected action, return status, goal, and current reward (if any).
+- `actions`: Prints all actions available for the next step.
+- `objects`: Prints all object metadata.
+- `performer`: Prints metadata for the performer agent, including camera and frame rate information.
+- `scene`: Prints metadata for the scene's room, including all structural objects.
+- `false` or `none`: Prints no terminal output, besides initialization, warning, and error messages.
+
 top_down_camera
 ^^^^^^^^^^^^^^^
 

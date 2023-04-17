@@ -2698,13 +2698,13 @@ Chest Options
       - Short-sleeve casual button-down shirt
     * - 6
       - 4
-      - High-neck shirt
+      - High-neck no-button shirt
     * - 7
       - 5
-      - Long-sleeve shirt
+      - Long-sleeve no-button shirt
     * - 8
       - 6
-      - Short-sleeve shirt
+      - Short-sleeve no-button shirt
 
 Chest Material Options
 **********************
@@ -2827,8 +2827,8 @@ Legs Options
 .. list-table::
     :header-rows: 1
 
-    * - Chest Option (Female)
-      - Chest Option (Male)
+    * - Legs Option (Female)
+      - Legs Option (Male)
       - Description
     * - 0
       -
