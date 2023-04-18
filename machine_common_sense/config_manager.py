@@ -340,7 +340,6 @@ class ConfigManager:
     CONFIG_TIMEOUT = 'timeout'
     CONFIG_TOP_DOWN_PLOTTER = 'top_down_plotter'
     CONFIG_TOP_DOWN_CAMERA = 'top_down_camera'
-    CONFIG_TIMEOUT = 'timeout'
     CONFIG_CONTROLLER_TIMEOUT = 'controller_timeout'
     CONFIG_VIDEO_ENABLED = 'video_enabled'
 
