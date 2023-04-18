@@ -30,10 +30,6 @@ logger = logging.getLogger(__name__)
 # Set default logging handler to avoid "No handler found" warnings
 logger.addHandler(logging.NullHandler())
 
-# Timeout at 3 minutes (180 seconds).  It was 60 seconds but
-# this can cause timeouts on EC2 instances
-TIME_LIMIT_SECONDS = 180
-
 
 def get_controller(unity_exec: str, config: ConfigManager):
     """Function to get the controller, pulled into its own
