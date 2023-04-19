@@ -733,6 +733,7 @@ class SceneConfiguration(BaseModel):
             ))
 
         goal = self.goal
+        goal.metadata = goal.metadata or {}
 
         # Transform action list data from strings to tuples.
         action_list = goal.action_list or []
