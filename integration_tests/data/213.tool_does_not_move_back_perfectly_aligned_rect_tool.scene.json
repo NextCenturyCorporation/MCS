@@ -1,5 +1,5 @@
 {
-    "name": "tool on hooked tool MoveObject that is offset right but still moves noramlly",
+    "name": "Tool uses MoveObject on a perfectly aligned Rectangular Tool, the colliders will overlap after moving forward. Ensure when moving backward they do not stick together and the far tool stays still",
     "version": 2,
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",

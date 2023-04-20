@@ -1,5 +1,5 @@
 {
-    "name": "tool hooked move object backward on ball",
+    "name": "Hooked Tool uses MoveObject in all directions on a ball, makes sure the ball does not move forward only backward",
     "version": 2,
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",

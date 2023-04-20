@@ -1,5 +1,5 @@
 {
-    "name": "tool on hooked tool MoveObject that is offset right but still moves noramlly",
+    "name": "Tool uses MoveObject on the horizontal body of a Rectangular Tool succesfully",
     "version": 2,
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
@@ -53,7 +53,7 @@
                     "position": {
                         "x": 0,
                         "y": 0.25,
-                        "z": 0
+                        "z": -2.3
                     },
                     "rotation": {
                         "x": 0,

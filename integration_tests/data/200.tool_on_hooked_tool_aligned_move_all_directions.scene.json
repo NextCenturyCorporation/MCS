@@ -1,5 +1,5 @@
 {
-    "name": "tool aligned with hooked tool moves hooked tool in all directions",
+    "name": "Tool uses MoveObject in all directions on a Hooked Tool",
     "version": 2,
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",

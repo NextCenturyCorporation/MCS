@@ -1,5 +1,5 @@
 {
-    "name": "tool pushes offset ball with move object",
+    "name": "Tool uses MoveObject on an offset ball multiple times",
     "version": 2,
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
