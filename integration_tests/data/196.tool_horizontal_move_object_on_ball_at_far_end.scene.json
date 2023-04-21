@@ -1,5 +1,5 @@
 {
-    "name": "Horizontal Tool uses MoveObject on a succesfully",
+    "name": "Horizontal Tool uses MoveObject on ball at the opposite end of the tool succesfully",
     "version": 2,
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
