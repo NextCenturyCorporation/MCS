@@ -130,6 +130,7 @@ class TestController(unittest.TestCase):
                     "distance": 1.5,
                     "distanceXZ": 1.1,
                     "isPickedUp": False,
+                    "wasPickedUp": False,
                     "mass": 12.34,
                     "objectBounds": {
                         "objectBoundsCorners": [
@@ -169,6 +170,7 @@ class TestController(unittest.TestCase):
                     "distance": 2.5,
                     "distanceXZ": 2.0,
                     "isPickedUp": False,
+                    "wasPickedUp": False,
                     "mass": 34.56,
                     "objectBounds": {
                         "objectBoundsCorners": [
@@ -209,6 +211,7 @@ class TestController(unittest.TestCase):
                     "distance": 2.5,
                     "distanceXZ": 2.2,
                     "isPickedUp": False,
+                    "wasPickedUp": False,
                     "mass": 56.78,
                     "objectBounds": {
                         "objectBoundsCorners": [
@@ -248,6 +251,7 @@ class TestController(unittest.TestCase):
                     "distance": 3.5,
                     "distanceXZ": 3.3,
                     "isPickedUp": False,
+                    "wasPickedUp": False,
                     "mass": 78.90,
                     "objectBounds": {
                         "objectBoundsCorners": [
