@@ -1,5 +1,5 @@
 {
-    "name": "Tool uses MoveObject on an offset Rectangular Tool to the right multiple times and pushes it out of the way",
+    "name": "Horizontal Tool uses MoveObject on an offset ball multiple times and pushes it out of the way",
     "version": 2,
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
@@ -11,11 +11,11 @@
     },
     "performerStart": {
         "position": {
-            "x": 0,
-            "z": -8.5
+            "x": -4,
+            "z": -2
         },
         "rotation": {
-            "x": 0,
+            "x": 15,
             "y": 0
         }
     },
@@ -27,13 +27,13 @@
                 {
                     "stepBegin": 0,
                     "position": {
-                        "x": 0,
+                        "x": -2,
                         "y": 0.25,
-                        "z": -5.5
+                        "z": -1
                     },
                     "rotation": {
                         "x": 0,
-                        "y": 0,
+                        "y": 90,
                         "z": 0
                     },
                     "scale": {
@@ -45,8 +45,8 @@
             ]
         },
         {
-            "id": "tool_2",
-            "type": "tool_rect_0_75_x_5_00",
+            "id": "target",
+            "type": "soccer_ball",
             "shows": [
                 {
                     "stepBegin": 0,
@@ -56,9 +56,9 @@
                         "z": 0
                     },
                     "scale": {
-                        "x": 1,
-                        "y": 1,
-                        "z": 1
+                        "x": 2,
+                        "y": 2,
+                        "z": 2
                     }
                 }
             ]

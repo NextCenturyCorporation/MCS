@@ -1,10 +1,10 @@
-LookDown
+Pass
+Pass
+Pass
+Pass
 MoveAhead
 MoveAhead
 MoveAhead
-MoveAhead
-MoveAhead
-LookDown
 MoveObject,objectImageCoordsX=300,objectImageCoordsY=399
 MoveAhead
 MoveObject,objectImageCoordsX=300,objectImageCoordsY=399

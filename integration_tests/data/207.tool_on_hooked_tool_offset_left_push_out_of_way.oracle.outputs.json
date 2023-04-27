@@ -3,14 +3,14 @@
         "head_tilt": 0,
         "objects": [
             {
-                "direction_x": -0.0,
+                "direction_x": -0.16,
                 "direction_y": -0.06,
                 "direction_z": 0.99,
                 "distance": 8.55,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
-                "position_x": -0.0,
+                "mass": 3.66,
+                "position_x": -1.4,
                 "position_z": 0.0,
                 "shape": "tool",
                 "visible": true
@@ -38,17 +38,17 @@
         "structural_objects_count": 5
     },
     {
-        "head_tilt": 0,
+        "head_tilt": 10,
         "objects": [
             {
-                "direction_x": -0.0,
+                "direction_x": -0.16,
                 "direction_y": -0.07,
                 "direction_z": 0.99,
-                "distance": 8.42,
+                "distance": 8.55,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
-                "position_x": -0.0,
+                "mass": 3.66,
+                "position_x": -1.4,
                 "position_z": 0.0,
                 "shape": "tool",
                 "visible": true
@@ -57,7 +57,7 @@
                 "direction_x": -0.0,
                 "direction_y": -0.19,
                 "direction_z": 0.98,
-                "distance": 2.95,
+                "distance": 3.05,
                 "held": false,
                 "id": "tool_1",
                 "mass": 3.66,
@@ -69,7 +69,7 @@
         ],
         "objects_count": 2,
         "position_x": 0.0,
-        "position_z": -8.4,
+        "position_z": -8.5,
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 1,
@@ -79,14 +79,14 @@
         "head_tilt": 10,
         "objects": [
             {
-                "direction_x": 0.0,
+                "direction_x": -0.16,
                 "direction_y": -0.07,
                 "direction_z": 0.99,
                 "distance": 8.46,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
-                "position_x": 0.0,
+                "mass": 3.66,
+                "position_x": -1.4,
                 "position_z": 0.0,
                 "shape": "tool",
                 "visible": true
@@ -117,14 +117,14 @@
         "head_tilt": 10,
         "objects": [
             {
-                "direction_x": 0.0,
+                "direction_x": -0.17,
                 "direction_y": -0.07,
                 "direction_z": 0.99,
                 "distance": 8.36,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
-                "position_x": 0.0,
+                "mass": 3.66,
+                "position_x": -1.4,
                 "position_z": 0.0,
                 "shape": "tool",
                 "visible": true
@@ -155,14 +155,14 @@
         "head_tilt": 10,
         "objects": [
             {
-                "direction_x": 0.0,
+                "direction_x": -0.17,
                 "direction_y": -0.07,
                 "direction_z": 0.99,
                 "distance": 8.26,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
-                "position_x": 0.0,
+                "mass": 3.66,
+                "position_x": -1.4,
                 "position_z": 0.0,
                 "shape": "tool",
                 "visible": true
@@ -190,17 +190,17 @@
         "structural_objects_count": 5
     },
     {
-        "head_tilt": 20,
+        "head_tilt": 10,
         "objects": [
             {
-                "direction_x": 0.0,
+                "direction_x": -0.17,
                 "direction_y": -0.07,
                 "direction_z": 0.99,
                 "distance": 8.26,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
-                "position_x": 0.0,
+                "mass": 3.66,
+                "position_x": -1.4,
                 "position_z": 0.0,
                 "shape": "tool",
                 "visible": true
@@ -222,23 +222,23 @@
         "objects_count": 2,
         "position_x": 0.0,
         "position_z": -8.2,
-        "return_status": "SUCCESSFUL",
+        "return_status": "OBSTRUCTED",
         "rotation_y": 0.0,
         "step_number": 5,
         "structural_objects_count": 5
     },
     {
-        "head_tilt": 20,
+        "head_tilt": 10,
         "objects": [
             {
-                "direction_x": 0.0,
+                "direction_x": -0.17,
                 "direction_y": -0.07,
                 "direction_z": 0.99,
                 "distance": 8.26,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
-                "position_x": 0.0,
+                "mass": 3.66,
+                "position_x": -1.4,
                 "position_z": 0.0,
                 "shape": "tool",
                 "visible": true
@@ -269,15 +269,15 @@
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.0,
+                "direction_x": -0.17,
                 "direction_y": -0.07,
                 "direction_z": 0.99,
                 "distance": 8.26,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
-                "position_x": 0.0,
-                "position_z": 0.1,
+                "mass": 3.66,
+                "position_x": -1.4,
+                "position_z": 0.0,
                 "shape": "tool",
                 "visible": true
             },
@@ -285,12 +285,12 @@
                 "direction_x": 0.0,
                 "direction_y": -0.22,
                 "direction_z": 0.98,
-                "distance": 2.87,
+                "distance": 2.77,
                 "held": false,
                 "id": "tool_1",
                 "mass": 3.66,
                 "position_x": 0.0,
-                "position_z": -5.4,
+                "position_z": -5.5,
                 "shape": "tool",
                 "visible": true
             }
@@ -307,15 +307,53 @@
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.0,
+                "direction_x": -0.17,
                 "direction_y": -0.07,
                 "direction_z": 0.99,
-                "distance": 8.22,
+                "distance": 8.26,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
+                "mass": 3.66,
+                "position_x": -1.4,
+                "position_z": 0.0,
+                "shape": "tool",
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 2.87,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
                 "position_x": 0.0,
-                "position_z": 0.1,
+                "position_z": -5.4,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -8.2,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 8,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": -0.17,
+                "direction_y": -0.08,
+                "direction_z": 0.99,
+                "distance": 8.24,
+                "held": false,
+                "id": "tool_2",
+                "mass": 3.66,
+                "position_x": -1.4,
+                "position_z": 0.0,
                 "shape": "tool",
                 "visible": true
             },
@@ -329,44 +367,6 @@
                 "mass": 3.66,
                 "position_x": 0.0,
                 "position_z": -5.4,
-                "shape": "tool",
-                "visible": true
-            }
-        ],
-        "objects_count": 2,
-        "position_x": 0.0,
-        "position_z": -8.1,
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 0.0,
-        "step_number": 8,
-        "structural_objects_count": 5
-    },
-    {
-        "head_tilt": 20,
-        "objects": [
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.08,
-                "direction_z": 0.99,
-                "distance": 8.32,
-                "held": false,
-                "id": "tool_2",
-                "mass": 4.0,
-                "position_x": 0.0,
-                "position_z": 0.2,
-                "shape": "tool",
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.22,
-                "direction_z": 0.98,
-                "distance": 2.87,
-                "held": false,
-                "id": "tool_1",
-                "mass": 3.66,
-                "position_x": 0.0,
-                "position_z": -5.3,
                 "shape": "tool",
                 "visible": true
             }
@@ -383,15 +383,53 @@
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.0,
+                "direction_x": -0.17,
                 "direction_y": -0.08,
                 "direction_z": 0.99,
-                "distance": 8.22,
+                "distance": 8.24,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
+                "mass": 3.66,
+                "position_x": -1.4,
+                "position_z": 0.0,
+                "shape": "tool",
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 2.87,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
                 "position_x": 0.0,
-                "position_z": 0.2,
+                "position_z": -5.3,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -8.1,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 10,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": -0.17,
+                "direction_y": -0.08,
+                "direction_z": 0.99,
+                "distance": 8.14,
+                "held": false,
+                "id": "tool_2",
+                "mass": 3.66,
+                "position_x": -1.4,
+                "position_z": 0.0,
                 "shape": "tool",
                 "visible": true
             },
@@ -405,44 +443,6 @@
                 "mass": 3.66,
                 "position_x": 0.0,
                 "position_z": -5.3,
-                "shape": "tool",
-                "visible": true
-            }
-        ],
-        "objects_count": 2,
-        "position_x": 0.0,
-        "position_z": -8.0,
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 0.0,
-        "step_number": 10,
-        "structural_objects_count": 5
-    },
-    {
-        "head_tilt": 20,
-        "objects": [
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.08,
-                "direction_z": 0.99,
-                "distance": 8.32,
-                "held": false,
-                "id": "tool_2",
-                "mass": 4.0,
-                "position_x": 0.0,
-                "position_z": 0.3,
-                "shape": "tool",
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.22,
-                "direction_z": 0.98,
-                "distance": 2.87,
-                "held": false,
-                "id": "tool_1",
-                "mass": 3.66,
-                "position_x": 0.0,
-                "position_z": -5.2,
                 "shape": "tool",
                 "visible": true
             }
@@ -459,15 +459,53 @@
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.0,
+                "direction_x": -0.17,
                 "direction_y": -0.08,
                 "direction_z": 0.99,
-                "distance": 8.22,
+                "distance": 8.14,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
+                "mass": 3.66,
+                "position_x": -1.4,
+                "position_z": 0.0,
+                "shape": "tool",
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 2.87,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
                 "position_x": 0.0,
-                "position_z": 0.3,
+                "position_z": -5.2,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -8.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 12,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": -0.17,
+                "direction_y": -0.08,
+                "direction_z": 0.99,
+                "distance": 8.05,
+                "held": false,
+                "id": "tool_2",
+                "mass": 3.66,
+                "position_x": -1.4,
+                "position_z": 0.0,
                 "shape": "tool",
                 "visible": true
             },
@@ -481,44 +519,6 @@
                 "mass": 3.66,
                 "position_x": 0.0,
                 "position_z": -5.2,
-                "shape": "tool",
-                "visible": true
-            }
-        ],
-        "objects_count": 2,
-        "position_x": 0.0,
-        "position_z": -7.9,
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 0.0,
-        "step_number": 12,
-        "structural_objects_count": 5
-    },
-    {
-        "head_tilt": 20,
-        "objects": [
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.08,
-                "direction_z": 0.99,
-                "distance": 8.32,
-                "held": false,
-                "id": "tool_2",
-                "mass": 4.0,
-                "position_x": 0.0,
-                "position_z": 0.4,
-                "shape": "tool",
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.22,
-                "direction_z": 0.98,
-                "distance": 2.87,
-                "held": false,
-                "id": "tool_1",
-                "mass": 3.66,
-                "position_x": 0.0,
-                "position_z": -5.1,
                 "shape": "tool",
                 "visible": true
             }
@@ -535,15 +535,53 @@
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.0,
+                "direction_x": -0.17,
                 "direction_y": -0.08,
                 "direction_z": 0.99,
-                "distance": 8.22,
+                "distance": 8.05,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
+                "mass": 3.66,
+                "position_x": -1.4,
+                "position_z": 0.0,
+                "shape": "tool",
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 2.87,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
                 "position_x": 0.0,
-                "position_z": 0.4,
+                "position_z": -5.1,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -7.9,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 14,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": -0.18,
+                "direction_y": -0.08,
+                "direction_z": 0.99,
+                "distance": 7.95,
+                "held": false,
+                "id": "tool_2",
+                "mass": 3.66,
+                "position_x": -1.4,
+                "position_z": 0.0,
                 "shape": "tool",
                 "visible": true
             },
@@ -557,44 +595,6 @@
                 "mass": 3.66,
                 "position_x": 0.0,
                 "position_z": -5.1,
-                "shape": "tool",
-                "visible": true
-            }
-        ],
-        "objects_count": 2,
-        "position_x": 0.0,
-        "position_z": -7.8,
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 0.0,
-        "step_number": 14,
-        "structural_objects_count": 5
-    },
-    {
-        "head_tilt": 20,
-        "objects": [
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.08,
-                "direction_z": 0.99,
-                "distance": 8.32,
-                "held": false,
-                "id": "tool_2",
-                "mass": 4.0,
-                "position_x": 0.0,
-                "position_z": 0.5,
-                "shape": "tool",
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.22,
-                "direction_z": 0.98,
-                "distance": 2.87,
-                "held": false,
-                "id": "tool_1",
-                "mass": 3.66,
-                "position_x": 0.0,
-                "position_z": -5.0,
                 "shape": "tool",
                 "visible": true
             }
@@ -611,15 +611,53 @@
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.0,
+                "direction_x": -0.18,
                 "direction_y": -0.08,
                 "direction_z": 0.99,
-                "distance": 8.22,
+                "distance": 7.95,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
+                "mass": 3.66,
+                "position_x": -1.4,
+                "position_z": 0.0,
+                "shape": "tool",
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 2.87,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
                 "position_x": 0.0,
-                "position_z": 0.5,
+                "position_z": -5.0,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -7.8,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 16,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": -0.18,
+                "direction_y": -0.08,
+                "direction_z": 0.99,
+                "distance": 7.85,
+                "held": false,
+                "id": "tool_2",
+                "mass": 3.66,
+                "position_x": -1.4,
+                "position_z": 0.0,
                 "shape": "tool",
                 "visible": true
             },
@@ -633,44 +671,6 @@
                 "mass": 3.66,
                 "position_x": 0.0,
                 "position_z": -5.0,
-                "shape": "tool",
-                "visible": true
-            }
-        ],
-        "objects_count": 2,
-        "position_x": 0.0,
-        "position_z": -7.7,
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 0.0,
-        "step_number": 16,
-        "structural_objects_count": 5
-    },
-    {
-        "head_tilt": 20,
-        "objects": [
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.08,
-                "direction_z": 0.99,
-                "distance": 8.32,
-                "held": false,
-                "id": "tool_2",
-                "mass": 4.0,
-                "position_x": 0.0,
-                "position_z": 0.6,
-                "shape": "tool",
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.22,
-                "direction_z": 0.98,
-                "distance": 2.87,
-                "held": false,
-                "id": "tool_1",
-                "mass": 3.66,
-                "position_x": 0.0,
-                "position_z": -4.9,
                 "shape": "tool",
                 "visible": true
             }
@@ -687,15 +687,53 @@
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.0,
+                "direction_x": -0.18,
                 "direction_y": -0.08,
                 "direction_z": 0.99,
-                "distance": 8.22,
+                "distance": 8.04,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
+                "mass": 3.66,
+                "position_x": -1.46,
+                "position_z": 0.18,
+                "shape": "tool",
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 2.87,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
                 "position_x": 0.0,
-                "position_z": 0.6,
+                "position_z": -4.9,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -7.7,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 18,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": -0.18,
+                "direction_y": -0.08,
+                "direction_z": 0.98,
+                "distance": 7.94,
+                "held": false,
+                "id": "tool_2",
+                "mass": 3.66,
+                "position_x": -1.46,
+                "position_z": 0.18,
                 "shape": "tool",
                 "visible": true
             },
@@ -718,44 +756,6 @@
         "position_z": -7.6,
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
-        "step_number": 18,
-        "structural_objects_count": 5
-    },
-    {
-        "head_tilt": 20,
-        "objects": [
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.08,
-                "direction_z": 1.0,
-                "distance": 8.22,
-                "held": false,
-                "id": "tool_2",
-                "mass": 4.0,
-                "position_x": 0.0,
-                "position_z": 0.6,
-                "shape": "tool",
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.22,
-                "direction_z": 0.98,
-                "distance": 2.77,
-                "held": false,
-                "id": "tool_1",
-                "mass": 3.66,
-                "position_x": 0.0,
-                "position_z": -4.9,
-                "shape": "tool",
-                "visible": true
-            }
-        ],
-        "objects_count": 2,
-        "position_x": 0.0,
-        "position_z": -7.6,
-        "return_status": "OBSTRUCTED",
-        "rotation_y": 0.0,
         "step_number": 19,
         "structural_objects_count": 5
     },
@@ -763,15 +763,15 @@
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.0,
+                "direction_x": -0.19,
                 "direction_y": -0.08,
-                "direction_z": 1.0,
-                "distance": 8.32,
+                "direction_z": 0.98,
+                "distance": 8.13,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
-                "position_x": 0.0,
-                "position_z": 0.6,
+                "mass": 3.66,
+                "position_x": -1.52,
+                "position_z": 0.36,
                 "shape": "tool",
                 "visible": true
             },
@@ -784,14 +784,14 @@
                 "id": "tool_1",
                 "mass": 3.66,
                 "position_x": -0.0,
-                "position_z": -4.9,
+                "position_z": -4.83,
                 "shape": "tool",
                 "visible": true
             }
         ],
         "objects_count": 2,
         "position_x": 0.0,
-        "position_z": -7.7,
+        "position_z": -7.6,
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 20,
@@ -801,15 +801,15 @@
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.0,
+                "direction_x": -0.19,
                 "direction_y": -0.08,
-                "direction_z": 1.0,
-                "distance": 8.32,
+                "direction_z": 0.98,
+                "distance": 8.03,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
-                "position_x": 0.0,
-                "position_z": 0.6,
+                "mass": 3.66,
+                "position_x": -1.52,
+                "position_z": 0.36,
                 "shape": "tool",
                 "visible": true
             },
@@ -822,14 +822,14 @@
                 "id": "tool_1",
                 "mass": 3.66,
                 "position_x": 0.0,
-                "position_z": -5.0,
+                "position_z": -4.76,
                 "shape": "tool",
                 "visible": true
             }
         ],
         "objects_count": 2,
         "position_x": 0.0,
-        "position_z": -7.7,
+        "position_z": -7.5,
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 21,
@@ -839,35 +839,35 @@
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.0,
+                "direction_x": -0.19,
                 "direction_y": -0.08,
-                "direction_z": 1.0,
-                "distance": 8.42,
+                "direction_z": 0.98,
+                "distance": 8.03,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
-                "position_x": 0.0,
-                "position_z": 0.6,
+                "mass": 3.66,
+                "position_x": -1.52,
+                "position_z": 0.36,
                 "shape": "tool",
                 "visible": true
             },
             {
                 "direction_x": -0.0,
-                "direction_y": -0.21,
+                "direction_y": -0.22,
                 "direction_z": 0.98,
                 "distance": 2.87,
                 "held": false,
                 "id": "tool_1",
                 "mass": 3.66,
                 "position_x": -0.0,
-                "position_z": -5.0,
+                "position_z": -4.7,
                 "shape": "tool",
                 "visible": true
             }
         ],
         "objects_count": 2,
         "position_x": 0.0,
-        "position_z": -7.8,
+        "position_z": -7.5,
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 22,
@@ -877,15 +877,15 @@
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.0,
+                "direction_x": -0.19,
                 "direction_y": -0.08,
-                "direction_z": 1.0,
-                "distance": 8.42,
+                "direction_z": 0.98,
+                "distance": 7.93,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
-                "position_x": 0.0,
-                "position_z": 0.6,
+                "mass": 3.66,
+                "position_x": -1.52,
+                "position_z": 0.36,
                 "shape": "tool",
                 "visible": true
             },
@@ -898,14 +898,14 @@
                 "id": "tool_1",
                 "mass": 3.66,
                 "position_x": 0.0,
-                "position_z": -5.1,
+                "position_z": -4.7,
                 "shape": "tool",
                 "visible": true
             }
         ],
         "objects_count": 2,
         "position_x": 0.0,
-        "position_z": -7.8,
+        "position_z": -7.4,
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 23,
@@ -915,35 +915,35 @@
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.0,
+                "direction_x": -0.19,
                 "direction_y": -0.08,
-                "direction_z": 1.0,
-                "distance": 8.52,
+                "direction_z": 0.98,
+                "distance": 7.9,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
-                "position_x": 0.0,
-                "position_z": 0.6,
+                "mass": 3.66,
+                "position_x": -1.52,
+                "position_z": 0.36,
                 "shape": "tool",
                 "visible": true
             },
             {
                 "direction_x": 0.0,
-                "direction_y": -0.21,
+                "direction_y": -0.22,
                 "direction_z": 0.98,
                 "distance": 2.87,
                 "held": false,
                 "id": "tool_1",
                 "mass": 3.66,
                 "position_x": 0.0,
-                "position_z": -5.1,
+                "position_z": -4.6,
                 "shape": "tool",
                 "visible": true
             }
         ],
         "objects_count": 2,
         "position_x": 0.0,
-        "position_z": -7.9,
+        "position_z": -7.4,
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 24,
@@ -953,15 +953,15 @@
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.0,
+                "direction_x": -0.19,
                 "direction_y": -0.08,
-                "direction_z": 1.0,
-                "distance": 8.52,
+                "direction_z": 0.98,
+                "distance": 7.83,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
-                "position_x": 0.0,
-                "position_z": 0.6,
+                "mass": 3.66,
+                "position_x": -1.52,
+                "position_z": 0.36,
                 "shape": "tool",
                 "visible": true
             },
@@ -974,14 +974,14 @@
                 "id": "tool_1",
                 "mass": 3.66,
                 "position_x": 0.0,
-                "position_z": -5.2,
+                "position_z": -4.6,
                 "shape": "tool",
                 "visible": true
             }
         ],
         "objects_count": 2,
         "position_x": 0.0,
-        "position_z": -7.9,
+        "position_z": -7.3,
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 25,
@@ -991,35 +991,35 @@
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.0,
+                "direction_x": -0.19,
                 "direction_y": -0.08,
-                "direction_z": 1.0,
-                "distance": 8.62,
+                "direction_z": 0.98,
+                "distance": 7.9,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
-                "position_x": 0.0,
-                "position_z": 0.6,
+                "mass": 3.66,
+                "position_x": -1.52,
+                "position_z": 0.36,
                 "shape": "tool",
                 "visible": true
             },
             {
                 "direction_x": -0.0,
-                "direction_y": -0.21,
+                "direction_y": -0.22,
                 "direction_z": 0.97,
-                "distance": 2.87,
+                "distance": 2.84,
                 "held": false,
                 "id": "tool_1",
                 "mass": 3.66,
                 "position_x": -0.0,
-                "position_z": -5.2,
+                "position_z": -4.5,
                 "shape": "tool",
                 "visible": true
             }
         ],
         "objects_count": 2,
         "position_x": 0.0,
-        "position_z": -8.0,
+        "position_z": -7.3,
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 26,
@@ -1029,15 +1029,15 @@
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.0,
+                "direction_x": -0.2,
                 "direction_y": -0.08,
-                "direction_z": 1.0,
-                "distance": 8.62,
+                "direction_z": 0.98,
+                "distance": 7.74,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
-                "position_x": 0.0,
-                "position_z": 0.6,
+                "mass": 3.66,
+                "position_x": -1.52,
+                "position_z": 0.36,
                 "shape": "tool",
                 "visible": true
             },
@@ -1050,14 +1050,14 @@
                 "id": "tool_1",
                 "mass": 3.66,
                 "position_x": 0.0,
-                "position_z": -5.3,
+                "position_z": -4.5,
                 "shape": "tool",
                 "visible": true
             }
         ],
         "objects_count": 2,
         "position_x": 0.0,
-        "position_z": -8.0,
+        "position_z": -7.2,
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 27,
@@ -1067,15 +1067,15 @@
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.0,
+                "direction_x": -0.2,
                 "direction_y": -0.08,
-                "direction_z": 1.0,
-                "distance": 8.72,
+                "direction_z": 0.98,
+                "distance": 7.74,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
-                "position_x": 0.0,
-                "position_z": 0.6,
+                "mass": 3.66,
+                "position_x": -1.52,
+                "position_z": 0.36,
                 "shape": "tool",
                 "visible": true
             },
@@ -1088,14 +1088,14 @@
                 "id": "tool_1",
                 "mass": 3.66,
                 "position_x": 0.0,
-                "position_z": -5.3,
+                "position_z": -4.4,
                 "shape": "tool",
                 "visible": true
             }
         ],
         "objects_count": 2,
         "position_x": 0.0,
-        "position_z": -8.1,
+        "position_z": -7.2,
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 28,
@@ -1105,15 +1105,15 @@
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.0,
+                "direction_x": -0.2,
                 "direction_y": -0.08,
-                "direction_z": 1.0,
-                "distance": 8.72,
+                "direction_z": 0.98,
+                "distance": 7.64,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
-                "position_x": 0.0,
-                "position_z": 0.6,
+                "mass": 3.66,
+                "position_x": -1.52,
+                "position_z": 0.36,
                 "shape": "tool",
                 "visible": true
             },
@@ -1126,14 +1126,14 @@
                 "id": "tool_1",
                 "mass": 3.66,
                 "position_x": 0.0,
-                "position_z": -5.4,
+                "position_z": -4.4,
                 "shape": "tool",
                 "visible": true
             }
         ],
         "objects_count": 2,
         "position_x": 0.0,
-        "position_z": -8.1,
+        "position_z": -7.1,
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 29,
@@ -1143,15 +1143,15 @@
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.0,
-                "direction_y": -0.07,
-                "direction_z": 1.0,
-                "distance": 8.82,
+                "direction_x": -0.2,
+                "direction_y": -0.08,
+                "direction_z": 0.98,
+                "distance": 7.64,
                 "held": false,
                 "id": "tool_2",
-                "mass": 4.0,
-                "position_x": 0.0,
-                "position_z": 0.6,
+                "mass": 3.66,
+                "position_x": -1.52,
+                "position_z": 0.36,
                 "shape": "tool",
                 "visible": true
             },
@@ -1164,14 +1164,14 @@
                 "id": "tool_1",
                 "mass": 3.66,
                 "position_x": 0.0,
-                "position_z": -5.4,
+                "position_z": -4.3,
                 "shape": "tool",
                 "visible": true
             }
         ],
         "objects_count": 2,
         "position_x": 0.0,
-        "position_z": -8.2,
+        "position_z": -7.1,
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 30,

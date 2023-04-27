@@ -1,5 +1,5 @@
 {
-    "name": "Tool uses MoveObject on a perfectly aligned Rectangular Tool, the colliders will overlap after moving forward. Ensure when moving backward they do not stick together and the far tool stays still",
+    "name": "Tool uses MoveObject on an offset ball multiple times",
     "version": 2,
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
@@ -12,7 +12,7 @@
     "performerStart": {
         "position": {
             "x": 0,
-            "z": -8.5
+            "z": -6
         },
         "rotation": {
             "x": 0,
@@ -29,7 +29,7 @@
                     "position": {
                         "x": 0,
                         "y": 0.25,
-                        "z": -5.5
+                        "z": -3
                     },
                     "rotation": {
                         "x": 0,
@@ -45,20 +45,20 @@
             ]
         },
         {
-            "id": "tool_2",
-            "type": "tool_rect_0_75_x_6_00",
+            "id": "target",
+            "type": "soccer_ball",
             "shows": [
                 {
                     "stepBegin": 0,
                     "position": {
-                        "x": 0,
+                        "x": 0.3,
                         "y": 0.25,
                         "z": 0
                     },
                     "scale": {
-                        "x": 1,
-                        "y": 1,
-                        "z": 1
+                        "x": 2,
+                        "y": 2,
+                        "z": 2
                     }
                 }
             ]

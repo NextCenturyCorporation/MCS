@@ -1,5 +1,5 @@
 {
-    "name": "Tool uses MoveObject on a perfectly aligned Rectangular Tool, the colliders will overlap after moving forward. Ensure when moving backward they do not stick together and the far tool stays still",
+    "name": "Tool uses MoveObject on an offset Hooked Tool to the right multiple times",
     "version": 2,
     "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
     "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
@@ -46,12 +46,12 @@
         },
         {
             "id": "tool_2",
-            "type": "tool_rect_0_75_x_6_00",
+            "type": "tool_hooked_0_75_x_5_00",
             "shows": [
                 {
                     "stepBegin": 0,
                     "position": {
-                        "x": 0,
+                        "x": -0.2,
                         "y": 0.25,
                         "z": 0
                     },
