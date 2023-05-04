@@ -1,0 +1,1180 @@
+﻿[
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.09,
+                "direction_z": 1.0,
+                "distance": 6.02,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.0,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.17,
+                "direction_z": 0.98,
+                "distance": 3.05,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -3.0,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -6.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.09,
+                "direction_z": 1.0,
+                "distance": 5.92,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.0,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.19,
+                "direction_z": 0.98,
+                "distance": 2.95,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -3.0,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -5.9,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 1,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.09,
+                "direction_z": 1.0,
+                "distance": 5.83,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.0,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.21,
+                "direction_z": 0.98,
+                "distance": 2.87,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -3.0,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -5.8,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 2,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.09,
+                "direction_z": 1.0,
+                "distance": 5.73,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.0,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 2.77,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -3.0,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -5.7,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 3,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.09,
+                "direction_z": 1.0,
+                "distance": 5.73,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.0,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 2.77,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -3.0,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -5.7,
+        "return_status": "OBSTRUCTED",
+        "rotation_y": 0.0,
+        "step_number": 4,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.09,
+                "direction_z": 1.0,
+                "distance": 5.73,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.0,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 2.77,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -3.0,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -5.7,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 5,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.09,
+                "direction_z": 1.0,
+                "distance": 5.73,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.0,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 2.87,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -2.9,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -5.7,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 6,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.09,
+                "direction_z": 1.0,
+                "distance": 5.63,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.0,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 2.77,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -2.9,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -5.6,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 7,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.09,
+                "direction_z": 1.0,
+                "distance": 5.63,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.0,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.21,
+                "direction_z": 0.98,
+                "distance": 2.87,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -2.8,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -5.6,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 8,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.1,
+                "direction_z": 1.0,
+                "distance": 5.53,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.0,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 2.77,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": 0.0,
+                "position_z": -2.8,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -5.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 9,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.1,
+                "direction_z": 1.0,
+                "distance": 5.63,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.1,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.21,
+                "direction_z": 0.98,
+                "distance": 2.87,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -2.7,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -5.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 10,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.1,
+                "direction_z": 1.0,
+                "distance": 5.53,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.1,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 2.77,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -2.7,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -5.4,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 11,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.1,
+                "direction_z": 1.0,
+                "distance": 5.63,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.2,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.21,
+                "direction_z": 0.98,
+                "distance": 2.87,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -2.6,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -5.4,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 12,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.1,
+                "direction_z": 1.0,
+                "distance": 5.53,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.2,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 2.77,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -2.6,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -5.3,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 13,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.1,
+                "direction_z": 1.0,
+                "distance": 5.63,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.3,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.21,
+                "direction_z": 0.98,
+                "distance": 2.87,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -2.5,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -5.3,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 14,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.1,
+                "direction_z": 1.0,
+                "distance": 5.53,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.3,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 2.77,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -2.5,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -5.2,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 15,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.1,
+                "direction_z": 1.0,
+                "distance": 5.63,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.4,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.21,
+                "direction_z": 0.98,
+                "distance": 2.87,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -2.4,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -5.2,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 16,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.1,
+                "direction_z": 1.0,
+                "distance": 5.53,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.4,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 2.77,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -2.4,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -5.1,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 17,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.1,
+                "direction_z": 1.0,
+                "distance": 5.63,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.5,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.21,
+                "direction_z": 0.98,
+                "distance": 2.87,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -2.3,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -5.1,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 18,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.1,
+                "direction_z": 1.0,
+                "distance": 5.53,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.5,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 2.77,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -2.3,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -5.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 19,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.1,
+                "direction_z": 1.0,
+                "distance": 5.63,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.6,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.21,
+                "direction_z": 0.98,
+                "distance": 2.87,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -2.2,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -5.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 20,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.1,
+                "direction_z": 1.0,
+                "distance": 5.53,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.6,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 2.77,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -2.2,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -4.9,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 21,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.1,
+                "direction_z": 1.0,
+                "distance": 5.63,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.7,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.21,
+                "direction_z": 0.98,
+                "distance": 2.87,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -2.1,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -4.9,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 22,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.1,
+                "direction_z": 1.0,
+                "distance": 5.53,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.7,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 2.77,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -2.1,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -4.8,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 23,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.1,
+                "direction_z": 1.0,
+                "distance": 5.63,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.8,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.21,
+                "direction_z": 0.98,
+                "distance": 2.87,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -2.0,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -4.8,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 24,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.1,
+                "direction_z": 1.0,
+                "distance": 5.53,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.8,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 2.77,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -2.0,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -4.7,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 25,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.1,
+                "direction_z": 1.0,
+                "distance": 5.63,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.9,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.21,
+                "direction_z": 0.98,
+                "distance": 2.87,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -1.9,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -4.7,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 26,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.1,
+                "direction_z": 1.0,
+                "distance": 5.53,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 0.9,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 2.77,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -1.9,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -4.6,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 27,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.1,
+                "direction_z": 1.0,
+                "distance": 5.63,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 1.0,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.21,
+                "direction_z": 0.98,
+                "distance": 2.87,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -1.8,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -4.6,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 28,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.1,
+                "direction_z": 1.0,
+                "distance": 5.53,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 1.0,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.22,
+                "direction_z": 0.98,
+                "distance": 2.77,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -1.8,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 29,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.05,
+                "direction_y": -0.1,
+                "direction_z": 1.0,
+                "distance": 5.63,
+                "held": false,
+                "id": "target",
+                "mass": 1.0,
+                "position_x": 0.3,
+                "position_z": 1.1,
+                "shape": "ball",
+                "visible": true
+            },
+            {
+                "direction_x": -0.0,
+                "direction_y": -0.21,
+                "direction_z": 0.98,
+                "distance": 2.87,
+                "held": false,
+                "id": "tool_1",
+                "mass": 3.66,
+                "position_x": -0.0,
+                "position_z": -1.7,
+                "shape": "tool",
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": -4.5,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 30,
+        "structural_objects_count": 5
+    }
+]
