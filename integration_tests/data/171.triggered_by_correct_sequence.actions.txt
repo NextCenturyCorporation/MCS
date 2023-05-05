@@ -66,5 +66,4 @@ Pass
 Pass
 MoveAhead
 MoveAhead
-PickupObject,objectImageCoordsX=300,objectImageCoordsY=200
-Pass
+PickupObject,objectId=target_1

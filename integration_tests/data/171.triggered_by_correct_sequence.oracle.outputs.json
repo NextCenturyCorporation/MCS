@@ -4053,10 +4053,10 @@
         "head_tilt": 0,
         "objects": [
             {
-                "direction_x": 0.76,
-                "direction_y": -0.65,
+                "direction_x": 0.68,
+                "direction_y": -0.74,
                 "direction_z": -0.0,
-                "distance": 1.18,
+                "distance": 1.03,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -4070,13 +4070,13 @@
                 "texture_color_list": [
                     "red"
                 ],
-                "visible": true
+                "visible": false
             },
             {
-                "direction_x": 0.58,
-                "direction_y": -0.49,
-                "direction_z": -0.65,
-                "distance": 1.55,
+                "direction_x": 0.49,
+                "direction_y": -0.53,
+                "direction_z": -0.69,
+                "distance": 1.44,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -4093,955 +4093,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.39,
+                "direction_x": 0.31,
                 "direction_y": -0.33,
-                "direction_z": -0.86,
-                "distance": 2.32,
-                "held": false,
-                "id": "chest_3",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "green"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.88,
-                "direction_y": -0.29,
-                "direction_z": 0.37,
-                "distance": 2.71,
-                "held": false,
-                "id": "agent_male",
-                "mass": 80.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 2.0,
-                "position_z": 2.0,
-                "rotation_y": 180,
-                "shape": "agent",
-                "texture_color_list": [],
-                "visible": true
-            },
-            {
-                "direction_x": 0.21,
-                "direction_y": 0.79,
-                "direction_z": -0.59,
-                "distance": 4.29,
-                "held": false,
-                "id": "target_1",
-                "mass": 2.0,
-                "material_list": [
-                    "RUBBER"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.5,
-                "rotation_y": 0,
-                "shape": "ball",
-                "texture_color_list": [
-                    "white",
-                    "black"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.11,
-                "direction_y": 0.95,
-                "direction_z": -0.32,
-                "distance": 7.87,
-                "held": false,
-                "id": "placer_1",
-                "mass": 5.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.5,
-                "rotation_y": 0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "magenta",
-                    "purple",
-                    "red"
-                ],
-                "visible": true
-            }
-        ],
-        "objects_count": 5,
-        "position_x": -0.4,
-        "position_z": 1.0,
-        "resolved_object": "",
-        "resolved_receptacle": "",
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 90,
-        "step_number": 30,
-        "structural_objects_count": 6
-    },
-    {
-        "head_tilt": 0,
-        "objects": [
-            {
-                "direction_x": 0.76,
-                "direction_y": -0.65,
-                "direction_z": -0.0,
-                "distance": 1.18,
-                "held": false,
-                "id": "chest_1",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": 1.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "red"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.58,
-                "direction_y": -0.49,
-                "direction_z": -0.65,
-                "distance": 1.55,
-                "held": false,
-                "id": "chest_2",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": 0.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "yellow"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.39,
-                "direction_y": -0.33,
-                "direction_z": -0.86,
-                "distance": 2.32,
-                "held": false,
-                "id": "chest_3",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "green"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.88,
-                "direction_y": -0.29,
-                "direction_z": 0.37,
-                "distance": 2.71,
-                "held": false,
-                "id": "agent_male",
-                "mass": 80.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 2.0,
-                "position_z": 2.0,
-                "rotation_y": 180,
-                "shape": "agent",
-                "texture_color_list": [],
-                "visible": true
-            },
-            {
-                "direction_x": 0.21,
-                "direction_y": 0.79,
-                "direction_z": -0.59,
-                "distance": 4.29,
-                "held": false,
-                "id": "target_1",
-                "mass": 2.0,
-                "material_list": [
-                    "RUBBER"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.5,
-                "rotation_y": 0,
-                "shape": "ball",
-                "texture_color_list": [
-                    "white",
-                    "black"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.11,
-                "direction_y": 0.95,
-                "direction_z": -0.32,
-                "distance": 7.87,
-                "held": false,
-                "id": "placer_1",
-                "mass": 5.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.5,
-                "rotation_y": 0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "magenta",
-                    "purple",
-                    "red"
-                ],
-                "visible": true
-            }
-        ],
-        "objects_count": 5,
-        "position_x": -0.4,
-        "position_z": 1.0,
-        "resolved_object": "",
-        "resolved_receptacle": "",
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 90,
-        "step_number": 31,
-        "structural_objects_count": 6
-    },
-    {
-        "head_tilt": 10,
-        "objects": [
-            {
-                "direction_x": 0.76,
-                "direction_y": -0.65,
-                "direction_z": -0.0,
-                "distance": 1.18,
-                "held": false,
-                "id": "chest_1",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": 1.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "red"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.58,
-                "direction_y": -0.49,
-                "direction_z": -0.65,
-                "distance": 1.55,
-                "held": false,
-                "id": "chest_2",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": 0.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "yellow"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.39,
-                "direction_y": -0.33,
-                "direction_z": -0.86,
-                "distance": 2.32,
-                "held": false,
-                "id": "chest_3",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "green"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.88,
-                "direction_y": -0.29,
-                "direction_z": 0.37,
-                "distance": 2.71,
-                "held": false,
-                "id": "agent_male",
-                "mass": 80.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 2.0,
-                "position_z": 2.0,
-                "rotation_y": 180,
-                "shape": "agent",
-                "texture_color_list": [],
-                "visible": true
-            },
-            {
-                "direction_x": 0.21,
-                "direction_y": 0.79,
-                "direction_z": -0.59,
-                "distance": 4.29,
-                "held": false,
-                "id": "target_1",
-                "mass": 2.0,
-                "material_list": [
-                    "RUBBER"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.5,
-                "rotation_y": 0,
-                "shape": "ball",
-                "texture_color_list": [
-                    "white",
-                    "black"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.11,
-                "direction_y": 0.95,
-                "direction_z": -0.32,
-                "distance": 7.87,
-                "held": false,
-                "id": "placer_1",
-                "mass": 5.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.5,
-                "rotation_y": 0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "magenta",
-                    "purple",
-                    "red"
-                ],
-                "visible": true
-            }
-        ],
-        "objects_count": 5,
-        "position_x": -0.4,
-        "position_z": 1.0,
-        "resolved_object": "",
-        "resolved_receptacle": "",
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 90,
-        "step_number": 32,
-        "structural_objects_count": 6
-    },
-    {
-        "head_tilt": 20,
-        "objects": [
-            {
-                "direction_x": 0.76,
-                "direction_y": -0.65,
-                "direction_z": -0.0,
-                "distance": 1.18,
-                "held": false,
-                "id": "chest_1",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": 1.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "red"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.58,
-                "direction_y": -0.49,
-                "direction_z": -0.65,
-                "distance": 1.55,
-                "held": false,
-                "id": "chest_2",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": 0.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "yellow"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.39,
-                "direction_y": -0.33,
-                "direction_z": -0.86,
-                "distance": 2.32,
-                "held": false,
-                "id": "chest_3",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "green"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.88,
-                "direction_y": -0.29,
-                "direction_z": 0.37,
-                "distance": 2.71,
-                "held": false,
-                "id": "agent_male",
-                "mass": 80.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 2.0,
-                "position_z": 2.0,
-                "rotation_y": 180,
-                "shape": "agent",
-                "texture_color_list": [],
-                "visible": true
-            },
-            {
-                "direction_x": 0.21,
-                "direction_y": 0.79,
-                "direction_z": -0.59,
-                "distance": 4.29,
-                "held": false,
-                "id": "target_1",
-                "mass": 2.0,
-                "material_list": [
-                    "RUBBER"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.5,
-                "rotation_y": 0,
-                "shape": "ball",
-                "texture_color_list": [
-                    "white",
-                    "black"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.11,
-                "direction_y": 0.95,
-                "direction_z": -0.32,
-                "distance": 7.87,
-                "held": false,
-                "id": "placer_1",
-                "mass": 5.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.5,
-                "rotation_y": 0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "magenta",
-                    "purple",
-                    "red"
-                ],
-                "visible": true
-            }
-        ],
-        "objects_count": 5,
-        "position_x": -0.4,
-        "position_z": 1.0,
-        "resolved_object": "",
-        "resolved_receptacle": "",
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 90,
-        "step_number": 33,
-        "structural_objects_count": 6
-    },
-    {
-        "head_tilt": 30,
-        "objects": [
-            {
-                "direction_x": 0.76,
-                "direction_y": -0.65,
-                "direction_z": -0.0,
-                "distance": 1.18,
-                "held": false,
-                "id": "chest_1",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": 1.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "red"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.58,
-                "direction_y": -0.49,
-                "direction_z": -0.65,
-                "distance": 1.55,
-                "held": false,
-                "id": "chest_2",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": 0.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "yellow"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.39,
-                "direction_y": -0.33,
-                "direction_z": -0.86,
-                "distance": 2.32,
-                "held": false,
-                "id": "chest_3",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "green"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.88,
-                "direction_y": -0.29,
-                "direction_z": 0.37,
-                "distance": 2.71,
-                "held": false,
-                "id": "agent_male",
-                "mass": 80.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 2.0,
-                "position_z": 2.0,
-                "rotation_y": 180,
-                "shape": "agent",
-                "texture_color_list": [],
-                "visible": true
-            },
-            {
-                "direction_x": 0.21,
-                "direction_y": 0.79,
-                "direction_z": -0.59,
-                "distance": 4.29,
-                "held": false,
-                "id": "target_1",
-                "mass": 2.0,
-                "material_list": [
-                    "RUBBER"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.5,
-                "rotation_y": 0,
-                "shape": "ball",
-                "texture_color_list": [
-                    "white",
-                    "black"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.11,
-                "direction_y": 0.95,
-                "direction_z": -0.32,
-                "distance": 7.87,
-                "held": false,
-                "id": "placer_1",
-                "mass": 5.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.5,
-                "rotation_y": 0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "magenta",
-                    "purple",
-                    "red"
-                ],
-                "visible": true
-            }
-        ],
-        "objects_count": 5,
-        "position_x": -0.4,
-        "position_z": 1.0,
-        "resolved_object": "",
-        "resolved_receptacle": "",
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 90,
-        "step_number": 34,
-        "structural_objects_count": 6
-    },
-    {
-        "head_tilt": 40,
-        "objects": [
-            {
-                "direction_x": 0.76,
-                "direction_y": -0.65,
-                "direction_z": -0.0,
-                "distance": 1.18,
-                "held": false,
-                "id": "chest_1",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": 1.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "red"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.58,
-                "direction_y": -0.49,
-                "direction_z": -0.65,
-                "distance": 1.55,
-                "held": false,
-                "id": "chest_2",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": 0.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "yellow"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.39,
-                "direction_y": -0.33,
-                "direction_z": -0.86,
-                "distance": 2.32,
-                "held": false,
-                "id": "chest_3",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "green"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.88,
-                "direction_y": -0.29,
-                "direction_z": 0.37,
-                "distance": 2.71,
-                "held": false,
-                "id": "agent_male",
-                "mass": 80.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 2.0,
-                "position_z": 2.0,
-                "rotation_y": 180,
-                "shape": "agent",
-                "texture_color_list": [],
-                "visible": false
-            },
-            {
-                "direction_x": 0.21,
-                "direction_y": 0.79,
-                "direction_z": -0.59,
-                "distance": 4.29,
-                "held": false,
-                "id": "target_1",
-                "mass": 2.0,
-                "material_list": [
-                    "RUBBER"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.5,
-                "rotation_y": 0,
-                "shape": "ball",
-                "texture_color_list": [
-                    "white",
-                    "black"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.11,
-                "direction_y": 0.95,
-                "direction_z": -0.32,
-                "distance": 7.87,
-                "held": false,
-                "id": "placer_1",
-                "mass": 5.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.5,
-                "rotation_y": 0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "magenta",
-                    "purple",
-                    "red"
-                ],
-                "visible": true
-            }
-        ],
-        "objects_count": 5,
-        "position_x": -0.4,
-        "position_z": 1.0,
-        "resolved_object": "",
-        "resolved_receptacle": "",
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 90,
-        "step_number": 35,
-        "structural_objects_count": 6
-    },
-    {
-        "head_tilt": 40,
-        "objects": [
-            {
-                "direction_x": 0.76,
-                "direction_y": -0.65,
-                "direction_z": -0.0,
-                "distance": 1.18,
-                "held": false,
-                "id": "chest_1",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": 1.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "red"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.58,
-                "direction_y": -0.49,
-                "direction_z": -0.65,
-                "distance": 1.55,
-                "held": false,
-                "id": "chest_2",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": 0.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "yellow"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.39,
-                "direction_y": -0.33,
-                "direction_z": -0.86,
-                "distance": 2.32,
-                "held": false,
-                "id": "chest_3",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "green"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.88,
-                "direction_y": -0.29,
-                "direction_z": 0.37,
-                "distance": 2.71,
-                "held": false,
-                "id": "agent_male",
-                "mass": 80.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 2.0,
-                "position_z": 2.0,
-                "rotation_y": 180,
-                "shape": "agent",
-                "texture_color_list": [],
-                "visible": false
-            },
-            {
-                "direction_x": 0.21,
-                "direction_y": 0.79,
-                "direction_z": -0.59,
-                "distance": 4.29,
-                "held": false,
-                "id": "target_1",
-                "mass": 2.0,
-                "material_list": [
-                    "RUBBER"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.5,
-                "rotation_y": 0,
-                "shape": "ball",
-                "texture_color_list": [
-                    "white",
-                    "black"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.11,
-                "direction_y": 0.95,
-                "direction_z": -0.32,
-                "distance": 7.87,
-                "held": false,
-                "id": "placer_1",
-                "mass": 5.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.5,
-                "rotation_y": 0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "magenta",
-                    "purple",
-                    "red"
-                ],
-                "visible": true
-            }
-        ],
-        "objects_count": 5,
-        "position_x": -0.4,
-        "position_z": 1.0,
-        "resolved_object": "chest_1",
-        "resolved_receptacle": "",
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 90,
-        "step_number": 36,
-        "structural_objects_count": 6
-    },
-    {
-        "head_tilt": 40,
-        "objects": [
-            {
-                "direction_x": 0.76,
-                "direction_y": -0.64,
-                "direction_z": 0.08,
-                "distance": 1.18,
-                "held": false,
-                "id": "chest_1",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": 1.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "red"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.61,
-                "direction_y": -0.51,
-                "direction_z": -0.61,
-                "distance": 1.48,
-                "held": false,
-                "id": "chest_2",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": 0.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "yellow"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.4,
-                "direction_y": -0.35,
-                "direction_z": -0.85,
-                "distance": 2.24,
+                "direction_z": -0.88,
+                "distance": 2.25,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -5059,9 +4114,9 @@
             },
             {
                 "direction_x": 0.87,
-                "direction_y": -0.28,
-                "direction_z": 0.41,
-                "distance": 2.75,
+                "direction_y": -0.3,
+                "direction_z": 0.39,
+                "distance": 2.53,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -5073,13 +4128,13 @@
                 "rotation_y": 180,
                 "shape": "agent",
                 "texture_color_list": [],
-                "visible": false
+                "visible": true
             },
             {
-                "direction_x": 0.21,
-                "direction_y": 0.8,
-                "direction_z": -0.57,
-                "distance": 4.23,
+                "direction_x": 0.16,
+                "direction_y": 0.79,
+                "direction_z": -0.58,
+                "distance": 4.27,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -5097,9 +4152,954 @@
                 "visible": false
             },
             {
-                "direction_x": 0.11,
+                "direction_x": 0.09,
+                "direction_y": 0.94,
+                "direction_z": -0.32,
+                "distance": 7.87,
+                "held": false,
+                "id": "placer_1",
+                "mass": 5.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "magenta",
+                    "purple",
+                    "red"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 5,
+        "position_x": -0.2,
+        "position_z": 1.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 30,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.68,
+                "direction_y": -0.74,
+                "direction_z": -0.0,
+                "distance": 1.03,
+                "held": false,
+                "id": "chest_1",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": 1.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.49,
+                "direction_y": -0.53,
+                "direction_z": -0.69,
+                "distance": 1.44,
+                "held": false,
+                "id": "chest_2",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "yellow"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.31,
+                "direction_y": -0.33,
+                "direction_z": -0.88,
+                "distance": 2.25,
+                "held": false,
+                "id": "chest_3",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "green"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.87,
+                "direction_y": -0.3,
+                "direction_z": 0.39,
+                "distance": 2.53,
+                "held": false,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.16,
+                "direction_y": 0.79,
+                "direction_z": -0.58,
+                "distance": 4.27,
+                "held": false,
+                "id": "target_1",
+                "mass": 2.0,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.09,
+                "direction_y": 0.94,
+                "direction_z": -0.32,
+                "distance": 7.87,
+                "held": false,
+                "id": "placer_1",
+                "mass": 5.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "magenta",
+                    "purple",
+                    "red"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 5,
+        "position_x": -0.2,
+        "position_z": 1.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 31,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "direction_x": 0.68,
+                "direction_y": -0.74,
+                "direction_z": -0.0,
+                "distance": 1.03,
+                "held": false,
+                "id": "chest_1",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": 1.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.49,
+                "direction_y": -0.53,
+                "direction_z": -0.69,
+                "distance": 1.44,
+                "held": false,
+                "id": "chest_2",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "yellow"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.31,
+                "direction_y": -0.33,
+                "direction_z": -0.88,
+                "distance": 2.25,
+                "held": false,
+                "id": "chest_3",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "green"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.87,
+                "direction_y": -0.3,
+                "direction_z": 0.39,
+                "distance": 2.53,
+                "held": false,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.16,
+                "direction_y": 0.79,
+                "direction_z": -0.58,
+                "distance": 4.27,
+                "held": false,
+                "id": "target_1",
+                "mass": 2.0,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.09,
+                "direction_y": 0.94,
+                "direction_z": -0.32,
+                "distance": 7.87,
+                "held": false,
+                "id": "placer_1",
+                "mass": 5.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "magenta",
+                    "purple",
+                    "red"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 5,
+        "position_x": -0.2,
+        "position_z": 1.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 32,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 20,
+        "objects": [
+            {
+                "direction_x": 0.68,
+                "direction_y": -0.74,
+                "direction_z": -0.0,
+                "distance": 1.03,
+                "held": false,
+                "id": "chest_1",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": 1.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.49,
+                "direction_y": -0.53,
+                "direction_z": -0.69,
+                "distance": 1.44,
+                "held": false,
+                "id": "chest_2",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "yellow"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.31,
+                "direction_y": -0.33,
+                "direction_z": -0.88,
+                "distance": 2.25,
+                "held": false,
+                "id": "chest_3",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "green"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.87,
+                "direction_y": -0.3,
+                "direction_z": 0.39,
+                "distance": 2.53,
+                "held": false,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.16,
+                "direction_y": 0.79,
+                "direction_z": -0.58,
+                "distance": 4.27,
+                "held": false,
+                "id": "target_1",
+                "mass": 2.0,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.09,
+                "direction_y": 0.94,
+                "direction_z": -0.32,
+                "distance": 7.87,
+                "held": false,
+                "id": "placer_1",
+                "mass": 5.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "magenta",
+                    "purple",
+                    "red"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 5,
+        "position_x": -0.2,
+        "position_z": 1.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 33,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 30,
+        "objects": [
+            {
+                "direction_x": 0.68,
+                "direction_y": -0.74,
+                "direction_z": -0.0,
+                "distance": 1.03,
+                "held": false,
+                "id": "chest_1",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": 1.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.49,
+                "direction_y": -0.53,
+                "direction_z": -0.69,
+                "distance": 1.44,
+                "held": false,
+                "id": "chest_2",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "yellow"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.31,
+                "direction_y": -0.33,
+                "direction_z": -0.88,
+                "distance": 2.25,
+                "held": false,
+                "id": "chest_3",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "green"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.87,
+                "direction_y": -0.3,
+                "direction_z": 0.39,
+                "distance": 2.53,
+                "held": false,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.16,
+                "direction_y": 0.79,
+                "direction_z": -0.58,
+                "distance": 4.27,
+                "held": false,
+                "id": "target_1",
+                "mass": 2.0,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.09,
+                "direction_y": 0.94,
+                "direction_z": -0.32,
+                "distance": 7.87,
+                "held": false,
+                "id": "placer_1",
+                "mass": 5.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "magenta",
+                    "purple",
+                    "red"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 5,
+        "position_x": -0.2,
+        "position_z": 1.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 34,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 40,
+        "objects": [
+            {
+                "direction_x": 0.68,
+                "direction_y": -0.74,
+                "direction_z": -0.0,
+                "distance": 1.03,
+                "held": false,
+                "id": "chest_1",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": 1.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.49,
+                "direction_y": -0.53,
+                "direction_z": -0.69,
+                "distance": 1.44,
+                "held": false,
+                "id": "chest_2",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "yellow"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.31,
+                "direction_y": -0.33,
+                "direction_z": -0.88,
+                "distance": 2.25,
+                "held": false,
+                "id": "chest_3",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "green"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.87,
+                "direction_y": -0.3,
+                "direction_z": 0.39,
+                "distance": 2.53,
+                "held": false,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": false
+            },
+            {
+                "direction_x": 0.16,
+                "direction_y": 0.79,
+                "direction_z": -0.58,
+                "distance": 4.27,
+                "held": false,
+                "id": "target_1",
+                "mass": 2.0,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.09,
+                "direction_y": 0.94,
+                "direction_z": -0.32,
+                "distance": 7.87,
+                "held": false,
+                "id": "placer_1",
+                "mass": 5.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "magenta",
+                    "purple",
+                    "red"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 5,
+        "position_x": -0.2,
+        "position_z": 1.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 35,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 40,
+        "objects": [
+            {
+                "direction_x": 0.68,
+                "direction_y": -0.74,
+                "direction_z": -0.0,
+                "distance": 1.03,
+                "held": false,
+                "id": "chest_1",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": 1.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.49,
+                "direction_y": -0.53,
+                "direction_z": -0.69,
+                "distance": 1.44,
+                "held": false,
+                "id": "chest_2",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "yellow"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.31,
+                "direction_y": -0.33,
+                "direction_z": -0.88,
+                "distance": 2.25,
+                "held": false,
+                "id": "chest_3",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "green"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.87,
+                "direction_y": -0.3,
+                "direction_z": 0.39,
+                "distance": 2.53,
+                "held": false,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": false
+            },
+            {
+                "direction_x": 0.16,
+                "direction_y": 0.79,
+                "direction_z": -0.58,
+                "distance": 4.27,
+                "held": false,
+                "id": "target_1",
+                "mass": 2.0,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.09,
+                "direction_y": 0.94,
+                "direction_z": -0.32,
+                "distance": 7.87,
+                "held": false,
+                "id": "placer_1",
+                "mass": 5.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "magenta",
+                    "purple",
+                    "red"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 5,
+        "position_x": -0.2,
+        "position_z": 1.0,
+        "resolved_object": "chest_1",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 36,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 40,
+        "objects": [
+            {
+                "direction_x": 0.67,
+                "direction_y": -0.73,
+                "direction_z": 0.09,
+                "distance": 1.04,
+                "held": false,
+                "id": "chest_1",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": 1.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.51,
+                "direction_y": -0.56,
+                "direction_z": -0.66,
+                "distance": 1.37,
+                "held": false,
+                "id": "chest_2",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "yellow"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.32,
+                "direction_y": -0.35,
+                "direction_z": -0.88,
+                "distance": 2.16,
+                "held": false,
+                "id": "chest_3",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "green"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.86,
+                "direction_y": -0.29,
+                "direction_z": 0.43,
+                "distance": 2.58,
+                "held": false,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": false
+            },
+            {
+                "direction_x": 0.17,
+                "direction_y": 0.8,
+                "direction_z": -0.57,
+                "distance": 4.19,
+                "held": false,
+                "id": "target_1",
+                "mass": 2.0,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.09,
                 "direction_y": 0.95,
-                "direction_z": -0.31,
+                "direction_z": -0.3,
                 "distance": 7.84,
                 "held": false,
                 "id": "placer_1",
@@ -5120,7 +5120,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": 0.9,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -5133,10 +5133,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.75,
-                "direction_y": -0.64,
-                "direction_z": 0.17,
-                "distance": 1.2,
+                "direction_x": 0.66,
+                "direction_y": -0.72,
+                "direction_z": 0.18,
+                "distance": 1.05,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -5153,10 +5153,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.63,
-                "direction_y": -0.53,
-                "direction_z": -0.56,
-                "distance": 1.43,
+                "direction_x": 0.54,
+                "direction_y": -0.58,
+                "direction_z": -0.61,
+                "distance": 1.31,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -5170,13 +5170,13 @@
                 "texture_color_list": [
                     "yellow"
                 ],
-                "visible": true
+                "visible": false
             },
             {
-                "direction_x": 0.42,
-                "direction_y": -0.35,
-                "direction_z": -0.84,
-                "distance": 2.15,
+                "direction_x": 0.34,
+                "direction_y": -0.36,
+                "direction_z": -0.87,
+                "distance": 2.08,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -5193,10 +5193,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.86,
-                "direction_y": -0.28,
-                "direction_z": 0.44,
-                "distance": 2.79,
+                "direction_x": 0.84,
+                "direction_y": -0.29,
+                "direction_z": 0.46,
+                "distance": 2.62,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -5211,10 +5211,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.22,
+                "direction_x": 0.17,
                 "direction_y": 0.81,
-                "direction_z": -0.56,
-                "distance": 4.17,
+                "direction_z": -0.55,
+                "distance": 4.15,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -5232,7 +5232,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.11,
+                "direction_x": 0.09,
                 "direction_y": 0.95,
                 "direction_z": -0.29,
                 "distance": 7.81,
@@ -5255,7 +5255,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": 0.8,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -5268,10 +5268,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.74,
-                "direction_y": -0.63,
-                "direction_z": 0.25,
-                "distance": 1.22,
+                "direction_x": 0.65,
+                "direction_y": -0.71,
+                "direction_z": 0.28,
+                "distance": 1.08,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -5288,10 +5288,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.66,
-                "direction_y": -0.56,
-                "direction_z": -0.51,
-                "distance": 1.37,
+                "direction_x": 0.56,
+                "direction_y": -0.61,
+                "direction_z": -0.56,
+                "distance": 1.25,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -5308,10 +5308,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.44,
-                "direction_y": -0.37,
-                "direction_z": -0.82,
-                "distance": 2.07,
+                "direction_x": 0.35,
+                "direction_y": -0.38,
+                "direction_z": -0.85,
+                "distance": 1.99,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -5328,10 +5328,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.84,
-                "direction_y": -0.27,
-                "direction_z": 0.46,
-                "distance": 2.83,
+                "direction_x": 0.83,
+                "direction_y": -0.28,
+                "direction_z": 0.49,
+                "distance": 2.67,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -5346,10 +5346,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.22,
+                "direction_x": 0.17,
                 "direction_y": 0.82,
-                "direction_z": -0.54,
-                "distance": 4.12,
+                "direction_z": -0.53,
+                "distance": 4.1,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -5367,8 +5367,8 @@
                 "visible": false
             },
             {
-                "direction_x": 0.12,
-                "direction_y": 0.96,
+                "direction_x": 0.09,
+                "direction_y": 0.95,
                 "direction_z": -0.28,
                 "distance": 7.78,
                 "held": false,
@@ -5390,7 +5390,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": 0.7,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -5403,10 +5403,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.72,
-                "direction_y": -0.61,
-                "direction_z": 0.32,
-                "distance": 1.25,
+                "direction_x": 0.63,
+                "direction_y": -0.69,
+                "direction_z": 0.36,
+                "distance": 1.11,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -5423,10 +5423,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.68,
-                "direction_y": -0.58,
-                "direction_z": -0.45,
-                "distance": 1.32,
+                "direction_x": 0.59,
+                "direction_y": -0.64,
+                "direction_z": -0.5,
+                "distance": 1.2,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -5443,10 +5443,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.45,
+                "direction_x": 0.37,
                 "direction_y": -0.39,
-                "direction_z": -0.8,
-                "distance": 1.99,
+                "direction_z": -0.84,
+                "distance": 1.91,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -5463,10 +5463,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.83,
-                "direction_y": -0.27,
-                "direction_z": 0.49,
-                "distance": 2.88,
+                "direction_x": 0.81,
+                "direction_y": -0.28,
+                "direction_z": 0.52,
+                "distance": 2.72,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -5481,10 +5481,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.22,
+                "direction_x": 0.17,
                 "direction_y": 0.83,
                 "direction_z": -0.52,
-                "distance": 4.07,
+                "distance": 4.04,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -5502,7 +5502,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.12,
+                "direction_x": 0.1,
                 "direction_y": 0.96,
                 "direction_z": -0.27,
                 "distance": 7.75,
@@ -5525,7 +5525,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": 0.6,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -5538,10 +5538,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.7,
-                "direction_y": -0.59,
-                "direction_z": 0.39,
-                "distance": 1.28,
+                "direction_x": 0.61,
+                "direction_y": -0.66,
+                "direction_z": 0.44,
+                "distance": 1.15,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -5558,10 +5558,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.7,
-                "direction_y": -0.59,
-                "direction_z": -0.39,
-                "distance": 1.28,
+                "direction_x": 0.61,
+                "direction_y": -0.66,
+                "direction_z": -0.44,
+                "distance": 1.15,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -5578,10 +5578,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.47,
-                "direction_y": -0.4,
-                "direction_z": -0.79,
-                "distance": 1.91,
+                "direction_x": 0.38,
+                "direction_y": -0.41,
+                "direction_z": -0.82,
+                "distance": 1.82,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -5598,10 +5598,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.81,
-                "direction_y": -0.26,
-                "direction_z": 0.51,
-                "distance": 2.93,
+                "direction_x": 0.79,
+                "direction_y": -0.28,
+                "direction_z": 0.54,
+                "distance": 2.77,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -5616,10 +5616,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.22,
+                "direction_x": 0.18,
                 "direction_y": 0.84,
                 "direction_z": -0.5,
-                "distance": 4.01,
+                "distance": 3.99,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -5637,7 +5637,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.12,
+                "direction_x": 0.1,
                 "direction_y": 0.96,
                 "direction_z": -0.26,
                 "distance": 7.73,
@@ -5660,7 +5660,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": 0.5,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -5673,10 +5673,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.68,
-                "direction_y": -0.58,
-                "direction_z": 0.45,
-                "distance": 1.32,
+                "direction_x": 0.59,
+                "direction_y": -0.64,
+                "direction_z": 0.5,
+                "distance": 1.2,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -5693,10 +5693,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.72,
-                "direction_y": -0.61,
-                "direction_z": -0.32,
-                "distance": 1.25,
+                "direction_x": 0.63,
+                "direction_y": -0.69,
+                "direction_z": -0.36,
+                "distance": 1.11,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -5713,10 +5713,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.49,
-                "direction_y": -0.42,
-                "direction_z": -0.76,
-                "distance": 1.83,
+                "direction_x": 0.4,
+                "direction_y": -0.43,
+                "direction_z": -0.8,
+                "distance": 1.74,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -5733,10 +5733,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.8,
+                "direction_x": 0.78,
                 "direction_y": -0.26,
-                "direction_z": 0.54,
-                "distance": 2.98,
+                "direction_z": 0.57,
+                "distance": 2.83,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -5751,10 +5751,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.23,
+                "direction_x": 0.18,
                 "direction_y": 0.85,
                 "direction_z": -0.48,
-                "distance": 3.97,
+                "distance": 3.94,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -5772,10 +5772,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.12,
-                "direction_y": 0.97,
+                "direction_x": 0.1,
+                "direction_y": 0.96,
                 "direction_z": -0.25,
-                "distance": 7.7,
+                "distance": 7.68,
                 "held": false,
                 "id": "placer_1",
                 "mass": 5.0,
@@ -5795,7 +5795,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": 0.4,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -5808,10 +5808,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.66,
-                "direction_y": -0.56,
-                "direction_z": 0.51,
-                "distance": 1.37,
+                "direction_x": 0.56,
+                "direction_y": -0.61,
+                "direction_z": 0.56,
+                "distance": 1.25,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -5828,10 +5828,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.74,
-                "direction_y": -0.63,
-                "direction_z": -0.25,
-                "distance": 1.22,
+                "direction_x": 0.65,
+                "direction_y": -0.71,
+                "direction_z": -0.28,
+                "distance": 1.08,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -5848,10 +5848,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.51,
-                "direction_y": -0.43,
-                "direction_z": -0.74,
-                "distance": 1.76,
+                "direction_x": 0.42,
+                "direction_y": -0.45,
+                "direction_z": -0.78,
+                "distance": 1.66,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -5868,10 +5868,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.78,
+                "direction_x": 0.76,
                 "direction_y": -0.26,
-                "direction_z": 0.56,
-                "distance": 3.04,
+                "direction_z": 0.59,
+                "distance": 2.88,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -5886,10 +5886,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.23,
+                "direction_x": 0.18,
                 "direction_y": 0.86,
                 "direction_z": -0.46,
-                "distance": 3.92,
+                "distance": 3.9,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -5907,7 +5907,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.12,
+                "direction_x": 0.1,
                 "direction_y": 0.97,
                 "direction_z": -0.23,
                 "distance": 7.68,
@@ -5930,7 +5930,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": 0.3,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -5943,10 +5943,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.63,
-                "direction_y": -0.53,
-                "direction_z": 0.56,
-                "distance": 1.43,
+                "direction_x": 0.54,
+                "direction_y": -0.58,
+                "direction_z": 0.61,
+                "distance": 1.31,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -5963,10 +5963,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.75,
-                "direction_y": -0.64,
-                "direction_z": -0.17,
-                "distance": 1.2,
+                "direction_x": 0.66,
+                "direction_y": -0.72,
+                "direction_z": -0.18,
+                "distance": 1.05,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -5983,10 +5983,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.53,
-                "direction_y": -0.45,
-                "direction_z": -0.71,
-                "distance": 1.68,
+                "direction_x": 0.44,
+                "direction_y": -0.48,
+                "direction_z": -0.76,
+                "distance": 1.58,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -6003,10 +6003,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.78,
+                "direction_x": 0.75,
                 "direction_y": -0.25,
-                "direction_z": 0.58,
-                "distance": 3.1,
+                "direction_z": 0.61,
+                "distance": 2.94,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -6021,10 +6021,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.23,
+                "direction_x": 0.18,
                 "direction_y": 0.87,
                 "direction_z": -0.44,
-                "distance": 3.87,
+                "distance": 3.85,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -6042,10 +6042,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.12,
+                "direction_x": 0.1,
                 "direction_y": 0.97,
                 "direction_z": -0.22,
-                "distance": 7.65,
+                "distance": 7.64,
                 "held": false,
                 "id": "placer_1",
                 "mass": 5.0,
@@ -6065,7 +6065,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": 0.2,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -6078,10 +6078,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.61,
-                "direction_y": -0.51,
-                "direction_z": 0.61,
-                "distance": 1.48,
+                "direction_x": 0.51,
+                "direction_y": -0.56,
+                "direction_z": 0.66,
+                "distance": 1.37,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -6095,13 +6095,13 @@
                 "texture_color_list": [
                     "red"
                 ],
-                "visible": true
+                "visible": false
             },
             {
-                "direction_x": 0.76,
-                "direction_y": -0.64,
-                "direction_z": -0.08,
-                "distance": 1.18,
+                "direction_x": 0.67,
+                "direction_y": -0.73,
+                "direction_z": -0.09,
+                "distance": 1.04,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -6118,10 +6118,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.56,
-                "direction_y": -0.47,
-                "direction_z": -0.68,
-                "distance": 1.61,
+                "direction_x": 0.46,
+                "direction_y": -0.5,
+                "direction_z": -0.73,
+                "distance": 1.51,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -6138,10 +6138,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.76,
+                "direction_x": 0.73,
                 "direction_y": -0.25,
-                "direction_z": 0.6,
-                "distance": 3.15,
+                "direction_z": 0.63,
+                "distance": 3.01,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -6156,7 +6156,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.23,
+                "direction_x": 0.18,
                 "direction_y": 0.88,
                 "direction_z": -0.42,
                 "distance": 3.81,
@@ -6177,7 +6177,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.12,
+                "direction_x": 0.1,
                 "direction_y": 0.97,
                 "direction_z": -0.21,
                 "distance": 7.63,
@@ -6200,7 +6200,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": 0.1,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -6213,10 +6213,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.58,
-                "direction_y": -0.49,
-                "direction_z": 0.65,
-                "distance": 1.55,
+                "direction_x": 0.49,
+                "direction_y": -0.53,
+                "direction_z": 0.69,
+                "distance": 1.44,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -6233,10 +6233,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.76,
-                "direction_y": -0.65,
+                "direction_x": 0.68,
+                "direction_y": -0.74,
                 "direction_z": 0.0,
-                "distance": 1.18,
+                "distance": 1.03,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -6253,10 +6253,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.58,
-                "direction_y": -0.49,
-                "direction_z": -0.65,
-                "distance": 1.55,
+                "direction_x": 0.49,
+                "direction_y": -0.53,
+                "direction_z": -0.69,
+                "distance": 1.44,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -6273,10 +6273,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.75,
+                "direction_x": 0.72,
                 "direction_y": -0.24,
-                "direction_z": 0.62,
-                "distance": 3.22,
+                "direction_z": 0.65,
+                "distance": 3.07,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -6291,7 +6291,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.24,
+                "direction_x": 0.19,
                 "direction_y": 0.89,
                 "direction_z": -0.4,
                 "distance": 3.77,
@@ -6312,8 +6312,8 @@
                 "visible": false
             },
             {
-                "direction_x": 0.12,
-                "direction_y": 0.98,
+                "direction_x": 0.1,
+                "direction_y": 0.97,
                 "direction_z": -0.2,
                 "distance": 7.61,
                 "held": false,
@@ -6335,7 +6335,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": -0.0,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -6348,10 +6348,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.56,
-                "direction_y": -0.47,
-                "direction_z": 0.68,
-                "distance": 1.61,
+                "direction_x": 0.46,
+                "direction_y": -0.5,
+                "direction_z": 0.73,
+                "distance": 1.51,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -6368,10 +6368,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.76,
-                "direction_y": -0.64,
-                "direction_z": 0.08,
-                "distance": 1.18,
+                "direction_x": 0.67,
+                "direction_y": -0.73,
+                "direction_z": 0.09,
+                "distance": 1.04,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -6388,10 +6388,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.61,
-                "direction_y": -0.51,
-                "direction_z": -0.61,
-                "distance": 1.48,
+                "direction_x": 0.51,
+                "direction_y": -0.56,
+                "direction_z": -0.66,
+                "distance": 1.37,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -6405,13 +6405,13 @@
                 "texture_color_list": [
                     "green"
                 ],
-                "visible": true
+                "visible": false
             },
             {
-                "direction_x": 0.73,
+                "direction_x": 0.7,
                 "direction_y": -0.24,
-                "direction_z": 0.65,
-                "distance": 3.28,
+                "direction_z": 0.67,
+                "distance": 3.14,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -6426,9 +6426,9 @@
                 "visible": false
             },
             {
-                "direction_x": 0.24,
+                "direction_x": 0.19,
                 "direction_y": 0.9,
-                "direction_z": -0.38,
+                "direction_z": -0.37,
                 "distance": 3.73,
                 "held": false,
                 "id": "target_1",
@@ -6447,7 +6447,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.11,
+                "direction_x": 0.09,
                 "direction_y": 0.98,
                 "direction_z": -0.18,
                 "distance": 7.59,
@@ -6470,7 +6470,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": -0.1,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -6483,10 +6483,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.53,
-                "direction_y": -0.45,
-                "direction_z": 0.71,
-                "distance": 1.68,
+                "direction_x": 0.44,
+                "direction_y": -0.48,
+                "direction_z": 0.76,
+                "distance": 1.58,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -6503,10 +6503,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.75,
-                "direction_y": -0.64,
-                "direction_z": 0.17,
-                "distance": 1.2,
+                "direction_x": 0.66,
+                "direction_y": -0.72,
+                "direction_z": 0.18,
+                "distance": 1.05,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -6523,10 +6523,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.63,
-                "direction_y": -0.53,
-                "direction_z": -0.56,
-                "distance": 1.43,
+                "direction_x": 0.54,
+                "direction_y": -0.58,
+                "direction_z": -0.61,
+                "distance": 1.31,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -6543,10 +6543,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.72,
+                "direction_x": 0.69,
                 "direction_y": -0.23,
-                "direction_z": 0.66,
-                "distance": 3.34,
+                "direction_z": 0.69,
+                "distance": 3.2,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -6561,10 +6561,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.24,
-                "direction_y": 0.9,
+                "direction_x": 0.19,
+                "direction_y": 0.91,
                 "direction_z": -0.35,
-                "distance": 3.72,
+                "distance": 3.69,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -6582,7 +6582,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.11,
+                "direction_x": 0.09,
                 "direction_y": 0.98,
                 "direction_z": -0.17,
                 "distance": 7.57,
@@ -6605,7 +6605,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": -0.2,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -6618,10 +6618,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.51,
-                "direction_y": -0.43,
-                "direction_z": 0.74,
-                "distance": 1.76,
+                "direction_x": 0.42,
+                "direction_y": -0.45,
+                "direction_z": 0.78,
+                "distance": 1.66,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -6638,10 +6638,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.74,
-                "direction_y": -0.63,
-                "direction_z": 0.25,
-                "distance": 1.22,
+                "direction_x": 0.65,
+                "direction_y": -0.71,
+                "direction_z": 0.28,
+                "distance": 1.08,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -6658,10 +6658,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.66,
-                "direction_y": -0.56,
-                "direction_z": -0.51,
-                "distance": 1.37,
+                "direction_x": 0.56,
+                "direction_y": -0.61,
+                "direction_z": -0.56,
+                "distance": 1.25,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -6678,10 +6678,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.7,
+                "direction_x": 0.67,
                 "direction_y": -0.23,
-                "direction_z": 0.67,
-                "distance": 3.41,
+                "direction_z": 0.7,
+                "distance": 3.27,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -6696,9 +6696,9 @@
                 "visible": false
             },
             {
-                "direction_x": 0.24,
+                "direction_x": 0.19,
                 "direction_y": 0.92,
-                "direction_z": -0.33,
+                "direction_z": -0.32,
                 "distance": 3.66,
                 "held": false,
                 "id": "target_1",
@@ -6717,7 +6717,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.11,
+                "direction_x": 0.09,
                 "direction_y": 0.98,
                 "direction_z": -0.16,
                 "distance": 7.56,
@@ -6740,7 +6740,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": -0.3,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -6753,10 +6753,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.49,
-                "direction_y": -0.42,
-                "direction_z": 0.76,
-                "distance": 1.83,
+                "direction_x": 0.4,
+                "direction_y": -0.43,
+                "direction_z": 0.8,
+                "distance": 1.74,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -6773,10 +6773,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.72,
-                "direction_y": -0.61,
-                "direction_z": 0.32,
-                "distance": 1.25,
+                "direction_x": 0.63,
+                "direction_y": -0.69,
+                "direction_z": 0.36,
+                "distance": 1.11,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -6793,10 +6793,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.68,
-                "direction_y": -0.58,
-                "direction_z": -0.45,
-                "distance": 1.32,
+                "direction_x": 0.59,
+                "direction_y": -0.64,
+                "direction_z": -0.5,
+                "distance": 1.2,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -6813,10 +6813,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.69,
+                "direction_x": 0.66,
                 "direction_y": -0.22,
-                "direction_z": 0.69,
-                "distance": 3.48,
+                "direction_z": 0.72,
+                "distance": 3.34,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -6831,9 +6831,9 @@
                 "visible": false
             },
             {
-                "direction_x": 0.25,
+                "direction_x": 0.19,
                 "direction_y": 0.93,
-                "direction_z": -0.31,
+                "direction_z": -0.3,
                 "distance": 3.63,
                 "held": false,
                 "id": "target_1",
@@ -6852,8 +6852,8 @@
                 "visible": false
             },
             {
-                "direction_x": 0.11,
-                "direction_y": 0.99,
+                "direction_x": 0.09,
+                "direction_y": 0.98,
                 "direction_z": -0.15,
                 "distance": 7.54,
                 "held": false,
@@ -6875,7 +6875,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": -0.4,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -6888,10 +6888,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.47,
-                "direction_y": -0.4,
-                "direction_z": 0.79,
-                "distance": 1.91,
+                "direction_x": 0.38,
+                "direction_y": -0.41,
+                "direction_z": 0.82,
+                "distance": 1.82,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -6908,10 +6908,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.7,
-                "direction_y": -0.59,
-                "direction_z": 0.39,
-                "distance": 1.28,
+                "direction_x": 0.61,
+                "direction_y": -0.66,
+                "direction_z": 0.44,
+                "distance": 1.15,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -6928,10 +6928,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.7,
-                "direction_y": -0.59,
-                "direction_z": -0.39,
-                "distance": 1.28,
+                "direction_x": 0.61,
+                "direction_y": -0.66,
+                "direction_z": -0.44,
+                "distance": 1.15,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -6948,10 +6948,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.68,
+                "direction_x": 0.64,
                 "direction_y": -0.22,
-                "direction_z": 0.7,
-                "distance": 3.55,
+                "direction_z": 0.73,
+                "distance": 3.42,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -6966,9 +6966,9 @@
                 "visible": false
             },
             {
-                "direction_x": 0.25,
+                "direction_x": 0.2,
                 "direction_y": 0.93,
-                "direction_z": -0.28,
+                "direction_z": -0.27,
                 "distance": 3.6,
                 "held": false,
                 "id": "target_1",
@@ -6987,7 +6987,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.11,
+                "direction_x": 0.09,
                 "direction_y": 0.99,
                 "direction_z": -0.13,
                 "distance": 7.53,
@@ -7010,7 +7010,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": -0.5,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -7023,10 +7023,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.45,
+                "direction_x": 0.37,
                 "direction_y": -0.39,
-                "direction_z": 0.8,
-                "distance": 1.99,
+                "direction_z": 0.84,
+                "distance": 1.91,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -7043,10 +7043,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.68,
-                "direction_y": -0.58,
-                "direction_z": 0.45,
-                "distance": 1.32,
+                "direction_x": 0.59,
+                "direction_y": -0.64,
+                "direction_z": 0.5,
+                "distance": 1.2,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -7063,10 +7063,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.72,
-                "direction_y": -0.61,
-                "direction_z": -0.32,
-                "distance": 1.25,
+                "direction_x": 0.63,
+                "direction_y": -0.69,
+                "direction_z": -0.36,
+                "distance": 1.11,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -7083,10 +7083,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.66,
-                "direction_y": -0.22,
-                "direction_z": 0.72,
-                "distance": 3.62,
+                "direction_x": 0.63,
+                "direction_y": -0.21,
+                "direction_z": 0.74,
+                "distance": 3.49,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -7101,7 +7101,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.25,
+                "direction_x": 0.2,
                 "direction_y": 0.94,
                 "direction_z": -0.25,
                 "distance": 3.57,
@@ -7122,7 +7122,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.11,
+                "direction_x": 0.09,
                 "direction_y": 0.99,
                 "direction_z": -0.12,
                 "distance": 7.52,
@@ -7145,7 +7145,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": -0.6,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -7158,10 +7158,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.44,
-                "direction_y": -0.37,
-                "direction_z": 0.82,
-                "distance": 2.07,
+                "direction_x": 0.35,
+                "direction_y": -0.38,
+                "direction_z": 0.85,
+                "distance": 1.99,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -7178,10 +7178,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.66,
-                "direction_y": -0.56,
-                "direction_z": 0.51,
-                "distance": 1.37,
+                "direction_x": 0.56,
+                "direction_y": -0.61,
+                "direction_z": 0.56,
+                "distance": 1.25,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -7198,10 +7198,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.74,
-                "direction_y": -0.63,
-                "direction_z": -0.25,
-                "distance": 1.22,
+                "direction_x": 0.65,
+                "direction_y": -0.71,
+                "direction_z": -0.28,
+                "distance": 1.08,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -7218,10 +7218,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.65,
+                "direction_x": 0.62,
                 "direction_y": -0.21,
-                "direction_z": 0.74,
-                "distance": 3.69,
+                "direction_z": 0.76,
+                "distance": 3.57,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -7236,9 +7236,9 @@
                 "visible": false
             },
             {
-                "direction_x": 0.25,
+                "direction_x": 0.2,
                 "direction_y": 0.95,
-                "direction_z": -0.23,
+                "direction_z": -0.22,
                 "distance": 3.55,
                 "held": false,
                 "id": "target_1",
@@ -7257,7 +7257,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.11,
+                "direction_x": 0.09,
                 "direction_y": 0.99,
                 "direction_z": -0.11,
                 "distance": 7.5,
@@ -7280,7 +7280,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": -0.7,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -7293,10 +7293,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.42,
-                "direction_y": -0.35,
-                "direction_z": 0.84,
-                "distance": 2.15,
+                "direction_x": 0.34,
+                "direction_y": -0.36,
+                "direction_z": 0.87,
+                "distance": 2.08,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -7313,10 +7313,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.63,
-                "direction_y": -0.53,
-                "direction_z": 0.56,
-                "distance": 1.43,
+                "direction_x": 0.54,
+                "direction_y": -0.58,
+                "direction_z": 0.61,
+                "distance": 1.31,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -7333,10 +7333,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.75,
-                "direction_y": -0.64,
-                "direction_z": -0.17,
-                "distance": 1.2,
+                "direction_x": 0.66,
+                "direction_y": -0.72,
+                "direction_z": -0.18,
+                "distance": 1.05,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -7353,10 +7353,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.64,
-                "direction_y": -0.21,
-                "direction_z": 0.74,
-                "distance": 3.77,
+                "direction_x": 0.6,
+                "direction_y": -0.2,
+                "direction_z": 0.76,
+                "distance": 3.64,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -7371,7 +7371,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.25,
+                "direction_x": 0.2,
                 "direction_y": 0.95,
                 "direction_z": -0.2,
                 "distance": 3.53,
@@ -7392,7 +7392,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.11,
+                "direction_x": 0.09,
                 "direction_y": 0.99,
                 "direction_z": -0.09,
                 "distance": 7.49,
@@ -7415,7 +7415,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": -0.8,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -7428,10 +7428,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.4,
+                "direction_x": 0.32,
                 "direction_y": -0.35,
-                "direction_z": 0.85,
-                "distance": 2.24,
+                "direction_z": 0.88,
+                "distance": 2.16,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -7448,10 +7448,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.61,
-                "direction_y": -0.51,
-                "direction_z": 0.61,
-                "distance": 1.48,
+                "direction_x": 0.51,
+                "direction_y": -0.56,
+                "direction_z": 0.66,
+                "distance": 1.37,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -7465,13 +7465,13 @@
                 "texture_color_list": [
                     "yellow"
                 ],
-                "visible": true
+                "visible": false
             },
             {
-                "direction_x": 0.76,
-                "direction_y": -0.64,
-                "direction_z": -0.08,
-                "distance": 1.18,
+                "direction_x": 0.67,
+                "direction_y": -0.73,
+                "direction_z": -0.09,
+                "distance": 1.04,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -7488,10 +7488,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.62,
+                "direction_x": 0.59,
                 "direction_y": -0.2,
-                "direction_z": 0.76,
-                "distance": 3.84,
+                "direction_z": 0.77,
+                "distance": 3.72,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -7506,7 +7506,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.25,
+                "direction_x": 0.2,
                 "direction_y": 0.96,
                 "direction_z": -0.17,
                 "distance": 3.51,
@@ -7527,7 +7527,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.11,
+                "direction_x": 0.09,
                 "direction_y": 0.99,
                 "direction_z": -0.08,
                 "distance": 7.49,
@@ -7550,7 +7550,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": -0.9,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -7563,10 +7563,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.39,
+                "direction_x": 0.31,
                 "direction_y": -0.33,
-                "direction_z": 0.86,
-                "distance": 2.32,
+                "direction_z": 0.88,
+                "distance": 2.25,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -7583,10 +7583,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.58,
-                "direction_y": -0.49,
-                "direction_z": 0.65,
-                "distance": 1.55,
+                "direction_x": 0.49,
+                "direction_y": -0.53,
+                "direction_z": 0.69,
+                "distance": 1.44,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -7603,10 +7603,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.76,
-                "direction_y": -0.65,
+                "direction_x": 0.68,
+                "direction_y": -0.74,
                 "direction_z": 0.0,
-                "distance": 1.18,
+                "distance": 1.03,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -7623,10 +7623,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.61,
+                "direction_x": 0.58,
                 "direction_y": -0.2,
-                "direction_z": 0.77,
-                "distance": 3.92,
+                "direction_z": 0.79,
+                "distance": 3.8,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -7641,7 +7641,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.26,
+                "direction_x": 0.2,
                 "direction_y": 0.96,
                 "direction_z": -0.14,
                 "distance": 3.49,
@@ -7662,7 +7662,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.11,
+                "direction_x": 0.09,
                 "direction_y": 0.99,
                 "direction_z": -0.07,
                 "distance": 7.48,
@@ -7685,7 +7685,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": -1.0,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -7698,10 +7698,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.39,
+                "direction_x": 0.31,
                 "direction_y": -0.33,
-                "direction_z": 0.86,
-                "distance": 2.32,
+                "direction_z": 0.88,
+                "distance": 2.25,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -7718,10 +7718,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.58,
-                "direction_y": -0.49,
-                "direction_z": 0.65,
-                "distance": 1.55,
+                "direction_x": 0.49,
+                "direction_y": -0.53,
+                "direction_z": 0.69,
+                "distance": 1.44,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -7738,10 +7738,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.76,
-                "direction_y": -0.65,
+                "direction_x": 0.68,
+                "direction_y": -0.74,
                 "direction_z": -0.0,
-                "distance": 1.18,
+                "distance": 1.03,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -7758,10 +7758,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.61,
+                "direction_x": 0.58,
                 "direction_y": -0.2,
-                "direction_z": 0.77,
-                "distance": 3.92,
+                "direction_z": 0.79,
+                "distance": 3.8,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -7776,10 +7776,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.3,
+                "direction_x": 0.23,
                 "direction_y": 0.95,
-                "direction_z": -0.17,
-                "distance": 3.04,
+                "direction_z": -0.16,
+                "distance": 3.01,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -7797,7 +7797,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.13,
+                "direction_x": 0.11,
                 "direction_y": 0.99,
                 "direction_z": -0.07,
                 "distance": 6.98,
@@ -7820,7 +7820,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": -1.0,
         "resolved_object": "chest_3",
         "resolved_receptacle": "",
@@ -7833,10 +7833,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.37,
+                "direction_x": 0.3,
                 "direction_y": -0.32,
-                "direction_z": 0.88,
-                "distance": 2.41,
+                "direction_z": 0.9,
+                "distance": 2.34,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -7853,10 +7853,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.56,
-                "direction_y": -0.47,
-                "direction_z": 0.68,
-                "distance": 1.61,
+                "direction_x": 0.46,
+                "direction_y": -0.5,
+                "direction_z": 0.73,
+                "distance": 1.51,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -7873,10 +7873,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.76,
-                "direction_y": -0.64,
-                "direction_z": 0.08,
-                "distance": 1.18,
+                "direction_x": 0.67,
+                "direction_y": -0.73,
+                "direction_z": 0.09,
+                "distance": 1.04,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -7893,10 +7893,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.6,
-                "direction_y": -0.2,
-                "direction_z": 0.78,
-                "distance": 3.99,
+                "direction_x": 0.57,
+                "direction_y": -0.19,
+                "direction_z": 0.79,
+                "distance": 3.88,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -7911,10 +7911,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.35,
-                "direction_y": 0.92,
+                "direction_x": 0.28,
+                "direction_y": 0.94,
                 "direction_z": -0.16,
-                "distance": 2.56,
+                "distance": 2.5,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -7932,7 +7932,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.14,
+                "direction_x": 0.11,
                 "direction_y": 0.99,
                 "direction_z": -0.06,
                 "distance": 6.48,
@@ -7955,7 +7955,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": -1.1,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -7968,10 +7968,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.36,
+                "direction_x": 0.29,
                 "direction_y": -0.31,
-                "direction_z": 0.89,
-                "distance": 2.5,
+                "direction_z": 0.9,
+                "distance": 2.43,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -7988,10 +7988,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.53,
-                "direction_y": -0.45,
-                "direction_z": 0.71,
-                "distance": 1.68,
+                "direction_x": 0.44,
+                "direction_y": -0.48,
+                "direction_z": 0.76,
+                "distance": 1.58,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -8008,10 +8008,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.75,
-                "direction_y": -0.64,
-                "direction_z": 0.17,
-                "distance": 1.2,
+                "direction_x": 0.66,
+                "direction_y": -0.72,
+                "direction_z": 0.18,
+                "distance": 1.05,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -8028,10 +8028,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.59,
+                "direction_x": 0.56,
                 "direction_y": -0.19,
-                "direction_z": 0.79,
-                "distance": 4.07,
+                "direction_z": 0.8,
+                "distance": 3.96,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -8046,10 +8046,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.43,
-                "direction_y": 0.89,
-                "direction_z": -0.15,
-                "distance": 2.09,
+                "direction_x": 0.35,
+                "direction_y": 0.93,
+                "direction_z": -0.14,
+                "distance": 2.01,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -8067,7 +8067,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.15,
+                "direction_x": 0.12,
                 "direction_y": 0.99,
                 "direction_z": -0.05,
                 "distance": 5.98,
@@ -8090,7 +8090,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": -1.2,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -8103,10 +8103,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.35,
+                "direction_x": 0.28,
                 "direction_y": -0.3,
-                "direction_z": 0.89,
-                "distance": 2.58,
+                "direction_z": 0.91,
+                "distance": 2.52,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -8123,10 +8123,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.51,
-                "direction_y": -0.43,
-                "direction_z": 0.74,
-                "distance": 1.76,
+                "direction_x": 0.42,
+                "direction_y": -0.45,
+                "direction_z": 0.78,
+                "distance": 1.66,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -8143,10 +8143,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.74,
-                "direction_y": -0.63,
-                "direction_z": 0.25,
-                "distance": 1.22,
+                "direction_x": 0.65,
+                "direction_y": -0.71,
+                "direction_z": 0.28,
+                "distance": 1.08,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -8163,10 +8163,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.58,
-                "direction_y": -0.19,
-                "direction_z": 0.79,
-                "distance": 4.15,
+                "direction_x": 0.54,
+                "direction_y": -0.18,
+                "direction_z": 0.81,
+                "distance": 4.04,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -8181,10 +8181,280 @@
                 "visible": false
             },
             {
-                "direction_x": 0.55,
-                "direction_y": 0.83,
-                "direction_z": -0.13,
-                "distance": 1.65,
+                "direction_x": 0.45,
+                "direction_y": 0.88,
+                "direction_z": -0.12,
+                "distance": 1.55,
+                "held": false,
+                "id": "target_1",
+                "mass": 2.0,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.13,
+                "direction_y": 0.99,
+                "direction_z": -0.04,
+                "distance": 5.53,
+                "held": false,
+                "id": "placer_1",
+                "mass": 5.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "magenta",
+                    "purple",
+                    "red"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 5,
+        "position_x": -0.2,
+        "position_z": -1.3,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 60,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 40,
+        "objects": [
+            {
+                "direction_x": 0.27,
+                "direction_y": -0.29,
+                "direction_z": 0.91,
+                "distance": 2.61,
+                "held": false,
+                "id": "chest_1",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": 1.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.4,
+                "direction_y": -0.43,
+                "direction_z": 0.8,
+                "distance": 1.74,
+                "held": false,
+                "id": "chest_2",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "yellow"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.63,
+                "direction_y": -0.69,
+                "direction_z": 0.36,
+                "distance": 1.11,
+                "held": false,
+                "id": "chest_3",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.53,
+                "direction_y": -0.18,
+                "direction_z": 0.83,
+                "distance": 4.12,
+                "held": false,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": false
+            },
+            {
+                "direction_x": 0.63,
+                "direction_y": 0.77,
+                "direction_z": -0.08,
+                "distance": 1.12,
+                "held": false,
+                "id": "target_1",
+                "mass": 2.0,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.14,
+                "direction_y": 0.98,
+                "direction_z": -0.02,
+                "distance": 4.99,
+                "held": false,
+                "id": "placer_1",
+                "mass": 5.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "magenta",
+                    "purple",
+                    "red"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 5,
+        "position_x": -0.2,
+        "position_z": -1.4,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 61,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 40,
+        "objects": [
+            {
+                "direction_x": 0.26,
+                "direction_y": -0.28,
+                "direction_z": 0.92,
+                "distance": 2.73,
+                "held": false,
+                "id": "chest_1",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": 1.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.38,
+                "direction_y": -0.41,
+                "direction_z": 0.82,
+                "distance": 1.82,
+                "held": false,
+                "id": "chest_2",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "yellow"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.61,
+                "direction_y": -0.66,
+                "direction_z": 0.44,
+                "distance": 1.15,
+                "held": false,
+                "id": "chest_3",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.52,
+                "direction_y": -0.18,
+                "direction_z": 0.83,
+                "distance": 4.2,
+                "held": false,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": false
+            },
+            {
+                "direction_x": 0.89,
+                "direction_y": 0.46,
+                "direction_z": 0.0,
+                "distance": 0.79,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -8203,277 +8473,7 @@
             },
             {
                 "direction_x": 0.16,
-                "direction_y": 0.99,
-                "direction_z": -0.04,
-                "distance": 5.47,
-                "held": false,
-                "id": "placer_1",
-                "mass": 5.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.5,
-                "rotation_y": 0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "magenta",
-                    "purple",
-                    "red"
-                ],
-                "visible": true
-            }
-        ],
-        "objects_count": 5,
-        "position_x": -0.4,
-        "position_z": -1.3,
-        "resolved_object": "",
-        "resolved_receptacle": "",
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 90,
-        "step_number": 60,
-        "structural_objects_count": 6
-    },
-    {
-        "head_tilt": 40,
-        "objects": [
-            {
-                "direction_x": 0.34,
-                "direction_y": -0.29,
-                "direction_z": 0.9,
-                "distance": 2.67,
-                "held": false,
-                "id": "chest_1",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": 1.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "red"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.49,
-                "direction_y": -0.42,
-                "direction_z": 0.76,
-                "distance": 1.83,
-                "held": false,
-                "id": "chest_2",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": 0.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "yellow"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.72,
-                "direction_y": -0.61,
-                "direction_z": 0.32,
-                "distance": 1.25,
-                "held": false,
-                "id": "chest_3",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "green"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.57,
-                "direction_y": -0.19,
-                "direction_z": 0.81,
-                "distance": 4.23,
-                "held": false,
-                "id": "agent_male",
-                "mass": 80.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 2.0,
-                "position_z": 2.0,
-                "rotation_y": 180,
-                "shape": "agent",
-                "texture_color_list": [],
-                "visible": false
-            },
-            {
-                "direction_x": 0.72,
-                "direction_y": 0.69,
-                "direction_z": -0.08,
-                "distance": 1.25,
-                "held": false,
-                "id": "target_1",
-                "mass": 2.0,
-                "material_list": [
-                    "RUBBER"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.5,
-                "rotation_y": 0,
-                "shape": "ball",
-                "texture_color_list": [
-                    "white",
-                    "black"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.18,
-                "direction_y": 0.99,
-                "direction_z": -0.02,
-                "distance": 4.98,
-                "held": false,
-                "id": "placer_1",
-                "mass": 5.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.5,
-                "rotation_y": 0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "magenta",
-                    "purple",
-                    "red"
-                ],
-                "visible": true
-            }
-        ],
-        "objects_count": 5,
-        "position_x": -0.4,
-        "position_z": -1.4,
-        "resolved_object": "",
-        "resolved_receptacle": "",
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 90,
-        "step_number": 61,
-        "structural_objects_count": 6
-    },
-    {
-        "head_tilt": 40,
-        "objects": [
-            {
-                "direction_x": 0.33,
-                "direction_y": -0.28,
-                "direction_z": 0.91,
-                "distance": 2.76,
-                "held": false,
-                "id": "chest_1",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": 1.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "red"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.47,
-                "direction_y": -0.4,
-                "direction_z": 0.79,
-                "distance": 1.91,
-                "held": false,
-                "id": "chest_2",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": 0.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "yellow"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.7,
-                "direction_y": -0.59,
-                "direction_z": 0.39,
-                "distance": 1.28,
-                "held": false,
-                "id": "chest_3",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "green"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.56,
-                "direction_y": -0.18,
-                "direction_z": 0.82,
-                "distance": 4.31,
-                "held": false,
-                "id": "agent_male",
-                "mass": 80.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 2.0,
-                "position_z": 2.0,
-                "rotation_y": 180,
-                "shape": "agent",
-                "texture_color_list": [],
-                "visible": false
-            },
-            {
-                "direction_x": 0.93,
-                "direction_y": 0.37,
-                "direction_z": 0.0,
-                "distance": 0.97,
-                "held": false,
-                "id": "target_1",
-                "mass": 2.0,
-                "material_list": [
-                    "RUBBER"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.5,
-                "rotation_y": 0,
-                "shape": "ball",
-                "texture_color_list": [
-                    "white",
-                    "black"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.2,
-                "direction_y": 0.99,
+                "direction_y": 0.98,
                 "direction_z": 0.0,
                 "distance": 4.53,
                 "held": false,
@@ -8495,7 +8495,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": -1.5,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -8508,10 +8508,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.33,
+                "direction_x": 0.26,
                 "direction_y": -0.28,
-                "direction_z": 0.91,
-                "distance": 2.76,
+                "direction_z": 0.92,
+                "distance": 2.73,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -8528,10 +8528,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.47,
-                "direction_y": -0.4,
-                "direction_z": 0.79,
-                "distance": 1.91,
+                "direction_x": 0.38,
+                "direction_y": -0.41,
+                "direction_z": 0.82,
+                "distance": 1.82,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -8548,10 +8548,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.7,
-                "direction_y": -0.59,
-                "direction_z": 0.39,
-                "distance": 1.28,
+                "direction_x": 0.61,
+                "direction_y": -0.66,
+                "direction_z": 0.44,
+                "distance": 1.15,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -8568,10 +8568,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.56,
+                "direction_x": 0.52,
                 "direction_y": -0.18,
-                "direction_z": 0.82,
-                "distance": 4.31,
+                "direction_z": 0.83,
+                "distance": 4.2,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -8587,9 +8587,9 @@
             },
             {
                 "direction_x": 0.99,
-                "direction_y": -0.15,
+                "direction_y": -0.19,
                 "direction_z": 0.0,
-                "distance": 0.91,
+                "distance": 0.71,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -8607,7 +8607,7 @@
                 "visible": false
             },
             {
-                "direction_x": 0.22,
+                "direction_x": 0.18,
                 "direction_y": 0.98,
                 "direction_z": 0.0,
                 "distance": 4.04,
@@ -8630,7 +8630,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": -1.5,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -8643,10 +8643,10 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.33,
+                "direction_x": 0.26,
                 "direction_y": -0.28,
-                "direction_z": 0.91,
-                "distance": 2.76,
+                "direction_z": 0.92,
+                "distance": 2.73,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -8663,10 +8663,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.47,
-                "direction_y": -0.4,
-                "direction_z": 0.79,
-                "distance": 1.91,
+                "direction_x": 0.38,
+                "direction_y": -0.41,
+                "direction_z": 0.82,
+                "distance": 1.82,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -8683,10 +8683,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.7,
-                "direction_y": -0.59,
-                "direction_z": 0.39,
-                "distance": 1.28,
+                "direction_x": 0.61,
+                "direction_y": -0.66,
+                "direction_z": 0.44,
+                "distance": 1.15,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -8703,10 +8703,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.56,
+                "direction_x": 0.52,
                 "direction_y": -0.18,
-                "direction_z": 0.82,
-                "distance": 4.31,
+                "direction_z": 0.83,
+                "distance": 4.2,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -8721,10 +8721,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.82,
-                "direction_y": -0.58,
+                "direction_x": 0.74,
+                "direction_y": -0.67,
                 "direction_z": 0.0,
-                "distance": 1.1,
+                "distance": 0.95,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -8742,7 +8742,7 @@
                 "visible": true
             },
             {
-                "direction_x": 0.25,
+                "direction_x": 0.2,
                 "direction_y": 0.97,
                 "direction_z": 0.0,
                 "distance": 3.53,
@@ -8765,7 +8765,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.4,
+        "position_x": -0.2,
         "position_z": -1.5,
         "resolved_object": "",
         "resolved_receptacle": "",
@@ -8778,279 +8778,9 @@
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.33,
+                "direction_x": 0.26,
                 "direction_y": -0.28,
-                "direction_z": 0.91,
-                "distance": 2.76,
-                "held": false,
-                "id": "chest_1",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": 1.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "red"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.47,
-                "direction_y": -0.4,
-                "direction_z": 0.79,
-                "distance": 1.91,
-                "held": false,
-                "id": "chest_2",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": 0.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "yellow"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.7,
-                "direction_y": -0.59,
-                "direction_z": 0.39,
-                "distance": 1.28,
-                "held": false,
-                "id": "chest_3",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "green"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.56,
-                "direction_y": -0.18,
-                "direction_z": 0.82,
-                "distance": 4.31,
-                "held": false,
-                "id": "agent_male",
-                "mass": 80.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 2.0,
-                "position_z": 2.0,
-                "rotation_y": 180,
-                "shape": "agent",
-                "texture_color_list": [],
-                "visible": false
-            },
-            {
-                "direction_x": 0.81,
-                "direction_y": -0.59,
-                "direction_z": 0.0,
-                "distance": 1.11,
-                "held": false,
-                "id": "target_1",
-                "mass": 2.0,
-                "material_list": [
-                    "RUBBER"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.5,
-                "rotation_y": 0,
-                "shape": "ball",
-                "texture_color_list": [
-                    "white",
-                    "black"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.25,
-                "direction_y": 0.97,
-                "direction_z": 0.0,
-                "distance": 3.53,
-                "held": false,
-                "id": "placer_1",
-                "mass": 5.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.5,
-                "rotation_y": 0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "cyan",
-                    "blue",
-                    "green"
-                ],
-                "visible": true
-            }
-        ],
-        "objects_count": 5,
-        "position_x": -0.4,
-        "position_z": -1.5,
-        "resolved_object": "",
-        "resolved_receptacle": "",
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 90,
-        "step_number": 65,
-        "structural_objects_count": 6
-    },
-    {
-        "head_tilt": 40,
-        "objects": [
-            {
-                "direction_x": 0.33,
-                "direction_y": -0.28,
-                "direction_z": 0.91,
-                "distance": 2.76,
-                "held": false,
-                "id": "chest_1",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": 1.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "red"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.47,
-                "direction_y": -0.4,
-                "direction_z": 0.79,
-                "distance": 1.91,
-                "held": false,
-                "id": "chest_2",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": 0.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "yellow"
-                ],
-                "visible": false
-            },
-            {
-                "direction_x": 0.7,
-                "direction_y": -0.59,
-                "direction_z": 0.39,
-                "distance": 1.28,
-                "held": false,
-                "id": "chest_3",
-                "mass": 15.0,
-                "material_list": [
-                    "WOOD"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.0,
-                "rotation_y": 270,
-                "shape": "chest",
-                "texture_color_list": [
-                    "green"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.56,
-                "direction_y": -0.18,
-                "direction_z": 0.82,
-                "distance": 4.31,
-                "held": false,
-                "id": "agent_male",
-                "mass": 80.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 2.0,
-                "position_z": 2.0,
-                "rotation_y": 180,
-                "shape": "agent",
-                "texture_color_list": [],
-                "visible": false
-            },
-            {
-                "direction_x": 0.8,
-                "direction_y": -0.6,
-                "direction_z": 0.0,
-                "distance": 1.13,
-                "held": false,
-                "id": "target_1",
-                "mass": 2.0,
-                "material_list": [
-                    "RUBBER"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.5,
-                "rotation_y": 0,
-                "shape": "ball",
-                "texture_color_list": [
-                    "white",
-                    "black"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.25,
-                "direction_y": 0.97,
-                "direction_z": 0.0,
-                "distance": 3.53,
-                "held": false,
-                "id": "placer_1",
-                "mass": 5.0,
-                "material_list": [
-                    "UNDEFINED"
-                ],
-                "position_x": 0.5,
-                "position_z": -1.5,
-                "rotation_y": 0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "cyan",
-                    "blue",
-                    "green"
-                ],
-                "visible": true
-            }
-        ],
-        "objects_count": 5,
-        "position_x": -0.4,
-        "position_z": -1.5,
-        "resolved_object": "",
-        "resolved_receptacle": "",
-        "return_status": "SUCCESSFUL",
-        "rotation_y": 90,
-        "step_number": 66,
-        "structural_objects_count": 6
-    },
-    {
-        "head_tilt": 40,
-        "objects": [
-            {
-                "direction_x": 0.29,
-                "direction_y": -0.28,
-                "direction_z": 0.91,
+                "direction_z": 0.92,
                 "distance": 2.73,
                 "held": false,
                 "id": "chest_1",
@@ -9068,10 +8798,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.43,
+                "direction_x": 0.38,
                 "direction_y": -0.41,
-                "direction_z": 0.81,
-                "distance": 1.86,
+                "direction_z": 0.82,
+                "distance": 1.82,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -9088,10 +8818,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.66,
-                "direction_y": -0.63,
-                "direction_z": 0.41,
-                "distance": 1.21,
+                "direction_x": 0.61,
+                "direction_y": -0.66,
+                "direction_z": 0.44,
+                "distance": 1.15,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -9108,10 +8838,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.54,
+                "direction_x": 0.52,
                 "direction_y": -0.18,
-                "direction_z": 0.82,
-                "distance": 4.26,
+                "direction_z": 0.83,
+                "distance": 4.2,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -9126,10 +8856,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.76,
-                "direction_y": -0.65,
+                "direction_x": 0.73,
+                "direction_y": -0.68,
                 "direction_z": 0.0,
-                "distance": 1.05,
+                "distance": 0.96,
                 "held": false,
                 "id": "target_1",
                 "mass": 2.0,
@@ -9148,9 +8878,9 @@
             },
             {
                 "direction_x": 0.2,
-                "direction_y": 0.98,
+                "direction_y": 0.97,
                 "direction_z": 0.0,
-                "distance": 3.98,
+                "distance": 3.53,
                 "held": false,
                 "id": "placer_1",
                 "mass": 5.0,
@@ -9170,13 +8900,13 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.3,
+        "position_x": -0.2,
         "position_z": -1.5,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
-        "step_number": 67,
+        "step_number": 65,
         "structural_objects_count": 6
     },
     {
@@ -9282,10 +9012,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.16,
-                "direction_y": 0.99,
+                "direction_x": 0.2,
+                "direction_y": 0.97,
                 "direction_z": 0.0,
-                "distance": 4.48,
+                "distance": 3.53,
                 "held": false,
                 "id": "placer_1",
                 "mass": 5.0,
@@ -9311,17 +9041,17 @@
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
         "rotation_y": 90,
-        "step_number": 68,
+        "step_number": 66,
         "structural_objects_count": 6
     },
     {
         "head_tilt": 40,
         "objects": [
             {
-                "direction_x": 0.26,
+                "direction_x": 0.22,
                 "direction_y": -0.28,
-                "direction_z": 0.92,
-                "distance": 2.73,
+                "direction_z": 0.93,
+                "distance": 2.68,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -9338,10 +9068,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.38,
-                "direction_y": -0.41,
-                "direction_z": 0.82,
-                "distance": 1.82,
+                "direction_x": 0.34,
+                "direction_y": -0.42,
+                "direction_z": 0.84,
+                "distance": 1.79,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -9358,10 +9088,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.61,
-                "direction_y": -0.66,
-                "direction_z": 0.44,
-                "distance": 1.15,
+                "direction_x": 0.55,
+                "direction_y": -0.7,
+                "direction_z": 0.46,
+                "distance": 1.09,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -9378,10 +9108,280 @@
                 "visible": true
             },
             {
-                "direction_x": 0.52,
+                "direction_x": 0.51,
                 "direction_y": -0.18,
-                "direction_z": 0.83,
-                "distance": 4.2,
+                "direction_z": 0.84,
+                "distance": 4.15,
+                "held": false,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": false
+            },
+            {
+                "direction_x": 0.66,
+                "direction_y": -0.75,
+                "direction_z": 0.0,
+                "distance": 0.91,
+                "held": false,
+                "id": "target_1",
+                "mass": 2.0,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.15,
+                "direction_y": 0.98,
+                "direction_z": 0.0,
+                "distance": 4.02,
+                "held": false,
+                "id": "placer_1",
+                "mass": 5.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 5,
+        "position_x": -0.1,
+        "position_z": -1.5,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 67,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 40,
+        "objects": [
+            {
+                "direction_x": 0.19,
+                "direction_y": -0.28,
+                "direction_z": 0.93,
+                "distance": 2.68,
+                "held": false,
+                "id": "chest_1",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": 1.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.28,
+                "direction_y": -0.43,
+                "direction_z": 0.85,
+                "distance": 1.76,
+                "held": false,
+                "id": "chest_2",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "yellow"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.48,
+                "direction_y": -0.73,
+                "direction_z": 0.48,
+                "distance": 1.04,
+                "held": false,
+                "id": "chest_3",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.49,
+                "direction_y": -0.18,
+                "direction_z": 0.85,
+                "distance": 4.1,
+                "held": false,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 2.0,
+                "position_z": 2.0,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": false
+            },
+            {
+                "direction_x": 0.59,
+                "direction_y": -0.81,
+                "direction_z": 0.0,
+                "distance": 0.84,
+                "held": false,
+                "id": "target_1",
+                "mass": 2.0,
+                "material_list": [
+                    "RUBBER"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.5,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.11,
+                "direction_y": 0.99,
+                "direction_z": 0.0,
+                "distance": 4.48,
+                "held": false,
+                "id": "placer_1",
+                "mass": 5.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.5,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [
+                    "cyan",
+                    "blue",
+                    "green"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 5,
+        "position_x": -0.0,
+        "position_z": -1.5,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 68,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 40,
+        "objects": [
+            {
+                "direction_x": 0.19,
+                "direction_y": -0.28,
+                "direction_z": 0.93,
+                "distance": 2.68,
+                "held": false,
+                "id": "chest_1",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": 1.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "red"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.28,
+                "direction_y": -0.43,
+                "direction_z": 0.85,
+                "distance": 1.76,
+                "held": false,
+                "id": "chest_2",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": 0.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "yellow"
+                ],
+                "visible": false
+            },
+            {
+                "direction_x": 0.48,
+                "direction_y": -0.73,
+                "direction_z": 0.48,
+                "distance": 1.04,
+                "held": false,
+                "id": "chest_3",
+                "mass": 15.0,
+                "material_list": [
+                    "WOOD"
+                ],
+                "position_x": 0.5,
+                "position_z": -1.0,
+                "rotation_y": 270,
+                "shape": "chest",
+                "texture_color_list": [
+                    "green"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.49,
+                "direction_y": -0.18,
+                "direction_z": 0.85,
+                "distance": 4.1,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -9406,7 +9406,7 @@
                 "material_list": [
                     "RUBBER"
                 ],
-                "position_x": 0.12,
+                "position_x": 0.32,
                 "position_z": -1.5,
                 "rotation_y": 90,
                 "shape": "ball",
@@ -9417,7 +9417,7 @@
                 "visible": true
             },
             {
-                "direction_x": 0.14,
+                "direction_x": 0.1,
                 "direction_y": 0.99,
                 "direction_z": 0.0,
                 "distance": 4.97,
@@ -9440,7 +9440,7 @@
             }
         ],
         "objects_count": 5,
-        "position_x": -0.2,
+        "position_x": -0.0,
         "position_z": -1.5,
         "resolved_object": "target_1",
         "resolved_receptacle": "",
@@ -9454,9 +9454,9 @@
         "objects": [
             {
                 "direction_x": 0.26,
-                "direction_y": -0.28,
+                "direction_y": -0.29,
                 "direction_z": 0.92,
-                "distance": 2.73,
+                "distance": 2.61,
                 "held": false,
                 "id": "chest_1",
                 "mass": 15.0,
@@ -9473,10 +9473,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.38,
-                "direction_y": -0.41,
-                "direction_z": 0.82,
-                "distance": 1.82,
+                "direction_x": 0.4,
+                "direction_y": -0.44,
+                "direction_z": 0.8,
+                "distance": 1.74,
                 "held": false,
                 "id": "chest_2",
                 "mass": 15.0,
@@ -9493,10 +9493,10 @@
                 "visible": false
             },
             {
-                "direction_x": 0.61,
-                "direction_y": -0.66,
-                "direction_z": 0.44,
-                "distance": 1.15,
+                "direction_x": 0.63,
+                "direction_y": -0.69,
+                "direction_z": 0.36,
+                "distance": 1.11,
                 "held": false,
                 "id": "chest_3",
                 "mass": 15.0,
@@ -9513,10 +9513,10 @@
                 "visible": true
             },
             {
-                "direction_x": 0.52,
+                "direction_x": 0.53,
                 "direction_y": -0.18,
                 "direction_z": 0.83,
-                "distance": 4.2,
+                "distance": 4.12,
                 "held": false,
                 "id": "agent_male",
                 "mass": 80.0,
@@ -9531,19 +9531,19 @@
                 "visible": false
             },
             {
-                "direction_x": 0.89,
-                "direction_y": -0.45,
-                "direction_z": 0.0,
-                "distance": 0.36,
-                "held": true,
+                "direction_x": 0.71,
+                "direction_y": -0.69,
+                "direction_z": -0.1,
+                "distance": 0.98,
+                "held": false,
                 "id": "target_1",
                 "mass": 2.0,
                 "material_list": [
                     "RUBBER"
                 ],
-                "position_x": 0.12,
+                "position_x": 0.5,
                 "position_z": -1.5,
-                "rotation_y": 90,
+                "rotation_y": 0,
                 "shape": "ball",
                 "texture_color_list": [
                     "white",
@@ -9554,7 +9554,7 @@
             {
                 "direction_x": 0.13,
                 "direction_y": 0.99,
-                "direction_z": 0.0,
+                "direction_z": -0.02,
                 "distance": 5.47,
                 "held": false,
                 "id": "placer_1",
@@ -9576,7 +9576,7 @@
         ],
         "objects_count": 5,
         "position_x": -0.2,
-        "position_z": -1.5,
+        "position_z": -1.4,
         "resolved_object": "",
         "resolved_receptacle": "",
         "return_status": "SUCCESSFUL",
