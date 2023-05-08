@@ -6,13 +6,17 @@
 [![Downloads](https://pepy.tech/badge/machine-common-sense/month)](https://pepy.tech/project/machine-common-sense)
 [![PyPI license](https://img.shields.io/pypi/l/machine-common-sense.svg)](https://pypi.python.org/pypi/machine-common-sense/)
 
-[![Unit Tests](https://github.com/NextCenturyCorporation/MCS/actions/workflows/ci.yaml/badge.svg)](https://github.com/NextCenturyCorporation/MCS/actions/workflows/ci.yaml)
-[![Extensive Unit Tests](https://github.com/NextCenturyCorporation/MCS/actions/workflows/development-merge.yaml/badge.svg)](https://github.com/NextCenturyCorporation/MCS/actions/workflows/development-merge.yaml)
-[![Documentation](https://github.com/NextCenturyCorporation/MCS/actions/workflows/docs-publish-pypi.yaml/badge.svg)](https://github.com/NextCenturyCorporation/MCS/actions/workflows/docs-publish-pypi.yaml)
+Master Unit Tests: [![Master](https://github.com/NextCenturyCorporation/MCS/actions/workflows/master-unit-tests.yaml/badge.svg)](https://github.com/NextCenturyCorporation/MCS/actions/workflows/master-unit-tests.yaml)
+
+Development Unit Tests: [![Development](https://github.com/NextCenturyCorporation/MCS/actions/workflows/development-merge.yaml/badge.svg)](https://github.com/NextCenturyCorporation/MCS/actions/workflows/development-merge.yaml)
+
+Publish Documentation: [![Publish Docs](https://github.com/NextCenturyCorporation/MCS/actions/workflows/docs-publish.yaml/badge.svg)](https://github.com/NextCenturyCorporation/MCS/actions/workflows/docs-publish.yaml)
+
+Publish to PyPI: [![Publish PyPI](https://github.com/NextCenturyCorporation/MCS/actions/workflows/pypi-publish.yaml/badge.svg)](https://github.com/NextCenturyCorporation/MCS/actions/workflows/pypi-publish.yaml)
 
 # MCS Python Package
 
-Python interface for interacting with MCS AI2Thor environment and running scenes. The latest release of the MCS Python library is `0.5.0`. You can find the latest documentation [here](https://nextcenturycorporation.github.io/MCS).
+Python interface for interacting with MCS AI2Thor environment and running scenes. The latest release of the MCS Python library is `0.6.5`. You can find the latest documentation [here](https://nextcenturycorporation.github.io/MCS).
 
 - [Quickstart Installation](#quickstart-installation)
 - [Usage](#usage)
@@ -76,7 +80,7 @@ controller = mcs.create_controller(config_file_or_dict='./some-path/sample_confi
 
 # Either load the scene data dict from an MCS scene config JSON file or create your own.
 # We will give you the training scene config JSON files and the format to make your own.
-scene_data, status = mcs.load_scene_json_file(scene_json_file_path)
+scene_data = mcs.load_scene_json_file(scene_json_file_path)
 
 output = controller.start_scene(scene_data)
 

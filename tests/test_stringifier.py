@@ -124,8 +124,11 @@ class TestStringifier(unittest.TestCase):
     def test_value_to_str_with_float(self):
         self.assertEqual(mcs.Stringifier.value_to_str(0.0), "0.0")
         self.assertEqual(mcs.Stringifier.value_to_str(1234.5678), "1234.5678")
-        self.assertEqual(mcs.Stringifier.value_to_str(0.12345678), "0.1235")
-        self.assertEqual(mcs.Stringifier.value_to_str(-0.12345678), "-0.1235")
+        self.assertEqual(mcs.Stringifier.value_to_str(0.12345678), "0.123457")
+        self.assertEqual(
+            mcs.Stringifier.value_to_str(-0.12345678),
+            "-0.123457"
+        )
 
     def test_value_to_str_with_integer(self):
         self.assertEqual(mcs.Stringifier.value_to_str(0), "0")

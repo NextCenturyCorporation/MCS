@@ -33,11 +33,14 @@ docs/_build
 
 # Ignore debug files in the root or scripts folders ONLY.
 **/SCENE_HISTORY
-*.gif
-*.json
-*.mp4
-*.png
-*.zip
+/*.gif
+/*.json
+/*.mp4
+/*.png
+/*.zip
+/*/*.json
+/*/*.mp4
+/*/*.png
 machine_common_sense/scripts/**/*.gif
 machine_common_sense/scripts/**/*.json
 machine_common_sense/scripts/**/*.mp4
@@ -50,3 +53,7 @@ scripts/log.config.user.py
 
 #.vscode files
 .vscode/launch.json
+
+# Jenkins test files
+flake8-output.txt
+test-results.xml

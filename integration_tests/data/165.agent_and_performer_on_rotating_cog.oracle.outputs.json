@@ -1,0 +1,2068 @@
+﻿[
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.65,
+                "direction_z": 0.76,
+                "distance": 1.19,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.9,
+                "rotation_y": 180,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.09,
+                "direction_y": -0.35,
+                "direction_z": 0.93,
+                "distance": 2.15,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 0,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.65,
+                "direction_z": 0.76,
+                "distance": 1.19,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.9,
+                "rotation_y": 0,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.0,
+        "position_z": 0.0,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": -0.12,
+                "direction_y": -0.69,
+                "direction_z": 0.71,
+                "distance": 1.11,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.19,
+                "position_z": 0.88,
+                "rotation_y": 170,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.06,
+                "direction_y": -0.37,
+                "direction_z": 0.93,
+                "distance": 2.06,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 350,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.12,
+                "direction_y": -0.69,
+                "direction_z": 0.71,
+                "distance": 1.11,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.19,
+                "position_z": 0.88,
+                "rotation_y": 350,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.33,
+        "position_z": 0.09,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 350,
+        "step_number": 1,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": -0.23,
+                "direction_y": -0.74,
+                "direction_z": 0.63,
+                "distance": 1.04,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.39,
+                "position_z": 0.9,
+                "rotation_y": 160,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.22,
+                "direction_y": -0.39,
+                "direction_z": 0.9,
+                "distance": 1.96,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 340,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.23,
+                "direction_y": -0.74,
+                "direction_z": 0.63,
+                "distance": 1.04,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.39,
+                "position_z": 0.9,
+                "rotation_y": 340,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.63,
+        "position_z": 0.24,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 340,
+        "step_number": 2,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": -0.31,
+                "direction_y": -0.79,
+                "direction_z": 0.53,
+                "distance": 0.98,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.58,
+                "position_z": 0.95,
+                "rotation_y": 150,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.36,
+                "direction_y": -0.41,
+                "direction_z": 0.84,
+                "distance": 1.87,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 330,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.31,
+                "direction_y": -0.79,
+                "direction_z": 0.53,
+                "distance": 0.98,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.58,
+                "position_z": 0.95,
+                "rotation_y": 330,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.88,
+        "position_z": 0.43,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 330,
+        "step_number": 3,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": -0.47,
+                "direction_y": -0.79,
+                "direction_z": 0.4,
+                "distance": 0.98,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.75,
+                "position_z": 1.03,
+                "rotation_y": 140,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.54,
+                "direction_y": -0.41,
+                "direction_z": 0.73,
+                "distance": 1.87,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 320,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.47,
+                "direction_y": -0.79,
+                "direction_z": 0.4,
+                "distance": 0.98,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.75,
+                "position_z": 1.03,
+                "rotation_y": 320,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 1.22,
+        "position_z": 0.63,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 320,
+        "step_number": 4,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": -0.59,
+                "direction_y": -0.77,
+                "direction_z": 0.23,
+                "distance": 1.0,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.91,
+                "position_z": 1.14,
+                "rotation_y": 130,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.7,
+                "direction_y": -0.41,
+                "direction_z": 0.59,
+                "distance": 1.86,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 310,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.59,
+                "direction_y": -0.77,
+                "direction_z": 0.23,
+                "distance": 1.0,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.91,
+                "position_z": 1.14,
+                "rotation_y": 310,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 1.5,
+        "position_z": 0.91,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 310,
+        "step_number": 5,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": -0.65,
+                "direction_y": -0.75,
+                "direction_z": 0.04,
+                "distance": 1.02,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.05,
+                "position_z": 1.28,
+                "rotation_y": 120,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.82,
+                "direction_y": -0.41,
+                "direction_z": 0.41,
+                "distance": 1.87,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 300,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.65,
+                "direction_y": -0.75,
+                "direction_z": 0.04,
+                "distance": 1.02,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.05,
+                "position_z": 1.28,
+                "rotation_y": 300,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 1.72,
+        "position_z": 1.24,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 300,
+        "step_number": 6,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": -0.65,
+                "direction_y": -0.75,
+                "direction_z": -0.07,
+                "distance": 1.02,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.17,
+                "position_z": 1.44,
+                "rotation_y": 110,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.87,
+                "direction_y": -0.41,
+                "direction_z": 0.26,
+                "distance": 1.87,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 290,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.65,
+                "direction_y": -0.75,
+                "direction_z": -0.07,
+                "distance": 1.02,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.17,
+                "position_z": 1.44,
+                "rotation_y": 290,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 1.83,
+        "position_z": 1.51,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 280,
+        "step_number": 7,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": -0.63,
+                "direction_y": -0.75,
+                "direction_z": -0.19,
+                "distance": 1.02,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.25,
+                "position_z": 1.61,
+                "rotation_y": 100,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.91,
+                "direction_y": -0.41,
+                "direction_z": 0.11,
+                "distance": 1.87,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 280,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.63,
+                "direction_y": -0.75,
+                "direction_z": -0.19,
+                "distance": 1.02,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.25,
+                "position_z": 1.61,
+                "rotation_y": 280,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 1.89,
+        "position_z": 1.8,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 260,
+        "step_number": 8,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": -0.59,
+                "direction_y": -0.75,
+                "direction_z": -0.29,
+                "distance": 1.02,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.3,
+                "position_z": 1.8,
+                "rotation_y": 90,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.91,
+                "direction_y": -0.41,
+                "direction_z": -0.05,
+                "distance": 1.87,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 270,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.59,
+                "direction_y": -0.75,
+                "direction_z": -0.29,
+                "distance": 1.02,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.3,
+                "position_z": 1.8,
+                "rotation_y": 270,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 1.9,
+        "position_z": 2.1,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 240,
+        "step_number": 9,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": -0.46,
+                "direction_y": -0.75,
+                "direction_z": -0.47,
+                "distance": 1.02,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.32,
+                "position_z": 2.0,
+                "rotation_y": 80,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.87,
+                "direction_y": -0.42,
+                "direction_z": -0.26,
+                "distance": 1.83,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 260,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.46,
+                "direction_y": -0.75,
+                "direction_z": -0.47,
+                "distance": 1.02,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.32,
+                "position_z": 2.0,
+                "rotation_y": 260,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 1.79,
+        "position_z": 2.47,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 230,
+        "step_number": 10,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": -0.3,
+                "direction_y": -0.75,
+                "direction_z": -0.6,
+                "distance": 1.03,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.3,
+                "position_z": 2.19,
+                "rotation_y": 70,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.79,
+                "direction_y": -0.43,
+                "direction_z": -0.45,
+                "distance": 1.79,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 250,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.3,
+                "direction_y": -0.75,
+                "direction_z": -0.6,
+                "distance": 1.03,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.3,
+                "position_z": 2.19,
+                "rotation_y": 250,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 1.61,
+        "position_z": 2.8,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 220,
+        "step_number": 11,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": -0.19,
+                "direction_y": -0.75,
+                "direction_z": -0.64,
+                "distance": 1.03,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.25,
+                "position_z": 2.38,
+                "rotation_y": 60,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.7,
+                "direction_y": -0.43,
+                "direction_z": -0.58,
+                "distance": 1.79,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 240,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": -0.19,
+                "direction_y": -0.75,
+                "direction_z": -0.64,
+                "distance": 1.03,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.25,
+                "position_z": 2.38,
+                "rotation_y": 240,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 1.45,
+        "position_z": 3.04,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 200,
+        "step_number": 12,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.02,
+                "direction_y": -0.74,
+                "direction_z": -0.67,
+                "distance": 1.04,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.17,
+                "position_z": 2.55,
+                "rotation_y": 50,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.54,
+                "direction_y": -0.44,
+                "direction_z": -0.72,
+                "distance": 1.75,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 230,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.02,
+                "direction_y": -0.74,
+                "direction_z": -0.67,
+                "distance": 1.04,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.17,
+                "position_z": 2.55,
+                "rotation_y": 230,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 1.15,
+        "position_z": 3.26,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 190,
+        "step_number": 13,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.14,
+                "direction_y": -0.74,
+                "direction_z": -0.66,
+                "distance": 1.04,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 1.06,
+                "position_z": 2.71,
+                "rotation_y": 40,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.41,
+                "direction_y": -0.44,
+                "direction_z": -0.8,
+                "distance": 1.75,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 220,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.14,
+                "direction_y": -0.74,
+                "direction_z": -0.66,
+                "distance": 1.04,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 1.06,
+                "position_z": 2.71,
+                "rotation_y": 220,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.92,
+        "position_z": 3.4,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 170,
+        "step_number": 14,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.25,
+                "direction_y": -0.74,
+                "direction_z": -0.63,
+                "distance": 1.04,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.92,
+                "position_z": 2.85,
+                "rotation_y": 20,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.27,
+                "direction_y": -0.44,
+                "direction_z": -0.86,
+                "distance": 1.75,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 210,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.25,
+                "direction_y": -0.74,
+                "direction_z": -0.63,
+                "distance": 1.04,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.92,
+                "position_z": 2.85,
+                "rotation_y": 200,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.66,
+        "position_z": 3.5,
+        "resolved_object": "agent_female",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 160,
+        "step_number": 15,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.43,
+                "direction_y": -0.74,
+                "direction_z": -0.52,
+                "distance": 1.05,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.76,
+                "position_z": 2.97,
+                "rotation_y": 9,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": -0.06,
+                "direction_y": -0.45,
+                "direction_z": -0.89,
+                "distance": 1.7,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 200,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.43,
+                "direction_y": -0.74,
+                "direction_z": -0.52,
+                "distance": 1.05,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.76,
+                "position_z": 2.97,
+                "rotation_y": 189,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.31,
+        "position_z": 3.51,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 150,
+        "step_number": 16,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.52,
+                "direction_y": -0.74,
+                "direction_z": -0.44,
+                "distance": 1.05,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.59,
+                "position_z": 3.05,
+                "rotation_y": 359,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.09,
+                "direction_y": -0.45,
+                "direction_z": -0.89,
+                "distance": 1.7,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 190,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.52,
+                "direction_y": -0.74,
+                "direction_z": -0.44,
+                "distance": 1.05,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.59,
+                "position_z": 3.05,
+                "rotation_y": 179,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": 0.05,
+        "position_z": 3.51,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 130,
+        "step_number": 17,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.63,
+                "direction_y": -0.73,
+                "direction_z": -0.26,
+                "distance": 1.05,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.4,
+                "position_z": 3.1,
+                "rotation_y": 349,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.28,
+                "direction_y": -0.47,
+                "direction_z": -0.84,
+                "distance": 1.64,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 180,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.63,
+                "direction_y": -0.73,
+                "direction_z": -0.26,
+                "distance": 1.05,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.4,
+                "position_z": 3.1,
+                "rotation_y": 169,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": -0.26,
+        "position_z": 3.37,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 120,
+        "step_number": 18,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.67,
+                "direction_y": -0.73,
+                "direction_z": -0.15,
+                "distance": 1.05,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.21,
+                "position_z": 3.12,
+                "rotation_y": 282,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.42,
+                "direction_y": -0.47,
+                "direction_z": -0.78,
+                "distance": 1.64,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 170,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.97,
+                "direction_y": 0.09,
+                "direction_z": -0.21,
+                "distance": 0.81,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": 0.3,
+                "position_z": 3.1,
+                "rotation_y": 102,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": -0.5,
+        "position_z": 3.27,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 100,
+        "step_number": 19,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.68,
+                "direction_y": -0.73,
+                "direction_z": -0.03,
+                "distance": 1.05,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.01,
+                "position_z": 3.1,
+                "rotation_y": 272,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.47,
+                "direction_z": -0.69,
+                "distance": 1.64,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 160,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.98,
+                "direction_y": 0.17,
+                "direction_z": 0.08,
+                "distance": 0.66,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": -0.06,
+                "position_z": 3.18,
+                "rotation_y": 92,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": -0.71,
+        "position_z": 3.13,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 20,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.67,
+                "direction_y": -0.73,
+                "direction_z": 0.09,
+                "distance": 1.05,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": -0.18,
+                "position_z": 3.05,
+                "rotation_y": 262,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.66,
+                "direction_y": -0.47,
+                "direction_z": -0.58,
+                "distance": 1.64,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 150,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.98,
+                "direction_y": 0.13,
+                "direction_z": 0.16,
+                "distance": 0.61,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": -0.29,
+                "position_z": 3.06,
+                "rotation_y": 82,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": false
+            }
+        ],
+        "objects_count": 2,
+        "position_x": -0.89,
+        "position_z": 2.96,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 80,
+        "step_number": 21,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.65,
+                "direction_y": -0.73,
+                "direction_z": 0.21,
+                "distance": 1.05,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": -0.35,
+                "position_z": 2.97,
+                "rotation_y": 252,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.76,
+                "direction_y": -0.47,
+                "direction_z": -0.46,
+                "distance": 1.64,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 140,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.94,
+                "direction_y": -0.16,
+                "direction_z": 0.3,
+                "distance": 0.61,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": -0.46,
+                "position_z": 2.94,
+                "rotation_y": 72,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": -1.04,
+        "position_z": 2.75,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 70,
+        "step_number": 22,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.6,
+                "direction_y": -0.73,
+                "direction_z": 0.32,
+                "distance": 1.05,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": -0.51,
+                "position_z": 2.86,
+                "rotation_y": 242,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.82,
+                "direction_y": -0.47,
+                "direction_z": -0.32,
+                "distance": 1.64,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 130,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.87,
+                "direction_y": -0.16,
+                "direction_z": 0.46,
+                "distance": 0.61,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": -0.62,
+                "position_z": 2.81,
+                "rotation_y": 62,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": -1.15,
+        "position_z": 2.53,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 60,
+        "step_number": 23,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.54,
+                "direction_y": -0.73,
+                "direction_z": 0.42,
+                "distance": 1.05,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": -0.65,
+                "position_z": 2.72,
+                "rotation_y": 232,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.87,
+                "direction_y": -0.47,
+                "direction_z": -0.17,
+                "distance": 1.64,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 120,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.78,
+                "direction_y": -0.16,
+                "direction_z": 0.6,
+                "distance": 0.61,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": -0.74,
+                "position_z": 2.65,
+                "rotation_y": 52,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": -1.22,
+        "position_z": 2.28,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 50,
+        "step_number": 24,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.46,
+                "direction_y": -0.73,
+                "direction_z": 0.5,
+                "distance": 1.05,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": -0.77,
+                "position_z": 2.56,
+                "rotation_y": 222,
+                "shape": "agent",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            },
+            {
+                "direction_x": 0.88,
+                "direction_y": -0.47,
+                "direction_z": -0.02,
+                "distance": 1.64,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 110,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.66,
+                "direction_y": -0.16,
+                "direction_z": 0.73,
+                "distance": 0.61,
+                "held": false,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": -0.84,
+                "position_z": 2.48,
+                "rotation_y": 42,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": -1.25,
+        "position_z": 2.03,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 40,
+        "step_number": 25,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.36,
+                "direction_y": -0.73,
+                "direction_z": 0.58,
+                "distance": 1.05,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": -0.85,
+                "position_z": 2.39,
+                "rotation_y": 212,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.87,
+                "direction_y": -0.47,
+                "direction_z": 0.13,
+                "distance": 1.64,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 100,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.42,
+                "direction_y": -0.53,
+                "direction_z": 0.74,
+                "distance": 0.5,
+                "held": true,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": -1.02,
+                "position_z": 2.15,
+                "rotation_y": 30,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": -1.23,
+        "position_z": 1.78,
+        "resolved_object": "soccer_ball",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 30,
+        "step_number": 26,
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.26,
+                "direction_y": -0.73,
+                "direction_z": 0.63,
+                "distance": 1.05,
+                "held": false,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": -0.9,
+                "position_z": 2.2,
+                "rotation_y": 202,
+                "shape": "agent",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.84,
+                "direction_y": -0.47,
+                "direction_z": 0.28,
+                "distance": 1.64,
+                "held": false,
+                "id": "rotating_cog_a",
+                "mass": 10.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.2,
+                "position_z": 2.0,
+                "rotation_y": 90,
+                "shape": "structural",
+                "texture_color_list": [],
+                "visible": true
+            },
+            {
+                "direction_x": 0.29,
+                "direction_y": -0.53,
+                "direction_z": 0.8,
+                "distance": 0.5,
+                "held": true,
+                "id": "soccer_ball",
+                "mass": 1.0,
+                "material_list": [
+                    "PLASTIC"
+                ],
+                "position_x": -1.03,
+                "position_z": 1.93,
+                "rotation_y": 20,
+                "shape": "ball",
+                "texture_color_list": [
+                    "white",
+                    "black"
+                ],
+                "visible": true
+            }
+        ],
+        "objects_count": 2,
+        "position_x": -1.17,
+        "position_z": 1.54,
+        "resolved_object": "",
+        "resolved_receptacle": "",
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 20,
+        "step_number": 27,
+        "structural_objects_count": 6
+    }
+]

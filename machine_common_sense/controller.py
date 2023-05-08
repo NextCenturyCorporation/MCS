@@ -1,16 +1,20 @@
+import _thread
 import atexit
+import contextlib
 import datetime
 import glob
+import io
 import json
 import logging
 import os
-from typing import Any, Dict, List, Optional, Union
+import threading
+import time
+from typing import Dict, List, Optional, Union
 
 import ai2thor.controller
 import ai2thor.server
-import marshmallow
 import numpy as np
-import typeguard
+import typeguard  # can we replace with pydantic function validator?
 
 logger = logging.getLogger(__name__)
 
@@ -21,13 +25,12 @@ logger = logging.getLogger(__name__)
 DEFAULT_MOVE = 0.1
 
 from .action import Action
-from .config_manager import (ConfigManager, SceneConfiguration,
-                             SceneConfigurationSchema)
+from .config_manager import ConfigManager, SceneConfiguration
 from .controller_events import (AfterStepPayload, BeforeStepPayload,
                                 EndScenePayload, EventType, StartScenePayload)
 from .controller_output_handler import ControllerOutputHandler
 from .goal_metadata import GoalMetadata
-from .parameter import Parameter, compare_param_values
+from .parameter import Parameter, compare_param_values, rebuild_endhabituation
 from .step_metadata import StepMetadata
 
 
@@ -53,7 +56,8 @@ def __image_depth_override(self, image_depth_data, **kwargs):
     return ai2thor.server.read_buffer_image(
         image_depth_data,
         self.screen_width,
-        self.screen_height
+        self.screen_height,
+        dtype=np.float32
     )
 
 
@@ -89,21 +93,23 @@ class Controller():
     @typeguard.typechecked
     def __init__(self, unity_app_file_path: str, config: ConfigManager):
 
-        self._controller = ai2thor.controller.Controller(
-            quality='Medium',
-            fullscreen=False,
-            headless=False,  # TODO confirm functionality
-            local_executable_path=unity_app_file_path,
-            width=config.get_screen_width(),
-            height=config.get_screen_height(),
-            scene='MCS',  # Unity scene name
-            logs=True,
-            # This constructor always initializes a scene, so add a scene
-            # config to ensure it doesn't error
-            sceneConfig={
-                "objects": []
-            }
-        )
+        # Suppress print statements from the AI2-THOR Controller's constructor.
+        with contextlib.redirect_stdout(io.StringIO()) as _:
+            self._controller = ai2thor.controller.Controller(
+                quality='Medium',
+                fullscreen=False,
+                headless=False,  # TODO confirm functionality
+                local_executable_path=unity_app_file_path,
+                width=config.get_screen_width(),
+                height=config.get_screen_height(),
+                scene='MCS',  # Unity scene name
+                logs=True,
+                # This constructor always initializes a scene, so add a scene
+                # config to ensure it doesn't error
+                sceneConfig={
+                    "objects": []
+                }
+            )
 
         if not self._controller:
             raise Exception('AI2-THOR/Unity Controller failed to initialize')
@@ -117,11 +123,14 @@ class Controller():
         self._failure_handler_registered = False
         self._end_scene_called = False
         self._goal = GoalMetadata()
+        self._last_step_check = -1
         self.__habituation_trial = 1
         # Output folder used to save debug image, video, and JSON files.
         self.__output_folder = None
         self._scene_config = None
         self.__step_number = 0
+        self._timer = None
+        self._timer_in_progress = False
 
     def _set_config(self, config: ConfigManager):
         '''Allows config to be changed without changing the controller and
@@ -134,9 +143,40 @@ class Controller():
         self._output_handler = ControllerOutputHandler(self._config)
         self.parameter_converter = Parameter(config)
 
+    def _check_step_for_timeout(self):
+        '''Meant for use during eval, if a scene is hung on the same step
+        for a period of time, end the scene.'''
+
+        start_time = time.time()
+        self._timer_in_progress = False
+        timeout_seconds = self._config.get_timeout()
+
+        if (self._last_step_check < self.__step_number):
+            # skip step check for Initialize step
+            if (self.__step_number != 0):
+                self._last_step_check = self.__step_number
+
+            timer_seconds = timeout_seconds - \
+                ((time.time() - start_time) % timeout_seconds)
+            self._timer = threading.Timer(timer_seconds,
+                                          self._check_step_for_timeout)
+            self._timer.daemon = True
+            self._timer.start()
+            self._timer_in_progress = True
+        else:
+            time_str = str(datetime.timedelta(seconds=timeout_seconds))
+            logger.warning(
+                f"Attempting to end scene due to inactivity (user not taking"
+                f" any steps). Currently this polls for step progress "
+                f"every {time_str} (hh:mm:ss)")
+            self.end_scene(rating=None, score=-1)
+
+            _thread.interrupt_main()
+
     @typeguard.typechecked
-    def start_scene(self, config_data: Union[SceneConfiguration, Dict]) -> \
-            StepMetadata:
+    def start_scene(
+        self, config_data: Union[SceneConfiguration, Dict]) \
+            -> StepMetadata:
         """
         Starts a new scene using the given scene configuration data dict and
         returns the scene output data object.
@@ -157,43 +197,60 @@ class Controller():
         scene_config = self._convert_scene_config(config_data)
 
         self._scene_config = scene_config
+        # When one target key is 'target'
+        # When multiple targets key is 'targets'
+        if config_data.get('goal') is not None and \
+            config_data['goal'].get('metadata') is not None and \
+                config_data['goal']['metadata'].get('target') is not None:
+            self.__goal_object_ids = \
+                [config_data['goal']['metadata']['target']['id']]
+        elif config_data.get('goal') is not None and \
+            config_data['goal'].get('metadata') is not None and \
+                config_data['goal']['metadata'].get('targets') is not None:
+            self.__goal_object_ids = \
+                [sub['id'] for sub in
+                    config_data['goal']['metadata']['targets']]
+        else:
+            self.__goal_object_ids = []
         self.__habituation_trial = 1
         self.__step_number = 0
-        self._goal = self._scene_config.retrieve_goal()
+        self.__steps_in_lava = 0
+        self.__triggered_by_sequence_incorrect = False
+        self._goal = self._scene_config.retrieve_goal(
+            self._config.get_steps_allowed_in_lava())
         self._end_scene_called = False
 
         skip_preview_phase = (scene_config.goal is not None and
                               scene_config.goal.skip_preview_phase)
 
         if (not self._scene_config.name):
-            raise Exception('The `name` field in the scene ' +
+            raise Exception('The `name` field in the scene '
                             'file cannot be empty.')
 
         if (self._config.is_file_writing_enabled()):
-            os.makedirs('./' + scene_config.name, exist_ok=True)
-            self.__output_folder = './' + scene_config.name + '/'
-            file_list = glob.glob(self.__output_folder + '*')
+            os.makedirs(f'./{scene_config.name}', exist_ok=True)
+            self.__output_folder = f'{os.getcwd()}/{scene_config.name}/'
+            file_list = glob.glob(f'{self.__output_folder}*')
             for file_path in file_list:
                 os.remove(file_path)
 
-        sc = SceneConfigurationSchema(
-            unknown=marshmallow.EXCLUDE).dump(
-            scene_config)
-        """
-        All this did for conversion was to wrap a hard-coded step
-        wrapped_step = self.wrap_step(
-            action='Initialize',
-            sceneConfig=sc
-        )
-        """
+        sc = scene_config.dict(exclude_none=True, by_alias=True)
+
         ai2thor_step = self.parameter_converter.wrap_step(
-            action='Initialize', sceneConfig=sc)
+            output_folder=self.__output_folder,
+            action='Initialize',
+            sceneConfig=sc,
+            goal_object_ids=self.__goal_object_ids)
         step_output = self._controller.step(ai2thor_step)
 
         self._output_handler.set_scene_config(scene_config)
         (pre_restrict_output, output) = self._output_handler.handle_output(
             step_output, self._goal, self.__step_number,
             self.__habituation_trial)
+
+        self.__steps_in_lava = output.steps_on_lava
+        self.__triggered_by_sequence_incorrect = \
+            output.triggered_by_sequence_incorrect
 
         if not skip_preview_phase:
             if (self._goal is not None and
@@ -217,11 +274,9 @@ class Controller():
                 output.depth_map_list = depth_map_list
                 output.object_mask_list = object_mask_list
 
-            logger.debug('NO PREVIEW PHASE')
-
             # TODO Should this be in the if block?  Now that we are using
             # subscribers, we may want to always register
-            if(self._failure_handler_registered is False and
+            if (self._failure_handler_registered is False and
                     self._config.is_history_enabled()):
                 # make sure history file is written when program exits
                 atexit.register(self.end_scene, rating=None, score=-1)
@@ -233,25 +288,14 @@ class Controller():
         self._publish_event(
             EventType.ON_START_SCENE, start_scene_payload)
 
-        return output
+        self._check_step_for_timeout()
 
-    def _compare_param_values(self, value_1: Any, value_2: Any) -> bool:
-        """Compares two parameter values and returns if they are equal,
-        making sure that string numbers are converted to floats, and integer
-        floats are converted to ints."""
-        data = {'1': value_1, '2': value_2}
-        for key in data:
-            if isinstance(data[key], str) and data[key].isnumeric():
-                data[key] = float(data[key])
-            if isinstance(data[key], float) and data[key].is_integer():
-                data[key] = int(data[key])
-        return data['1'] == data['2']
+        return output
 
     def _convert_scene_config(self, config_data) -> SceneConfiguration:
         if isinstance(config_data, SceneConfiguration):
             return config_data
-        schema = SceneConfigurationSchema()
-        return schema.load(config_data)
+        return SceneConfiguration(**config_data)
 
     @typeguard.typechecked
     def step(self, action: str, **kwargs) -> Optional[StepMetadata]:
@@ -285,11 +329,26 @@ class Controller():
                 "now.")
             return None
 
+        # if they call end scene action they should have
+        #   called end_scene instead of step
+        if action == Action.END_SCENE.value:
+            self.end_scene()
+            raise SystemExit(0)
+
+        # reformulate hidden EndHabituation parameters
+        if action == Action.END_HABITUATION.value:
+            step_action_list = \
+                self._goal._retrieve_unfiltered_action_list(self.__step_number)
+            action = rebuild_endhabituation(step_action_list)
+
         if ',' in action:
             action, kwargs = Action.input_to_action_and_params(action)
 
+        is_passive_scene = self._scene_config.is_passive_scene()
         action_list = self._goal.retrieve_action_list_at_step(
-            self.__step_number)
+            self.__step_number, self.__steps_in_lava,
+            self.__triggered_by_sequence_incorrect, is_passive_scene)
+
         # Only continue with this action step if the given action and
         # parameters are in the restricted action list.
         continue_with_step = any(action == restricted_action and (
@@ -303,12 +362,11 @@ class Controller():
             logger.error(
                 f"The given action '{action}' with parameters "
                 f"'{kwargs}' isn't in the action_list. Ignoring your action. "
-                f"Please call controller.step() with an action in the "
-                f"action_list. Possible actions at step {self.__step_number}:"
+                f"Possible actions at step {self.__step_number}:"
             )
             for action_data in action_list:
                 logger.error(f'    {action_data}')
-            return None
+            raise ValueError(f"{action}-{kwargs} not in {action_list}")
 
         self.__step_number += 1
 
@@ -316,11 +374,12 @@ class Controller():
         payload['action'] = action
         payload['habituation_trial'] = self.__habituation_trial
         payload['goal'] = self._goal
+
         self._publish_event(
             EventType.ON_BEFORE_STEP,
             BeforeStepPayload(**payload))
 
-        if (action == 'EndHabituation'):
+        if (action == Action.END_HABITUATION.value):
             self.__habituation_trial += 1
 
         if (self._goal.last_step is not None and
@@ -330,18 +389,20 @@ class Controller():
                 "your future actions will be skipped. Please call "
                 "controller.end_scene() now.")
 
-        """
-        params = self.validate_and_convert_params(action, **kwargs)
-        action = self.mcs_action_to_ai2thor_action(action)
-        step_action = self.wrap_step(action=action, **params)
-        """
         ai2thor_step, params = self.parameter_converter.build_ai2thor_step(
-            action=action, **kwargs)
+            output_path=self.__output_folder,
+            action=action,
+            goal_object_ids=self.__goal_object_ids,
+            **kwargs)
         step_output = self._controller.step(ai2thor_step)
 
         (pre_restrict_output, output) = self._output_handler.handle_output(
             step_output, self._goal, self.__step_number,
             self.__habituation_trial)
+
+        self.__steps_in_lava = output.steps_on_lava
+        self.__triggered_by_sequence_incorrect = \
+            output.triggered_by_sequence_incorrect
 
         payload = self._create_post_step_event_payload_kwargs(
             ai2thor_step, step_output, pre_restrict_output, output)
@@ -442,7 +503,7 @@ class Controller():
             }
 
         """
-        if(not self._end_scene_called):
+        if (not self._end_scene_called):
             payload = self._create_event_payload_kwargs()
             payload['rating'] = rating
             payload['score'] = score
@@ -459,6 +520,10 @@ class Controller():
         if (self._failure_handler_registered):
             atexit.unregister(self.end_scene)
             self._failure_handler_registered = False
+
+        if (self._timer_in_progress):
+            self._timer.cancel()
+            self._timer_in_progress = False
 
     @typeguard.typechecked
     def stop_simulation(self) -> None:
@@ -478,9 +543,6 @@ class Controller():
             A string containing the current metadata level.
         """
         return self._config.get_metadata_tier().value
-
-    def retrieve_action_list_at_step(self, goal, step_number):
-        return goal.retrieve_action_list_at_step(step_number)
 
     @typeguard.typechecked
     def retrieve_object_states(self, object_id: str) -> List:
@@ -507,7 +569,7 @@ class Controller():
                 subscriber.on_event(event_type, payload)
             except Exception as msg:
                 logger.error(
-                    f"Error in event with type={event_type}" +
+                    f"Error in event with type={event_type}"
                     f" to subscriber={type(subscriber)}",
                     exc_info=msg)
 

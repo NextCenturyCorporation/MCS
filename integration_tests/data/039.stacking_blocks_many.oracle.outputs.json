@@ -3,10 +3,10 @@
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.247,
-                "direction_y": -0.626,
-                "direction_z": 0.74,
-                "distance": 1.217,
+                "direction_x": 0.26,
+                "direction_y": -0.57,
+                "direction_z": 0.78,
+                "distance": 1.16,
                 "held": false,
                 "id": "testBlock1",
                 "mass": 1,
@@ -23,9 +23,9 @@
             },
             {
                 "direction_x": 0.094,
-                "direction_y": -0.527,
-                "direction_z": 0.844,
-                "distance": 1.066,
+                "direction_y": -0.59,
+                "direction_z": 0.8,
+                "distance": 1.12,
                 "held": false,
                 "id": "testBlock2",
                 "mass": 1,
@@ -85,16 +85,16 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 0,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.247,
-                "direction_y": -0.626,
-                "direction_z": 0.74,
-                "distance": 1.217,
+                "direction_x": 0.26,
+                "direction_y": -0.57,
+                "direction_z": 0.78,
+                "distance": 1.16,
                 "held": false,
                 "id": "testBlock1",
                 "mass": 1,
@@ -111,9 +111,9 @@
             },
             {
                 "direction_x": 0.094,
-                "direction_y": -0.527,
-                "direction_z": 0.844,
-                "distance": 1.066,
+                "direction_y": -0.59,
+                "direction_z": 0.8,
+                "distance": 1.12,
                 "held": false,
                 "id": "testBlock2",
                 "mass": 1,
@@ -130,9 +130,9 @@
             },
             {
                 "direction_x": 0,
-                "direction_y": -0.6945945,
-                "direction_z": 0.719401538,
-                "distance": 0.4031129,
+                "direction_y": -0.53,
+                "direction_z": 0.85,
+                "distance": 0.34,
                 "held": true,
                 "id": "testBlock3",
                 "mass": 1,
@@ -173,16 +173,16 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 1,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.247,
-                "direction_y": -0.626,
-                "direction_z": 0.74,
-                "distance": 1.217,
+                "direction_x": 0.26,
+                "direction_y": -0.57,
+                "direction_z": 0.78,
+                "distance": 1.16,
                 "held": false,
                 "id": "testBlock1",
                 "mass": 1,
@@ -199,9 +199,9 @@
             },
             {
                 "direction_x": 0.094,
-                "direction_y": -0.527,
-                "direction_z": 0.844,
-                "distance": 1.066,
+                "direction_y": -0.59,
+                "direction_z": 0.8,
+                "distance": 1.12,
                 "held": false,
                 "id": "testBlock2",
                 "mass": 1,
@@ -217,17 +217,17 @@
                 "visible": true
             },
             {
-                "direction_x": -0.337,
-                "direction_y": -0.558,
-                "direction_z": 0.758,
-                "distance": 1.187,
+                "direction_x": -0.27,
+                "direction_y": -0.51,
+                "direction_z": 0.82,
+                "distance": 1.1,
                 "held": false,
                 "id": "testBlock3",
                 "mass": 1,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": -0.40008,
+                "position_x": -0.3,
                 "position_z": 0.9,
                 "shape": "blank block cube",
                 "texture_color_list": [
@@ -261,16 +261,16 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 2,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.247,
-                "direction_y": -0.626,
-                "direction_z": 0.74,
-                "distance": 1.217,
+                "direction_x": 0.26,
+                "direction_y": -0.57,
+                "direction_z": 0.78,
+                "distance": 1.16,
                 "held": false,
                 "id": "testBlock1",
                 "mass": 1,
@@ -287,9 +287,9 @@
             },
             {
                 "direction_x": 0.094,
-                "direction_y": -0.527,
-                "direction_z": 0.844,
-                "distance": 1.066,
+                "direction_y": -0.59,
+                "direction_z": 0.8,
+                "distance": 1.12,
                 "held": false,
                 "id": "testBlock2",
                 "mass": 1,
@@ -305,17 +305,17 @@
                 "visible": true
             },
             {
-                "direction_x": -0.337,
-                "direction_y": -0.558,
-                "direction_z": 0.758,
-                "distance": 1.187,
+                "direction_x": -0.27,
+                "direction_y": -0.51,
+                "direction_z": 0.82,
+                "distance": 1.1,
                 "held": false,
                 "id": "testBlock3",
                 "mass": 1,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": -0.40008,
+                "position_x": -0.3,
                 "position_z": 0.9,
                 "shape": "blank block cube",
                 "texture_color_list": [
@@ -349,16 +349,16 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 3,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.247,
-                "direction_y": -0.626,
-                "direction_z": 0.74,
-                "distance": 1.217,
+                "direction_x": 0.26,
+                "direction_y": -0.57,
+                "direction_z": 0.78,
+                "distance": 1.16,
                 "held": false,
                 "id": "testBlock1",
                 "mass": 1,
@@ -375,9 +375,9 @@
             },
             {
                 "direction_x": 0,
-                "direction_y": -0.6945945,
-                "direction_z": 0.719401538,
-                "distance": 0.4031129,
+                "direction_y": -0.53,
+                "direction_z": 0.85,
+                "distance": 0.34,
                 "held": true,
                 "id": "testBlock2",
                 "mass": 1,
@@ -393,17 +393,17 @@
                 "visible": true
             },
             {
-                "direction_x": -0.337,
-                "direction_y": -0.558,
-                "direction_z": 0.758,
-                "distance": 1.187,
+                "direction_x": -0.27,
+                "direction_y": -0.51,
+                "direction_z": 0.82,
+                "distance": 1.1,
                 "held": false,
                 "id": "testBlock3",
                 "mass": 1,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": -0.40008,
+                "position_x": -0.3,
                 "position_z": 0.9,
                 "shape": "blank block cube",
                 "texture_color_list": [
@@ -437,16 +437,16 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 4,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.247,
-                "direction_y": -0.626,
-                "direction_z": 0.74,
-                "distance": 1.217,
+                "direction_x": 0.26,
+                "direction_y": -0.57,
+                "direction_z": 0.78,
+                "distance": 1.16,
                 "held": false,
                 "id": "testBlock1",
                 "mass": 1,
@@ -462,17 +462,17 @@
                 "visible": true
             },
             {
-                "direction_x": -0.368,
-                "direction_y": -0.425,
-                "direction_z": 0.827,
-                "distance": 1.089,
+                "direction_x": -0.3,
+                "direction_y": -0.36,
+                "direction_z": 0.89,
+                "distance": 1.02,
                 "held": false,
                 "id": "testBlock2",
                 "mass": 1,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": -0.400754631,
+                "position_x": -0.3,
                 "position_z": 0.9003293,
                 "shape": "blank block cube",
                 "texture_color_list": [
@@ -481,17 +481,17 @@
                 "visible": true
             },
             {
-                "direction_x": -0.337,
-                "direction_y": -0.558,
-                "direction_z": 0.758,
-                "distance": 1.187,
+                "direction_x": -0.27,
+                "direction_y": -0.51,
+                "direction_z": 0.82,
+                "distance": 1.1,
                 "held": false,
                 "id": "testBlock3",
                 "mass": 1,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": -0.400202572,
+                "position_x": -0.3,
                 "position_z": 0.9,
                 "shape": "blank block cube",
                 "texture_color_list": [
@@ -525,16 +525,16 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 5,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": 0.247,
-                "direction_y": -0.626,
-                "direction_z": 0.74,
-                "distance": 1.217,
+                "direction_x": 0.26,
+                "direction_y": -0.57,
+                "direction_z": 0.78,
+                "distance": 1.16,
                 "held": false,
                 "id": "testBlock1",
                 "mass": 1,
@@ -550,17 +550,17 @@
                 "visible": true
             },
             {
-                "direction_x": -0.369,
-                "direction_y": -0.425,
-                "direction_z": 0.827,
-                "distance": 1.089,
+                "direction_x": -0.3,
+                "direction_y": -0.36,
+                "direction_z": 0.89,
+                "distance": 1.02,
                 "held": false,
                 "id": "testBlock2",
                 "mass": 1,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": -0.401784718,
+                "position_x": -0.3,
                 "position_z": 0.9007343,
                 "shape": "blank block cube",
                 "texture_color_list": [
@@ -569,17 +569,17 @@
                 "visible": true
             },
             {
-                "direction_x": -0.337,
-                "direction_y": -0.558,
-                "direction_z": 0.758,
-                "distance": 1.187,
+                "direction_x": -0.27,
+                "direction_y": -0.51,
+                "direction_z": 0.82,
+                "distance": 1.1,
                 "held": false,
                 "id": "testBlock3",
                 "mass": 1,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": -0.400404841,
+                "position_x": -0.3,
                 "position_z": 0.9,
                 "shape": "blank block cube",
                 "texture_color_list": [
@@ -613,16 +613,16 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 6,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0,
-                "direction_y": -0.6945945,
-                "direction_z": 0.719401538,
-                "distance": 0.4031129,
+                "direction_y": -0.53,
+                "direction_z": 0.85,
+                "distance": 0.34,
                 "held": true,
                 "id": "testBlock1",
                 "mass": 1,
@@ -638,17 +638,17 @@
                 "visible": true
             },
             {
-                "direction_x": -0.369,
-                "direction_y": -0.425,
-                "direction_z": 0.827,
-                "distance": 1.089,
+                "direction_x": -0.3,
+                "direction_y": -0.36,
+                "direction_z": 0.89,
+                "distance": 1.02,
                 "held": false,
                 "id": "testBlock2",
                 "mass": 1,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": -0.401367277,
+                "position_x": -0.3,
                 "position_z": 0.9008152,
                 "shape": "blank block cube",
                 "texture_color_list": [
@@ -657,17 +657,17 @@
                 "visible": true
             },
             {
-                "direction_x": -0.337,
-                "direction_y": -0.558,
-                "direction_z": 0.758,
-                "distance": 1.187,
+                "direction_x": -0.27,
+                "direction_y": -0.51,
+                "direction_z": 0.82,
+                "distance": 1.1,
                 "held": false,
                 "id": "testBlock3",
                 "mass": 1,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": -0.400239348,
+                "position_x": -0.3,
                 "position_z": 0.9,
                 "shape": "blank block cube",
                 "texture_color_list": [
@@ -701,23 +701,23 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 7,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": -0.394,
-                "direction_y": -0.258,
-                "direction_z": 0.882,
-                "distance": 1.022,
+                "direction_x": -0.31,
+                "direction_y": -0.17,
+                "direction_z": 0.93,
+                "distance": 0.97,
                 "held": false,
                 "id": "testBlock1",
                 "mass": 1,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": -0.403,
+                "position_x": -0.3,
                 "position_z": 0.9007366,
                 "shape": "blank block cube",
                 "texture_color_list": [
@@ -726,17 +726,17 @@
                 "visible": true
             },
             {
-                "direction_x": -0.368,
-                "direction_y": -0.425,
-                "direction_z": 0.827,
-                "distance": 1.089,
+                "direction_x": -0.3,
+                "direction_y": -0.36,
+                "direction_z": 0.89,
+                "distance": 1.02,
                 "held": false,
                 "id": "testBlock2",
                 "mass": 1,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": -0.400999665,
+                "position_x": -0.3,
                 "position_z": 0.9006069,
                 "shape": "blank block cube",
                 "texture_color_list": [
@@ -745,17 +745,17 @@
                 "visible": true
             },
             {
-                "direction_x": -0.337,
-                "direction_y": -0.558,
-                "direction_z": 0.758,
-                "distance": 1.187,
+                "direction_x": -0.27,
+                "direction_y": -0.51,
+                "direction_z": 0.82,
+                "distance": 1.1,
                 "held": false,
                 "id": "testBlock3",
                 "mass": 1,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": -0.400303483,
+                "position_x": -0.3,
                 "position_z": 0.9,
                 "shape": "blank block cube",
                 "texture_color_list": [
@@ -789,23 +789,23 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 8,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": -0.395,
-                "direction_y": -0.257,
-                "direction_z": 0.882,
-                "distance": 1.022,
+                "direction_x": -0.31,
+                "direction_y": -0.17,
+                "direction_z": 0.93,
+                "distance": 0.97,
                 "held": false,
                 "id": "testBlock1",
                 "mass": 1,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": -0.403,
+                "position_x": -0.3,
                 "position_z": 0.9007789,
                 "shape": "blank block cube",
                 "texture_color_list": [
@@ -814,17 +814,17 @@
                 "visible": true
             },
             {
-                "direction_x": -0.369,
-                "direction_y": -0.425,
-                "direction_z": 0.827,
-                "distance": 1.089,
+                "direction_x": -0.3,
+                "direction_y": -0.36,
+                "direction_z": 0.89,
+                "distance": 1.02,
                 "held": false,
                 "id": "testBlock2",
                 "mass": 1,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": -0.401444137,
+                "position_x": -0.3,
                 "position_z": 0.900662065,
                 "shape": "blank block cube",
                 "texture_color_list": [
@@ -833,17 +833,17 @@
                 "visible": true
             },
             {
-                "direction_x": -0.337,
-                "direction_y": -0.558,
-                "direction_z": 0.758,
-                "distance": 1.187,
+                "direction_x": -0.27,
+                "direction_y": -0.51,
+                "direction_z": 0.82,
+                "distance": 1.1,
                 "held": false,
                 "id": "testBlock3",
                 "mass": 1,
                 "material_list": [
                     "WOOD"
                 ],
-                "position_x": -0.4003838,
+                "position_x": -0.3,
                 "position_z": 0.9,
                 "shape": "blank block cube",
                 "texture_color_list": [
@@ -877,6 +877,6 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 9,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     }
 ]

@@ -64,7 +64,7 @@ class LoggingConfig():
         if (os.path.exists(log_config_file)):
             with open(log_config_file, "r") as data:
                 log_config = ast.literal_eval(data.read())
-                init_message = "Loaded logging config from " + log_config_file
+                init_message = f"Loaded logging config from {log_config_file}"
         elif log_config is not None:
             init_message = "Loaded provided logging config dictionary"
         if (log_config is None):
@@ -127,12 +127,15 @@ class LoggingConfig():
 
     @staticmethod
     def get_configurable_logging_config(
-        log_level: str = 'DEBUG',
-        logger_names: Union[List[str], str] =
-        ['machine_common_sense'], console: bool = True,
-        debug_file: bool = True, info_file: bool = False,
-        log_file_name: str = "mcs", file_format: str = 'precise',
-            console_format: str = 'brief'):
+            log_level: str = 'DEBUG',
+            logger_names: Union[List[str], str] = None,
+            console: bool = True,
+            debug_file: bool = True,
+            info_file: bool = False,
+            log_file_name: str = "mcs",
+            file_format: str = 'precise',
+            console_format: str = 'brief',
+            root_log_level: str = 'WARN'):
         """[summary]
 
         Args:
@@ -166,6 +169,8 @@ class LoggingConfig():
             parameters.
         """
 
+        if logger_names is None:
+            logger_names = ['machine_common_sense']
         logger_names = logger_names if isinstance(
             logger_names, list) else [logger_names]
         handler_tags = []
@@ -176,7 +181,7 @@ class LoggingConfig():
             handlers['console'] = {
                 "class": "logging.StreamHandler",
                 "formatter": console_format,
-                "level": "DEBUG",
+                "level": log_level,
                 "stream": "ext://sys.stdout"
             }
         if debug_file:
@@ -214,7 +219,7 @@ class LoggingConfig():
         return {
             "version": 1,
             "root": {
-                "level": log_level,
+                "level": root_log_level,
                 "handlers": handler_tags,
                 "propagate": False
             },
@@ -228,7 +233,7 @@ class LoggingConfig():
                     "format": "%(asctime)s <%(levelname)s>: %(message)s"
                 },
                 "full": {
-                    "format": "[%(name)s] %(asctime)s <%(levelname)s>: " +
+                    "format": "[%(name)s] %(asctime)s <%(levelname)s>: "
                     "%(message)s"
                 }
             }

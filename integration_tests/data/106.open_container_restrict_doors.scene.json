@@ -1,0 +1,174 @@
+{
+    "name": "open_container_restrict_doors",
+    "version": 2,
+    "objects": [
+      {
+        "id": "door_1",
+        "type": "door_4",
+        "mass": 125,
+        "materials": ["AI2-THOR/Materials/Metals/BlackSmoothMeta"],
+        "kinematic": true,
+        "openable": true,
+        "shows": [
+          {
+            "stepBegin": 0,
+            "position": {
+              "x": 0.851,
+              "y": 0,
+              "z": -3.6855
+            },
+            "rotation": {
+              "x": 0,
+              "y": 90,
+              "z": 0
+            },
+            "scale": {
+              "x": 1,
+              "y": 1,
+              "z": 1
+            }
+          }
+        ]
+      },
+      {
+        "id": "wall_top_1",
+        "type": "cube",
+        "mass": 12,
+        "materials": ["AI2-THOR/Materials/Walls/DrywallOrange"],
+        "kinematic": true,
+        "structure": true,
+        "shows": [
+            {
+                "stepBegin": 0,
+                "position": {
+                  "x": 0.851,
+                  "y": 2.5,
+                  "z": -3.6855
+                },
+                "rotation": {
+                  "x": 0,
+                  "y": 90,
+                  "z": 0
+                },
+                "scale": {
+                  "x": 2,
+                  "y": 1.0,
+                  "z": 0.1
+                }
+            }
+        ]
+      },
+      {
+        "id": "wall_left_1",
+        "type": "cube",
+        "mass": 14,
+        "materials": ["AI2-THOR/Materials/Walls/DrywallOrange"],
+        "kinematic": true,
+        "structure": true,
+        "shows": [
+          {
+            "stepBegin": 0,
+            "position": {
+              "x": 0.851,
+              "y": 1,
+              "z": -4.3955
+            },
+            "rotation": {
+              "x": 0,
+              "y": 90,
+              "z": 0
+            },
+            "scale": {
+              "x": 0.58,
+              "y": 2,
+              "z": 0.1
+            }
+          }
+        ]
+      },
+      {
+        "id": "wall_right_1",
+        "type": "cube",
+        "mass": 14,
+        "materials": ["AI2-THOR/Materials/Walls/DrywallOrange"],
+        "kinematic": true,
+        "structure": true,
+        "shows": [
+          {
+            "stepBegin": 0,
+            "position": {
+              "x": 0.851,
+              "y": 1,
+              "z": -2.9755
+            },
+            "rotation": {
+              "x": 0,
+              "y": 90,
+              "z": 0
+            },
+            "scale": {
+              "x": 0.58,
+              "y": 2,
+              "z": 0.1
+            }
+          }
+        ]
+      },
+      {
+        "id": "testContainer",
+        "type": "chest_1",
+        "mass": 5,
+        "materials": ["AI2-THOR/Materials/Wood/WornWood"],
+        "salientMaterials": ["wood"],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 1.5,
+                "y": 0,
+                "z": -3.5
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        }]
+      }
+    ],
+    "goal": {
+      "metadata": {}
+    },
+    "roomDimensions": {
+      "x": 10,
+      "y": 4,
+      "z": 10
+    },
+    "performerStart": {
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": -3.5
+      },
+      "rotation": {
+        "x": 0,
+        "y": 90,
+        "z": 0
+      }
+    },
+    "ceilingMaterial": "Custom/Materials/WhiteDrywallMCS",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite",
+    "roomMaterials": {
+      "back": "AI2-THOR/Materials/Metals/WhiteMetal",
+      "front": "AI2-THOR/Materials/Metals/WhiteMetal",
+      "left": "AI2-THOR/Materials/Metals/WhiteMetal",
+      "right": "AI2-THOR/Materials/Metals/WhiteMetal"
+    },
+    "restrictOpenDoors": true,
+    "holes": [],
+    "floorTextures": []
+  }

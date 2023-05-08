@@ -1,0 +1,105 @@
+﻿{
+    "name": "Agent interaction action tested while agents are rotating",
+    "version": "1",
+    "ceilingMaterial": "Custom/Materials/GreyDrywallMCS",
+    "floorMaterial": "Custom/Materials/BrownWoodMCS",
+    "wallMaterial": "Custom/Materials/WhiteDrywallMCS",
+    "roomDimensions": {
+        "x": 12,
+        "y": 3,
+        "z": 12
+    },
+    "performerStart": {
+        "position": {
+            "x": -0.5,
+            "z": 0.5
+        },
+        "rotation": {
+          "x": 0,
+          "y": 90,
+          "z": 0
+        }
+    },
+    "objects": [{
+        "id": "agent_male",
+        "type": "agent_male_02",
+        "agentSettings": {
+            "chest": 4,
+            "chestMaterial": 5,
+            "eyes": -1,
+            "feet": -1,
+            "feetMaterial": -1,
+            "glasses": -1,
+            "hair": 4,
+            "hairMaterial": -1,
+            "hatMaterial": -1,
+            "jacket": 4,
+            "jacketMaterial": 3,
+            "legs": 2,
+            "legsMaterial": -1,
+            "skin": 2,
+            "tie": -1,
+            "tieMaterial": -1
+        },
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0.5
+            },
+            "rotation": {
+                "x": 0,
+                "y": 90,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        }],
+        "agentMovement": {
+            "repeat": false,
+            "stepBegin": 0,
+            "sequence": [
+            {
+                "animation": "TPM_walk",
+                "endPoint": 
+                {
+                    "x": 0,
+                    "z": -0.4
+                }
+            }, 
+            {
+                "animation": "TPM_walk",
+                "endPoint": 
+                {
+                    "x": -0.4,
+                    "z": -0.4
+                }
+            }]
+        }
+    }, {
+        "id": "soccer_ball",
+        "type": "soccer_ball",
+        "mass": 1,
+        "salientMaterials": ["plastic"],
+        "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color 1"],
+        "pickupable": true,
+        "associatedWithAgent": "agent_male",
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0.6,
+                "y": 0.125,
+                "z": 1
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        }]
+    }]
+}

@@ -28,7 +28,7 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.CLOSE_OBJECT.key, "1")
         self.assertEqual(
             mcs.Action.CLOSE_OBJECT.desc,
-            "Close a nearby object. (objectId=string, amount=float " +
+            "Close a nearby object. (objectId=string, amount=float "
             "(default:1), objectImageCoordsX=float, objectImageCoordsY=float)"
         )
         self.assertEqual(mcs.Action("CloseObject"), mcs.Action.CLOSE_OBJECT)
@@ -89,8 +89,8 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.OPEN_OBJECT.key, "3")
         self.assertEqual(
             mcs.Action.OPEN_OBJECT.desc,
-            "Open a nearby object. (objectId=string, " +
-            "amount=float (default:1), objectImageCoordsX=float, " +
+            "Open a nearby object. (objectId=string, "
+            "amount=float (default:1), objectImageCoordsX=float, "
             "objectImageCoordsY=float)"
         )
         self.assertEqual(mcs.Action("OpenObject"), mcs.Action.OPEN_OBJECT)
@@ -101,8 +101,8 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.PICKUP_OBJECT.key, "4")
         self.assertEqual(
             mcs.Action.PICKUP_OBJECT.desc,
-            "Pickup a nearby object and hold it in your hand. " +
-            "(objectId=string, objectImageCoordsX=float, " +
+            "Pickup a nearby object and hold it in your hand. "
+            "(objectId=string, objectImageCoordsX=float, "
             "objectImageCoordsY=float)"
         )
         self.assertEqual(mcs.Action("PickupObject"), mcs.Action.PICKUP_OBJECT)
@@ -113,8 +113,8 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.PULL_OBJECT.key, "5")
         self.assertEqual(
             mcs.Action.PULL_OBJECT.desc,
-            "Pull a nearby object. (objectId=string, " +
-            "force=float (default:0.5), " +
+            "Pull a nearby object. (objectId=string, "
+            "force=float (default:0.5), "
             "objectImageCoordsX=float, objectImageCoordsY=float)"
         )
         self.assertEqual(mcs.Action("PullObject"), mcs.Action.PULL_OBJECT)
@@ -125,22 +125,81 @@ class TestAction(unittest.TestCase):
         self.assertEqual(mcs.Action.PUSH_OBJECT.key, "6")
         self.assertEqual(
             mcs.Action.PUSH_OBJECT.desc,
-            "Push a nearby object. (objectId=string, " +
-            "force=float (default:0.5), " +
+            "Push a nearby object. (objectId=string, "
+            "force=float (default:0.5), "
             "objectImageCoordsX=float, objectImageCoordsY=float)"
         )
         self.assertEqual(mcs.Action("PushObject"), mcs.Action.PUSH_OBJECT)
         self.assertEqual(mcs.Action("6"), mcs.Action.PUSH_OBJECT)
+
+    def test_torque_object(self):
+        self.assertEqual(mcs.Action.TORQUE_OBJECT.value, "TorqueObject")
+        self.assertEqual(mcs.Action.TORQUE_OBJECT.key, "8")
+        self.assertEqual(
+            mcs.Action.TORQUE_OBJECT.desc,
+            "Apply torque to a nearby object. (objectId=string, "
+            "force=float(default:0.5), objectImageCoordsX=float, "
+            "objectImageCoordsY=float)"
+        )
+        self.assertEqual(mcs.Action("TorqueObject"), mcs.Action.TORQUE_OBJECT)
+        self.assertEqual(mcs.Action("8"), mcs.Action.TORQUE_OBJECT)
+
+    def test_rotate_object(self):
+        self.assertEqual(mcs.Action.ROTATE_OBJECT.value, "RotateObject")
+        self.assertEqual(mcs.Action.ROTATE_OBJECT.key, "9")
+        self.assertEqual(
+            mcs.Action.ROTATE_OBJECT.desc,
+            "Apply a rotation of 5 degrees to a nearby object. "
+            "(objectId=string, "
+            "clockwise=bool(default:True), objectImageCoordsX=float, "
+            "objectImageCoordsY=float)"
+        )
+        self.assertEqual(mcs.Action("RotateObject"), mcs.Action.ROTATE_OBJECT)
+        self.assertEqual(mcs.Action("9"), mcs.Action.ROTATE_OBJECT)
+
+    def test_move_object(self):
+        self.assertEqual(mcs.Action.MOVE_OBJECT.value, "MoveObject")
+        self.assertEqual(mcs.Action.MOVE_OBJECT.key, "m")
+        self.assertEqual(
+            mcs.Action.MOVE_OBJECT.desc,
+            "Apply a movement of 0.1 meters to a nearby object. "
+            "(objectId=string, "
+            "lateral=int(default:0), "
+            "straight=int(default:1), "
+            "objectImageCoordsX=float, "
+            "objectImageCoordsY=float)"
+        )
+        self.assertEqual(mcs.Action("MoveObject"), mcs.Action.MOVE_OBJECT)
+        self.assertEqual(mcs.Action("m"), mcs.Action.MOVE_OBJECT)
+
+    def test_interact_with_agent(self):
+        self.assertEqual(
+            mcs.Action.INTERACT_WITH_AGENT.value,
+            "InteractWithAgent")
+        self.assertEqual(mcs.Action.INTERACT_WITH_AGENT.key, "t")
+        self.assertEqual(
+            mcs.Action.INTERACT_WITH_AGENT.desc,
+            "Interact with an agent. If that agent has an object, "
+            "it will hold out the object for you to pickup; "
+            "otherwise, the agent will look sad."
+            "(objectId=string, "
+            "objectImageCoordsX=float, "
+            "objectImageCoordsY=float)"
+        )
+        self.assertEqual(
+            mcs.Action("InteractWithAgent"),
+            mcs.Action.INTERACT_WITH_AGENT)
+        self.assertEqual(mcs.Action("t"), mcs.Action.INTERACT_WITH_AGENT)
 
     def test_put_object(self):
         self.assertEqual(mcs.Action.PUT_OBJECT.value, "PutObject")
         self.assertEqual(mcs.Action.PUT_OBJECT.key, "7")
         self.assertEqual(
             mcs.Action.PUT_OBJECT.desc,
-            "Place an object you are holding into/onto a nearby " +
-            "receptacle object. (objectId=string, " +
-            "receptacleObjectId=string, " +
-            "receptacleObjectImageCoordsX=float, " +
+            "Place an object you are holding into/onto a nearby "
+            "receptacle object. (objectId=string, "
+            "receptacleObjectId=string, "
+            "receptacleObjectImageCoordsX=float, "
             "receptacleObjectImageCoordsY=float)"
         )
         self.assertEqual(mcs.Action("PutObject"), mcs.Action.PUT_OBJECT)

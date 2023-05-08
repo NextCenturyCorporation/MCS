@@ -1,0 +1,37 @@
+[{
+    "step_number": 0,
+    "haptic_feedback": {"on_lava": false},
+    "lava": null,
+    "reward": 0,
+    "head_tilt": 0,
+    "position_x": null,
+    "position_z": null,
+    "return_status": "SUCCESSFUL",
+    "rotation_y": null,
+    "objects_count": 0,
+    "structural_objects_count": 0
+}, {
+    "step_number": 1,
+    "haptic_feedback": {"on_lava": false},
+    "lava": null,
+    "reward": -0.001,
+    "head_tilt": 0,
+    "position_x": null,
+    "position_z": null,
+    "return_status": "SUCCESSFUL",
+    "rotation_y": null,
+    "objects_count": 0,
+    "structural_objects_count": 0
+}, {
+    "step_number": 2,
+    "haptic_feedback": {"on_lava": true},
+    "lava": null,
+    "reward": -100.002,
+    "head_tilt": 0,
+    "position_x": null,
+    "position_z": null,
+    "return_status": "SUCCESSFUL",
+    "rotation_y": null,
+    "objects_count": 0,
+    "structural_objects_count": 0
+}]

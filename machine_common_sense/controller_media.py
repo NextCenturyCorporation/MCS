@@ -5,14 +5,66 @@ from abc import abstractmethod
 import numpy as np
 import PIL
 
-from .config_manager import ConfigManager
-from .controller_events import (AbstractControllerSubscriber,
+from .controller_events import (AbstractControllerSubscriber, AfterStepPayload,
                                 BasePostActionEventPayload,
-                                ControllerEventPayload)
+                                ControllerEventPayload, EndScenePayload,
+                                StartScenePayload)
 from .plotter import TopDownPlotter
 from .recorder import VideoRecorder
 
 logger = logging.getLogger(__name__)
+
+
+DEPTH_HSV_BANDS = 400.0
+
+
+def convert_depth_to_hsv(
+    depth_float_array: np.array,
+    clipping_plane_far: float
+) -> np.array:
+    # Split the depth data into multiple color bands. Each band corresponds to
+    # the full hue spectrum, from red to purple, at a specific saturation and
+    # value. Near bands have lower saturation (closer to white); far bands have
+    # lower value (closer to black). Don't use saturation or value lower than
+    # 30, or else the color will look too close to white or black.
+    band_size = clipping_plane_far / DEPTH_HSV_BANDS
+    mid_sat = band_size * int(DEPTH_HSV_BANDS / 2.0)
+    mid_val = clipping_plane_far - (band_size * int(DEPTH_HSV_BANDS / 2.0))
+    shape = depth_float_array.shape
+    depth_hsv_array = np.zeros((shape[0], shape[1], 3), dtype=np.uint8)
+    hue = (np.mod(depth_float_array, band_size) / band_size * 256)
+    sat = np.where(
+        depth_float_array < mid_sat,
+        55 + np.floor(depth_float_array / band_size),
+        255
+    )
+    val = np.where(
+        depth_float_array >= mid_val,
+        255 - np.floor((depth_float_array - mid_val) / band_size),
+        255
+    )
+    # Note that PIL images use HSV ints between 0 and 255 inclusive.
+    depth_hsv_array[:shape[0], :shape[1], 0] = hue
+    depth_hsv_array[:shape[0], :shape[1], 1] = sat
+    depth_hsv_array[:shape[0], :shape[1], 2] = val
+    return depth_hsv_array
+
+
+def convert_depth_to_image(
+    depth_float_array: np.array,
+    clipping_plane_far: float
+) -> PIL.Image:
+    '''Convert the given depth float array into a depth image, then return the
+    image.'''
+    # Convert the depth array from a 2D array of floats, ranging from 0 to the
+    # camera's far clipping plane, to a 3D array of HSV tuples.
+    depth_hsv_array = convert_depth_to_hsv(
+        depth_float_array,
+        clipping_plane_far
+    )
+    image = PIL.Image.fromarray(depth_hsv_array, mode='HSV')
+    image = image.convert('RGB')
+    return image
 
 
 class AbstractImageEventHandler(AbstractControllerSubscriber):
@@ -41,7 +93,7 @@ class AbstractImageEventHandler(AbstractControllerSubscriber):
                     len(payload.step_metadata.events)) +
                 (index + 1)
             )
-        return '_' + str(step_plus_substep_index) + '.png'
+        return f"_{str(step_plus_substep_index)}.png"
 
     def _do_save_image(self, payload, index: int, data: PIL.Image, name: str):
         if (payload.output_folder):
@@ -117,17 +169,11 @@ class DepthImageEventHandler(AbstractImageEventHandler):
     def _save_image(self, payload):
         for index, depth_float_array in enumerate(
                 payload.step_output.depth_map_list):
-            max_depth = payload.step_metadata.metadata.get(
-                'clippingPlaneFar',
-                ConfigManager.DEFAULT_CLIPPING_PLANE_FAR
+            depth_image = convert_depth_to_image(
+                depth_float_array,
+                payload.step_output.camera_clipping_planes[1]
             )
-            # Convert to pixel values for saving debug image.
-            depth_pixel_array = depth_float_array * \
-                255 / max_depth
-            depth_map = PIL.Image.fromarray(
-                depth_pixel_array.astype(np.uint8)
-            )
-            self._do_save_image(payload, index, depth_map, 'depth_map')
+            self._do_save_image(payload, index, depth_image, 'depth_map')
 
 
 class ObjectMaskImageEventHandler(AbstractImageEventHandler):
@@ -162,6 +208,34 @@ class ImageVideoEventHandler(AbstractVideoEventHandler):
         self.__recorder.finish()
 
 
+class UnityTopdownCameraCombinerEventHandler(AbstractVideoEventHandler):
+    keyword = "topdown"
+
+    def on_start_scene(self, payload: StartScenePayload):
+        self.__recorder = self.create_video_recorder(
+            payload, AbstractVideoEventHandler.TOPDOWN)
+        self.__plotter = TopDownPlotter(
+            team=payload.config.get_team(),
+            scene_config=payload.scene_config
+        )
+        self.folder = pathlib.Path(payload.output_folder)
+        self.write_image(payload)
+
+    def write_image(self, payload: BasePostActionEventPayload):
+        image_file = (
+            self.folder / pathlib.Path(
+                f"{payload.scene_config.name}_{self.keyword}_"
+                f"{payload.step_number}.png"))
+        image = PIL.Image.open(image_file.as_posix())
+        self.__recorder.add(image)
+
+    def on_after_step(self, payload: AfterStepPayload):
+        self.write_image(payload)
+
+    def on_end_scene(self, payload: EndScenePayload):
+        self.__recorder.finish()
+
+
 class TopdownVideoEventHandler(AbstractVideoEventHandler):
     '''
     writes top down video
@@ -184,15 +258,22 @@ class TopdownVideoEventHandler(AbstractVideoEventHandler):
             # The plotter used to be inside the for loop the same as
             # image_recorder, but it seems like it would only plot one per
             # step.
-            goal_id = None
-            # Is there a better way to do this test?
-            if (payload.goal is not None and
-                    payload.goal.metadata is not None):
-                goal_id = payload.goal.metadata.get(
-                    'target', {}).get('id', None)
+
+            target_ids = []
+            metadata = (payload.goal.metadata or {}) if payload.goal else {}
+            # Different goal categories may use different property names
+            target_names = ['target', 'targets', 'target_1', 'target_2']
+            for target_name in target_names:
+                # Some properties may be dicts, and some may be lists of dicts
+                targets = metadata.get(target_name) or []
+                targets = targets if isinstance(targets, list) else [targets]
+                for target in targets:
+                    if target.get('id'):
+                        target_ids.append(target.get('id'))
+
             plot = self.__plotter.plot(payload.step_metadata,
                                        payload.step_number,
-                                       goal_id)
+                                       target_ids)
             self.__recorder.add(plot)
 
     def on_end_scene(self, payload: BasePostActionEventPayload):
@@ -214,17 +295,11 @@ class DepthVideoEventHandler(AbstractVideoEventHandler):
 
     def save_video_for_step(self, payload: BasePostActionEventPayload):
         for depth_float_array in payload.step_output.depth_map_list:
-            max_depth = payload.step_metadata.metadata.get(
-                'clippingPlaneFar',
-                ConfigManager.DEFAULT_CLIPPING_PLANE_FAR
+            depth_image = convert_depth_to_image(
+                depth_float_array,
+                payload.step_output.camera_clipping_planes[1]
             )
-            # Convert to pixel values for saving debug image.
-            depth_pixel_array = depth_float_array * \
-                255 / max_depth
-            depth_map = PIL.Image.fromarray(
-                depth_pixel_array.astype(np.uint8)
-            )
-            self.__recorder.add(depth_map)
+            self.__recorder.add(depth_image)
 
     def on_end_scene(self, payload: BasePostActionEventPayload):
         self.__recorder.finish()

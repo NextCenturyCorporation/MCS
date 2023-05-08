@@ -2,6 +2,9 @@ import argparse
 import cmd
 
 import machine_common_sense as mcs
+from machine_common_sense.action import (FORCE_ACTIONS, OBJECT_IMAGE_ACTIONS,
+                                         OBJECT_MOVE_ACTIONS,
+                                         RECEPTACLE_ACTIONS, Action)
 from machine_common_sense.goal_metadata import GoalMetadata
 from machine_common_sense.logging_config import LoggingConfig
 
@@ -33,8 +36,8 @@ def parse_args():
         type=str,
         default=None,
         required=True,
-        help='Path to configuration file to read in and set various ' +
-        'properties, such as metadata level and whether or not to ' +
+        help='Path to configuration file to read in and set various '
+        'properties, such as metadata level and whether or not to '
         'save history files properties.')
     return parser.parse_args()
 
@@ -80,7 +83,7 @@ class HumanInputShell(cmd.Cmd):
             print(
                 "You entered an invalid shortcut key, please try again. "
                 "(Type 'help' to display commands again)")
-            print("You entered: " + split_input[0])
+            print(f"You entered: {split_input[0]}")
             return
 
         if (
@@ -96,8 +99,8 @@ class HumanInputShell(cmd.Cmd):
 
         if action is None:
             print(
-                "You entered an invalid command, please try again.  "
-                "(Type 'help' to display commands again)")
+                f"You entered an invalid command, '{split_input[0]}', please "
+                f"try again.  (Type 'help' to display commands again)")
             return
 
         if params is None:
@@ -106,6 +109,7 @@ class HumanInputShell(cmd.Cmd):
                 "look like this example: rotation=45")
             return
 
+        params = self._is_parameters_valid(action, params)
         output = self.controller.step(action, **params)
 
         # The output may be None if given an invalid action.
@@ -118,6 +122,46 @@ class HumanInputShell(cmd.Cmd):
                 len(self.previous_output.action_list) == 1
             ):
                 self.default('')
+
+    def _set_default_image_coords(self, string, action_str, params):
+        number_of_default_img_coords_to_use = (
+            1 if f'{string}ImageCoordsX' in params or
+            f'{string}ImageCoordsY' in params else 2)
+        obj_img_coord_x = (
+            300 if f'{string}ImageCoordsX' not in
+            params else params[f'{string}ImageCoordsX'])
+        obj_img_coord_y = (
+            200 if f'{string}ImageCoordsY' not in
+            params else params[f'{string}ImageCoordsY'])
+        print(
+            f"Action: '{action_str}' using "
+            f"{number_of_default_img_coords_to_use} default image "
+            f"coord{'s' if number_of_default_img_coords_to_use == 0 else ''} "
+            f"x={obj_img_coord_x} y={obj_img_coord_y} because no {string}Id "
+            f"or {string}ImageCoords were given")
+        params[f'{string}ImageCoordsX'] = obj_img_coord_x
+        params[f'{string}ImageCoordsY'] = obj_img_coord_y
+        return params
+
+    def _is_parameters_valid(self, action_str, params):
+        action: Action = Action(action_str)
+        valid = False
+        if action in (FORCE_ACTIONS + OBJECT_IMAGE_ACTIONS +
+                      OBJECT_MOVE_ACTIONS):
+            valid = ('objectId' in params or (
+                'objectImageCoordsX' in params and
+                'objectImageCoordsY' in params))
+            if not valid:
+                params = self._set_default_image_coords(
+                    "object", action_str, params)
+        elif action in RECEPTACLE_ACTIONS:
+            valid = ('receptacleObjectId' in params or (
+                'receptacleObjectImageCoordsX' in params and
+                'receptacleObjectImageCoordsY' in params))
+            if not valid:
+                params = self._set_default_image_coords(
+                    "receptacleObject", action_str, params)
+        return params
 
     def help_auto(self):
         print(
@@ -182,7 +226,7 @@ class HumanInputShell(cmd.Cmd):
             print('Only actions available during this step:')
             for action, params in output.action_list:
                 action_string = action + ''.join(
-                    ',' + key + '=' + value for key, value in params.items()
+                    f',{key}={value}' for key, value in params.items()
                 )
 
                 print(f'    {action_string}')
@@ -206,12 +250,7 @@ def print_commands():
 
     for command in commands:
         print(
-            "- " +
-            command.name +
-            " (ShortcutKey=" +
-            command.key +
-            "): " +
-            command.desc)
+            f"- {command.name} (ShortcutKey={command.key}): {command.desc}")
 
     print(" ")
     print("---------------- Example Commands ----------------")
@@ -249,11 +288,7 @@ def run_scene(controller, scene_data):
 def main():
     mcs.init_logging(LoggingConfig.get_dev_logging_config())
     args = parse_args()
-    scene_data, status = mcs.load_scene_json_file(args.mcs_scene_json_file)
-
-    if status is not None:
-        print(status)
-        exit()
+    scene_data = mcs.load_scene_json_file(args.mcs_scene_json_file)
 
     controller = mcs.create_controller(
         unity_app_file_path=args.mcs_unity_build_file,

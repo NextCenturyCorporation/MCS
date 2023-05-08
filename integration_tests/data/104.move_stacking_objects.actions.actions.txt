@@ -1,0 +1,15 @@
+MoveObject,objectId=block_blank_a,lateral=1
+MoveObject,objectId=block_blank_a,lateral=-1
+MoveObject,objectId=block_blank_a,straight=1
+MoveObject,objectId=block_blank_a,straight=-1
+MoveObject,objectId=block_blank_a,lateral=-1,straight=1
+MoveObject,objectId=block_blank_a,lateral=1,straight=-1
+MoveObject,objectId=block_blank_a,lateral=1,straight=1
+MoveObject,objectId=block_blank_a,lateral=-1,straight=-1
+MoveObject,objectId=block_blank_b
+MoveObject,objectId=block_blank_b,straight=1
+MoveObject,objectId=block_blank_b,straight=1
+MoveObject,objectId=block_blank_b,straight=1
+MoveAhead
+MoveObject,objectId=block_blank_b,lateral=1
+MoveObject,objectId=block_blank_b,lateral=1

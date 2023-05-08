@@ -1,0 +1,653 @@
+﻿[
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.84,
+                "direction_z": 0.11,
+                "distance": 0.91,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.5,
+                "rotation_y": 160,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -0.5,
+        "position_z": 0.4,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 0,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.84,
+                "direction_z": 0.11,
+                "distance": 0.91,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.5,
+                "rotation_y": 168,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -0.5,
+        "position_z": 0.4,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 1,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.84,
+                "direction_z": 0.11,
+                "distance": 0.91,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.5,
+                "rotation_y": 176,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -0.5,
+        "position_z": 0.4,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 2,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.84,
+                "direction_z": 0.11,
+                "distance": 0.91,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.5,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -0.5,
+        "position_z": 0.4,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 3,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.84,
+                "direction_z": 0.07,
+                "distance": 0.91,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.46,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -0.5,
+        "position_z": 0.4,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 4,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.84,
+                "direction_z": 0.02,
+                "distance": 0.91,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.42,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -0.5,
+        "position_z": 0.4,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 5,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.84,
+                "direction_z": 0.02,
+                "distance": 0.91,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.42,
+                "rotation_y": 200,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -0.5,
+        "position_z": 0.4,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 6,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.84,
+                "direction_z": 0.02,
+                "distance": 0.91,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.42,
+                "rotation_y": 220,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -0.5,
+        "position_z": 0.4,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 7,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.84,
+                "direction_z": 0.02,
+                "distance": 0.91,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.42,
+                "rotation_y": 240,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -0.5,
+        "position_z": 0.4,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 8,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.84,
+                "direction_z": 0.02,
+                "distance": 0.91,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.42,
+                "rotation_y": 260,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -0.5,
+        "position_z": 0.4,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 9,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.84,
+                "direction_z": 0.02,
+                "distance": 0.91,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.42,
+                "rotation_y": 268,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -0.5,
+        "position_z": 0.4,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 10,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.84,
+                "direction_z": 0.02,
+                "distance": 0.91,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.42,
+                "rotation_y": 268,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -0.5,
+        "position_z": 0.4,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 11,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.84,
+                "direction_z": 0.02,
+                "distance": 0.91,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.42,
+                "rotation_y": 268,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -0.5,
+        "position_z": 0.4,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 12,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.84,
+                "direction_z": 0.02,
+                "distance": 0.91,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.42,
+                "rotation_y": 268,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -0.5,
+        "position_z": 0.4,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 13,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.84,
+                "direction_z": 0.02,
+                "distance": 0.91,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.42,
+                "rotation_y": 268,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -0.5,
+        "position_z": 0.4,
+        "return_status": "NOT_OBJECT",
+        "rotation_y": 90,
+        "step_number": 14,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.84,
+                "direction_z": 0.02,
+                "distance": 0.91,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.42,
+                "rotation_y": 248,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -0.5,
+        "position_z": 0.4,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 15,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.84,
+                "direction_z": 0.02,
+                "distance": 0.91,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.42,
+                "rotation_y": 228,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -0.5,
+        "position_z": 0.4,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 16,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.84,
+                "direction_z": 0.02,
+                "distance": 0.91,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.42,
+                "rotation_y": 208,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -0.5,
+        "position_z": 0.4,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 17,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.84,
+                "direction_z": 0.02,
+                "distance": 0.91,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.42,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -0.5,
+        "position_z": 0.4,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 18,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.84,
+                "direction_z": -0.02,
+                "distance": 0.91,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.38,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -0.5,
+        "position_z": 0.4,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 19,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.55,
+                "direction_y": -0.84,
+                "direction_z": -0.07,
+                "distance": 0.91,
+                "id": "agent_male",
+                "mass": 80.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.0,
+                "position_z": 0.34,
+                "rotation_y": 180,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -0.5,
+        "position_z": 0.4,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90,
+        "step_number": 20,
+        "structural_objects_count": 5
+    }
+]

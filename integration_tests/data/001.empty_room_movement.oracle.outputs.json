@@ -13,24 +13,9 @@
                 "direction_x": 0.0,
                 "direction_y": 1.0,
                 "direction_z": 0.0,
-                "distance": 2.488,
+                "distance": 2.24,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -100,7 +85,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "camera_height": 0.762,
@@ -116,24 +101,9 @@
                 "direction_x": 0.0,
                 "direction_y": 0.9993571,
                 "direction_z": -0.04,
-                "distance": 2.49,
+                "distance": 2.24,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.995,
-                "direction_z": -0.098,
-                "distance": 1.017,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -203,7 +173,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "camera_height": 0.762,
@@ -219,24 +189,9 @@
                 "direction_x": 0.0,
                 "direction_y": 0.9974359,
                 "direction_z": -0.08,
-                "distance": 2.496,
+                "distance": 2.25,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -0.981,
-                "direction_z": -0.194,
-                "distance": 1.032,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -306,7 +261,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "camera_height": 0.762,
@@ -322,24 +277,9 @@
                 "direction_x": -0.04,
                 "direction_y": 0.996798,
                 "direction_z": -0.08,
-                "distance": 2.498,
+                "distance": 2.25,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": -0.096,
-                "direction_y": -0.976,
-                "direction_z": -0.193,
-                "distance": 1.036,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -409,7 +349,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "camera_height": 0.762,
@@ -425,24 +365,9 @@
                 "direction_x": -0.08,
                 "direction_y": 0.994,
                 "direction_z": -0.08,
-                "distance": 2.504,
+                "distance": 2.26,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": -0.19,
-                "direction_y": -0.963,
-                "direction_z": -0.19,
-                "distance": 1.051,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -512,7 +437,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "camera_height": 0.762,
@@ -528,24 +453,9 @@
                 "direction_x": -0.08,
                 "direction_y": 0.996798,
                 "direction_z": -0.04,
-                "distance": 2.498,
+                "distance": 2.25,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": -0.193,
-                "direction_y": -0.976,
-                "direction_z": -0.096,
-                "distance": 1.036,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -615,7 +525,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "camera_height": 0.762,
@@ -631,24 +541,9 @@
                 "direction_x": -0.08,
                 "direction_y": 0.9974359,
                 "direction_z": 0.0,
-                "distance": 2.496,
+                "distance": 2.25,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": -0.194,
-                "direction_y": -0.981,
-                "direction_z": 0.0,
-                "distance": 1.032,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -718,7 +613,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "camera_height": 0.762,
@@ -734,24 +629,9 @@
                 "direction_x": -0.04,
                 "direction_y": 0.9993571,
                 "direction_z": 0.0,
-                "distance": 2.49,
+                "distance": 2.24,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": -0.098,
-                "direction_y": -0.995,
-                "direction_z": 0.0,
-                "distance": 1.017,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -821,7 +701,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "camera_height": 0.762,
@@ -837,24 +717,9 @@
                 "direction_x": 0.0,
                 "direction_y": 1.0,
                 "direction_z": 0.0,
-                "distance": 2.488,
+                "distance": 2.24,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -924,7 +789,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "camera_height": 0.762,
@@ -940,24 +805,9 @@
                 "direction_x": 0.0,
                 "direction_y": 1.0,
                 "direction_z": 0.0,
-                "distance": 2.488,
+                "distance": 2.24,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -1027,7 +877,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "camera_height": 0.762,
@@ -1043,24 +893,9 @@
                 "direction_x": 0.0,
                 "direction_y": 1.0,
                 "direction_z": 0.0,
-                "distance": 2.488,
+                "distance": 2.24,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -1130,7 +965,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "camera_height": 0.762,
@@ -1146,24 +981,9 @@
                 "direction_x": 0.0,
                 "direction_y": 1.0,
                 "direction_z": 0.0,
-                "distance": 2.488,
+                "distance": 2.24,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -1233,7 +1053,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "camera_height": 0.762,
@@ -1249,24 +1069,9 @@
                 "direction_x": 0.0,
                 "direction_y": 1.0,
                 "direction_z": 0.0,
-                "distance": 2.488,
+                "distance": 2.24,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -1336,7 +1141,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "camera_height": 0.762,
@@ -1352,24 +1157,9 @@
                 "direction_x": 0.0,
                 "direction_y": 1.0,
                 "direction_z": 0.0,
-                "distance": 2.488,
+                "distance": 2.24,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -1439,7 +1229,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "camera_height": 0.762,
@@ -1455,24 +1245,9 @@
                 "direction_x": 0.0,
                 "direction_y": 1.0,
                 "direction_z": 0.0,
-                "distance": 2.488,
+                "distance": 2.24,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -1542,7 +1317,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "camera_height": 0.762,
@@ -1558,24 +1333,9 @@
                 "direction_x": 0.0,
                 "direction_y": 1.0,
                 "direction_z": 0.0,
-                "distance": 2.488,
+                "distance": 2.24,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -1645,7 +1405,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "camera_height": 0.762,
@@ -1661,24 +1421,9 @@
                 "direction_x": 0.0,
                 "direction_y": 1.0,
                 "direction_z": 0.0,
-                "distance": 2.488,
+                "distance": 2.24,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -1748,7 +1493,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "camera_height": 0.762,
@@ -1764,24 +1509,9 @@
                 "direction_x": 0.0,
                 "direction_y": 1.0,
                 "direction_z": 0.0,
-                "distance": 2.488,
+                "distance": 2.24,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -1851,7 +1581,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "camera_height": 0.762,
@@ -1867,24 +1597,9 @@
                 "direction_x": 0.0,
                 "direction_y": 1.0,
                 "direction_z": 0.0,
-                "distance": 2.488,
+                "distance": 2.24,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -1954,7 +1669,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "camera_height": 0.762,
@@ -1970,24 +1685,9 @@
                 "direction_x": 0.0,
                 "direction_y": 1.0,
                 "direction_z": 0.0,
-                "distance": 2.488,
+                "distance": 2.24,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -2057,7 +1757,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "camera_height": 0.762,
@@ -2073,24 +1773,9 @@
                 "direction_x": 0.0,
                 "direction_y": 1.0,
                 "direction_z": 0.0,
-                "distance": 2.488,
+                "distance": 2.24,
                 "held": false,
                 "id": "ceiling",
-                "position_x": 0.0,
-                "position_z": 0.0,
-                "shape": "structural",
-                "texture_color_list": [
-                    "white"
-                ],
-                "visible": true
-            },
-            {
-                "direction_x": 0.0,
-                "direction_y": -1.0,
-                "direction_z": 0.0,
-                "distance": 1.012,
-                "held": false,
-                "id": "floor",
                 "position_x": 0.0,
                 "position_z": 0.0,
                 "shape": "structural",
@@ -2160,6 +1845,6 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     }
 ]

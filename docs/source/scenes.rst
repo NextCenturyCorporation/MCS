@@ -6,6 +6,47 @@ Example Scenes
 Interactive Scenes
 ------------------
 
+Eval 5 Example Interactive Scenes
+*********************************
+
+Relevant for the Summer 2022 evaluation (Eval 5):
+
+:download:`holes_eval_5_ex_1.json <./scenes/holes_eval_5_ex_1.json>`
+
+:download:`holes_eval_5_ex_2.json <./scenes/holes_eval_5_ex_2.json>`
+
+:download:`lava_eval_5_ex_1.json <./scenes/lava_eval_5_ex_1.json>`
+
+:download:`lava_eval_5_ex_2.json <./scenes/lava_eval_5_ex_2.json>`
+
+:download:`ramps_eval_5_ex_1.json <./scenes/ramps_eval_5_ex_1.json>`
+
+:download:`ramps_eval_5_ex_2.json <./scenes/ramps_eval_5_ex_2.json>`
+
+:download:`ramps_eval_5_ex_3.json <./scenes/ramps_eval_5_ex_3.json>`
+
+:download:`ramps_eval_5_ex_4.json <./scenes/ramps_eval_5_ex_4.json>`
+
+:download:`solidity_eval_5_ex_1.json <./scenes/solidity_eval_5_ex_1.json>`
+
+:download:`solidity_eval_5_ex_2.json <./scenes/solidity_eval_5_ex_2.json>`
+
+:download:`spatial_elimination_eval_5_ex_1.json <./scenes/spatial_elimination_eval_5_ex_1.json>`
+
+:download:`spatial_elimination_eval_5_ex_2.json <./scenes/spatial_elimination_eval_5_ex_2.json>`
+
+:download:`spatial_elimination_eval_5_ex_3.json <./scenes/spatial_elimination_eval_5_ex_3.json>`
+
+:download:`spatial_elimination_eval_5_ex_4.json <./scenes/spatial_elimination_eval_5_ex_4.json>`
+
+:download:`tool_use_eval_5_ex_1.json <./scenes/tool_use_eval_5_ex_1.json>`
+
+:download:`tool_use_eval_5_ex_2.json <./scenes/tool_use_eval_5_ex_2.json>`
+
+:download:`tool_use_eval_5_ex_3.json <./scenes/tool_use_eval_5_ex_3.json>`
+
+:download:`tool_use_eval_5_ex_4.json <./scenes/tool_use_eval_5_ex_4.json>`
+
 Playroom
 ********
 
@@ -13,37 +54,37 @@ An open room containing over 40 objects for undirected exploration.
 
 .. list-table::
 
-    * - .. figure:: ./images/playroom_3_2.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/playroom_3_2.gif
 
            :download:`playroom.json <scenes/playroom.json>`
 
 Retrieval Goal
 **************
 
-Soccer ball retrieval goal for the Fall 2021 evaluation:
+Soccer ball retrieval goal for the Fall 2021 evaluation (Eval 4):
 
 :download:`retrieval_goal_example_with_soccer_ball.json <./scenes/retrieval_goal_example_with_soccer_ball.json>`
 
-Silver trophy retrieval goal for the Winter 2020 evaluation:
+Silver trophy retrieval goal for the Winter 2020 evaluation (Eval 3):
 
 :download:`retrieval_goal_example_with_trophy.json <./scenes/retrieval_goal_example_with_trophy.json>`
 
 Hinged Containers
 *****************
 
-Soccer ball inside hinged containers for the Fall 2021 evaluation:
+Soccer ball inside hinged containers for the Fall 2021 evaluation (Eval 4):
 
 .. list-table::
 
-    * - .. figure:: ./images/hinged_container_example_with_soccer_ball.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/hinged_container_example_with_soccer_ball.gif
 
            :download:`hinged_container_example_with_soccer_ball.json <./scenes/hinged_container_example_with_soccer_ball.json>`
 
-Silver trophy inside hinged containers for the Winter 2020 evaluation:
+Silver trophy inside hinged containers for the Winter 2020 evaluation (Eval 3):
 
 .. list-table::
 
-    * - .. figure:: ./images/hinged_container_example_with_trophy.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/hinged_container_example_with_trophy.gif
 
            :download:`hinged_container_example_with_trophy.json <./scenes/hinged_container_example_with_trophy.json>`
 
@@ -54,11 +95,11 @@ The room has different dimensions/bounds, and isn't necessarily square. Previous
 
 .. list-table::
 
-    * - .. figure:: ./images/template_12_by_8.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/template_12_by_8.gif
 
            :download:`template_12_by_8.json <./scenes/template_12_by_8.json>`
 
-    * - .. figure:: ./images/template_2_by_4.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/template_2_by_4.gif
 
            :download:`template_2_by_4.json <./scenes/template_2_by_4.json>`
 
@@ -66,7 +107,7 @@ The room's outer walls are individually, distinctly colored. Previously, all of 
 
 .. list-table::
 
-    * - .. figure:: ./images/template_individually_colored_walls.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/template_individually_colored_walls.gif
 
            :download:`template_individually_colored_walls.json <./scenes/template_individually_colored_walls.json>`
 
@@ -74,11 +115,11 @@ The performer agent is positioned on top of a flat, raised platform. Moving off 
 
 .. list-table::
 
-    * - .. figure:: ./images/template_platform_independent.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/template_platform_independent.gif
 
            :download:`template_platform_independent.json <./scenes/template_platform_independent.json>`
 
-    * - .. figure:: ./images/template_platform_bisecting.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/template_platform_bisecting.gif
 
            :download:`template_platform_bisecting.json <./scenes/template_platform_bisecting.json>`
 
@@ -86,11 +127,11 @@ The performer agent is temporarily "frozen" (can only use the Pass action) at th
 
 .. list-table::
 
-    * - .. figure:: ./images/template_frozen_first_10_steps.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/template_frozen_first_10_steps.gif
 
            :download:`template_frozen_first_10_steps.json <./scenes/template_frozen_first_10_steps.json>`
 
-    * - .. figure:: ./images/template_frozen_after_10_steps.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/template_frozen_after_10_steps.gif
 
            :download:`template_frozen_after_10_steps.json <./scenes/template_frozen_after_10_steps.json>`
 
@@ -98,11 +139,11 @@ A cylindrical mechanism attached to a wall or the ceiling throws (for interactiv
 
 .. list-table::
 
-    * - .. figure:: ./images/template_mechanism_dropping_soccer_ball_v2.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/template_mechanism_dropping_soccer_ball_v2.gif
 
            :download:`template_mechanism_dropping_soccer_ball_v2.json <./scenes/template_mechanism_dropping_soccer_ball_v2.json>`
 
-    * - .. figure:: ./images/template_mechanism_throwing_soccer_ball.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/template_mechanism_throwing_soccer_ball.gif
 
            :download:`template_mechanism_throwing_soccer_ball.json <./scenes/template_mechanism_throwing_soccer_ball.json>`
 
@@ -110,11 +151,11 @@ The performer agent is "kidnapped" (can only call the EndHabituation action) and
 
 .. list-table::
 
-    * - .. figure:: ./images/template_kidnapping.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/template_kidnapping.gif
 
            :download:`template_kidnapping.json <./scenes/template_kidnapping.json>`
 
-    * - .. figure:: ./images/template_kidnapping_then_frozen.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/template_kidnapping_then_frozen.gif
 
            :download:`template_kidnapping_then_frozen.json <./scenes/template_kidnapping_then_frozen.json>`
 
@@ -122,7 +163,7 @@ Combination of multiple elements. For example: a platform, being frozen, and a m
 
 .. list-table::
 
-    * - .. figure:: ./images/template_interactive_object_permanence_scene.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/template_interactive_object_permanence_scene.gif
 
            :download:`template_interactive_object_permanence_scene.json <./scenes/template_interactive_object_permanence_scene.json>`
 
@@ -130,11 +171,11 @@ End-to-end scenes. VALIDATION ONLY.
 
 .. list-table::
 
-    * - .. figure:: ./images/eval_4_intobjperm_validation_01.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/eval_4_intobjperm_validation_01.gif
 
            :download:`eval_4_intobjperm_validation_01.json <./scenes/eval_4_intobjperm_validation_01.json>`
 
-    * - .. figure:: ./images/eval_4_reor_validation_01.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/eval_4_reor_validation_01.gif
 
            :download:`eval_4_reor_validation_01.json <./scenes/eval_4_reor_validation_01.json>`
 
@@ -148,51 +189,51 @@ All of these examples are PLAUSIBLE
 
 .. list-table::
 
-    * - .. figure:: ./images/gravity_support_ex_01.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/gravity_support_ex_01.gif
 
            :download:`gravity_support_ex_01.json <./scenes/gravity_support_ex_01.json>`
 
-    * - .. figure:: ./images/gravity_support_ex_02.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/gravity_support_ex_02.gif
 
            :download:`gravity_support_ex_02.json <./scenes/gravity_support_ex_02.json>`
 
-    * - .. figure:: ./images/gravity_support_ex_03.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/gravity_support_ex_03.gif
 
            :download:`gravity_support_ex_03.json <./scenes/gravity_support_ex_03.json>`
 
-    * - .. figure:: ./images/gravity_support_ex_04.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/gravity_support_ex_04.gif
 
            :download:`gravity_support_ex_04.json <./scenes/gravity_support_ex_04.json>`
 
-    * - .. figure:: ./images/gravity_support_ex_05.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/gravity_support_ex_05.gif
 
            :download:`gravity_support_ex_05.json <./scenes/gravity_support_ex_05.json>`
 
-    * - .. figure:: ./images/gravity_support_ex_06.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/gravity_support_ex_06.gif
 
            :download:`gravity_support_ex_06.json <./scenes/gravity_support_ex_06.json>`
 
-    * - .. figure:: ./images/gravity_support_ex_07.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/gravity_support_ex_07.gif
 
            :download:`gravity_support_ex_07.json <./scenes/gravity_support_ex_07.json>`
 
-    * - .. figure:: ./images/gravity_support_ex_08.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/gravity_support_ex_08.gif
 
            :download:`gravity_support_ex_08.json <./scenes/gravity_support_ex_08.json>`
 
-    * - .. figure:: ./images/gravity_support_ex_09.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/gravity_support_ex_09.gif
 
            :download:`gravity_support_ex_09.json <./scenes/gravity_support_ex_09.json>`
 
-    * - .. figure:: ./images/gravity_support_ex_10.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/gravity_support_ex_10.gif
 
            :download:`gravity_support_ex_10.json <./scenes/gravity_support_ex_10.json>`
 
-    * - .. figure:: ./images/gravity_support_ex_11.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/gravity_support_ex_11.gif
 
            :download:`gravity_support_ex_11.json <./scenes/gravity_support_ex_11.json>`
 
-    * - .. figure:: ./images/gravity_support_ex_12.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/gravity_support_ex_12.gif
 
            :download:`gravity_support_ex_12.json <./scenes/gravity_support_ex_12.json>`
 
@@ -200,62 +241,62 @@ All of these examples are PLAUSIBLE
 Object Permanence and Spatio-Temporal Continuity: Objects Moving on Multiple Axes Behind Occluders
 **************************************************************************************************
 
-Relevant for the Fall 2021 evaluation. Objects may move on only the X axis (as in previous evaluations), on both the X and Z axes (see the "move deep" example scenes), and/or on both the X and Y axes (see the "move toss" example scenes).
+Relevant for the Fall 2021 evaluation (Eval 4). Objects may move on only the X axis (as in previous evaluations), on both the X and Z axes (see the "move deep" example scenes), and/or on both the X and Y axes (see the "move toss" example scenes).
 
 .. list-table::
 
-    * - .. figure:: ./images/move_deep_fast_01.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/move_deep_fast_01.gif
 
            :download:`move_deep_fast_01.json <./scenes/move_deep_fast_01.json>`
 
-    * - .. figure:: ./images/move_deep_fast_02.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/move_deep_fast_02.gif
 
            :download:`move_deep_fast_02.json <./scenes/move_deep_fast_02.json>`
 
-    * - .. figure:: ./images/move_deep_fast_03.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/move_deep_fast_03.gif
 
            :download:`move_deep_fast_03.json <./scenes/move_deep_fast_03.json>`
 
-    * - .. figure:: ./images/move_deep_fast_04.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/move_deep_fast_04.gif
 
            :download:`move_deep_fast_04.json <./scenes/move_deep_fast_04.json>`
 
-    * - .. figure:: ./images/move_toss_fast_01.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/move_toss_fast_01.gif
 
            :download:`move_toss_fast_01.json <./scenes/move_toss_fast_01.json>`
 
-    * - .. figure:: ./images/move_toss_fast_02.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/move_toss_fast_02.gif
 
            :download:`move_toss_fast_02.json <./scenes/move_toss_fast_02.json>`
 
 Object Permanence: Objects Moving on Multiple Axes and Stopping Behind Occluders
 ********************************************************************************
 
-Relevant for the Fall 2021 evaluation. Objects may move across the entire screen and exit on the other side (as in previous evaluations), or come to a natural stop behind the occluder. Objects may move on only the X axis (as in previous evaluations), on both the X and Z axes (see the "move deep" example scenes), and/or on both the X and Y axes (see the "move toss" example scenes).
+Relevant for the Fall 2021 evaluation (Eval 4). Objects may move across the entire screen and exit on the other side (as in previous evaluations), or come to a natural stop behind the occluder. Objects may move on only the X axis (as in previous evaluations), on both the X and Z axes (see the "move deep" example scenes), and/or on both the X and Y axes (see the "move toss" example scenes).
 
 .. list-table::
 
-    * - .. figure:: ./images/move_slow_01.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/move_slow_01.gif
 
            :download:`move_slow_01.json <./scenes/move_slow_01.json>`
     
-    * - .. figure:: ./images/move_slow_02.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/move_slow_02.gif
 
            :download:`move_deep_slow_01.json <./scenes/move_deep_slow_01.json>`
 
-    * - .. figure:: ./images/move_deep_slow_01.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/move_deep_slow_01.gif
 
            :download:`move_toss_slow_01.json <./scenes/move_toss_slow_01.json>`
 
-    * - .. figure:: ./images/move_deep_slow_02.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/move_deep_slow_02.gif
 
            :download:`move_slow_02.json <./scenes/move_slow_02.json>`
 
-    * - .. figure:: ./images/move_toss_slow_01.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/move_toss_slow_01.gif
 
            :download:`move_deep_slow_02.json <./scenes/move_deep_slow_02.json>`
 
-    * - .. figure:: ./images/move_toss_slow_02.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/move_toss_slow_02.gif
 
            :download:`move_toss_slow_02.json <./scenes/move_toss_slow_02.json>`
 
@@ -263,30 +304,30 @@ Relevant for the Fall 2021 evaluation. Objects may move across the entire screen
 Object Permanence: Objects Falling Down Behind Occluders
 ********************************************************
 
-Relevant for the Winter 2020 evaluation.
+Relevant for the Winter 2020 evaluation (Eval 3).
 
 .. list-table::
 
-    * - .. figure:: ./images/object_permanence_plausible.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/object_permanence_plausible.gif
 
            :download:`object_permanence_plausible.json <./scenes/object_permanence_plausible.json>`
 
-    * - .. figure:: ./images/object_permanence_implausible.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/object_permanence_implausible.gif
 
            :download:`object_permanence_implausible.json <./scenes/object_permanence_implausible.json>`
 
 Spatio-Temporal Continuity: Objects Moving Across Behind Occluders
 ******************************************************************
 
-Relevant for the Winter 2020 evaluation.
+Relevant for the Winter 2020 evaluation (Eval 3).
 
 .. list-table::
 
-    * - .. figure:: ./images/spatio_temporal_continuity_plausible.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/spatio_temporal_continuity_plausible.gif
 
            :download:`spatio_temporal_continuity_plausible.json <./scenes/spatio_temporal_continuity_plausible.json>`
 
-    * - .. figure:: ./images/spatio_temporal_continuity_implausible.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/spatio_temporal_continuity_implausible.gif
 
            :download:`spatio_temporal_continuity_implausible.json <./scenes/spatio_temporal_continuity_implausible.json>`
 
@@ -298,11 +339,11 @@ Agents Have Goals and Preferences
 
 .. list-table::
 
-    * - .. figure:: ./images/agents_preference_expected.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/agents_preference_expected.gif
 
            :download:`agents_preference_expected.json <./scenes/agents_preference_expected.json>`
 
-    * - .. figure:: ./images/agents_preference_unexpected.gif
+    * - .. figure:: https://mcs-documentation.s3.amazonaws.com/images/agents_preference_unexpected.gif
 
            :download:`agents_preference_unexpected.json <./scenes/agents_preference_unexpected.json>`
 

@@ -2,8 +2,8 @@
 Installation and Setup
 =======================
 
-.. _Download and unzip the Mac ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.5.0/MCS-AI2-THOR-Unity-App-v0.5.0-mac.zip
-.. _Download and unzip the Linux ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.5.0/MCS-AI2-THOR-Unity-App-v0.5.0-linux.zip
+.. _Download and unzip the Mac ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.6.5/MCS-AI2-THOR-Unity-App-v0.6.5-mac.zip
+.. _Download and unzip the Linux ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.6.5/MCS-AI2-THOR-Unity-App-v0.6.5-linux.zip
 
 Virtual Environments
 ------------------------
@@ -121,6 +121,34 @@ To use a specific configuration, you can either pass in a file path or dictionar
 Config File Properties
 **********************
 
+only_return_goal_object
+^^^^^^^^^^^^^^^
+
+(boolean, optional)
+
+If `true`, only returns the goal object from the object list output in the metadata. Metadata Tier will override `only_return_goal_object`. Default: false
+
+disable_position
+^^^^^^^^^^^^^^^
+
+(boolean, optional)
+
+If `true`, does not generate position information output in the metadata. Metadata Tier will override `disable_position`. Default: false
+
+disable_depth_maps
+^^^^^^^^^^^^^^^
+
+(boolean, optional)
+
+If `false`, will generate depth maps. Metadata Tier will override `disable_depth_maps`. Will only generate depth maps for Metadata tier [level1, level2, oracle]. Default: false
+
+disable_object_masks
+^^^^^^^^^^^^^^^
+
+(boolean, optional)
+
+If `false`, will generate object masks. Metadata Tier will override `disable_depth_maps`. Will only generate object masks for Metadata tier [level2, oracle]. Default: false
+
 goal_reward
 ^^^^^^^^^^^^^^^
 
@@ -135,6 +163,13 @@ history_enabled
 (boolean, optional)
 
 Whether to save the scene history output data in your local directory. Default: True
+
+lava_penalty
+^^^^^^^^^^^^^^^
+
+(float, optional)
+
+Changes the negative penalty recieved for every step on lava.  Default: 100
 
 metadata
 ^^^^^^^^
@@ -151,12 +186,12 @@ The `metadata` property describes what metadata will be returned by the MCS Pyth
 If no metadata level is set:
 - `default`: Fallback if no metadata level is specified. Only meant for use during development (evaluations will never be run this way). Includes metadata for visible and held objects in the scene, as well as camera info and properties corresponding to the player. Does not include depth maps or object masks.
 
-lava_penalty
+steps_allowed_in_lava
 ^^^^^^^^^^^^^^^
 
-(float, optional)
+(int, optional)
 
-Changes the negative penalty recieved for every step on lava.  Default: 0.5
+Number of steps allowed in lava before automatically calling end scene.  Default: 0
 
 noise_enabled
 ^^^^^^^^^^^^^^^
@@ -193,6 +228,37 @@ step_penalty
 
 Changes the negative penalty recieved for every step. Default: 0.001
 
+terminal_output
+^^^^^^^^^^^^^^^
+
+(boolean or string, optional)
+
+The terminal output mode controls what output metadata is logged to the terminal during a run (using the debug logger). Multiple modes can be configured together using commas-delimited strings (for example: "actions,performer").
+
+- `all` or `true` (default): Prints all terminal output (listed below).
+- `minimal`: Prints minimal output, including step number, selected action, return status, goal, and current reward (if any).
+- `actions`: Prints all actions available for the next step.
+- `objects`: Prints all object metadata.
+- `performer`: Prints metadata for the performer agent, including camera and frame rate information.
+- `scene`: Prints metadata for the scene's room, including all structural objects.
+- `false` or `none`: Prints no terminal output, besides initialization, warning, and error messages.
+
+top_down_camera
+^^^^^^^^^^^^^^^
+
+(boolean, optional)
+
+If both `video_enabled` and `top_down_camera` are `true`, generate videos using the new top-down camera. Default: `true`
+
+top_down_plotter
+^^^^^^^^^^^^^^^^
+
+(boolean, optional)
+
+If `video_enabled` and `top_down_plotter` are `true`, and `top_down_camera` is `false`, generate videos using the legacy top-down plotter. Default: `false`
+
+(boolean, optional)
+
 video_enabled
 ^^^^^^^^^^^^^
 
@@ -222,7 +288,7 @@ Example Using the Config File to Generate Scene Graphs or Maps
     controller = mcs.create_controller(config_file_or_dict='path/to/config')
 
     for scene_file in scene_files:
-        scene_data, status = mcs.load_scene_json_file(scene_file)
+        scene_data = mcs.load_scene_json_file(scene_file)
 
         if status is not None:
             print(status)

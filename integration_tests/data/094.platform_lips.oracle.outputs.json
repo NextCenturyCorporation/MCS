@@ -13,7 +13,7 @@
                 "direction_x": 0.0,
                 "direction_y": 1.0,
                 "direction_z": 0.0,
-                "distance": 3.238,
+                "distance": 2.99,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -136,7 +136,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 9
+        "structural_objects_count": 8
     },
     {
         "camera_height": 1.012,
@@ -152,7 +152,7 @@
                 "direction_x": -0.0,
                 "direction_y": 1.0,
                 "direction_z": 0.031,
-                "distance": 3.24,
+                "distance": 2.99,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -275,7 +275,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 9
+        "structural_objects_count": 8
     },
     {
         "camera_height": 1.012,
@@ -291,7 +291,7 @@
                 "direction_x": -0.0,
                 "direction_y": 0.998,
                 "direction_z": 0.062,
-                "distance": 3.244,
+                "distance": 2.99,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -414,7 +414,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 9
+        "structural_objects_count": 8
     },
     {
         "camera_height": 1.012,
@@ -430,7 +430,7 @@
                 "direction_x": -0.0,
                 "direction_y": 0.996,
                 "direction_z": 0.092,
-                "distance": 3.252,
+                "distance": 3.0,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -553,7 +553,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 9
+        "structural_objects_count": 8
     },
     {
         "camera_height": 1.012,
@@ -569,7 +569,7 @@
                 "direction_x": -0.0,
                 "direction_y": 0.992,
                 "direction_z": 0.123,
-                "distance": 3.263,
+                "distance": 3.01,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -692,7 +692,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 9
+        "structural_objects_count": 8
     },
     {
         "camera_height": 1.012,
@@ -707,8 +707,8 @@
             {
                 "direction_x": -0.0,
                 "direction_y": 0.988,
-                "direction_z": 0.153,
-                "distance": 3.276,
+                "direction_z": 0.17,
+                "distance": 3.03,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -831,7 +831,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 9
+        "structural_objects_count": 8
     },
     {
         "camera_height": 1.012,
@@ -846,8 +846,8 @@
             {
                 "direction_x": -0.0,
                 "direction_y": 0.983,
-                "direction_z": 0.182,
-                "distance": 3.293,
+                "direction_z": 0.2,
+                "distance": 3.05,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -970,7 +970,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 9
+        "structural_objects_count": 8
     },
     {
         "camera_height": 1.012,
@@ -985,8 +985,8 @@
             {
                 "direction_x": -0.0,
                 "direction_y": 0.983,
-                "direction_z": 0.182,
-                "distance": 3.293,
+                "direction_z": 0.2,
+                "distance": 3.05,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -1109,7 +1109,7 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 9
+        "structural_objects_count": 8
     },
     {
         "camera_height": 1.012,
@@ -1124,8 +1124,8 @@
             {
                 "direction_x": -0.0,
                 "direction_y": 0.983,
-                "direction_z": 0.182,
-                "distance": 3.293,
+                "direction_z": 0.2,
+                "distance": 3.05,
                 "held": false,
                 "id": "ceiling",
                 "position_x": 0.0,
@@ -1248,6 +1248,6 @@
                 "visible": true
             }
         ],
-        "structural_objects_count": 9
+        "structural_objects_count": 8
     }
 ]

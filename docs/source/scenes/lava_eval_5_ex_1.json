@@ -1,0 +1,77 @@
+﻿{
+    "name": "lava_eval_5_ex_1",
+    "version": 2,
+    "ceilingMaterial": "Custom/Materials/BlackDrywallMCS",
+    "floorMaterial": "Custom/Materials/GreyWoodMCS",
+    "wallMaterial": "Custom/Materials/TanWoodMCS",
+    "roomDimensions": {
+        "x": 12,
+        "y": 3,
+        "z": 12
+    },
+    "lava": [
+        { "x": -6, "z": -2 },
+        { "x": -5, "z": -2 },
+        { "x": -4, "z": -2 },
+        { "x": -3, "z": -2 },
+        { "x": -2, "z": -2 },
+        { "x": -1, "z": -2 },
+        { "x": 0, "z": -2 },
+        { "x": 1, "z": -2 },
+        { "x": 2, "z": -2 },
+        { "x": 3, "z": -2 },
+        { "x": -3, "z": 2 },
+        { "x": -2, "z": 2 },
+        { "x": -1, "z": 2 },
+        { "x": 0, "z": 2 },
+        { "x": 1, "z": 2 },
+        { "x": 2, "z": 2 },
+        { "x": 3, "z": 2 },
+        { "x": 4, "z": 2 },
+        { "x": 5, "z": 2 },
+        { "x": 6, "z": 2 }
+    ],
+    "performerStart": {
+        "position": {
+            "x": 2,
+            "z": -5
+        },
+        "rotation": {
+            "x": 0,
+            "y": 0
+        }
+    },
+    "goal": {
+        "category": "retrieval",
+        "metadata": {
+            "target": {
+                "id": "target"
+            }
+        },
+        "description": "Find and pick up the tiny light black white rubber ball.",
+        "last_step": 2500
+    },
+    "objects": [{
+        "id": "target",
+        "type": "soccer_ball",
+        "mass": 1,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 5,
+                "y": 0.23,
+                "z": 5
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 2,
+                "y": 2,
+                "z": 2
+            }
+        }]
+    }]
+}

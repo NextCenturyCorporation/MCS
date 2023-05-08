@@ -1,8 +1,11 @@
 import unittest
 
+import machine_common_sense as mcs
+from machine_common_sense.action import FORCE_ACTIONS, OBJECT_MOVE_ACTIONS
 from machine_common_sense.config_manager import ConfigManager
 from machine_common_sense.controller import DEFAULT_MOVE
-from machine_common_sense.parameter import Parameter, compare_param_values
+from machine_common_sense.parameter import (Parameter, compare_param_values,
+                                            rebuild_endhabituation)
 
 
 class TestParameter(unittest.TestCase):
@@ -22,6 +25,7 @@ class TestParameter(unittest.TestCase):
           'floorMaterial': 'AI2-THOR/Materials/Fabrics/CarpetWhite 3',
           'ceilingMaterial': 'AI2-THOR/Materials/Walls/Drywall',
           'holes': [],
+          'lava': [],
           'objects': [{'shows': [{'position': {'y': 0.25,
                                                'z': 1.0,
                                                'x': 0.25},
@@ -70,32 +74,46 @@ class TestParameter(unittest.TestCase):
 
     def test_initialization_wrap_step(self):
         wrapped_step = self.parameter_converter.wrap_step(
-            action='Initialize', sceneConfig=self.sc)
+            output_folder="path",
+            action='Initialize',
+            goal_object_ids=[],
+            sceneConfig=self.sc)
         # sceneConfig does not get removed
         self.assertIsNotNone(wrapped_step.get('sceneConfig'))
 
     def test_initialization_build_ai2thor_step(self):
         wrapped_step, params = self.parameter_converter.build_ai2thor_step(
-            action='Initialize', sceneConfig=self.sc)
+            output_path="path",
+            action='Initialize',
+            goal_object_ids=[],
+            sceneConfig=self.sc)
         # sceneConfig gets removed
         self.assertIsNone(wrapped_step.get('sceneConfig'))
 
     def test_wrap_step_action(self):
         actual = self.parameter_converter.wrap_step(
+            output_folder="path",
             action="TestAction",
             numberProperty=1234,
+            goal_object_ids=[],
             stringProperty="test_property")
         expected = {
             "action": "TestAction",
             "continuous": True,
+            "disablePosition": False,
+            "goalObjectIds": [],
             "gridSize": 0.1,
             "logs": True,
             "numberProperty": 1234,
-            "renderDepthImage": False,
-            "renderObjectImage": False,
+            "onlyReturnObjectGoal": False,
+            "renderDepthImage": True,
+            "renderObjectImage": True,
             "snapToGrid": False,
             "stringProperty": "test_property",
-            "consistentColors": False
+            "consistentColors": False,
+            "recordTopDown": False,
+            "topDownImagePath": "path"
+
         }
         self.assertEqual(actual, expected)
 
@@ -103,68 +121,301 @@ class TestParameter(unittest.TestCase):
         config = ConfigManager(config_file_or_dict={'metadata': 'oracle'})
         parameter_converter = Parameter(config)
         actual = parameter_converter.wrap_step(
+            output_folder="path",
             action="TestAction",
             numberProperty=1234,
+            goal_object_ids=[],
             stringProperty="test_property")
         # Changed depth and object because oracle should result in both being
         # true.
         expected = {
             "action": "TestAction",
             "continuous": True,
+            "disablePosition": False,
+            "goalObjectIds": [],
             "gridSize": 0.1,
             "logs": True,
             "numberProperty": 1234,
+            "onlyReturnObjectGoal": False,
             "renderDepthImage": True,
             "renderObjectImage": True,
             "snapToGrid": False,
             "stringProperty": "test_property",
-            "consistentColors": True
+            "consistentColors": True,
+            "recordTopDown": False,
+            "topDownImagePath": "path"
         }
         self.assertEqual(actual, expected)
 
-    def test_wrap_step_metadata_level2(self):
-        config = ConfigManager(config_file_or_dict={'metadata': 'level2'})
+    def test_wrap_step_metadata_oracle_disable_parameters(self):
+        config = ConfigManager(
+            config_file_or_dict={
+                'metadata': 'oracle',
+                'only_return_goal_object': True,
+                'disable_position': True,
+                'disable_depth_maps': True,
+                'disable_object_masks': True})
         parameter_converter = Parameter(config)
         actual = parameter_converter.wrap_step(
+            output_folder="path",
             action="TestAction",
             numberProperty=1234,
+            goal_object_ids=[],
             stringProperty="test_property")
-        # Changed depth and object because oracle should result in both being
-        # true.
         expected = {
             "action": "TestAction",
+            "consistentColors": True,
             "continuous": True,
+            "disablePosition": True,
+            "goalObjectIds": [],
             "gridSize": 0.1,
             "logs": True,
             "numberProperty": 1234,
+            "onlyReturnObjectGoal": True,
+            "renderDepthImage": False,
+            "renderObjectImage": False,
+            "recordTopDown": False,
+            "snapToGrid": False,
+            "stringProperty": "test_property",
+            "topDownImagePath": "path"
+        }
+        self.assertEqual(actual, expected)
+
+    def test_wrap_step_metadata_oracle_enable_parameters(self):
+        config = ConfigManager(
+            config_file_or_dict={
+                'metadata': 'oracle',
+                'only_return_goal_object': False,
+                'disable_position': False,
+                'disable_depth_maps': False,
+                'disable_object_masks': False})
+        parameter_converter = Parameter(config)
+        actual = parameter_converter.wrap_step(
+            output_folder="path",
+            action="TestAction",
+            numberProperty=1234,
+            goal_object_ids=[],
+            stringProperty="test_property")
+        expected = {
+            "action": "TestAction",
+            "continuous": True,
+            "disablePosition": False,
+            "goalObjectIds": [],
+            "gridSize": 0.1,
+            "logs": True,
+            "numberProperty": 1234,
+            "onlyReturnObjectGoal": False,
             "renderDepthImage": True,
             "renderObjectImage": True,
             "snapToGrid": False,
             "stringProperty": "test_property",
-            "consistentColors": False
+            "consistentColors": True,
+            "recordTopDown": False,
+            "topDownImagePath": "path"
         }
         self.assertEqual(actual, expected)
 
-    def test_wrap_step_metadata_level1(self):
-        config = ConfigManager(config_file_or_dict={'metadata': 'level1'})
+    def test_wrap_step_metadata_level2_enable_parameters(self):
+        config = ConfigManager(
+            config_file_or_dict={
+                'metadata': 'level2',
+                'only_return_goal_object': False,
+                'disable_position': False,
+                'disable_depth_maps': False,
+                'disable_object_masks': False})
         parameter_converter = Parameter(config)
         actual = parameter_converter.wrap_step(
+            output_folder="path",
             action="TestAction",
             numberProperty=1234,
+            goal_object_ids=[],
             stringProperty="test_property")
-        # Changed depth and object because oracle should result in both being
-        # true.
         expected = {
             "action": "TestAction",
             "continuous": True,
+            "disablePosition": False,
+            "goalObjectIds": [],
             "gridSize": 0.1,
             "logs": True,
             "numberProperty": 1234,
+            "onlyReturnObjectGoal": False,
             "renderDepthImage": True,
+            "renderObjectImage": True,
+            "snapToGrid": False,
+            "stringProperty": "test_property",
+            "consistentColors": False,
+            "recordTopDown": False,
+            "topDownImagePath": "path"
+        }
+        self.assertEqual(actual, expected)
+
+    def test_wrap_step_metadata_level2_disable_parameters(self):
+        config = ConfigManager(
+            config_file_or_dict={
+                'metadata': 'level2',
+                'only_return_goal_object': True,
+                'disable_position': True,
+                'disable_depth_maps': True,
+                'disable_object_masks': True})
+        parameter_converter = Parameter(config)
+        actual = parameter_converter.wrap_step(
+            output_folder="path",
+            action="TestAction",
+            numberProperty=1234,
+            goal_object_ids=[],
+            stringProperty="test_property")
+        expected = {
+            "action": "TestAction",
+            "continuous": True,
+            "disablePosition": True,
+            "goalObjectIds": [],
+            "gridSize": 0.1,
+            "logs": True,
+            "numberProperty": 1234,
+            "onlyReturnObjectGoal": True,
+            "renderDepthImage": False,
             "renderObjectImage": False,
             "snapToGrid": False,
             "stringProperty": "test_property",
-            "consistentColors": False
+            "consistentColors": False,
+            "recordTopDown": False,
+            "topDownImagePath": "path"
+        }
+        self.assertEqual(actual, expected)
+
+    def test_wrap_step_metadata_level1_enable_parameters(self):
+        config = ConfigManager(
+            config_file_or_dict={
+                'metadata': 'level1',
+                'only_return_goal_object': False,
+                'disable_position': False,
+                'disable_depth_maps': False,
+                'disable_object_masks': False})
+        parameter_converter = Parameter(config)
+        actual = parameter_converter.wrap_step(
+            output_folder="path",
+            action="TestAction",
+            numberProperty=1234,
+            goal_object_ids=[],
+            stringProperty="test_property")
+        expected = {
+            "action": "TestAction",
+            "continuous": True,
+            "disablePosition": False,
+            "goalObjectIds": [],
+            "gridSize": 0.1,
+            "logs": True,
+            "onlyReturnObjectGoal": False,
+            "numberProperty": 1234,
+            "renderDepthImage": True,
+            "renderObjectImage": True,
+            "snapToGrid": False,
+            "stringProperty": "test_property",
+            "consistentColors": False,
+            "recordTopDown": False,
+            "topDownImagePath": "path"
+        }
+        self.assertEqual(actual, expected)
+
+    def test_wrap_step_metadata_level1_disable_parameters(self):
+        config = ConfigManager(
+            config_file_or_dict={
+                'metadata': 'level1',
+                'only_return_goal_object': True,
+                'disable_position': True,
+                'disable_depth_maps': True,
+                'disable_object_masks': True})
+        parameter_converter = Parameter(config)
+        actual = parameter_converter.wrap_step(
+            output_folder="path",
+            action="TestAction",
+            numberProperty=1234,
+            goal_object_ids=[],
+            stringProperty="test_property")
+        expected = {
+            "action": "TestAction",
+            "continuous": True,
+            "disablePosition": True,
+            "goalObjectIds": [],
+            "gridSize": 0.1,
+            "logs": True,
+            "numberProperty": 1234,
+            "onlyReturnObjectGoal": True,
+            "renderDepthImage": False,
+            "renderObjectImage": False,
+            "snapToGrid": False,
+            "stringProperty": "test_property",
+            "consistentColors": False,
+            "recordTopDown": False,
+            "topDownImagePath": "path"
+        }
+        self.assertEqual(actual, expected)
+
+    def test_wrap_step_metadata_none_enable_parameters(self):
+        config = ConfigManager(
+            config_file_or_dict={
+                'metadata': 'none',
+                'only_return_goal_object': False,
+                'disable_position': False,
+                'disable_depth_maps': False,
+                'disable_object_masks': False})
+        parameter_converter = Parameter(config)
+        actual = parameter_converter.wrap_step(
+            output_folder="path",
+            action="TestAction",
+            numberProperty=1234,
+            goal_object_ids=[],
+            stringProperty="test_property")
+        expected = {
+            "action": "TestAction",
+            "continuous": True,
+            "disablePosition": False,
+            "goalObjectIds": [],
+            "gridSize": 0.1,
+            "logs": True,
+            "numberProperty": 1234,
+            "onlyReturnObjectGoal": False,
+            "renderDepthImage": True,
+            "renderObjectImage": True,
+            "snapToGrid": False,
+            "stringProperty": "test_property",
+            "consistentColors": False,
+            "recordTopDown": False,
+            "topDownImagePath": "path"
+        }
+        self.assertEqual(actual, expected)
+
+    def test_wrap_step_metadata_none_disable_parameters(self):
+        config = ConfigManager(
+            config_file_or_dict={
+                'metadata': 'none',
+                'only_return_goal_object': True,
+                'disable_position': True,
+                'disable_depth_maps': True,
+                'disable_object_masks': True})
+        parameter_converter = Parameter(config)
+        actual = parameter_converter.wrap_step(
+            output_folder="path",
+            action="TestAction",
+            numberProperty=1234,
+            goal_object_ids=[],
+            stringProperty="test_property")
+        expected = {
+            "action": "TestAction",
+            "continuous": True,
+            "disablePosition": True,
+            "goalObjectIds": [],
+            "gridSize": 0.1,
+            "logs": True,
+            "numberProperty": 1234,
+            "onlyReturnObjectGoal": True,
+            "renderDepthImage": False,
+            "renderObjectImage": False,
+            "snapToGrid": False,
+            "stringProperty": "test_property",
+            "consistentColors": False,
+            "recordTopDown": False,
+            "topDownImagePath": "path"
         }
         self.assertEqual(actual, expected)
 
@@ -176,65 +427,202 @@ class TestParameter(unittest.TestCase):
         self.assertTrue(min_noise <= current_noise <= max_noise)
 
     def test_get_amount(self):
-        amount = self.parameter_converter._get_amount(action="", amount=1)
+        # default amounts
+        amount = self.parameter_converter._get_amount(
+            action=OBJECT_MOVE_ACTIONS[0])
         self.assertIsInstance(amount, float)
-        self.assertAlmostEqual(amount, 1.0)
+        self.assertAlmostEqual(amount, Parameter.DEFAULT_OBJECT_MOVE_AMOUNT)
 
-        amount = self.parameter_converter._get_amount()
+        amount = self.parameter_converter._get_amount(
+            action=FORCE_ACTIONS[0])
+        self.assertIsInstance(amount, float)
+        self.assertAlmostEqual(amount, Parameter.DEFAULT_AMOUNT)
+
+        # amount of None equates to default for any action
+        amount = self.parameter_converter._get_amount(
+            action=OBJECT_MOVE_ACTIONS[0], amount=None)
         self.assertIsInstance(amount, float)
         self.assertAlmostEqual(amount, Parameter.DEFAULT_AMOUNT)
 
         amount = self.parameter_converter._get_amount(
-            action=Parameter.OBJECT_MOVE_ACTIONS[0])
-        self.assertIsInstance(amount, float)
-        self.assertAlmostEqual(amount, Parameter.DEFAULT_OBJECT_MOVE_AMOUNT)
-
-        amount = self.parameter_converter._get_amount(amount=None)
+            action=FORCE_ACTIONS[0], amount=None)
         self.assertIsInstance(amount, float)
         self.assertAlmostEqual(amount, Parameter.DEFAULT_AMOUNT)
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_amount(amount="string")
-        )
+        # ensure exceptions are raised for unexpected value or types
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_amount(
+                action=mcs.Action.PASS, amount="string")
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_amount(amount=1.1)
-        )
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_amount(
+                action=mcs.Action.PASS, amount=1.1)
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_amount(amount=-0.1)
-        )
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_amount(
+                action=mcs.Action.PASS, amount=-0.1)
 
     def test_get_force(self):
-        force = self.parameter_converter._get_force(force=1)
+        force = self.parameter_converter._get_force(
+            action=mcs.Action.PULL_OBJECT, force=1)
         self.assertIsInstance(force, float)
-        self.assertAlmostEqual(force, 250.0)
+        self.assertAlmostEqual(force, 1.0)
 
-        force = self.parameter_converter._get_force()
+        force = self.parameter_converter._get_force(
+            action=mcs.Action.PULL_OBJECT)
         self.assertIsInstance(force, float)
-        self.assertAlmostEqual(force, 125.0)
+        self.assertAlmostEqual(force, Parameter.DEFAULT_AMOUNT)
 
-        force = self.parameter_converter._get_force(force=None)
+        # defaults for none force regardless of action type
+        force = self.parameter_converter._get_force(
+            action=mcs.Action.PUSH_OBJECT, force=None)
         self.assertIsInstance(force, float)
-        self.assertAlmostEqual(force, 125.0)
+        self.assertAlmostEqual(force, Parameter.DEFAULT_AMOUNT)
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_force(force="string")
-        )
+        force = self.parameter_converter._get_force(
+            action=mcs.Action.TORQUE_OBJECT, force=None)
+        self.assertIsInstance(force, float)
+        self.assertAlmostEqual(force, Parameter.DEFAULT_AMOUNT)
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_force(force=1.1)
-        )
+        # raise errors when force value and type is unexpected
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_force(
+                action=mcs.Action.PASS, force="string")
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_force(force=-0.1)
-        )
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_force(
+                action=mcs.Action.PASS, force=1.1)
+
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_force(
+                action=mcs.Action.PASS, force=-0.1)
+
+        # torque force ranges
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_force(
+                action=mcs.Action.TORQUE_OBJECT, force=1.1)
+
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_force(
+                action=mcs.Action.TORQUE_OBJECT, force=-1.1)
+
+    def test_get_clockwise(self):
+        clockwise = self.parameter_converter._get_clockwise(clockwise="False")
+        self.assertIsInstance(clockwise, bool)
+        self.assertEqual(clockwise, False)
+
+        clockwise = self.parameter_converter._get_clockwise(clockwise="false")
+        self.assertIsInstance(clockwise, bool)
+        self.assertEqual(clockwise, False)
+
+        clockwise = self.parameter_converter._get_clockwise(clockwise="True")
+        self.assertIsInstance(clockwise, bool)
+        self.assertEqual(clockwise, True)
+
+        clockwise = self.parameter_converter._get_clockwise(clockwise="true")
+        self.assertIsInstance(clockwise, bool)
+        self.assertEqual(clockwise, True)
+
+        clockwise = self.parameter_converter._get_clockwise(clockwise=False)
+        self.assertIsInstance(clockwise, bool)
+        self.assertEqual(clockwise, False)
+
+        clockwise = self.parameter_converter._get_clockwise(clockwise=True)
+        self.assertIsInstance(clockwise, bool)
+        self.assertEqual(clockwise, True)
+
+        clockwise = self.parameter_converter._get_clockwise()
+        self.assertIsInstance(clockwise, bool)
+        self.assertEqual(clockwise, True)
+
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_clockwise(clockwise="string")
+
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_clockwise(clockwise=1)
+
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_clockwise(clockwise=-0.1)
+
+    def test_get_movement_direction(self):
+        (lateral, straight) = (
+            self.parameter_converter._get_movement_direction())
+        self.assertIsInstance(lateral, int)
+        self.assertIsInstance(straight, int)
+        self.assertEqual(lateral, 0)
+        self.assertEqual(straight, 1)
+
+        (lateral, straight) = (
+            self.parameter_converter._get_movement_direction(
+                lateral=-1))
+        self.assertIsInstance(lateral, int)
+        self.assertIsInstance(straight, int)
+        self.assertEqual(lateral, -1)
+        self.assertEqual(straight, 0)
+
+        (lateral, straight) = (
+            self.parameter_converter._get_movement_direction(
+                straight=-1))
+        self.assertIsInstance(lateral, int)
+        self.assertIsInstance(straight, int)
+        self.assertEqual(lateral, 0)
+        self.assertEqual(straight, -1)
+
+        (lateral, straight) = (
+            self.parameter_converter._get_movement_direction(
+                lateral=1, straight=-1))
+        self.assertIsInstance(lateral, int)
+        self.assertIsInstance(straight, int)
+        self.assertEqual(lateral, 1)
+        self.assertEqual(straight, -1)
+
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_movement_direction(
+                lateral=2)
+
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_movement_direction(
+                straight=-2)
+
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_movement_direction(
+                lateral=-2, straight=1)
+
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_movement_direction(
+                lateral=-1, straight=2)
+
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_movement_direction(
+                lateral=0.1)
+
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_movement_direction(
+                straight=0.1)
+
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_movement_direction(
+                lateral=-0.1, straight=1)
+
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_movement_direction(
+                lateral=1, straight=-0.1)
+
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_movement_direction(
+                lateral="x", straight="z")
+
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_movement_direction(
+                lateral="x", straight=1)
+
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_movement_direction(
+                lateral=1, straight="z")
+
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_movement_direction(
+                lateral=True, straight=False)
 
     def test_get_number(self):
         number = self.parameter_converter._get_number(key="val", val=7)
@@ -244,12 +632,10 @@ class TestParameter(unittest.TestCase):
         number = self.parameter_converter._get_number(key="val", not_val=7)
         self.assertIsNone(number)
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_number(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_number(
                 key="string", string="invalid"
             )
-        )
 
     def test_get_number_with_default(self):
         number = self.parameter_converter._get_number_with_default(
@@ -262,11 +648,9 @@ class TestParameter(unittest.TestCase):
         self.assertEqual(number, 5)
         self.assertIsInstance(number, float)
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_number_with_default(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_number_with_default(
                 key="string", default=5, string="invalid")
-        )
 
         number = self.parameter_converter._get_number_with_default(
             key="val", default=5, val=None
@@ -284,7 +668,7 @@ class TestParameter(unittest.TestCase):
         self.assertEqual(magnitude, DEFAULT_MOVE)
 
         magnitude = self.parameter_converter._get_move_magnitude(
-            action=Parameter.FORCE_ACTIONS[0],
+            action=FORCE_ACTIONS[0],
             force=0.5,
             amount=0.7
         )
@@ -292,7 +676,7 @@ class TestParameter(unittest.TestCase):
         self.assertEqual(magnitude, 0.5)
 
         magnitude = self.parameter_converter._get_move_magnitude(
-            action=Parameter.OBJECT_MOVE_ACTIONS[0],
+            action=OBJECT_MOVE_ACTIONS[0],
             force=0.5,
             amount=0.7
         )
@@ -320,31 +704,25 @@ class TestParameter(unittest.TestCase):
         self.assertEqual(teleport_rot, {'y': 90.0})
         self.assertEqual(teleport_pos, {'x': 1.0, 'z': 2.0})
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_teleport(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_teleport(
                 yRotation='invalid',
                 xPosition='1',
                 zPosition='2')
-        )
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_teleport(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_teleport(
                 yRotation='90',
                 xPosition='invalid',
                 zPosition='2'
             )
-        )
 
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._get_teleport(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._get_teleport(
                 yRotation=90,
                 xPosition=1,
                 zPosition='invalid'
             )
-        )
 
     def test_teleport_position(self):
         position = self.parameter_converter._get_teleport_position(
@@ -396,73 +774,55 @@ class TestParameter(unittest.TestCase):
         self.assertEqual(unity_coord, 0)
 
         image_coord = screen_height
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._convert_y_image_coord_for_unity(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._convert_y_image_coord_for_unity(
                 y_coord=image_coord
             )
-        )
 
         # value much greater than the screen height
         image_coord = 1000000
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._convert_y_image_coord_for_unity(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._convert_y_image_coord_for_unity(
                 y_coord=image_coord
             )
-        )
 
         # value less than the origin
         image_coord = -1
-        self.assertRaises(
-            ValueError,
-            lambda: self.parameter_converter._convert_y_image_coord_for_unity(
+        with self.assertRaises(ValueError):
+            self.parameter_converter._convert_y_image_coord_for_unity(
                 y_coord=image_coord
             )
-        )
 
         # Invalid image coordinate
         image_coord = None
-        self.assertRaises(
-            TypeError,
-            lambda: self.parameter_converter._convert_y_image_coord_for_unity(
+        with self.assertRaises(TypeError):
+            self.parameter_converter._convert_y_image_coord_for_unity(
                 y_coord=image_coord
             )
-        )
 
         # Invalid image coordinate value
         image_coord = "one"
-        self.assertRaises(
-            TypeError,
-            lambda: self.parameter_converter._convert_y_image_coord_for_unity(
+        with self.assertRaises(TypeError):
+            self.parameter_converter._convert_y_image_coord_for_unity(
                 y_coord=image_coord
             )
-        )
 
     def test_mcs_action_to_ai2thor_action(self):
-        # TODO any string is passed through
-        # should we leave an Action enum?
         ai2thor_action = \
             self.parameter_converter._mcs_action_to_ai2thor_action(
-                "")
-        self.assertIsInstance(ai2thor_action, str)
-        self.assertEqual(ai2thor_action, "")
-
-        ai2thor_action = \
-            self.parameter_converter._mcs_action_to_ai2thor_action(
-                "OpenObject")
+                mcs.Action.OPEN_OBJECT)
         self.assertIsInstance(ai2thor_action, str)
         self.assertEqual(ai2thor_action, "MCSOpenObject")
 
         ai2thor_action = \
             self.parameter_converter._mcs_action_to_ai2thor_action(
-                "CloseObject")
+                mcs.Action.CLOSE_OBJECT)
         self.assertIsInstance(ai2thor_action, str)
         self.assertEqual(ai2thor_action, "MCSCloseObject")
 
         ai2thor_action = \
             self.parameter_converter._mcs_action_to_ai2thor_action(
-                "DropObject")
+                mcs.Action.DROP_OBJECT)
         self.assertIsInstance(ai2thor_action, str)
         self.assertEqual(ai2thor_action, "DropHandObject")
 
@@ -514,3 +874,41 @@ class TestParameter(unittest.TestCase):
         self.assertFalse(compare_param_values(1.234, 1))
         self.assertFalse(compare_param_values(1.0, 1.234))
         self.assertFalse(compare_param_values(1.234, 1.0))
+
+    def test_rebuild_endhabituation(self):
+        # EndHabituation rebuilds parameters from the goal list
+        endhabit_goal = (mcs.Action.END_HABITUATION.value, {})
+        self.assertEqual(
+            "EndHabituation",
+            rebuild_endhabituation(
+                step_action_list=[endhabit_goal]
+            )
+        )
+
+        endhabit_goal = (mcs.Action.END_HABITUATION.value, {"yRotation": 90})
+        self.assertEqual(
+            "EndHabituation,yRotation=90",
+            rebuild_endhabituation(
+                step_action_list=[endhabit_goal]
+            )
+        )
+
+        endhabit_goal = (
+            mcs.Action.END_HABITUATION.value, {
+                'xPosition': 0.0, 'zPosition': 0.0})
+        self.assertEqual(
+            "EndHabituation,xPosition=0.0,zPosition=0.0",
+            rebuild_endhabituation(
+                step_action_list=[endhabit_goal]
+            )
+        )
+
+        endhabit_goal = (
+            mcs.Action.END_HABITUATION.value,
+            {'xPosition': 0.0, 'zPosition': 0.0, 'yRotation': 0.0})
+        self.assertEqual(
+            "EndHabituation,xPosition=0.0,zPosition=0.0,yRotation=0.0",
+            rebuild_endhabituation(
+                step_action_list=[endhabit_goal]
+            )
+        )

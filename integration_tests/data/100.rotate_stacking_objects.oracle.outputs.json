@@ -1,0 +1,406 @@
+﻿[
+    {
+        "camera_height": 0.762,
+        "head_tilt": 35,
+        "objects": [
+            {
+                "id": "block_blank_a",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 1,
+                "visible": true
+            },
+            {
+                "id": "block_blank_c",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 1,
+                "visible": true
+            },
+            {
+                "id": "block_blank_d",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": -0.0,
+                "rotation_y": 1,
+                "visible": true
+            },
+            {
+                "id": "block_blank_f",
+                "mass": 0.66,
+                "position_x": -0.0,
+                "position_z": 0.0,
+                "rotation_y": 1,
+                "visible": true
+            }
+        ],
+        "objects_count": 4,
+        "position_x": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects_count": 5
+    },
+    {
+        "camera_height": 0.762,
+        "head_tilt": 35,
+        "objects": [
+            {
+                "id": "block_blank_a",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 6,
+                "visible": true
+            },
+            {
+                "id": "block_blank_c",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 6,
+                "visible": true
+            },
+            {
+                "id": "block_blank_d",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": -0.0,
+                "rotation_y": 6,
+                "visible": true
+            },
+            {
+                "id": "block_blank_f",
+                "mass": 0.66,
+                "position_x": -0.0,
+                "position_z": 0.0,
+                "rotation_y": 6,
+                "visible": true
+            }
+        ],
+        "objects_count": 4,
+        "position_x": 0.0,
+        "position_z": -0.75,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 1,
+        "structural_objects_count": 5
+    },
+    {
+        "camera_height": 0.762,
+        "head_tilt": 35,
+        "objects": [
+            {
+                "id": "block_blank_a",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 11,
+                "visible": true
+            },
+            {
+                "id": "block_blank_c",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 11,
+                "visible": true
+            },
+            {
+                "id": "block_blank_d",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 11,
+                "visible": true
+            },
+            {
+                "id": "block_blank_f",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 11,
+                "visible": true
+            }
+        ],
+        "objects_count": 4,
+        "position_x": 0.0,
+        "position_z": -0.75,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 2,
+        "structural_objects_count": 5
+    },
+    {
+        "camera_height": 0.762,
+        "head_tilt": 35,
+        "objects": [
+            {
+                "id": "block_blank_a",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 16,
+                "visible": true
+            },
+            {
+                "id": "block_blank_c",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 16,
+                "visible": true
+            },
+            {
+                "id": "block_blank_d",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 16,
+                "visible": true
+            },
+            {
+                "id": "block_blank_f",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 16,
+                "visible": true
+            }
+        ],
+        "objects_count": 4,
+        "position_x": 0.0,
+        "position_z": -0.75,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 3,
+        "structural_objects_count": 5
+    },
+    {
+        "camera_height": 0.762,
+        "head_tilt": 35,
+        "objects": [
+            {
+                "id": "block_blank_a",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 21,
+                "visible": true
+            },
+            {
+                "id": "block_blank_c",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 21,
+                "visible": true
+            },
+            {
+                "id": "block_blank_d",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 21,
+                "visible": true
+            },
+            {
+                "id": "block_blank_f",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 21,
+                "visible": true
+            }
+        ],
+        "objects_count": 4,
+        "position_x": 0.0,
+        "position_z": -0.75,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 4,
+        "structural_objects_count": 5
+    },
+    {
+        "camera_height": 0.762,
+        "head_tilt": 35,
+        "objects": [
+            {
+                "id": "block_blank_a",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 16,
+                "visible": true
+            },
+            {
+                "id": "block_blank_c",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 16,
+                "visible": true
+            },
+            {
+                "id": "block_blank_d",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 16,
+                "visible": true
+            },
+            {
+                "id": "block_blank_f",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 16,
+                "visible": true
+            }
+        ],
+        "objects_count": 4,
+        "position_x": 0.0,
+        "position_z": -0.75,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 5,
+        "structural_objects_count": 5
+    },
+    {
+        "camera_height": 0.762,
+        "head_tilt": 35,
+        "objects": [
+            {
+                "id": "block_blank_a",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 11,
+                "visible": true
+            },
+            {
+                "id": "block_blank_c",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 11,
+                "visible": true
+            },
+            {
+                "id": "block_blank_d",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 11,
+                "visible": true
+            },
+            {
+                "id": "block_blank_f",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 11,
+                "visible": true
+            }
+        ],
+        "objects_count": 4,
+        "position_x": 0.0,
+        "position_z": -0.75,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 6,
+        "structural_objects_count": 5
+    },
+    {
+        "camera_height": 0.762,
+        "head_tilt": 35,
+        "objects": [
+            {
+                "id": "block_blank_a",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 6,
+                "visible": true
+            },
+            {
+                "id": "block_blank_c",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 6,
+                "visible": true
+            },
+            {
+                "id": "block_blank_d",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": -0.0,
+                "rotation_y": 6,
+                "visible": true
+            },
+            {
+                "id": "block_blank_f",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 6,
+                "visible": true
+            }
+        ],
+        "objects_count": 4,
+        "position_x": 0.0,
+        "position_z": -0.75,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 7,
+        "structural_objects_count": 5
+    },
+    {
+        "camera_height": 0.762,
+        "head_tilt": 35,
+        "objects": [
+            {
+                "id": "block_blank_a",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 1,
+                "visible": true
+            },
+            {
+                "id": "block_blank_c",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 1,
+                "visible": true
+            },
+            {
+                "id": "block_blank_d",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 1,
+                "visible": true
+            },
+            {
+                "id": "block_blank_f",
+                "mass": 0.66,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 1,
+                "visible": true
+            }
+        ],
+        "objects_count": 4,
+        "position_x": 0.0,
+        "position_z": -0.75,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 8,
+        "structural_objects_count": 5
+    }
+]

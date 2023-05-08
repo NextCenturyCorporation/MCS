@@ -21,15 +21,15 @@ jobs:
         with:
           python-version: 3.7
       - name: Install dependencies
+        # Need to explicitly install requirementslib==1.6.9 here
+        # so that later isort step works
         run: |
-          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install --upgrade pip setuptools wheel requirementslib==1.6.9
           python -m pip install -r requirements.txt
       - name: Run unit tests
         run: python -m unittest
       - name: Run isort
-        uses: isort/isort-action@master
-        with:
-            requirementsFiles: "requirements.txt requirements-test.txt"
+        uses: isort/isort-action@v1.0.0
       - name: Flake8
         run: flake8
       - name: Autopep8

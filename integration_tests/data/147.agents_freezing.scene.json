@@ -1,0 +1,185 @@
+﻿{
+    "name": "Agents moving",
+    "version": "1",
+    "ceilingMaterial": "Custom/Materials/GreyDrywallMCS",
+    "floorMaterial": "Custom/Materials/BrownWoodMCS",
+    "wallMaterial": "Custom/Materials/WhiteDrywallMCS",
+    "roomDimensions": {
+        "x": 12,
+        "y": 3,
+        "z": 12
+    },
+    "performerStart": {
+        "position": {
+            "x": 0,
+            "z": -4
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": -0.2
+        }
+    },
+    "objects": [{
+        "id": "agent_male",
+        "type": "agent_male_02",
+        "agentSettings": {
+            "chest": 4,
+            "chestMaterial": 5,
+            "eyes": -1,
+            "feet": -1,
+            "feetMaterial": -1,
+            "glasses": -1,
+            "hair": 4,
+            "hairMaterial": -1,
+            "hatMaterial": -1,
+            "jacket": 4,
+            "jacketMaterial": 3,
+            "legs": 2,
+            "legsMaterial": -1,
+            "skin": 2,
+            "tie": -1,
+            "tieMaterial": -1
+        },
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0.5
+            },
+            "rotation": {
+                "x": 0,
+                "y": 90,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        }],
+        "actions": [{
+            "stepBegin": 2,
+            "id": "TPM_freeze",
+            "isLoopAnimation": true,
+            "stepEnd": 7
+        },{
+            "stepBegin": 20,
+            "id": "TPM_freeze",
+            "isLoopAnimation": true
+        }, {
+            "stepBegin": 25,
+            "id": "TPM_clap",
+            "isLoopAnimation": true,
+            "stepEnd": 27
+        }],
+        "agentMovement": {
+            "repeat": false,
+            "stepBegin": 0,
+            "sequence": [
+            {
+                "animation": "TPM_walk",
+                "endPoint": 
+                {
+                    "x": 0,
+                    "z": -0.4
+                }
+            }, 
+            {
+                "animation": "TPM_walk",
+                "endPoint": 
+                {
+                    "x": -0.4,
+                    "z": -0.4
+                }
+            }]
+        }
+    }, {
+        "id": "soccer_ball",
+        "type": "soccer_ball",
+        "mass": 1,
+        "salientMaterials": ["plastic"],
+        "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color 1"],
+        "pickupable": true,
+        "associatedWithAgent": "agent_male",
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0.6,
+                "y": 0.125,
+                "z": 1
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        }]
+    }, {
+        "id": "agent_female",
+        "type": "agent_female_01",
+        "agentSettings": {
+            "chest": 4,
+            "chestMaterial": 5,
+            "eyes": -1,
+            "feet": -1,
+            "feetMaterial": -1,
+            "glasses": -1,
+            "hair": 4,
+            "hairMaterial": -1,
+            "hatMaterial": -1,
+            "jacket": 4,
+            "jacketMaterial": 3,
+            "legs": 2,
+            "legsMaterial": -1,
+            "skin": 2,
+            "tie": -1,
+            "tieMaterial": -1
+        },
+        "agentMovement": {
+            "repeat": true,
+            "stepBegin": 1,
+            "sequence": [
+            {
+                "animation": "TPM_walk",
+                "endPoint": 
+                {
+                    "x": 1,
+                    "z": 2
+                }
+            }, 
+            {
+                "animation": "TPM_walk",
+                "endPoint": 
+                {
+                    "x": 1,
+                    "z": 1.5
+                }
+            }]
+        },
+        "actions": [{
+            "stepBegin": 25,
+            "id": "TPF_freeze",
+            "isLoopAnimation": true
+        }],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0.9,
+                "y": 0,
+                "z": 1.8
+            },
+            "rotation": {
+                "x": 0,
+                "y": 180,
+                "z": 0
+            },
+            "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            }
+        }]
+    }]
+}

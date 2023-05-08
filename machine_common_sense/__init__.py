@@ -1,3 +1,4 @@
+import concurrent.futures
 import json
 import logging
 import logging.config
@@ -34,16 +35,26 @@ logger.addHandler(logging.NullHandler())
 TIME_LIMIT_SECONDS = 180
 
 
-@contextmanager
-def time_limit(seconds):
-    def signal_handler(signum, frame):
-        raise Exception("Time out!")
-    signal.signal(signal.SIGALRM, signal_handler)
-    signal.alarm(seconds)
-    try:
-        yield
-    finally:
-        signal.alarm(0)
+def get_controller(unity_exec: str, config: ConfigManager):
+    """Function to get the controller, pulled into its own
+     function so we can time it.  """
+    controller = Controller(unity_exec, config)
+    return controller
+
+
+def get_controller_with_timeout(unity_exec: str, config: ConfigManager):
+    """Wrapper function that sets a timeout for the controller creation.
+    If getting the controller times out, None is returned. """
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+        future = executor.submit(get_controller, unity_exec, config)
+        try:
+            controller = future.result(timeout=TIME_LIMIT_SECONDS)
+            return controller
+        except concurrent.futures.TimeoutError as Msg:
+            logger.error("Timeout error in creating controller", exc_info=Msg)
+
+            # TODO:  Add checks to continue waiting for the controller creation.
+            return None
 
 
 @typeguard.typechecked
@@ -118,8 +129,7 @@ def create_controller(config_file_or_dict: Union[Dict, str] = None,
                 unity_cache_version).as_posix()
 
         config = ConfigManager(config_file_or_dict)
-        with time_limit(TIME_LIMIT_SECONDS):
-            controller = Controller(unity_exec, config)
+        controller = get_controller_with_timeout(unity_exec, config)
         if not controller:
             raise Exception('MCS/Python Controller failed to initialize')
         add_subscribers(controller, config)
@@ -154,7 +164,7 @@ def change_config(controller: Controller,
 
 
 @typeguard.typechecked
-def load_scene_json_file(scene_json_file_path: str):
+def load_scene_json_file(scene_json_file_path: str) -> Dict:
     """
     Loads the given JSON scene config file and returns its data.
 
@@ -167,17 +177,12 @@ def load_scene_json_file(scene_json_file_path: str):
     -------
     dict
         The MCS scene configuration data from the given JSON file.
-    None or string
-        The error status (if any).
+
+    Raises
+    ------
+    FileNotFoundError
+    ValueError
     """
-    try:
-        with open(scene_json_file_path, encoding='utf-8-sig') \
-                as config_json_file_object:
-            try:
-                return json.load(config_json_file_object), None
-            except ValueError:
-                return {}, "The given file '" + scene_json_file_path + \
-                    "' does not contain valid JSON."
-    except IOError:
-        return {}, "The given file '" + scene_json_file_path + \
-            "' cannot be found."
+    with open(scene_json_file_path, encoding='utf-8-sig') \
+            as config_json_file_object:
+        return json.load(config_json_file_object)

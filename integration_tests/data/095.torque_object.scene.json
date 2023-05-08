@@ -1,0 +1,42 @@
+{
+    "name": "Torque Object",
+    "ceilingMaterial": "AI2-THOR/Materials/Metals/Brass 1",
+    "floorMaterial": "AI2-THOR/Materials/Wood/WhiteWood",
+    "wallMaterial": "AI2-THOR/Materials/Metals/Brass 1",
+    "performerStart": {
+      "position": {
+        "x": 0,
+        "z": 0
+      },
+      "rotation": {
+        "x": 30,
+        "y": 0
+      }
+    },
+    "objects": [
+      {
+        "id": "turtle_on_wheels",
+        "type": "turtle_on_wheels",
+        "salientMaterials": ["wood"],
+        "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 3"],
+        "mass": 1.5,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0.01,
+                "z": 1
+            },
+            "scale": {
+              "x": 2,
+              "y": 2,
+              "z": 2
+            },
+            "rotation": {
+                "x": 0,
+                "y": 90,
+                "z": 0
+            }
+        }]
+    }]
+  }

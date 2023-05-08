@@ -7,7 +7,8 @@ from .controller_media import (DepthImageEventHandler, DepthVideoEventHandler,
                                ObjectMaskImageEventHandler,
                                SceneImageEventHandler,
                                SegmentationVideoEventHandler,
-                               TopdownVideoEventHandler)
+                               TopdownVideoEventHandler,
+                               UnityTopdownCameraCombinerEventHandler)
 from .history_writer import HistoryEventHandler
 
 
@@ -26,12 +27,19 @@ def add_subscribers(controller: Controller, config: ConfigManager):
             controller.subscribe(ObjectMaskImageEventHandler())
     if config.is_video_enabled():
         controller.subscribe(ImageVideoEventHandler())
-        controller.subscribe(TopdownVideoEventHandler())
+        if config.is_top_down_camera():
+            controller.subscribe(UnityTopdownCameraCombinerEventHandler())
+            # the two top down video generators use the same filename so we
+            # shouldn't enable both at the same time
+        elif config.is_top_down_plotter():
+            controller.subscribe(TopdownVideoEventHandler())
         if (config.is_depth_maps_enabled()):
             controller.subscribe(DepthVideoEventHandler())
         if (config.is_object_masks_enabled()):
             controller.subscribe(SegmentationVideoEventHandler())
-    controller.subscribe(ControllerLogger())
+    # Add the logger unless no modes are configured.
+    if config.get_terminal_output_mode():
+        controller.subscribe(ControllerLogger())
     # TODO once we remove evaulation code, we can better handle when,
     # this handler subscribes
     controller.subscribe(HistoryEventHandler())

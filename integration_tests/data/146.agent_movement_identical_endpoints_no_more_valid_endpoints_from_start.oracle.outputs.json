@@ -1,0 +1,188 @@
+﻿[
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.7,
+                "position_z": 0.7,
+                "rotation_y": 90,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.7,
+        "position_z": -0.3,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 0,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.7,
+                "position_z": 0.7,
+                "rotation_y": 90,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.7,
+        "position_z": -0.3,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 1,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.7,
+                "position_z": 0.7,
+                "rotation_y": 90,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.7,
+        "position_z": -0.3,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 2,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.7,
+                "position_z": 0.7,
+                "rotation_y": 90,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.7,
+        "position_z": -0.3,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 3,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.6,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.7,
+                "position_z": 0.7,
+                "rotation_y": 90,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.7,
+        "position_z": -0.3,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 4,
+        "structural_objects_count": 5
+    },
+    {
+        "head_tilt": 0,
+        "objects": [
+            {
+                "direction_x": 0.0,
+                "direction_y": -0.61,
+                "direction_z": 0.8,
+                "distance": 1.26,
+                "id": "agent_female",
+                "mass": 70.0,
+                "material_list": [
+                    "UNDEFINED"
+                ],
+                "position_x": 0.7,
+                "position_z": 0.7,
+                "rotation_y": 90,
+                "shape": "agent",
+                "simulation_agent_held_object": "",
+                "simulation_agent_is_holding_held_object": false,
+                "texture_color_list": [],
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 0.7,
+        "position_z": -0.3,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 5,
+        "structural_objects_count": 5
+    }
+]

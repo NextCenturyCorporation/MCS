@@ -4,9 +4,11 @@ from types import SimpleNamespace
 import numpy
 
 import machine_common_sense as mcs
-from machine_common_sense.config_manager import (ConfigManager, MetadataTier,
+from machine_common_sense.config_manager import (ConfigManager,
+                                                 FloorPartitionConfig,
+                                                 MetadataTier,
                                                  SceneConfiguration,
-                                                 SceneConfigurationSchema)
+                                                 Vector2dInt, Vector3d)
 from machine_common_sense.controller_output_handler import (
     ControllerOutputHandler, SceneEvent)
 from machine_common_sense.goal_metadata import GoalMetadata
@@ -37,7 +39,7 @@ class TestControllerOutputHandler(unittest.TestCase):
 
     def create_wrap_output_scene_event(self):
         image_data = numpy.array([[0]], dtype=numpy.uint8)
-        depth_data = numpy.array([[[128, 0, 0]]], dtype=numpy.uint8)
+        depth_data = numpy.array([[0.2, 0.4], [0.6, 0.8]], dtype=numpy.float32)
         object_mask_data = numpy.array([[192]], dtype=numpy.uint8)
 
         return {
@@ -67,8 +69,17 @@ class TestControllerOutputHandler(unittest.TestCase):
                 "cameraPosition": {
                     "y": 0.1234
                 },
-                "clippingPlaneFar": 15,
+                "resolvedObject": 'testResolvedId',
+                "resolvedReceptacle": '',
+                "clippingPlaneFar": 150,
                 "clippingPlaneNear": 0,
+                "colors": [{
+                    "name": "thing1",
+                    "color": [0, 1, 2]
+                }, {
+                    "name": "thing2",
+                    "color": [3, 4, 5]
+                }],
                 "fov": 42.5,
                 "lastActionStatus": "SUCCESSFUL",
                 "lastActionSuccess": True,
@@ -82,6 +93,7 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "distance": 1.5,
                     "distanceXZ": 1.1,
                     "isPickedUp": False,
+                    "wasPickedUp": False,
                     "mass": 12.34,
                     "objectBounds": {
                         "objectBoundsCorners": [
@@ -110,7 +122,11 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "shape": "shape",
                     "visibleInCamera": True,
                     "isOpen": False,
-                    "openable": False
+                    "openable": False,
+                    "locked": False,
+                    "associatedWithAgent": "",
+                    "simulationAgentHeldObject": "",
+                    "simulationAgentIsHoldingHeldObject": False
                 }, {
                     "colorsFromMaterials": [],
                     "direction": {
@@ -121,6 +137,7 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "distance": 2.5,
                     "distanceXZ": 2.0,
                     "isPickedUp": False,
+                    "wasPickedUp": False,
                     "mass": 34.56,
                     "objectBounds": {
                         "objectBoundsCorners": [
@@ -149,7 +166,11 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "shape": "shapeHidden",
                     "visibleInCamera": False,
                     "isOpen": False,
-                    "openable": False
+                    "openable": False,
+                    "locked": False,
+                    "associatedWithAgent": "",
+                    "simulationAgentHeldObject": "",
+                    "simulationAgentIsHoldingHeldObject": False
                 }],
                 "structuralObjects": [{
                     "colorsFromMaterials": ["c2"],
@@ -161,6 +182,7 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "distance": 2.5,
                     "distanceXZ": 2.2,
                     "isPickedUp": False,
+                    "wasPickedUp": False,
                     "mass": 56.78,
                     "objectBounds": {
                         "objectBoundsCorners": [
@@ -189,7 +211,11 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "shape": "structure",
                     "visibleInCamera": True,
                     "isOpen": False,
-                    "openable": False
+                    "openable": False,
+                    "locked": False,
+                    "associatedWithAgent": "",
+                    "simulationAgentHeldObject": "",
+                    "simulationAgentIsHoldingHeldObject": False
                 }, {
                     "colorsFromMaterials": [],
                     "direction": {
@@ -200,6 +226,7 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "distance": 3.5,
                     "distanceXZ": 3.3,
                     "isPickedUp": False,
+                    "wasPickedUp": False,
                     "mass": 78.90,
                     "objectBounds": {
                         "objectBoundsCorners": [
@@ -228,7 +255,11 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "shape": "structureHidden",
                     "visibleInCamera": False,
                     "isOpen": False,
-                    "openable": False
+                    "openable": False,
+                    "locked": False,
+                    "associatedWithAgent": "",
+                    "simulationAgentHeldObject": "",
+                    "simulationAgentIsHoldingHeldObject": False
                 }]
             }
         }, image_data, depth_data, object_mask_data
@@ -253,6 +284,7 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "distance": 0,
                     "distanceXZ": 0,
                     "isPickedUp": True,
+                    "wasPickedUp": True,
                     "mass": 1,
                     "objectId": "testId1",
                     "position": {
@@ -269,7 +301,11 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "shape": "shape1",
                     "visibleInCamera": True,
                     "isOpen": False,
-                    "openable": False
+                    "openable": False,
+                    "locked": False,
+                    "associatedWithAgent": "",
+                    "simulationAgentHeldObject": "",
+                    "simulationAgentIsHoldingHeldObject": False
                 }, {
                     "colorsFromMaterials": ["c2", "c3"],
                     "direction": {
@@ -280,6 +316,7 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "distance": 1.5,
                     "distanceXZ": 1.1,
                     "isPickedUp": False,
+                    "wasPickedUp": False,
                     "mass": 12.34,
                     "objectBounds": {
                         "objectBoundsCorners": [
@@ -308,7 +345,11 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "shape": "shape2",
                     "visibleInCamera": True,
                     "isOpen": False,
-                    "openable": False
+                    "openable": False,
+                    "locked": False,
+                    "associatedWithAgent": "agent_test",
+                    "simulationAgentHeldObject": "",
+                    "simulationAgentIsHoldingHeldObject": False
                 }, {
                     "colorsFromMaterials": [],
                     "direction": {
@@ -319,6 +360,7 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "distance": 2.5,
                     "distanceXZ": 2,
                     "isPickedUp": False,
+                    "wasPickedUp": False,
                     "mass": 34.56,
                     "objectBounds": {
                         "objectBoundsCorners": [
@@ -347,7 +389,11 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "shape": "shape3",
                     "visibleInCamera": False,
                     "isOpen": False,
-                    "openable": False
+                    "openable": False,
+                    "locked": False,
+                    "associatedWithAgent": "",
+                    "simulationAgentHeldObject": "held_test",
+                    "simulationAgentIsHoldingHeldObject": True
                 }]
             }
         }
@@ -451,22 +497,42 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
         coh = ControllerOutputHandler(self._config)
-        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
-        (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
+        coh.set_scene_config(SceneConfiguration(holes=[
+            Vector2dInt(x=0, z=0), Vector2dInt(x=1, z=2), Vector2dInt(x=9, z=8)
+        ], lava=[
+            Vector2dInt(x=3, z=3), Vector2dInt(x=7, z=5), Vector2dInt(x=4, z=6)
+        ]))
+        goal = GoalMetadata(metadata={
+            'target': {'id': 'target_id_1'},
+            'targets': [{'id': 'target_id_2'}, {'id': 'target_id_3'}]
+        }, triggered_by_target_sequence=['chest_1', 'chest_3'])
+        (res, actual) = coh.handle_output(mock_event, goal, 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
-        self.assertEqual(actual.camera_clipping_planes, (0, 15))
+        self.assertEqual(actual.camera_clipping_planes, (0, 150))
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
-        self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
+        self.assertEqual(actual.goal.metadata, goal.metadata)
+        self.assertEqual(actual.goal.triggered_by_target_sequence,
+                         goal.triggered_by_target_sequence)
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
+        self.assertEqual(actual.holes, [(0, 0), (1, 2), (9, 8)])
+        self.assertEqual(actual.lava, [
+            (2.5, 2.5, 3.5, 3.5), (6.5, 4.5, 7.5, 5.5), (3.5, 5.5, 4.5, 6.5)
+        ])
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
+        self.assertEqual(actual.resolved_object, 'testResolvedId')
+        self.assertEqual(actual.resolved_receptacle, '')
         self.assertEqual(actual.rotation, 2.222)
         self.assertEqual(
             actual.return_status,
             mcs.ReturnStatus.SUCCESSFUL.value)
+        self.assertEqual(actual.segmentation_colors, [
+            {'objectId': 'thing1', 'r': 0, 'g': 1, 'b': 2},
+            {'objectId': 'thing2', 'r': 3, 'g': 4, 'b': 5}
+        ])
         self.assertEqual(actual.step_number, 0)
 
         self.assertEqual(len(actual.object_list), 1)
@@ -500,6 +566,12 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual.object_list[0].state_list, [])
         self.assertEqual(actual.object_list[0].texture_color_list, ['c1'])
         self.assertEqual(actual.object_list[0].visible, True)
+        self.assertEqual(actual.object_list[0].associated_with_agent, "")
+        self.assertEqual(
+            actual.object_list[0].simulation_agent_held_object, "")
+        self.assertEqual(
+            actual.object_list[0].simulation_agent_is_holding_held_object,
+            False)
 
         self.assertEqual(len(actual.structural_object_list), 1)
         self.assertEqual(actual.structural_object_list[0].uuid, "testWallId")
@@ -539,15 +611,21 @@ class TestControllerOutputHandler(unittest.TestCase):
             actual.structural_object_list[0].texture_color_list,
             ['c2'])
         self.assertEqual(actual.structural_object_list[0].visible, True)
+        self.assertEqual(actual.object_list[0].associated_with_agent, "")
+        self.assertEqual(
+            actual.object_list[0].simulation_agent_held_object, "")
+        self.assertEqual(
+            actual.object_list[0].simulation_agent_is_holding_held_object,
+            False)
 
         # IF we are at default level, shouldn't depth maps, object masks be
         # restricted?
-        self.assertEqual(len(actual.depth_map_list), 0)
+        self.assertEqual(len(actual.depth_map_list), 1)
         self.assertEqual(len(actual.image_list), 1)
-        self.assertEqual(len(actual.object_mask_list), 0)
+        self.assertEqual(len(actual.object_mask_list), 1)
         '''numpy.testing.assert_almost_equal(
             numpy.array(actual.depth_map_list[0]),
-            numpy.array([[2.51]], dtype=numpy.float32),
+            numpy.array([[30, 60], [90, 120]], dtype=numpy.float32),
             3
         )'''
         self.assertEqual(numpy.array(actual.image_list[0]), image_data)
@@ -568,23 +646,40 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
         coh = ControllerOutputHandler(self._config)
-        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
-        (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
+        coh.set_scene_config(SceneConfiguration(holes=[
+            Vector2dInt(x=0, z=0), Vector2dInt(x=1, z=2), Vector2dInt(x=9, z=8)
+        ], lava=[
+            Vector2dInt(x=3, z=3), Vector2dInt(x=7, z=5), Vector2dInt(x=4, z=6)
+        ]))
+        goal = GoalMetadata(metadata={
+            'target': {'id': 'target_id_1'},
+            'targets': [{'id': 'target_id_2'}, {'id': 'target_id_3'}]
+        }, triggered_by_target_sequence=['chest_1', 'chest_3'])
+        (res, actual) = coh.handle_output(mock_event, goal, 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
-        self.assertEqual(actual.camera_clipping_planes, (0, 15))
+        self.assertEqual(actual.camera_clipping_planes, (0, 150))
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
+        self.assertEqual(actual.goal.metadata, {
+            'target': {},
+            'targets': [],
+        })
+        self.assertEqual(actual.goal.triggered_by_target_sequence, None)
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.position, None)
+        self.assertEqual(actual.resolved_object, None)
+        self.assertEqual(actual.resolved_receptacle, None)
         self.assertEqual(actual.rotation, None)
         self.assertEqual(
             actual.return_status,
             mcs.ReturnStatus.SUCCESSFUL.value)
+        self.assertEqual(actual.segmentation_colors, [])
         self.assertEqual(actual.step_number, 0)
-
+        self.assertEqual(actual.holes, None)
+        self.assertEqual(actual.lava, None)
         # Correct object metadata properties tested elsewhere
         self.assertEqual(len(actual.object_list), 0)
         self.assertEqual(len(actual.structural_object_list), 0)
@@ -617,24 +712,40 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
         coh = ControllerOutputHandler(self._config)
-        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
-        (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
+        coh.set_scene_config(SceneConfiguration(holes=[
+            Vector2dInt(x=0, z=0), Vector2dInt(x=1, z=2), Vector2dInt(x=9, z=8)
+        ], lava=[
+            Vector2dInt(x=3, z=3), Vector2dInt(x=7, z=5), Vector2dInt(x=4, z=6)
+        ]))
+        goal = GoalMetadata(metadata={
+            'target': {'id': 'target_id_1'},
+            'targets': [{'id': 'target_id_2'}, {'id': 'target_id_3'}]
+        }, triggered_by_target_sequence=['chest_1', 'chest_3'])
+        (res, actual) = coh.handle_output(mock_event, goal, 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
-        self.assertEqual(actual.camera_clipping_planes, (0, 15))
+        self.assertEqual(actual.camera_clipping_planes, (0, 150))
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
-        self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
+        self.assertEqual(actual.goal.metadata, {
+            'target': {},
+            'targets': [],
+        })
+        self.assertEqual(actual.goal.triggered_by_target_sequence, None)
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.position, None)
+        self.assertEqual(actual.resolved_object, None)
+        self.assertEqual(actual.resolved_receptacle, None)
         self.assertEqual(actual.rotation, None)
         self.assertEqual(
             actual.return_status,
             mcs.ReturnStatus.SUCCESSFUL.value)
+        self.assertEqual(actual.segmentation_colors, [])
         self.assertEqual(actual.step_number, 0)
-
+        self.assertEqual(actual.holes, None)
+        self.assertEqual(actual.lava, None)
         # Correct object metadata properties tested elsewhere
         self.assertEqual(len(actual.object_list), 0)
         self.assertEqual(len(actual.structural_object_list), 0)
@@ -655,22 +766,37 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
         coh = ControllerOutputHandler(self._config)
-        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
-        (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
+        coh.set_scene_config(SceneConfiguration(holes=[
+            Vector2dInt(x=0, z=0), Vector2dInt(x=1, z=2), Vector2dInt(x=9, z=8)
+        ], lava=[
+            Vector2dInt(x=3, z=3), Vector2dInt(x=7, z=5), Vector2dInt(x=4, z=6)
+        ]))
+        goal = GoalMetadata(metadata={
+            'target': {'id': 'target_id_1'},
+            'targets': [{'id': 'target_id_2'}, {'id': 'target_id_3'}]
+        }, triggered_by_target_sequence=['chest_1', 'chest_3'])
+        (res, actual) = coh.handle_output(mock_event, goal, 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
-        self.assertEqual(actual.camera_clipping_planes, (0, 15))
+        self.assertEqual(actual.camera_clipping_planes, (0, 150))
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
-        self.assertEqual(str(actual.goal), str(mcs.GoalMetadata()))
+        self.assertEqual(actual.goal.metadata, {
+            'target': {},
+            'targets': [],
+        })
+        self.assertEqual(actual.triggered_by_sequence_incorrect, None)
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.position, None)
+        self.assertEqual(actual.resolved_object, None)
+        self.assertEqual(actual.resolved_receptacle, None)
         self.assertEqual(actual.rotation, None)
         self.assertEqual(
             actual.return_status,
             mcs.ReturnStatus.SUCCESSFUL.value)
+        self.assertEqual(actual.segmentation_colors, [])
         self.assertEqual(actual.step_number, 0)
 
         # Correct object metadata properties tested elsewhere
@@ -694,23 +820,43 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
         coh = ControllerOutputHandler(self._config)
-        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
-        (actual, res) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
+        coh.set_scene_config(SceneConfiguration(holes=[
+            Vector2dInt(x=0, z=0), Vector2dInt(x=1, z=2), Vector2dInt(x=9, z=8)
+        ], lava=[
+            Vector2dInt(x=3, z=3), Vector2dInt(x=7, z=5), Vector2dInt(x=4, z=6)
+        ]))
+        goal = GoalMetadata(metadata={
+            'target': {'id': 'target_id_1'},
+            'targets': [{'id': 'target_id_2'}, {'id': 'target_id_3'}]
+        }, triggered_by_target_sequence=['chest_1', 'chest_3'])
+        (actual, res) = coh.handle_output(mock_event, goal, 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
-        self.assertEqual(actual.camera_clipping_planes, (0, 15))
+        self.assertEqual(actual.camera_clipping_planes, (0, 150))
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
+        self.assertEqual(actual.goal.metadata, goal.metadata)
+        self.assertEqual(actual.goal.triggered_by_target_sequence,
+                         goal.triggered_by_target_sequence)
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
+        self.assertEqual(actual.resolved_object, 'testResolvedId')
+        self.assertEqual(actual.resolved_receptacle, '')
         self.assertEqual(actual.rotation, 2.222)
         self.assertEqual(
             actual.return_status,
             mcs.ReturnStatus.SUCCESSFUL.value)
+        self.assertEqual(actual.segmentation_colors, [
+            {'objectId': 'thing1', 'r': 0, 'g': 1, 'b': 2},
+            {'objectId': 'thing2', 'r': 3, 'g': 4, 'b': 5}
+        ])
         self.assertEqual(actual.step_number, 0)
-
+        self.assertEqual(actual.holes, [(0, 0), (1, 2), (9, 8)])
+        self.assertEqual(actual.lava, [
+            (2.5, 2.5, 3.5, 3.5), (6.5, 4.5, 7.5, 5.5), (3.5, 5.5, 4.5, 6.5)
+        ])
         # Correct object metadata properties tested elsewhere
         self.assertEqual(len(actual.object_list), 2)
         self.assertEqual(len(actual.structural_object_list), 2)
@@ -720,7 +866,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(len(actual.object_mask_list), 1)
         numpy.testing.assert_almost_equal(
             numpy.array(actual.depth_map_list[0]),
-            numpy.array([[2.51]], dtype=numpy.float32),
+            numpy.array([[30, 60], [90, 120]], dtype=numpy.float32),
             3
         )
         self.assertEqual(numpy.array(actual.image_list[0]), image_data)
@@ -742,23 +888,43 @@ class TestControllerOutputHandler(unittest.TestCase):
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
 
         coh = ControllerOutputHandler(self._config)
-        coh.set_scene_config(SceneConfiguration((mock_scene_event_data)))
-        (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
+        coh.set_scene_config(SceneConfiguration(holes=[
+            Vector2dInt(x=0, z=0), Vector2dInt(x=1, z=2), Vector2dInt(x=9, z=8)
+        ], lava=[
+            Vector2dInt(x=3, z=3), Vector2dInt(x=7, z=5), Vector2dInt(x=4, z=6)
+        ]))
+        goal = GoalMetadata(metadata={
+            'target': {'id': 'target_id_1'},
+            'targets': [{'id': 'target_id_2'}, {'id': 'target_id_3'}]
+        }, triggered_by_target_sequence=['chest_1', 'chest_3'])
+        (res, actual) = coh.handle_output(mock_event, goal, 0, 1)
 
         self.assertEqual(actual.action_list, GoalMetadata.DEFAULT_ACTIONS)
         self.assertEqual(actual.camera_aspect_ratio, (600, 400))
-        self.assertEqual(actual.camera_clipping_planes, (0, 15))
+        self.assertEqual(actual.camera_clipping_planes, (0, 150))
         self.assertEqual(actual.camera_field_of_view, 42.5)
         self.assertEqual(actual.camera_height, 0.1234)
+        self.assertEqual(actual.goal.metadata, goal.metadata)
+        self.assertEqual(actual.goal.triggered_by_target_sequence,
+                         goal.triggered_by_target_sequence)
         self.assertEqual(actual.habituation_trial, None)
         self.assertEqual(actual.head_tilt, 12.34)
         self.assertEqual(actual.position, {'x': 0.12, 'y': -0.23, 'z': 4.5})
+        self.assertEqual(actual.resolved_object, 'testResolvedId')
+        self.assertEqual(actual.resolved_receptacle, '')
         self.assertEqual(actual.rotation, 2.222)
         self.assertEqual(
             actual.return_status,
             mcs.ReturnStatus.SUCCESSFUL.value)
+        self.assertEqual(actual.segmentation_colors, [
+            {'objectId': 'thing1', 'r': 0, 'g': 1, 'b': 2},
+            {'objectId': 'thing2', 'r': 3, 'g': 4, 'b': 5}
+        ])
         self.assertEqual(actual.step_number, 0)
-
+        self.assertEqual(actual.holes, [(0, 0), (1, 2), (9, 8)])
+        self.assertEqual(actual.lava, [
+            (2.5, 2.5, 3.5, 3.5), (6.5, 4.5, 7.5, 5.5), (3.5, 5.5, 4.5, 6.5)
+        ])
         # Correct object metadata properties tested elsewhere
         self.assertEqual(len(actual.object_list), 2)
         self.assertEqual(len(actual.structural_object_list), 2)
@@ -768,7 +934,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(len(actual.object_mask_list), 1)
         numpy.testing.assert_almost_equal(
             numpy.array(actual.depth_map_list[0]),
-            numpy.array([[2.51]], dtype=numpy.float32),
+            numpy.array([[30, 60], [90, 120]], dtype=numpy.float32),
             3
         )
         self.assertEqual(numpy.array(actual.image_list[0]), image_data)
@@ -777,11 +943,33 @@ class TestControllerOutputHandler(unittest.TestCase):
                 actual.object_mask_list[0]),
             object_mask_data)
 
+    def test_wrap_output_with_partition_floor(self):
+        self._config.set_metadata_tier(MetadataTier.ORACLE.value)
+        (
+            mock_scene_event_data,
+            image_data,
+            depth_data,
+            object_mask_data
+        ) = self.create_wrap_output_scene_event()
+        mock_event = self.create_mock_scene_event(mock_scene_event_data)
+
+        coh = ControllerOutputHandler(self._config)
+        coh.set_scene_config(SceneConfiguration(
+            partition_floor=FloorPartitionConfig(
+                left_half=0.2,
+                right_half=0.8
+            ),
+            room_dimensions=Vector3d(x=30, y=3, z=20)
+        ))
+        (res, actual) = coh.handle_output(mock_event, GoalMetadata(), 0, 1)
+
+        self.assertEqual(actual.lava, [(-15, 10, -12, -10), (3, 10, 15, -10)])
+
     def test_save_images(self):
         self._config.set_metadata_tier(
             MetadataTier.ORACLE.value)
         image_data = numpy.array([[0]], dtype=numpy.uint8)
-        depth_data = numpy.array([[[0, 0, 0]]], dtype=numpy.uint8)
+        depth_data = numpy.array([[0.2, 0.4], [0.6, 0.8]], dtype=numpy.float32)
         object_mask_data = numpy.array([[192]], dtype=numpy.uint8)
 
         mock_scene_event_data = {
@@ -790,7 +978,7 @@ class TestControllerOutputHandler(unittest.TestCase):
                 "frame": image_data,
                 "instance_segmentation_frame": object_mask_data
             })],
-            "metadata": {"objects": []}
+            "metadata": {"clippingPlaneFar": 150, "objects": []}
         }
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
         scene_event = SceneEvent(
@@ -807,7 +995,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(numpy.array(image_list[0]), image_data)
         numpy.testing.assert_almost_equal(
             numpy.array(depth_map_list[0]),
-            numpy.array([[0.0]], dtype=numpy.float32),
+            numpy.array([[30, 60], [90, 120]], dtype=numpy.float32),
             3
         )
         self.assertEqual(numpy.array(object_mask_list[0]), object_mask_data)
@@ -816,11 +1004,17 @@ class TestControllerOutputHandler(unittest.TestCase):
         self._config.set_metadata_tier(
             MetadataTier.ORACLE.value)
         image_data_1 = numpy.array([[64]], dtype=numpy.uint8)
-        depth_data_1 = numpy.array([[[128, 64, 32]]], dtype=numpy.uint8)
+        depth_data_1 = numpy.array(
+            [[0.2, 0.4], [0.6, 0.8]],
+            dtype=numpy.float32
+        )
         object_mask_data_1 = numpy.array([[192]], dtype=numpy.uint8)
 
         image_data_2 = numpy.array([[32]], dtype=numpy.uint8)
-        depth_data_2 = numpy.array([[[96, 0, 0]]], dtype=numpy.uint8)
+        depth_data_2 = numpy.array(
+            [[0.0001, 0.99], [0.25, 0.75]],
+            dtype=numpy.float32
+        )
         object_mask_data_2 = numpy.array([[160]], dtype=numpy.uint8)
 
         mock_scene_event_data = {
@@ -833,7 +1027,7 @@ class TestControllerOutputHandler(unittest.TestCase):
                 "frame": image_data_2,
                 "instance_segmentation_frame": object_mask_data_2
             })],
-            "metadata": {"objects": []}
+            "metadata": {"clippingPlaneFar": 150, "objects": []}
         }
 
         mock_event = self.create_mock_scene_event(mock_scene_event_data)
@@ -852,7 +1046,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(numpy.array(image_list[0]), image_data_1)
         numpy.testing.assert_almost_equal(
             numpy.array(depth_map_list[0]),
-            numpy.array([[4.392]], dtype=numpy.float32),
+            numpy.array([[30, 60], [90, 120]], dtype=numpy.float32),
             3
         )
         self.assertEqual(numpy.array(object_mask_list[0]), object_mask_data_1)
@@ -860,7 +1054,7 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(numpy.array(image_list[1]), image_data_2)
         numpy.testing.assert_almost_equal(
             numpy.array(depth_map_list[1]),
-            numpy.array([[1.882]], dtype=numpy.float32),
+            numpy.array([[0.015, 148.5], [37.5, 112.5]], dtype=numpy.float32),
             3
         )
         self.assertEqual(numpy.array(object_mask_list[1]), object_mask_data_2)
@@ -898,6 +1092,12 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[0].state_list, [])
         self.assertEqual(actual[0].texture_color_list, ['c1'])
         self.assertEqual(actual[0].visible, True)
+        self.assertEqual(actual[0].associated_with_agent, "")
+        self.assertEqual(
+            actual[0].simulation_agent_held_object, "")
+        self.assertEqual(
+            actual[0].simulation_agent_is_holding_held_object,
+            False)
 
         self.assertEqual(actual[1].uuid, "testId2")
         self.assertEqual(actual[1].segment_color, {
@@ -925,6 +1125,12 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[1].state_list, [])
         self.assertEqual(actual[1].texture_color_list, ['c2', 'c3'])
         self.assertEqual(actual[1].visible, True)
+        self.assertEqual(actual[1].associated_with_agent, "agent_test")
+        self.assertEqual(
+            actual[1].simulation_agent_held_object, "")
+        self.assertEqual(
+            actual[1].simulation_agent_is_holding_held_object,
+            False)
 
     def test_retrieve_object_list_with_states(self):
         scene_config = {
@@ -936,7 +1142,7 @@ class TestControllerOutputHandler(unittest.TestCase):
             }]
         }
 
-        scene_config = SceneConfigurationSchema().load(scene_config)
+        scene_config = SceneConfiguration(**scene_config)
 
         mock_scene_event_data = self.create_retrieve_object_list_scene_event()
 
@@ -995,6 +1201,12 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[0].state_list, [])
         self.assertEqual(actual[0].texture_color_list, ['c1'])
         self.assertEqual(actual[0].visible, True)
+        self.assertEqual(actual[0].associated_with_agent, "")
+        self.assertEqual(
+            actual[0].simulation_agent_held_object, "")
+        self.assertEqual(
+            actual[0].simulation_agent_is_holding_held_object,
+            False)
 
         self.assertEqual(actual[1].uuid, "testId2")
         self.assertEqual(actual[1].segment_color, {
@@ -1022,6 +1234,12 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[1].state_list, [])
         self.assertEqual(actual[1].texture_color_list, ['c2', 'c3'])
         self.assertEqual(actual[1].visible, True)
+        self.assertEqual(actual[1].associated_with_agent, "agent_test")
+        self.assertEqual(
+            actual[1].simulation_agent_held_object, "")
+        self.assertEqual(
+            actual[1].simulation_agent_is_holding_held_object,
+            False)
 
         self.assertEqual(actual[2].uuid, "testId3")
         self.assertEqual(actual[2].segment_color, {
@@ -1049,6 +1267,12 @@ class TestControllerOutputHandler(unittest.TestCase):
         self.assertEqual(actual[2].state_list, [])
         self.assertEqual(actual[2].texture_color_list, [])
         self.assertEqual(actual[2].visible, False)
+        self.assertEqual(actual[2].associated_with_agent, "")
+        self.assertEqual(
+            actual[2].simulation_agent_held_object, "held_test")
+        self.assertEqual(
+            actual[2].simulation_agent_is_holding_held_object,
+            True)
 
     def test_retrieve_object_list_with_config_metadata_level2(self):
         self._config.set_metadata_tier('level2')

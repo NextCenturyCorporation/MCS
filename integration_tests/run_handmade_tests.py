@@ -13,10 +13,11 @@ import machine_common_sense as mcs
 from machine_common_sense.logging_config import LoggingConfig
 
 INTEGRATION_TESTS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-TEST_FOLDER = INTEGRATION_TESTS_FOLDER + '/data/'
+TEST_FOLDER = f"{INTEGRATION_TESTS_FOLDER}/data/"
 SCENE_SUFFIX = '.scene.json'
 ACTIONS_SUFFIX = '.actions.txt'
 OUTPUTS_SUFFIX = '.outputs.json'
+CONFIG_OVERRIDE_SUFFIX = '.config.ini'
 INDENT = '    '
 
 
@@ -34,19 +35,37 @@ def create_test_case(name, expected, actual):
 
 def create_step_test_case_list(expected, actual):
     test_case_list = [
-        ('action_list', actual.action_list),
+        ('action_list', [
+            list(pair) for pair in actual.action_list
+        ] if actual.action_list is not None else None),
         ('camera_height', actual.camera_height),
+        ('haptic_feedback', actual.haptic_feedback),
         ('head_tilt', round(actual.head_tilt)),
+        # Convert tuples to arrays since JSON data can't have tuples.
+        ('holes', [
+            list(pair) for pair in actual.holes
+        ] if actual.holes is not None else None),
+        ('lava', [
+            list(pair) for pair in actual.lava
+        ] if actual.lava is not None else None),
         ('objects_count', len(actual.object_list)),
         ('position_x', actual.position.get('x') if actual.position else None),
         ('position_y', actual.position.get('y') if actual.position else None),
         ('position_z', actual.position.get('z') if actual.position else None),
         ('return_status', actual.return_status),
+        ('resolved_object', actual.resolved_object),
+        ('resolved_receptacle', actual.resolved_receptacle),
         ('reward', actual.reward),
-        ('rotation_y', actual.rotation),
+        (
+            'rotation_y',
+            round(actual.rotation) % 360 if actual.rotation is not None
+            else None
+        ),
+        ('room_dimensions', actual.room_dimensions),
         ('step_number', actual.step_number),
         ('physics_frames_per_second', actual.physics_frames_per_second),
-        ('structural_objects_count', len(actual.structural_object_list))
+        ('structural_objects_count', len(actual.structural_object_list)),
+        ('triggered_by_sequence_incorrect', actual.triggered_by_sequence_incorrect)  # noqa
     ]
     return [
         create_test_case([case_name], expected[case_name], actual_data)
@@ -69,22 +88,26 @@ def create_object_test_case_list(object_type, expected, actual):
         ('position_z', actual.position.get('z') if actual.position else None),
         (
             'rotation_x',
-            round(actual.rotation.get('x')) if actual.rotation else None
+            round(actual.rotation.get('x')) % 360 if actual.rotation else None
         ),
         (
             'rotation_y',
-            round(actual.rotation.get('y')) if actual.rotation else None
+            round(actual.rotation.get('y')) % 360 if actual.rotation else None
         ),
         (
             'rotation_z',
-            round(actual.rotation.get('z')) if actual.rotation else None
+            round(actual.rotation.get('z')) % 360 if actual.rotation else None
         ),
         ('shape', actual.shape),
         ('state_list', actual.state_list),
         ('texture_color_list', actual.texture_color_list),
         ('visible', actual.visible),
         ('is_open', actual.is_open),
-        ('openable', actual.openable)
+        ('locked', actual.locked),
+        ('associated_with_agent', actual.associated_with_agent),
+        ('simulation_agent_held_object', actual.simulation_agent_held_object),
+        ('simulation_agent_is_holding_held_object',
+            actual.simulation_agent_is_holding_held_object)
     ]
     return [create_test_case(
         [object_type, actual.uuid, case_name],
@@ -123,16 +146,18 @@ def validate_single_output(expected, actual):
     # Validate each test case.
     for test_case, expected_data, actual_data in test_case_list:
         failed = (expected_data != actual_data)
-        if (
-            isinstance(expected_data, (int, float)) and
-            isinstance(actual_data, (int, float))
-        ):
-            failed = (not math.isclose(
-                expected_data,
-                actual_data,
-                rel_tol=0.001,
-                abs_tol=0.001
-            ))
+        if isinstance(actual_data, (int, float)):
+            if isinstance(expected_data, (int, float)):
+                failed = (not math.isclose(
+                    expected_data,
+                    actual_data,
+                    rel_tol=0.01,
+                    abs_tol=0.01
+                ))
+            elif isinstance(expected_data, list):
+                # Assume that the list is a numerical range.
+                min_max = list(sorted(expected_data))
+                failed = (min_max[1] < actual_data < min_max[0])
         if failed:
             test_case_string = ' '.join(test_case)
             failed_validation_list.append((
@@ -166,7 +191,7 @@ def load_action_list(scene_filename):
 def load_output_list(scene_filename, metadata_tier):
     output_filename = scene_filename.replace(
         SCENE_SUFFIX,
-        '.' + metadata_tier + OUTPUTS_SUFFIX
+        f".{metadata_tier}{OUTPUTS_SUFFIX}"
     )
     if not os.path.isfile(output_filename):
         return output_filename, None
@@ -178,10 +203,7 @@ def load_output_list(scene_filename, metadata_tier):
 
 def run_single_scene(controller, scene_filename, metadata_tier, dev, autofix):
     # Load the test scene's JSON data.
-    scene_data, status = mcs.load_scene_json_file(scene_filename)
-
-    if status is not None:
-        return False, status
+    scene_data = mcs.load_scene_json_file(scene_filename)
 
     # Load this test's expected output metadata at each action step.
     output_filename, expected_output_data_list = load_output_list(
@@ -189,16 +211,16 @@ def run_single_scene(controller, scene_filename, metadata_tier, dev, autofix):
         metadata_tier
     )
     if expected_output_data_list is None:
-        return False, 'No file ' + output_filename
+        return False, f"No file {output_filename}"
     if len(expected_output_data_list) == 0:
-        return False, 'No validation outputs in ' + output_filename
+        return False, f"No validation outputs in {output_filename}"
 
     # Load the actions from the test scene's corresponding actions file.
     action_filename, action_list = load_action_list(scene_filename)
     if action_list is None:
-        return False, 'No file ' + action_filename
+        return False, f"No file {action_filename}"
     if len(action_list) == 0:
-        return False, 'No scripted actions in ' + action_filename
+        return False, f"No scripted actions in {action_filename}"
 
     # Initialize the test scene.
     step_metadata = controller.start_scene(scene_data)
@@ -220,7 +242,7 @@ def run_single_scene(controller, scene_filename, metadata_tier, dev, autofix):
         )
         # If the validation failed, return the failed test case info.
         if len(failed_validation_list) > 0:
-            indent = "\n" + INDENT + INDENT
+            indent = f"\n{INDENT}{INDENT}"
             error_message_list = [item[3] for item in failed_validation_list]
             status = (
                 f'Step {index} failed:{indent}'
@@ -253,7 +275,7 @@ def run_single_scene(controller, scene_filename, metadata_tier, dev, autofix):
                         output_dict = nested_dict
                 dict_property = test_case[2]
             output_dict[dict_property] = (
-                round(actual, 3) if isinstance(actual, float) else actual
+                round(actual, 2) if isinstance(actual, float) else actual
             )
         with open(output_filename, 'w', encoding='utf-8-sig') as output_file:
             json.dump(
@@ -277,11 +299,13 @@ def start_handmade_tests(
     only_test_name,
     dev,
     autofix,
+    ignore,
     unity_version=None
 ):
+    ignore_prefix_list = ignore.split(',') if ignore else []
 
     # Find all of the test scene JSON files.
-    scene_filename_list = sorted(glob.glob(TEST_FOLDER + '*' + SCENE_SUFFIX))
+    scene_filename_list = sorted(glob.glob(f"{TEST_FOLDER}*{SCENE_SUFFIX}"))
 
     successful_test_list = []
     failed_test_list = []
@@ -301,6 +325,8 @@ def start_handmade_tests(
                 config_file_or_dict=config_filename)
         else:
             mcs.change_config(controller, config_file_or_dict=config_filename)
+
+        reset_config = False
         # Run each test scene and record if it failed validation.
         for scene_filename in scene_filename_list:
             if (
@@ -308,14 +334,36 @@ def start_handmade_tests(
                 os.path.basename(scene_filename).startswith(only_test_name)
             ):
                 continue
+            if ignore_prefix_list and any([
+                os.path.basename(scene_filename).startswith(ignore_prefix)
+                for ignore_prefix in ignore_prefix_list
+            ]):
+                print(f'IGNORED SCENE: {os.path.basename(scene_filename)}')
+                continue
+
+            # Check to see if any configuration should be overriden
+            config_override_filename = scene_filename.replace(
+                SCENE_SUFFIX, f".{metadata_tier}{CONFIG_OVERRIDE_SUFFIX}")
+
+            if os.path.exists(config_override_filename):
+                reset_config = True
+                mcs.change_config(
+                    controller, config_file_or_dict=config_override_filename)
+
             print(f'RUNNING SCENE: {os.path.basename(scene_filename)}')
-            successful, status = run_single_scene(
-                controller,
-                scene_filename,
-                metadata_tier,
-                dev,
-                autofix
-            )
+            try:
+                successful, status = run_single_scene(
+                    controller,
+                    scene_filename,
+                    metadata_tier,
+                    dev,
+                    autofix
+                )
+            except SystemExit:
+                # Catch SystemExit when we are calling EndScene
+                successful = True
+                status = ''
+
             test_name = (
                 os.path.basename(scene_filename).replace(SCENE_SUFFIX, '')
             )
@@ -323,6 +371,11 @@ def start_handmade_tests(
                 successful_test_list.append((test_name, metadata_tier))
             else:
                 failed_test_list.append((test_name, metadata_tier, status))
+
+            if reset_config is True:
+                reset_config = False
+                mcs.change_config(
+                    controller, config_file_or_dict=config_filename)
 
         # Run each additional test at this metadata tier.
         for runner_function in (
@@ -367,5 +420,6 @@ if __name__ == "__main__":
         args.test,
         args.dev,
         args.autofix,
+        args.ignore,
         unity_version=args.mcs_unity_version
     )

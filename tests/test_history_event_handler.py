@@ -1,14 +1,19 @@
 import unittest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
+from ai2thor.server import Event
+
+import machine_common_sense as mcs
 from machine_common_sense.config_manager import (ConfigManager,
                                                  SceneConfiguration)
 from machine_common_sense.controller_events import (AfterStepPayload,
                                                     BeforeStepPayload,
                                                     EndScenePayload,
                                                     StartScenePayload)
+from machine_common_sense.goal_metadata import GoalMetadata
 from machine_common_sense.history_writer import (HistoryEventHandler,
                                                  HistoryWriter, SceneHistory)
+from machine_common_sense.step_metadata import StepMetadata
 
 TEST_FILE_NAME = "test_scene_file.json"
 
@@ -31,16 +36,16 @@ class TestHistoryEventHandler(unittest.TestCase):
 
     def test_on_start_scene(self):
         test_payload = {
-            "step_number": 1,
+            "step_number": 0,
             "config": self.config_mngr,
             "scene_config": self.scene_config,
             "output_folder": None,
             "timestamp": "20210831-202203",
             "wrapped_step": {},
-            "step_metadata": {},
-            "step_output": {},
-            "restricted_step_output": {},
-            "goal": {}
+            "step_metadata": Event({'screenWidth': 400, 'screenHeight': 600}),
+            "step_output": StepMetadata(),
+            "restricted_step_output": StepMetadata(),
+            "goal": GoalMetadata()
         }
 
         self.assertIsNone(
@@ -50,8 +55,19 @@ class TestHistoryEventHandler(unittest.TestCase):
 
         self.assertIsNotNone(
             self.histEvents._HistoryEventHandler__history_writer)
-        self.assertIsNotNone(
+        writer: HistoryWriter = (
             self.histEvents._HistoryEventHandler__history_writer)
+        self.assertIsNotNone(writer.current_steps)
+        step = writer.current_steps[0]
+        self.assertEqual(step['step'], 0)
+        self.assertEqual(step['action'], 'Initialize')
+        self.assertEqual(step['args'], {})
+
+        self.assertIsNotNone(step['output'])
+
+        self.assertIsNone(step['params'])
+        self.assertIsNone(step['classification'])
+        self.assertIsNone(step['confidence'])
 
     def test_on_start_scene_hist_not_enabled(self):
         self.config_mngr._config[
@@ -68,10 +84,10 @@ class TestHistoryEventHandler(unittest.TestCase):
             "output_folder": None,
             "timestamp": "20210831-202203",
             "wrapped_step": {},
-            "step_metadata": {},
-            "step_output": {},
-            "restricted_step_output": {},
-            "goal": {}
+            "step_metadata": Event({'screenWidth': 600, 'screenHeight': 400}),
+            "step_output": StepMetadata(),
+            "restricted_step_output": StepMetadata(),
+            "goal": GoalMetadata()
         }
 
         self.assertIsNone(
@@ -90,7 +106,7 @@ class TestHistoryEventHandler(unittest.TestCase):
             "scene_config": self.scene_config,
             "action": "Initialize",
             "habituation_trial": None,
-            "goal": {}
+            "goal": GoalMetadata()
         }
 
         self.histEvents.on_before_step(BeforeStepPayload(**test_payload))
@@ -103,7 +119,7 @@ class TestHistoryEventHandler(unittest.TestCase):
     def test_on_before_step_one(self):
         hist = SceneHistory(
             step=1,
-            action="MoveAhead",
+            action=mcs.Action.MOVE_AHEAD.value,
             args=None,
             params=None,
             output=None,
@@ -116,7 +132,7 @@ class TestHistoryEventHandler(unittest.TestCase):
             "scene_config": self.scene_config,
             "action": "Initialize",
             "habituation_trial": None,
-            "goal": {}
+            "goal": GoalMetadata()
         }
 
         self.histEvents.on_before_step(BeforeStepPayload(**test_payload))
@@ -129,30 +145,33 @@ class TestHistoryEventHandler(unittest.TestCase):
     def test_on_after_step(self):
         test_payload = {
             "step_number": 1,
-            "ai2thor_action": "MoveAhead",
+            "ai2thor_action": mcs.Action.MOVE_AHEAD.value,
             "action_kwargs": {},
             "step_params": {},
             "config": self.config_mngr,
             "scene_config": self.scene_config,
-            "goal": {},
+            "goal": GoalMetadata(),
             "output_folder": None,
             "timestamp": "20210831-202203",
-            "wrapped_step": {},
-            "step_metadata": {},
-            "step_output": MagicMock(),
-            "restricted_step_output": {}
+            "wrapped_step": StepMetadata(),
+            "step_metadata": Event({'screenHeight': 400, 'screenWidth': 600,
+                                    'targetIsVisibleAtStart': True}),
+            "step_output": StepMetadata(),
+            "restricted_step_output": StepMetadata()
         }
 
         after_step_payload = AfterStepPayload(**test_payload)
-
-        self.histEvents.on_after_step(after_step_payload)
+        mock_function = ('machine_common_sense.step_metadata.StepMetadata'
+                         '.copy_without_depth_or_images')
+        with patch(mock_function) as copy_without_depth_or_images_call:
+            self.histEvents.on_after_step(after_step_payload)
+            copy_without_depth_or_images_call.assert_called()
 
         hist = self.histEvents._HistoryEventHandler__history_item
-
-        after_step_payload.step_output.copy_without_depth_or_images.assert_called()  # noqa: E501
         self.assertEqual(hist.step, 1)
-        self.assertEqual(hist.action, "MoveAhead")
+        self.assertEqual(hist.action, mcs.Action.MOVE_AHEAD.value)
         self.assertEqual(hist.delta_time_millis, 0)
+        self.assertTrue(hist.target_is_visible_at_start)
 
     def test_on_end_scene(self):
         self.histEvents._HistoryEventHandler__history_writer = HistoryWriter(
@@ -160,37 +179,35 @@ class TestHistoryEventHandler(unittest.TestCase):
         self.histEvents._HistoryEventHandler__history_writer.write_history_file = MagicMock()  # noqa: E501
         hist = SceneHistory(
             step=1,
-            action="MoveAhead",
+            action=mcs.Action.MOVE_AHEAD.value,
             args=None,
             params=None,
             output=None,
             delta_time_millis=0)
         self.histEvents._HistoryEventHandler__history_item = hist
-        test_payload = {}
-        test_payload["step_number"] = 1
-        test_payload["config"] = self.config_mngr
-        test_payload["scene_config"] = self.scene_config
-        test_payload["rating"] = "plausible"
-        test_payload["score"] = .8
-        test_payload["report"] = {1: {"rating": "plausible",
-                                      "score": .75,
-                                      "violations_xy_list": [
-                                          {
-                                              "x": 1,
-                                              "y": 1
-                                          }
-                                      ],
-                                      "internal_state": {
-                                          "test": "some state"
-                                      }}
-                                  }
+        test_payload = {
+            'step_number': 1,
+            'config': self.config_mngr,
+            'scene_config': self.scene_config,
+            'rating': 'plausible',
+            'score': 0.8,
+            'report': {
+                1: {
+                    "rating": "plausible",
+                    "score": 0.75,
+                    "violations_xy_list": [{"x": 1, "y": 1}],
+                    "internal_state": {"test": "some state"},
+                }
+            },
+        }
 
         self.histEvents.on_end_scene(EndScenePayload(**test_payload))
 
         hist_writer = self.histEvents._HistoryEventHandler__history_writer
         self.assertEqual(len(hist_writer.current_steps), 1)
         self.assertEqual(
-            hist_writer.current_steps[0]["action"], "MoveAhead")
+            hist_writer.current_steps[0]["action"],
+            mcs.Action.MOVE_AHEAD.value)
         self.assertEqual(
             hist_writer.current_steps[0]["classification"],
             "plausible")
@@ -228,24 +245,21 @@ class TestHistoryEventHandler(unittest.TestCase):
         }
         self.histEvents._HistoryEventHandler__history_writer = MagicMock()  # noqa: E501
 
-        test_payload = {}
-        test_payload["step_number"] = 1
-        test_payload["config"] = self.config_mngr
-        test_payload["scene_config"] = self.scene_config
-        test_payload["rating"] = "plausible"
-        test_payload["score"] = .8
-        test_payload["report"] = {1: {"rating": "plausible",
-                                      "score": .75,
-                                      "violations_xy_list": [
-                                          {
-                                              "x": 1,
-                                              "y": 1
-                                          }
-                                      ],
-                                      "internal_state": {
-                                          "test": "some state"
-                                      }}
-                                  }
+        test_payload = {
+            'step_number': 1,
+            'config': self.config_mngr,
+            'scene_config': self.scene_config,
+            'rating': 'plausible',
+            'score': 0.8,
+            'report': {
+                1: {
+                    "rating": "plausible",
+                    "score": 0.75,
+                    "violations_xy_list": [{"x": 1, "y": 1}],
+                    "internal_state": {"test": "some state"},
+                }
+            },
+        }
 
         self.histEvents.on_end_scene(EndScenePayload(**test_payload))
 

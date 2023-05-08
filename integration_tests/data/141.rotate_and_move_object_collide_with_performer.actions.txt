@@ -1,0 +1,5 @@
+RotateObject,objectId=tool
+RotateObject,objectId=tool
+RotateObject,objectId=tool
+MoveObject,objectId=tool,straight=-1
+MoveObject,objectId=tool,straight=-1

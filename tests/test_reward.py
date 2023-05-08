@@ -223,7 +223,7 @@ class TestReward(unittest.TestCase):
         goal.metadata['target'] = {'id': '0'}
         obj_list = []
         for i in range(10):
-            obj = {"objectId": str(i), 'isPickedUp': not i}
+            obj = {"objectId": str(i), 'wasPickedUp': not i}
             obj_list.append(obj)
         reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, agent={},
                                                    performer_reach=1.0)
@@ -235,440 +235,170 @@ class TestReward(unittest.TestCase):
         goal.metadata['target'] = {'id': '0'}
         obj_list = []
         for i in range(10):
-            obj = {"objectId": str(i), 'isPickedUp': False}
+            obj = {"objectId": str(i), 'wasPickedUp': False}
             obj_list.append(obj)
         reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, agent={},
                                                    performer_reach=1.0)
         self.assertEqual(reward, 0)
         self.assertIsInstance(reward, int)
 
-    def test_traversal_reward(self):
+    def test_retrieval_reward_multi_target(self):
         goal = mcs.GoalMetadata()
-        goal.metadata['target'] = {'id': '0'}
+        goal.metadata['targets'] = [{'id': '0'}, {'id': '1'}, {'id': '2'}]
         obj_list = []
         for i in range(10):
-            obj = {
-                "objectId": str(i),
-                "objectBounds": {
-                    "objectBoundsCorners": []}}
-            # create lower plane (y = 0)
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0 + i, 'y': 0.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0 + i, 'y': 0.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0 + i, 'y': 0.0, 'z': 1.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0 + i, 'y': 0.0, 'z': 1.0})
-            # create upper plane (y = 1)
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0 + i, 'y': 1.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0 + i, 'y': 1.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0 + i, 'y': 1.0, 'z': 1.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0 + i, 'y': 1.0, 'z': 1.0})
-            obj['position'] = {'x': 0.0 + i, 'z': 0.0}
-
-            obj_list.append(obj)
-
-        agent = {'position': {'x': -0.9, 'y': 0.5, 'z': 0.0}}
-        reward = mcs.Reward._calc_traversal_reward(goal, obj_list, agent,
+            obj_list.append({'objectId': str(i), 'wasPickedUp': True})
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, agent={},
                                                    performer_reach=1.0)
         self.assertEqual(reward, 1)
         self.assertIsInstance(reward, int)
 
-    def test_traversal_reward_large_object_inside(self):
+    def test_retrieval_reward_multi_target_nothing_pickedup(self):
         goal = mcs.GoalMetadata()
-        goal.metadata['target'] = {'id': '0'}
-        obj = {"objectId": str(0), "objectBounds": {"objectBoundsCorners": []}}
-        # create lower plane (y = 0)
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 0.0, 'y': 0.0, 'z': 0.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 10.0, 'y': 0.0, 'z': 0.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 10.0, 'y': 0.0, 'z': 10.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 0.0, 'y': 0.0, 'z': 10.0})
-        # create upper plane (y = 1)
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 0.0, 'y': 1.0, 'z': 0.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 10.0, 'y': 1.0, 'z': 0.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 10.0, 'y': 1.0, 'z': 10.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 0.0, 'y': 1.0, 'z': 10.0})
-        obj['position'] = {'x': 0.0, 'z': 0.0}
-        obj_list = [obj]
-        agent = {'position': {'x': 5.0, 'y': 0.5, 'z': 5.0}}
-        reward = mcs.Reward._calc_traversal_reward(goal, obj_list, agent,
+        goal.metadata['targets'] = [{'id': '0'}, {'id': '1'}, {'id': '2'}]
+        obj_list = []
+        for i in range(10):
+            obj_list.append({'objectId': str(i), 'wasPickedUp': False})
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, agent={},
                                                    performer_reach=1.0)
+        self.assertEqual(reward, 0)
+        self.assertIsInstance(reward, int)
+
+    def test_retrieval_reward_multi_target_some_pickedup(self):
+        goal = mcs.GoalMetadata()
+        goal.metadata['targets'] = [{'id': '0'}, {'id': '1'}, {'id': '2'}]
+        obj_list = []
+        for i in range(10):
+            obj_list.append({'objectId': str(i), 'wasPickedUp': (i == 0)})
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, agent={},
+                                                   performer_reach=1.0)
+        self.assertEqual(reward, 0)
+        self.assertIsInstance(reward, int)
+
+    def test_retrieval_reward_multi_target_more_pickedup(self):
+        goal = mcs.GoalMetadata()
+        goal.metadata['targets'] = [{'id': '0'}, {'id': '1'}, {'id': '2'}]
+        obj_list = []
+        for i in range(10):
+            obj_list.append({'objectId': str(i), 'wasPickedUp': (i != 0)})
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, agent={},
+                                                   performer_reach=1.0)
+        self.assertEqual(reward, 0)
+        self.assertIsInstance(reward, int)
+
+    def test_retrieval_reward_multi_target_pickup_one_of_two(self):
+        goal = mcs.GoalMetadata()
+        goal.metadata['targets'] = [{'id': '0'}, {'id': '1'}]
+        goal.metadata['pickup_number'] = 1
+
+        # Test: Picking up no targets should return a reward of 0
+        obj_list = [
+            {'objectId': '0', 'wasPickedUp': False},
+            {'objectId': '1', 'wasPickedUp': False}
+        ]
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
+        self.assertEqual(reward, 0)
+
+        # Test: Picking up only the 1st target should return a reward of 1
+        obj_list = [
+            {'objectId': '0', 'wasPickedUp': True},
+            {'objectId': '1', 'wasPickedUp': False}
+        ]
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
         self.assertEqual(reward, 1)
-        self.assertIsInstance(reward, int)
 
-    def test_traversal_reward_large_object_long_side(self):
-        goal = mcs.GoalMetadata()
-        goal.metadata['target'] = {'id': '0'}
-        obj = {"objectId": str(0), "objectBounds": {"objectBoundsCorners": []}}
-        # create lower plane (y = 0)
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 0.0, 'y': 0.0, 'z': 0.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 10.0, 'y': 0.0, 'z': 0.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 10.0, 'y': 0.0, 'z': 1.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 0.0, 'y': 0.0, 'z': 1.0})
-        # create upper plane (y = 1)
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 0.0, 'y': 1.0, 'z': 0.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 10.0, 'y': 1.0, 'z': 0.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 10.0, 'y': 1.0, 'z': 1.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 0.0, 'y': 1.0, 'z': 1.0})
-        obj['position'] = {'x': 0.0, 'z': 0.0}
-        obj_list = [obj]
-        agent = {'position': {'x': 10.1, 'y': 0.5, 'z': 1.1}}
-        reward = mcs.Reward._calc_traversal_reward(goal, obj_list, agent,
-                                                   performer_reach=1.0)
+        # Test: Picking up only the 2nd target should return a reward of 1
+        obj_list = [
+            {'objectId': '0', 'wasPickedUp': False},
+            {'objectId': '1', 'wasPickedUp': True}
+        ]
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
         self.assertEqual(reward, 1)
-        self.assertIsInstance(reward, int)
 
-    def test_traversal_reward_large_object_long_side_out_of_reach(self):
-        goal = mcs.GoalMetadata()
-        goal.metadata['target'] = {'id': '0'}
-        obj = {"objectId": str(0), "objectBounds": {"objectBoundsCorners": []}}
-        # create lower plane (y = 0)
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 0.0, 'y': 0.0, 'z': 0.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 10.0, 'y': 0.0, 'z': 0.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 10.0, 'y': 0.0, 'z': 1.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 0.0, 'y': 0.0, 'z': 1.0})
-        # create upper plane (y = 1)
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 0.0, 'y': 1.0, 'z': 0.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 10.0, 'y': 1.0, 'z': 0.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 10.0, 'y': 1.0, 'z': 1.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 0.0, 'y': 1.0, 'z': 1.0})
-        obj['position'] = {'x': 0.0, 'z': 0.0}
-        obj_list = [obj]
-        agent = {'position': {'x': 11.1, 'y': 0.5, 'z': 1.1}}
-        reward = mcs.Reward._calc_traversal_reward(goal, obj_list, agent,
-                                                   performer_reach=1.0)
-        self.assertEqual(reward, 0)
-        self.assertIsInstance(reward, int)
-
-    def test_traversal_reward_large_object_short_side(self):
-        goal = mcs.GoalMetadata()
-        goal.metadata['target'] = {'id': '0'}
-        obj = {"objectId": str(0), "objectBounds": {"objectBoundsCorners": []}}
-        # create lower plane (y = 0)
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 0.0, 'y': 0.0, 'z': 0.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 10.0, 'y': 0.0, 'z': 0.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 10.0, 'y': 0.0, 'z': 1.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 0.0, 'y': 0.0, 'z': 1.0})
-        # create upper plane (y = 1)
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 0.0, 'y': 1.0, 'z': 0.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 10.0, 'y': 1.0, 'z': 0.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 10.0, 'y': 1.0, 'z': 1.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 0.0, 'y': 1.0, 'z': 1.0})
-        obj['position'] = {'x': 0.0, 'z': 0.0}
-        obj_list = [obj]
-        agent = {'position': {'x': -0.5, 'y': 0.5, 'z': 0.0}}
-        reward = mcs.Reward._calc_traversal_reward(goal, obj_list, agent,
-                                                   performer_reach=1.0)
+        # Test: Picking up all targets should return a reward of 1
+        obj_list = [
+            {'objectId': '0', 'wasPickedUp': True},
+            {'objectId': '1', 'wasPickedUp': True}
+        ]
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
         self.assertEqual(reward, 1)
-        self.assertIsInstance(reward, int)
 
-    def test_traversal_reward_large_object_short_side_out_of_reach(self):
+    def test_retrieval_reward_multi_target_pickup_two_of_three(self):
         goal = mcs.GoalMetadata()
-        goal.metadata['target'] = {'id': '0'}
-        obj = {"objectId": str(0), "objectBounds": {"objectBoundsCorners": []}}
-        # create lower plane (y = 0)
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 0.0, 'y': 0.0, 'z': 0.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 10.0, 'y': 0.0, 'z': 0.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 10.0, 'y': 0.0, 'z': 1.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 0.0, 'y': 0.0, 'z': 1.0})
-        # create upper plane (y = 1)
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 0.0, 'y': 1.0, 'z': 0.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 10.0, 'y': 1.0, 'z': 0.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 10.0, 'y': 1.0, 'z': 1.0})
-        obj['objectBounds']['objectBoundsCorners'].append(
-            {'x': 0.0, 'y': 1.0, 'z': 1.0})
-        obj['position'] = {'x': 0.0, 'z': 0.0}
-        obj_list = [obj]
-        agent = {'position': {'x': -1.5, 'y': 0.5, 'z': 0.0}}
-        reward = mcs.Reward._calc_traversal_reward(goal, obj_list, agent,
-                                                   performer_reach=1.0)
+        goal.metadata['targets'] = [{'id': '0'}, {'id': '1'}, {'id': '2'}]
+        goal.metadata['pickup_number'] = 2
+
+        # Test: Picking up no targets should return a reward of 0
+        obj_list = [
+            {'objectId': '0', 'wasPickedUp': False},
+            {'objectId': '1', 'wasPickedUp': False},
+            {'objectId': '2', 'wasPickedUp': False}
+        ]
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
         self.assertEqual(reward, 0)
-        self.assertIsInstance(reward, int)
 
-    def test_traversal_reward_outside_agent_reach(self):
-        goal = mcs.GoalMetadata()
-        goal.metadata['target'] = {'id': '0'}
-        obj_list = []
-        agent = {'position': {'x': -0.9, 'y': 0.5, 'z': -1.0}}
-        reward = mcs.Reward._calc_traversal_reward(goal, obj_list, agent,
-                                                   performer_reach=1.0)
+        # Test: Picking up only the 1st target should return a reward of 0
+        obj_list = [
+            {'objectId': '0', 'wasPickedUp': True},
+            {'objectId': '1', 'wasPickedUp': False},
+            {'objectId': '2', 'wasPickedUp': False}
+        ]
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
         self.assertEqual(reward, 0)
-        self.assertIsInstance(reward, int)
 
-    def test_traversal_reward_with_missing_target(self):
-        goal = mcs.GoalMetadata()
-        goal.metadata['target'] = {'id': '111'}  # missing target
-        obj_list = []
-        agent = {'position': {'x': -0.9, 'y': 0.5, 'z': 0.0}}
-        reward = mcs.Reward._calc_traversal_reward(goal, obj_list, agent,
-                                                   performer_reach=1.0)
+        # Test: Picking up only the 2nd target should return a reward of 0
+        obj_list = [
+            {'objectId': '0', 'wasPickedUp': False},
+            {'objectId': '1', 'wasPickedUp': True},
+            {'objectId': '2', 'wasPickedUp': False}
+        ]
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
         self.assertEqual(reward, 0)
-        self.assertIsInstance(reward, int)
 
-    def test_transferral_reward_with_missing_relationship(self):
-        goal = mcs.GoalMetadata()
-        goal.metadata['target_1'] = {'id': '0'}
-        goal.metadata['target_2'] = {'id': '1'}
-        goal.metadata['relationship'] = []
-        obj_list = []
-        for i in range(10):
-            obj = {
-                "objectId": str(i),
-                "objectBounds": {
-                    "objectBoundsCorners": []}}
-            # create lower plane (y = 0)
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0 + i, 'y': 0.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0 + i, 'y': 0.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0 + i, 'y': 0.0, 'z': 1.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0 + i, 'y': 0.0, 'z': 1.0})
-            # create upper plane (y = 1)
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0 + i, 'y': 1.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0 + i, 'y': 1.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0 + i, 'y': 1.0, 'z': 1.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0 + i, 'y': 1.0, 'z': 1.0})
-            obj['position'] = {'x': 0.5 + i, 'z': 0.5}
-            obj_list.append(obj)
-        agent = {'position': {'x': -0.9, 'y': 0.5, 'z': 0.0}}
-        reward = mcs.Reward._calc_transferral_reward(goal, obj_list, agent,
-                                                     performer_reach=1.0)
+        # Test: Picking up only the 3rd target should return a reward of 0
+        obj_list = [
+            {'objectId': '0', 'wasPickedUp': False},
+            {'objectId': '1', 'wasPickedUp': False},
+            {'objectId': '2', 'wasPickedUp': True}
+        ]
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
         self.assertEqual(reward, 0)
-        self.assertIsInstance(reward, int)
 
-    def test_transferral_reward_next_to(self):
-        goal = mcs.GoalMetadata()
-        goal.metadata['target_1'] = {'id': '0'}
-        goal.metadata['target_2'] = {'id': '1'}
-        goal.metadata['relationship'] = ['target_1', 'next to', 'target_2']
-        obj_list = []
-        for i in range(10):
-            obj = {
-                "objectId": str(i),
-                "objectBounds": {
-                    "objectBoundsCorners": []}}
-            # create lower plane (y = 0)
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0 + i, 'y': 0.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0 + i, 'y': 0.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0 + i, 'y': 0.0, 'z': 1.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0 + i, 'y': 0.0, 'z': 1.0})
-            # create upper plane (y = 1)
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0 + i, 'y': 1.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0 + i, 'y': 1.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0 + i, 'y': 1.0, 'z': 1.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0 + i, 'y': 1.0, 'z': 1.0})
-            obj['position'] = {'x': 0.5 + i, 'z': 0.5}
-            obj_list.append(obj)
-        agent = {'position': {'x': -0.9, 'y': 0.5, 'z': 0.0}}
-        reward = mcs.Reward._calc_transferral_reward(goal, obj_list, agent,
-                                                     performer_reach=1.0)
+        # Test: Picking up the 1st and 2nd targets should return a reward of 1
+        obj_list = [
+            {'objectId': '0', 'wasPickedUp': True},
+            {'objectId': '1', 'wasPickedUp': True},
+            {'objectId': '2', 'wasPickedUp': False}
+        ]
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
         self.assertEqual(reward, 1)
-        self.assertIsInstance(reward, int)
 
-    def test_transferral_reward_next_to_with_pickedup_object(self):
-        goal = mcs.GoalMetadata()
-        goal.metadata['target_1'] = {'id': '0'}
-        goal.metadata['target_2'] = {'id': '1'}
-        goal.metadata['relationship'] = ['target_1', 'next to', 'target_2']
-        obj_list = []
-        for i in range(10):
-            obj = {
-                "objectId": str(i),
-                "objectBounds": {
-                    "objectBoundsCorners": []},
-                "isPickedUp": True}
-            # create lower plane (y = 0)
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0 + i, 'y': 0.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0 + i, 'y': 0.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0 + i, 'y': 0.0, 'z': 1.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0 + i, 'y': 0.0, 'z': 1.0})
-            # create upper plane (y = 1)
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0 + i, 'y': 1.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0 + i, 'y': 1.0, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0 + i, 'y': 1.0, 'z': 1.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0 + i, 'y': 1.0, 'z': 1.0})
-            obj['position'] = {'x': 0.5 + i, 'z': 0.5}
-            obj_list.append(obj)
-        agent = {'position': {'x': -0.9, 'y': 0.5, 'z': 0.0}}
-        reward = mcs.Reward._calc_transferral_reward(goal, obj_list, agent,
-                                                     performer_reach=1.0)
-        self.assertEqual(reward, 0)
-        self.assertIsInstance(reward, int)
-
-    def test_transferral_reward_on_top_of(self):
-        goal = mcs.GoalMetadata()
-        goal.metadata['target_1'] = {'id': '1'}
-        goal.metadata['target_2'] = {'id': '0'}
-        goal.metadata['relationship'] = ['target_1', 'on top of', 'target_2']
-        obj_list = []
-        for i in range(10):
-            obj = {
-                "objectId": str(i),
-                "objectBounds": {
-                    "objectBoundsCorners": []}}
-            # create lower plane (y = 0)
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0, 'y': 0.0 + i, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0, 'y': 0.0 + i, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0, 'y': 0.0 + i, 'z': 1.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0, 'y': 0.0 + i, 'z': 1.0})
-            # create upper plane (y = 1) + i
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0, 'y': 1.0 + i, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0, 'y': 1.0 + i, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0, 'y': 1.0 + i, 'z': 1.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0, 'y': 1.0 + i, 'z': 1.0})
-            obj['position'] = {'x': 0.5, 'y': 0.0 + i, 'z': 0.5}
-            obj_list.append(obj)
-        agent = {'position': {'x': -0.9, 'y': 0.5, 'z': 0.0}}
-        reward = mcs.Reward._calc_transferral_reward(goal, obj_list, agent,
-                                                     performer_reach=1.0)
+        # Test: Picking up the 1st and 3rd targets should return a reward of 1
+        obj_list = [
+            {'objectId': '0', 'wasPickedUp': True},
+            {'objectId': '1', 'wasPickedUp': False},
+            {'objectId': '2', 'wasPickedUp': True}
+        ]
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
         self.assertEqual(reward, 1)
-        self.assertIsInstance(reward, int)
 
-    def test_transferral_reward_on_top_of_with_pickedup_object(self):
-        goal = mcs.GoalMetadata()
-        goal.metadata['target_1'] = {'id': '0'}
-        goal.metadata['target_2'] = {'id': '1'}
-        goal.metadata['relationship'] = ['target_1', 'on top of', 'target_2']
-        obj_list = []
-        for i in range(10):
-            obj = {
-                "objectId": str(i),
-                "objectBounds": {
-                    "objectBoundsCorners": []},
-                "isPickedUp": True}
-            # create lower plane (y = 0)
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0, 'y': 0.0 + i, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0, 'y': 0.0 + i, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0, 'y': 0.0 + i, 'z': 1.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0, 'y': 0.0 + i, 'z': 1.0})
-            # create upper plane (y = 1) + i
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0, 'y': 1.0 + i, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0, 'y': 1.0 + i, 'z': 0.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 1.0, 'y': 1.0 + i, 'z': 1.0})
-            obj['objectBounds']['objectBoundsCorners'].append(
-                {'x': 0.0, 'y': 1.0 + i, 'z': 1.0})
-            obj['position'] = {'x': 0.5, 'y': 0.0 + i, 'z': 0.5}
-            obj_list.append(obj)
-        agent = {'position': {'x': -0.9, 'y': 0.5, 'z': 0.0}}
-        reward = mcs.Reward._calc_transferral_reward(goal, obj_list, agent,
-                                                     performer_reach=1.0)
-        self.assertEqual(reward, 0)
-        self.assertIsInstance(reward, int)
+        # Test: Picking up the 2nd and 3rd targets should return a reward of 1
+        obj_list = [
+            {'objectId': '0', 'wasPickedUp': False},
+            {'objectId': '1', 'wasPickedUp': True},
+            {'objectId': '2', 'wasPickedUp': True}
+        ]
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
+        self.assertEqual(reward, 1)
 
-    def test_transferral_reward_on_top_of_with_config_reward(self):
-        goal = mcs.GoalMetadata()
-        config_goal_reward = 1.525
-        goal.metadata['target_1'] = {'id': '1'}
-        goal.metadata['target_2'] = {'id': '0'}
-        goal.metadata['relationship'] = ['target_1', 'on top of', 'target_2']
-        obj_list = []
-        for i in range(10):
-            obj = {
-                "objectId": str(i),
-                "objectBounds": {
-                    "objectBoundsCorners": [
-                        {'x': 0.0, 'y': 0.0 + i, 'z': 0.0},
-                        {'x': 0.0, 'y': 0.0 + i, 'z': 0.0},
-                        {'x': 1.0, 'y': 0.0 + i, 'z': 0.0},
-                        {'x': 1.0, 'y': 0.0 + i, 'z': 1.0},
-                        {'x': 0.0, 'y': 0.0 + i, 'z': 1.0},
-                        {'x': 0.0, 'y': 1.0 + i, 'z': 0.0},
-                        {'x': 1.0, 'y': 1.0 + i, 'z': 0.0},
-                        {'x': 1.0, 'y': 1.0 + i, 'z': 1.0},
-                        {'x': 0.0, 'y': 1.0 + i, 'z': 1.0}
-                    ]
-                },
-                "position": {'x': 0.5, 'y': 0.0 + i, 'z': 0.5}
-            }
-            obj_list.append(obj)
-        agent = {'position': {'x': -0.9, 'y': 0.5, 'z': 0.0}}
-        reward = mcs.Reward._calc_transferral_reward(
-            goal, obj_list, agent,
-            performer_reach=1.0,
-            goal_reward=config_goal_reward)
-        self.assertEqual(reward, config_goal_reward)
-        self.assertIsInstance(reward, float)
+        # Test: Picking up all targets should return a reward of 1
+        obj_list = [
+            {'objectId': '0', 'wasPickedUp': True},
+            {'objectId': '1', 'wasPickedUp': True},
+            {'objectId': '2', 'wasPickedUp': True}
+        ]
+        reward = mcs.Reward._calc_retrieval_reward(goal, obj_list, {}, 1.0)
+        self.assertEqual(reward, 1)
 
 
 if __name__ == '__main__':

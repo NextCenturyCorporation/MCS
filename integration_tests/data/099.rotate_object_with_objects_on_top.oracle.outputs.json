@@ -1,0 +1,409 @@
+﻿[
+    {
+        "camera_height": 0.762,
+        "head_tilt": 30,
+        "objects": [
+            {
+                "id": "bowl_a",
+                "mass": 0.25,
+                "position_x": 2.0,
+                "position_z": -0.1,
+                "rotation_y": 1,
+                "visible": true
+            },
+            {
+                "id": "pacifier",
+                "mass": 0.12,
+                "position_x": 1.85,
+                "position_z": 0.15,
+                "rotation_y": 1,
+                "visible": true
+            },
+            {
+                "id": "kiddie_table",
+                "mass": 2.5,
+                "position_x": 2.0,
+                "position_z": 0.0,
+                "rotation_y": 1,
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 1.2,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90.0,
+        "step_number": 0,
+        "structural_objects_count": 5
+    },
+    {
+        "camera_height": 0.762,
+        "head_tilt": 30,
+        "objects": [
+            {
+                "id": "bowl_a",
+                "mass": 0.25,
+                "position_x": 1.99,
+                "position_z": -0.1,
+                "rotation_y": 6,
+                "visible": true
+            },
+            {
+                "id": "pacifier",
+                "mass": 0.12,
+                "position_x": 1.86,
+                "position_z": 0.16,
+                "rotation_y": 6,
+                "visible": true
+            },
+            {
+                "id": "kiddie_table",
+                "mass": 2.5,
+                "position_x": 2.0,
+                "position_z": -0.0,
+                "rotation_y": 6,
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 1.2,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90.0,
+        "step_number": 1,
+        "structural_objects_count": 5
+    },
+    {
+        "camera_height": 0.762,
+        "head_tilt": 30,
+        "objects": [
+            {
+                "id": "bowl_a",
+                "mass": 0.25,
+                "position_x": 1.98,
+                "position_z": -0.1,
+                "rotation_y": 11,
+                "visible": true
+            },
+            {
+                "id": "pacifier",
+                "mass": 0.12,
+                "position_x": 1.88,
+                "position_z": 0.17,
+                "rotation_y": 11,
+                "visible": true
+            },
+            {
+                "id": "kiddie_table",
+                "mass": 2.5,
+                "position_x": 2.0,
+                "position_z": -0.0,
+                "rotation_y": 11,
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 1.2,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90.0,
+        "step_number": 2,
+        "structural_objects_count": 5
+    },
+    {
+        "camera_height": 0.762,
+        "head_tilt": 30,
+        "objects": [
+            {
+                "id": "bowl_a",
+                "mass": 0.25,
+                "position_x": 1.97,
+                "position_z": -0.1,
+                "rotation_y": 16,
+                "visible": true
+            },
+            {
+                "id": "pacifier",
+                "mass": 0.12,
+                "position_x": 1.89,
+                "position_z": 0.18,
+                "rotation_y": 16,
+                "visible": true
+            },
+            {
+                "id": "kiddie_table",
+                "mass": 2.5,
+                "position_x": 2.0,
+                "position_z": -0.0,
+                "rotation_y": 16,
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 1.2,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90.0,
+        "step_number": 3,
+        "structural_objects_count": 5
+    },
+    {
+        "camera_height": 0.762,
+        "head_tilt": 30,
+        "objects": [
+            {
+                "id": "bowl_a",
+                "mass": 0.25,
+                "position_x": 1.97,
+                "position_z": -0.09,
+                "rotation_y": 21,
+                "visible": true
+            },
+            {
+                "id": "pacifier",
+                "mass": 0.12,
+                "position_x": 1.91,
+                "position_z": 0.19,
+                "rotation_y": 21,
+                "visible": true
+            },
+            {
+                "id": "kiddie_table",
+                "mass": 2.5,
+                "position_x": 2.0,
+                "position_z": -0.0,
+                "rotation_y": 21,
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 1.2,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90.0,
+        "step_number": 4,
+        "structural_objects_count": 5
+    },
+    {
+        "camera_height": 0.762,
+        "head_tilt": 30,
+        "objects": [
+            {
+                "id": "bowl_a",
+                "mass": 0.25,
+                "position_x": 1.97,
+                "position_z": -0.1,
+                "rotation_y": 16,
+                "visible": true
+            },
+            {
+                "id": "pacifier",
+                "mass": 0.12,
+                "position_x": 1.89,
+                "position_z": 0.18,
+                "rotation_y": 16,
+                "visible": true
+            },
+            {
+                "id": "kiddie_table",
+                "mass": 2.5,
+                "position_x": 2.0,
+                "position_z": 0.0,
+                "rotation_y": 16,
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 1.2,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90.0,
+        "step_number": 5,
+        "structural_objects_count": 5
+    },
+    {
+        "camera_height": 0.762,
+        "head_tilt": 30,
+        "objects": [
+            {
+                "id": "bowl_a",
+                "mass": 0.25,
+                "position_x": 1.98,
+                "position_z": -0.1,
+                "rotation_y": 11,
+                "visible": true
+            },
+            {
+                "id": "pacifier",
+                "mass": 0.12,
+                "position_x": 1.88,
+                "position_z": 0.17,
+                "rotation_y": 11,
+                "visible": true
+            },
+            {
+                "id": "kiddie_table",
+                "mass": 2.5,
+                "position_x": 2.0,
+                "position_z": -0.0,
+                "rotation_y": 11,
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 1.2,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90.0,
+        "step_number": 6,
+        "structural_objects_count": 5
+    },
+    {
+        "camera_height": 0.762,
+        "head_tilt": 30,
+        "objects": [
+            {
+                "id": "bowl_a",
+                "mass": 0.25,
+                "position_x": 1.99,
+                "position_z": -0.1,
+                "rotation_y": 6,
+                "visible": true
+            },
+            {
+                "id": "pacifier",
+                "mass": 0.12,
+                "position_x": 1.86,
+                "position_z": 0.16,
+                "rotation_y": 6,
+                "visible": true
+            },
+            {
+                "id": "kiddie_table",
+                "mass": 2.5,
+                "position_x": 2.0,
+                "position_z": -0.0,
+                "rotation_y": 6,
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 1.2,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90.0,
+        "step_number": 7,
+        "structural_objects_count": 5
+    },
+    {
+        "camera_height": 0.762,
+        "head_tilt": 30,
+        "objects": [
+            {
+                "id": "bowl_a",
+                "mass": 0.25,
+                "position_x": 2.0,
+                "position_z": -0.1,
+                "rotation_y": 1,
+                "visible": true
+            },
+            {
+                "id": "pacifier",
+                "mass": 0.12,
+                "position_x": 1.85,
+                "position_z": 0.15,
+                "rotation_y": 1,
+                "visible": true
+            },
+            {
+                "id": "kiddie_table",
+                "mass": 2.5,
+                "position_x": 2.0,
+                "position_z": 0.0,
+                "rotation_y": 1,
+                "visible": true
+            }
+        ],
+        "objects_count": 3,
+        "position_x": 1.2,
+        "position_z": 0.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 90.0,
+        "step_number": 8,
+        "structural_objects_count": 5
+    },
+    {
+        "camera_height": 0.762,
+        "head_tilt": 30,
+        "objects": [
+            {
+                "id": "bowl_a",
+                "mass": 0.5,
+                "position_x": 4.725,
+                "position_z": 0.5,
+                "rotation_y": 90,
+                "visible": true
+            },
+            {
+                "id": "pacifier",
+                "mass": 0.5,
+                "position_x": 4.725,
+                "position_z": 0.5,
+                "rotation_y": 90,
+                "visible": true
+            },
+            {
+                "id": "kiddie_table",
+                "mass": 0.5,
+                "position_x": 4.725,
+                "position_z": 0.5,
+                "rotation_y": 90,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 4.489,
+        "position_z": -0.011,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects_count": 6
+    },
+    {
+        "camera_height": 0.762,
+        "head_tilt": 30,
+        "objects": [
+            {
+                "id": "bowl_a",
+                "mass": 0.5,
+                "position_x": 4.725,
+                "position_z": 0.5,
+                "rotation_y": 90,
+                "visible": true
+            },
+            {
+                "id": "pacifier",
+                "mass": 0.5,
+                "position_x": 4.725,
+                "position_z": 0.5,
+                "rotation_y": 90,
+                "visible": true
+            },
+            {
+                "id": "kiddie_table",
+                "mass": 0.5,
+                "position_x": 4.725,
+                "position_z": 0.5,
+                "rotation_y": 90,
+                "visible": true
+            }
+        ],
+        "objects_count": 1,
+        "position_x": 4.489,
+        "position_z": -0.011,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0.0,
+        "step_number": 0,
+        "structural_objects_count": 6
+    }
+]

@@ -3,6 +3,7 @@ import logging
 import os
 import pathlib
 from time import perf_counter
+from typing import Union
 
 from numpyencoder import NumpyEncoder
 
@@ -11,6 +12,7 @@ from machine_common_sense.step_metadata import StepMetadata
 from .controller_events import (AbstractControllerSubscriber, AfterStepPayload,
                                 BeforeStepPayload, EndScenePayload,
                                 StartScenePayload)
+from .goal_metadata import GoalCategory
 from .scene_history import SceneHistory
 from .stringifier import Stringifier
 
@@ -42,9 +44,20 @@ class HistoryEventHandler(AbstractControllerSubscriber):
 
             # Create a new scene history writer with each new scene (config
             # data) so we always create a new, separate scene history file.
+            # Also, ensure previous history item is cleared.
             self.__history_writer = HistoryWriter(payload.scene_config,
                                                   hist_info,
                                                   payload.timestamp)
+            init_history = SceneHistory(
+                step=payload.step_number,
+                action='Initialize',
+                args={},
+                # We don't have the equivalent of params at this point
+                params=None,
+                output=payload.step_output.copy_without_depth_or_images(),
+                delta_time_millis=0)
+            self.__history_writer.add_step(init_history)
+            self.__history_item = None
 
     def on_before_step(self, payload: BeforeStepPayload):
         if payload.config.is_history_enabled():
@@ -52,6 +65,7 @@ class HistoryEventHandler(AbstractControllerSubscriber):
                 self.__history_writer.init_timer()
             if payload.step_number > 0:
                 self.__history_writer.add_step(self.__history_item)
+                self.__history_item = None
 
     def on_after_step(self, payload: AfterStepPayload):
         output: StepMetadata = \
@@ -63,7 +77,10 @@ class HistoryEventHandler(AbstractControllerSubscriber):
             args=payload.action_kwargs,
             params=payload.step_params,
             output=output,
-            delta_time_millis=0)
+            delta_time_millis=0,
+            target_is_visible_at_start=(
+                payload.step_metadata.metadata.get(
+                    'targetIsVisibleAtStart')))
 
     def on_end_scene(self, payload: EndScenePayload):
         if (
@@ -102,7 +119,9 @@ class HistoryEventHandler(AbstractControllerSubscriber):
 class HistoryWriter(object):
     HISTORY_DIRECTORY = "SCENE_HISTORY"
 
-    def __init__(self, scene_config_data=None, hist_info={}, timestamp=''):
+    def __init__(self, scene_config_data=None, hist_info=None, timestamp=''):
+        if hist_info is None:
+            hist_info = {}
         self.info_obj = hist_info
         self.current_steps = []
         self.end_score = {}
@@ -136,28 +155,61 @@ class HistoryWriter(object):
         if self.scene_history_file:
             logger.info(f"Saving history file {self.scene_history_file}")
             with open(self.scene_history_file, "a+") as history_file:
+                history = self._round_all(self.history_obj)
                 history_file.write(
                     json.dumps(
-                        self.history_obj,
+                        history,
                         cls=NumpyEncoder))
 
-    def filter_history_output(
+    # This could easily be moved to a more accessible utility file.
+    def _round_all(self, obj, num_digits=4):
+        if isinstance(obj, float):
+            obj = round(obj, num_digits)
+        elif isinstance(obj, list):
+            obj = [self._round_all(item) for item in obj]
+        elif isinstance(obj, dict):
+            new_obj = {
+                subkey: self._round_all(val) for subkey,
+                val in obj.items()}
+            obj = new_obj
+        elif isinstance(obj, tuple):
+            obj = list(obj)
+            obj = tuple(self._round_all(obj))
+        return obj
+
+    def update_history_output(
             self,
             history: SceneHistory) -> SceneHistory:
         """ filter out images from the step history data and
-            object lists and action list """
+            object lists and action list, incorporate
+            additional target info if needed """
         if history.output:
             history.output.action_list = None
-            history.output.object_list = None
             history.output.structural_object_list = None
-            targets = ['target', 'target_1', 'target2']
-            for target in targets:
-                if (
-                    target in history.output.goal.metadata.keys() and
-                    history.output.goal.metadata[target].get('image', None)
-                    is not None
-                ):
-                    del history.output.goal.metadata[target]['image']
+
+            metadata = history.output.goal.metadata or {}
+            # Different goal categories may use different property names
+            target_names = ['target', 'targets', 'target_1', 'target_2']
+            for target_name in target_names:
+                # Some properties may be dicts, and some may be lists of dicts
+                targets = metadata.get(target_name) or []
+                targets = targets if isinstance(targets, list) else [targets]
+                for target in targets:
+                    # Backwards compatibility: target used to have image data
+                    if 'image' in target:
+                        del target['image']
+
+                    # Save target position at each step for history file/
+                    # scorecard purposes (accounts for tasks where the
+                    # target position changes)
+                    target_info = next(
+                        (obj for obj in history.output.object_list
+                         if obj.uuid == target.get('id')), None)
+
+                    if target_info:
+                        target["position"] = target_info.position
+
+            history.output.object_list = None
         return history
 
     def init_timer(self):
@@ -173,26 +225,31 @@ class HistoryWriter(object):
                 current_time - self.last_step_time_millis)
             self.last_step_time_millis = current_time
             if step_obj.output:
-                step_obj.target_visible = self.is_target_visible(
-                    step_obj)
+                step_obj.target_visible = self.is_target_visible(step_obj)
             logger.debug("Adding history step")
             self.current_steps.append(
-                dict(self.filter_history_output(step_obj)))
+                dict(self.update_history_output(step_obj)))
 
-    def is_target_visible(
-            self,
-            history: SceneHistory) -> bool:
-        """Determine the visibility of the target object, if any"""
-        try:
-            meta = history.output.goal.metadata
-            goal_id = meta['target']['id']
-            for hist_obj in history.output.object_list:
-                uuid = hist_obj.uuid
-                if uuid == goal_id and hist_obj.visible:
-                    return True
-            return False
-        except Exception:
-            return False
+    def is_target_visible(self, history: SceneHistory) -> Union[bool, list]:
+        """Determine the current visibility of the target object, if any. In
+        scenes with multiple targets, returns true if any target is visible."""
+        visible_targets = []
+        # Different goal categories may use different property names
+        target_names = ['target', 'targets', 'target_1', 'target_2']
+        metadata = history.output.goal.metadata or {}
+        for target_name in target_names:
+            # Some properties may be dicts, and some may be lists of dicts
+            targets = metadata.get(target_name) or []
+            targets = targets if isinstance(targets, list) else [targets]
+            for target in targets:
+                for hist_obj in history.output.object_list:
+                    if hist_obj.uuid == target.get('id') and hist_obj.visible:
+                        visible_targets.append(target.get('id'))
+        # Multi-retrieval goals will return a list of all visible target IDs.
+        if history.output.goal.category == GoalCategory.MULTI_RETRIEVAL.value:
+            return list(sorted(visible_targets))
+        # Other goals will return a boolean (backwards compatibility).
+        return bool(visible_targets)
 
     def write_history_file(self, rating, score):
         """ Add the end score obj, create the object

@@ -1,0 +1,15 @@
+InteractWithAgent,objectImageCoordsX=300,objectImageCoordsY=200
+Pass
+Pass
+Pass
+Pass
+PickupObject,objectImageCoordsX=300,objectImageCoordsY=200
+Pass
+InteractWithAgent,objectImageCoordsX=300,objectImageCoordsY=200
+Pass
+MoveRight
+MoveRight
+MoveRight
+MoveRight
+InteractWithAgent,objectImageCoordsX=300,objectImageCoordsY=200
+Pass

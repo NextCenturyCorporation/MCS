@@ -17,7 +17,7 @@
     "objects": [{
         "id": "testBall",
         "type": "ball",
-        "mass": 1,
+        "mass": 5,
         "materials": ["AI2-THOR/Materials/Plastics/BlueRubber"],
         "salientMaterials": ["rubber"],
         "pickupable": true,
@@ -37,7 +37,7 @@
     }, {
         "id": "testTrophy",
         "type": "trophy",
-        "mass": 1,
+        "mass": 5,
         "pickupable": true,
         "shows": [{
             "stepBegin": 0,

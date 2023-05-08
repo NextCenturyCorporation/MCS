@@ -115,6 +115,16 @@ First, install ffmpeg. Then (change the frame rate with the `-r` option):
 
     $ ffmpeg -r 3 -i frame_image_%d.png output.gif
 
+Testing TopDown Plots
+---------------------
+
+The plotter module has a main which is only executed when the plotter module is run directly vs imported. The developer can provide a scene file as a positional argument and the plotter's main will run with video_enabled for 1 step. This will create a visual, depth and topdown video in a scene folder for quick review.
+
+.. code-block:: bash
+
+    (venv) $ python plotter.py playroom.json
+
+
 More Config Options
 ---------------------------
 
@@ -140,6 +150,13 @@ team
 (string)
 
 Team name identifier to prefix to scene history and video files (default: '').
+
+timeout
+^^^^^^^
+
+(int, optional)
+
+If the amount of time between steps exceeds the amount specified (represented in seconds), throw and error and attempt to end scene (default: 3600 (or 1 hour)).
 
 
 Handling Pull Requests From Contributors
@@ -175,4 +192,16 @@ Releases
 --------
 
 Please see the following `Confluence page <https://nextcentury.atlassian.net/wiki/spaces/MCS/pages/1442742340/MCS+Release+Procedures>`_
+
+Depth Map Data
+--------------
+
+- In `machine_common_sense/step_metadata.py`, in the `StepMetadata` class, in the `__iter__` function, add `yield 'depth_map_list', self.depth_map_list` in order to save the depth map data in debug output files.
+- Run a scene with `debug` set to `true` and `metadata` NOT set to `none`.
+
+.. code-block:: console
+
+    (mcs) $ python machine_common_sense/scripts/run_human_input.py --config_file machine_common_sense/scripts/config_level1_debug.ini docs/source/scenes/playroom.json
+
+- Open one of the debug `mcs_output` files (like `playroom/mcs_output_0.json`) to see the `depth_map_list`
 

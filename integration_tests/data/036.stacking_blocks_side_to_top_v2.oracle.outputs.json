@@ -22,10 +22,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.247,
-                "direction_y": -0.626,
-                "direction_z": 0.74,
-                "distance": 1.217,
+                "direction_x": -0.26,
+                "direction_y": -0.57,
+                "direction_z": 0.78,
+                "distance": 1.16,
                 "held": false,
                 "id": "testBlock2",
                 "mass": 1,
@@ -47,16 +47,16 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 0,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 20,
         "objects": [
             {
                 "direction_x": 0,
-                "direction_y": -0.6945945,
-                "direction_z": 0.719401538,
-                "distance": 0.4031129,
+                "direction_y": -0.53,
+                "direction_z": 0.85,
+                "distance": 0.34,
                 "held": true,
                 "id": "testBlock1",
                 "mass": 1,
@@ -72,10 +72,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.247,
-                "direction_y": -0.626,
-                "direction_z": 0.74,
-                "distance": 1.217,
+                "direction_x": -0.26,
+                "direction_y": -0.57,
+                "direction_z": 0.78,
+                "distance": 1.16,
                 "held": false,
                 "id": "testBlock2",
                 "mass": 1,
@@ -97,16 +97,16 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 1,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": -0.272,
-                "direction_y": -0.51,
-                "direction_z": 0.816,
-                "distance": 1.103,
+                "direction_x": -0.28,
+                "direction_y": -0.44,
+                "direction_z": 0.85,
+                "distance": 1.06,
                 "held": false,
                 "id": "testBlock1",
                 "mass": 1,
@@ -122,10 +122,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.247,
-                "direction_y": -0.626,
-                "direction_z": 0.74,
-                "distance": 1.217,
+                "direction_x": -0.26,
+                "direction_y": -0.57,
+                "direction_z": 0.78,
+                "distance": 1.16,
                 "held": false,
                 "id": "testBlock2",
                 "mass": 1,
@@ -147,16 +147,16 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 2,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     },
     {
         "head_tilt": 20,
         "objects": [
             {
-                "direction_x": -0.272,
-                "direction_y": -0.51,
-                "direction_z": 0.816,
-                "distance": 1.103,
+                "direction_x": -0.28,
+                "direction_y": -0.44,
+                "direction_z": 0.85,
+                "distance": 1.06,
                 "held": false,
                 "id": "testBlock1",
                 "mass": 1,
@@ -172,10 +172,10 @@
                 "visible": true
             },
             {
-                "direction_x": -0.247,
-                "direction_y": -0.626,
-                "direction_z": 0.74,
-                "distance": 1.217,
+                "direction_x": -0.26,
+                "direction_y": -0.57,
+                "direction_z": 0.78,
+                "distance": 1.16,
                 "held": false,
                 "id": "testBlock2",
                 "mass": 1,
@@ -197,6 +197,6 @@
         "return_status": "SUCCESSFUL",
         "rotation_y": 0.0,
         "step_number": 3,
-        "structural_objects_count": 6
+        "structural_objects_count": 5
     }
 ]

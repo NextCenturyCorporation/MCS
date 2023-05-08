@@ -1,0 +1,41 @@
+﻿{
+    "name": "all actions within distance on a static object test",
+    "version": 2,
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+    "wallMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "performerStart": {
+        "position": {
+            "x": 0,
+            "z": 0
+        },
+        "rotation": {
+            "x": 30,
+            "y": 90
+        }
+    },
+    "objects": [{
+        "id": "changing_table",
+        "type": "changing_table",
+        "salientMaterials": ["wood"],
+        "materials": ["AI2-THOR/Materials/Wood/DarkWoodSmooth2", "AI2-THOR/Materials/Wood/DarkWoodSmooth2"],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0.5
+            },
+            "rotation": {
+                "x": 0,
+                "y": 180,
+                "z": 0
+            },
+            "scale": {
+                "x": 0.75,
+                "y": 0.75,
+                "z": 0.75
+            }
+        }]
+    }]
+}

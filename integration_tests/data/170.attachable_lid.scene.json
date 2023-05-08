@@ -1,0 +1,356 @@
+﻿{
+    "name": "Attatchable lid merging before rotation on a cog and opening the lid after rotation in the correct direction",
+    "version": "2",
+    "ceilingMaterial": "Custom/Materials/GreyDrywallMCS",
+    "floorMaterial": "Custom/Materials/BrownWoodMCS",
+    "wallMaterial": "Custom/Materials/WhiteDrywallMCS",
+    "roomDimensions": {
+        "x": 10,
+        "y": 3,
+        "z": 10
+    },
+    "performerStart": {
+        "position": {
+            "x": 0,
+            "y": 1,
+            "z": -2.5
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+    },
+    "objects": [{
+        "id": "rotating_cog_a",
+        "type": "rotating_cog",
+        "materials": ["AI2-THOR/Materials/Plastics/WhitePlastic"],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0.05,
+                "z": 0
+            },
+            "scale": {
+                "x": 3,
+                "y": 4,
+                "z": 3
+            }
+        }],
+        "rotates": [{
+            "stepBegin": 15,
+            "stepEnd": 23,
+            "vector": {
+                "x": 0,
+                "y": 10,
+                "z": 0
+            }
+        }],
+        "structure": true
+    }, {
+        "id": "bowl_1",
+        "type": "bowl_3_static",
+        "salientMaterials": ["metal"],
+        "materials": ["AI2-THOR/Materials/Metals/BrushedIron_AlbedoTransparency"],
+        "openable": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": -1,
+                "y": 0.1,
+                "z": 0
+            },
+            "scale": {
+                "x": 4,
+                "y": 4,
+                "z": 4
+            }
+        }]
+    }, {
+        "id": "container_1",
+        "type": "separate_container",
+        "salientMaterials": ["metal"],
+        "materials": ["AI2-THOR/Materials/Metals/BrushedIron_AlbedoTransparency"],
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 1,
+                "y": 0.1,
+                "z": 0
+            },
+            "scale": {
+                "x": 0.4,
+                "y": 0.4,
+                "z": 0.4
+            }
+        }]
+    }, 
+    {
+        "id": "target_1",
+        "type": "soccer_ball",
+        "mass": 2,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 1,
+                "y": 0.65,
+                "z": 0
+            },
+            "scale": {
+                "x": 1.5,
+                "y": 1.5,
+                "z": 1.5
+            }
+        }],
+        "moves": [{
+            "stepBegin": 1,
+            "stepEnd": 2,
+            "vector": {
+                "x": 0,
+                "y": -0.1,
+                "z": 0
+            }
+        }],
+        "kinematic": true,
+        "togglePhysics": [{
+            "stepBegin": 2
+        }]
+    }, {
+        "id": "placer_1",
+        "type": "cylinder",
+        "mass": 5,
+        "materials": ["Custom/Materials/Magenta"],
+        "kinematic": true,
+        "structure": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 1,
+                "y": 4.7,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 0.09,
+                "y": 4,
+                "z": 0.09
+            }
+        }],
+        "moves": [{
+            "stepBegin": 1,
+            "stepEnd": 2,
+            "vector": {
+                "x": 0,
+                "y": -0.1,
+                "z": 0
+            }
+        }, {
+            "stepBegin": 3,
+            "stepEnd": 8,
+            "vector": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+            }
+        }],
+        "changeMaterials": [{
+            "stepBegin": 2,
+            "materials": ["Custom/Materials/Cyan"]
+        }]
+    }, {
+        "id": "placer_2",
+        "type": "cylinder",
+        "mass": 5,
+        "materials": ["Custom/Materials/Magenta"],
+        "kinematic": true,
+        "structure": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": -1,
+                "y": 6.42,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 0.09,
+                "y": 4,
+                "z": 0.09
+            }
+        }],
+        "moves": [{
+          "stepBegin": 5,
+          "stepEnd": 12,
+            "vector": {
+                "x": 0,
+                "y": -0.2375,
+                "z": 0
+            }
+        }, {
+            "stepBegin": 14,
+            "stepEnd": 20,
+            "vector": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+            }
+        }],
+        "changeMaterials": [{
+            "stepBegin": 13,
+            "materials": ["Custom/Materials/Cyan"]
+        }]
+    }, {
+        "id": "placer_3",
+        "type": "cylinder",
+        "mass": 5,
+        "materials": ["Custom/Materials/Magenta"],
+        "kinematic": true,
+        "structure": true,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 1,
+                "y": 6.42,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 0.09,
+                "y": 4,
+                "z": 0.09
+            }
+        }],
+        "moves": [{
+          "stepBegin": 5,
+          "stepEnd": 12,
+            "vector": {
+                "x": 0,
+                "y": -0.2375,
+                "z": 0
+            }
+        }, {
+            "stepBegin": 14,
+            "stepEnd": 20,
+            "vector": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+            }
+        }],
+        "changeMaterials": [{
+            "stepBegin": 13,
+            "materials": ["Custom/Materials/Cyan"]
+        }]
+    }, {
+        "id": "lid_1",
+        "type": "lid",
+        "materials": ["UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/gray_1x1"],
+        "lidAttachment": {
+            "stepBegin": 13,
+            "lidAttachmentObjId": "bowl_1"
+        },
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": -1,
+                "y": 2.38,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 0.7,
+                "y": 0.7,
+                "z": 0.7
+            }
+        }],
+        "moves": [{
+            "stepBegin": 5,
+            "stepEnd": 12,
+            "vector": {
+                "x": 0,
+                "y": -0.2375,
+                "z": 0
+            }
+        }]
+    }, {
+        "id": "lid_2",
+        "type": "lid",
+        "materials": ["UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/gray_1x1"],
+        "lidAttachment": {
+            "stepBegin": 13,
+            "lidAttachmentObjId": "container_1"
+        },
+        "shows": [{
+          "stepBegin": 0,
+          "position": {
+              "x": 1,
+              "y": 2.4,
+              "z": 0
+          },
+          "rotation": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+          },
+          "scale": {
+              "x": 0.4,
+              "y": 0.4,
+              "z": 0.4
+          }
+      }],
+      "moves": [{
+          "stepBegin": 5,
+          "stepEnd": 12,
+          "vector": {
+              "x": 0,
+              "y": -0.2375,
+              "z": 0
+          }
+      }]
+    }],
+    "goal": {
+        "action_list": [
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"],
+            ["Pass"]
+        ]
+    }       
+  }
+  

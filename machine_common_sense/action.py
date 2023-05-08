@@ -14,10 +14,19 @@ class Action(Enum):
     inputs must be greater than (0,0).
     """
 
+    INITIALIZE = (
+        "Initialize",
+        "0",
+        "Initialization"
+    )
+    """
+    Initialize the scene. Intended only for internal use.
+    """
+
     CLOSE_OBJECT = (
         "CloseObject",
         "1",
-        "Close a nearby object. (objectId=string, amount=float " +
+        "Close a nearby object. (objectId=string, amount=float "
         "(default:1), objectImageCoordsX=float, objectImageCoordsY=float)"
     )
     """
@@ -58,8 +67,8 @@ class Action(Enum):
     "NOT_RECEPTACLE"
         If the object corresponding to the "objectImageCoords" vector is not a
         receptacle object.
-    "OBSTRUCTED"
-        If you cannot close the object because your path is obstructed.
+    "NOT_VISIBLE"
+        If the object corresponding to the "objectId" is not in the viewport.
     "OUT_OF_REACH"
         If you cannot close the object because you are out of reach.
     "FAILED"
@@ -168,8 +177,8 @@ class Action(Enum):
     OPEN_OBJECT = (
         "OpenObject",
         "3",
-        "Open a nearby object. (objectId=string, " +
-        "amount=float (default:1), objectImageCoordsX=float, " +
+        "Open a nearby object. (objectId=string, "
+        "amount=float (default:1), objectImageCoordsX=float, "
         "objectImageCoordsY=float)"
     )
     """
@@ -210,8 +219,11 @@ class Action(Enum):
     "NOT_RECEPTACLE"
         If the object corresponding to the "objectImageCoords" vector is not a
         receptacle object.
+    "NOT_VISIBLE"
+        If the object corresponding to the "objectId" is not in the viewport.
     "OBSTRUCTED"
-        If you cannot open the object because your path is obstructed.
+        If you cannot open the object because you will be in the way of the
+        object when its opened.
     "OUT_OF_REACH"
         If you cannot open the object because you are out of reach.
     "FAILED"
@@ -221,13 +233,13 @@ class Action(Enum):
     PICKUP_OBJECT = (
         "PickupObject",
         "4",
-        "Pickup a nearby object and hold it in your hand. " +
+        "Pickup a nearby object and hold it in your hand. "
         "(objectId=string, objectImageCoordsX=float, objectImageCoordsY=float)"
     )
     """
     Pick up a nearby object and hold it in your hand. This action incorporates
     reaching out your hand in front of you, opening your fingers, and grabbing
-    the object.
+    the object. You may hold multiple objects simultaneously.
 
     Parameters
     ----------
@@ -247,8 +259,6 @@ class Action(Enum):
     -------
     "SUCCESSFUL"
         Action successful.
-    "HAND_IS_FULL"
-        If you cannot pick up the object because your hand is full.
     "NOT_INTERACTABLE"
         If the object corresponding to the "objectImageCoords" vector is not an
         interactable object.
@@ -257,8 +267,8 @@ class Action(Enum):
         to the "objectImageCoords" vector) is not an object.
     "NOT_PICKUPABLE"
         If the object itself cannot be picked up.
-    "OBSTRUCTED"
-        If you cannot pick up the object because your path is obstructed.
+    "NOT_VISIBLE"
+        If the object corresponding to the "objectId" is not in the viewport.
     "OUT_OF_REACH"
         If you cannot pick up the object because you are out of reach.
     "FAILED"
@@ -268,12 +278,14 @@ class Action(Enum):
     PULL_OBJECT = (
         "PullObject",
         "5",
-        "Pull a nearby object. (objectId=string, force=float (default:0.5), " +
+        "Pull a nearby object. (objectId=string, force=float (default:0.5), "
         "objectImageCoordsX=float, objectImageCoordsY=float)"
     )
     """
     Pull a nearby object by applying a physical force directly toward you on
-    the X/Z axis to the center point of the object.
+    the X/Z axis to the center point of the object (note that this means it
+    does not matter where you Pull on the object, since the force is always
+    applied to the center point).
 
     Parameters
     ----------
@@ -304,8 +316,8 @@ class Action(Enum):
         to the "objectImageCoords" vector) is not an object.
     "NOT_MOVEABLE"
         If the object itself cannot be moved by a baby.
-    "OBSTRUCTED"
-        If you cannot move the object because your path is obstructed.
+    "NOT_VISIBLE"
+        If the object corresponding to the "objectId" is not in the viewport.
     "OUT_OF_REACH"
         If you cannot move the object because you are out of reach.
     "FAILED"
@@ -315,12 +327,14 @@ class Action(Enum):
     PUSH_OBJECT = (
         "PushObject",
         "6",
-        "Push a nearby object. (objectId=string, force=float (default:0.5), " +
+        "Push a nearby object. (objectId=string, force=float (default:0.5), "
         "objectImageCoordsX=float, objectImageCoordsY=float)"
     )
     """
     Push a nearby object by applying a physical force directly away from you on
-    the X/Z axis to the center point of the object.
+    the X/Z axis to the center point of the object (note that this means it
+    does not matter where you Push on the object, since the force is always
+    applied to the center point).
 
     Parameters
     ----------
@@ -351,8 +365,8 @@ class Action(Enum):
         to the "objectImageCoords" vector) is not an object.
     "NOT_MOVEABLE"
         If the object itself cannot be moved by a baby.
-    "OBSTRUCTED"
-        If you cannot move the object because your path is obstructed.
+    "NOT_VISIBLE"
+        If the object corresponding to the "objectId" is not in the viewport.
     "OUT_OF_REACH"
         If you cannot move the object because you are out of reach.
     "FAILED"
@@ -362,9 +376,9 @@ class Action(Enum):
     PUT_OBJECT = (
         "PutObject",
         "7",
-        "Place an object you are holding into/onto a nearby " +
-        "receptacle object. (objectId=string, receptacleObjectId=string, " +
-        "receptacleObjectImageCoordsX=float, " +
+        "Place an object you are holding into/onto a nearby "
+        "receptacle object. (objectId=string, receptacleObjectId=string, "
+        "receptacleObjectImageCoordsX=float, "
         "receptacleObjectImageCoordsY=float)"
     )
     """
@@ -409,10 +423,235 @@ class Action(Enum):
         If the object corresponding to the "receptacleObjectId" (or object
         corresponding to the "receptacleObjectImageCoords" vector) is not a
         receptacle.
+    "NOT_VISIBLE"
+        If the object corresponding to the "objectId" is not in the viewport.
     "OBSTRUCTED"
         If you cannot put down the object because your path is obstructed.
     "OUT_OF_REACH"
         If you cannot put down the object because you are out of reach.
+    "FAILED"
+        Unexpected error; please report immediately to development team.
+    """
+
+    TORQUE_OBJECT = (
+        "TorqueObject",
+        "8",
+        "Apply torque to a nearby object. (objectId=string, "
+        "force=float(default:0.5), objectImageCoordsX=float, "
+        "objectImageCoordsY=float)"
+    )
+    """
+    Apply torque to a nearby object.
+
+    Parameters
+    ----------
+    objectId : string, optional
+        The "uuid" of the target object. Required unless the
+        "objectImageCoords" properties are given.
+    objectImageCoordsX : float, optional
+        The X of a pixel coordinate on the target object based on
+        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
+    objectImageCoordsY : float, optional
+        The Y of a pixel coordinate on the target object based on
+        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
+    force : float
+        The amount of force, from -1 to 1, used to move the target object.
+        Default: 0.5
+
+    Returns
+    -------
+    "SUCCESSFUL"
+        Action successful.
+    "NOT_INTERACTABLE"
+        If the object corresponding to the "objectImageCoords" vector is not an
+        interactable object.
+    "NOT_OBJECT"
+        If the object corresponding to the "objectId" (or object corresponding
+        to the "objectImageCoords" vector) is not an object.
+    "NOT_MOVEABLE"
+        If the object itself cannot be moved by a baby.
+    "NOT_VISIBLE"
+        If the object corresponding to the "objectId" is not in the viewport.
+    "OUT_OF_REACH"
+        If you cannot move the object because you are out of reach.
+    "FAILED"
+        Unexpected error; please report immediately to development team.
+    """
+
+    ROTATE_OBJECT = (
+        "RotateObject",
+        "9",
+        "Apply a rotation of 5 degrees to a nearby object. "
+        "(objectId=string, "
+        "clockwise=bool(default:True), objectImageCoordsX=float, "
+        "objectImageCoordsY=float)"
+    )
+    """
+    Apply a rotation of 5 degrees to a nearby object. Will fail if rotating
+    the object would cause it to collide with another object or the performer
+    agent, returning OBSTRUCTED.
+
+    Parameters
+    ----------
+    objectId : string, optional
+        The "uuid" of the target object. Required unless the
+        "objectImageCoords" properties are given.
+    objectImageCoordsX : float, optional
+        The X of a pixel coordinate on the target object based on
+        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
+    objectImageCoordsY : float, optional
+        The Y of a pixel coordinate on the target object based on
+        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
+    clockwise : bool
+        If the rotation should be clockwise.
+        Default: True
+
+    Returns
+    -------
+    "SUCCESSFUL"
+        Action successful.
+    "NOT_INTERACTABLE"
+        If the object corresponding to the "objectImageCoords" vector is not an
+        interactable object.
+    "NOT_OBJECT"
+        If the object corresponding to the "objectId" (or object corresponding
+        to the "objectImageCoords" vector) is not an object.
+    "NOT_MOVEABLE"
+        If the object itself cannot be moved by a baby.
+    "NOT_VISIBLE"
+        If the object corresponding to the "objectId" is not in the viewport.
+    "OBSTRUCTED"
+        If you cannot rotate the object because the path of rotation
+        is obstructed.
+    "OUT_OF_REACH"
+        If you cannot move the object because you are out of reach.
+    "FAILED"
+        Unexpected error; please report immediately to development team.
+    """
+
+    MOVE_OBJECT = (
+        "MoveObject",
+        "m",
+        "Apply a movement of 0.1 meters to a nearby object. "
+        "(objectId=string, "
+        "lateral=int(default:0), "
+        "straight=int(default:1), "
+        "objectImageCoordsX=float, "
+        "objectImageCoordsY=float)"
+    )
+    """
+    Apply a movement of 0.1 meters units to a nearby object. If the object
+    would come into contact with another object, and the other object is small
+    and moveable, the other object will also move 0.1 meters in the same
+    direction. This movement does not attempt to simulate realistic physics
+    in regard to collisions with other object(s). If you wish to simulate
+    realistic physical movement, please use the PullObject and PushObject
+    actions instead, which apply a force using the environment's physics
+    simulation engine.
+
+    Parameters
+    ----------
+    objectId : string, optional
+        The "uuid" of the target object. Required unless the
+        "objectImageCoords" properties are given.
+    objectImageCoordsX : float, optional
+        The X of a pixel coordinate on the target object based on
+        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
+    objectImageCoordsY : float, optional
+        The Y of a pixel coordinate on the target object based on
+        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
+    lateral : int
+        The x axis direction of movement on the object relative to the agent.
+        Can be -1, 0, 1. If only lateral is given,
+        straight will default to 0
+        Default: 0
+    straight : int
+        The x axis direction of movement on the object relative to the agent.
+        Can be -1, 0, 1. If only straight is given,
+        lateral will default to 0
+        Default: 1
+
+    Returns
+    -------
+    "SUCCESSFUL"
+        Action successful.
+    "NOT_INTERACTABLE"
+        If the object corresponding to the "objectImageCoords" vector is not an
+        interactable object.
+    "NOT_OBJECT"
+        If the object corresponding to the "objectId" (or object corresponding
+        to the "objectImageCoords" vector) is not an object.
+    "NOT_MOVEABLE"
+        If the object itself cannot be moved by a baby.
+    "NOT_VISIBLE"
+        If the object corresponding to the "objectId" is not in the viewport.
+    "OBSTRUCTED"
+        If you cannot rotate the object because the path of movement
+        is obstructed.
+    "OUT_OF_REACH"
+        If you cannot move the object because you are out of reach.
+    "FAILED"
+        Unexpected error; please report immediately to development team.
+    """
+
+    INTERACT_WITH_AGENT = (
+        "InteractWithAgent",
+        "t",
+        "Interact with an agent. If that agent has an object, "
+        "it will hold out the object for you to pickup; "
+        "otherwise, the agent will look sad."
+        "(objectId=string, "
+        "objectImageCoordsX=float, "
+        "objectImageCoordsY=float)"
+    )
+    """
+    Interact with an agent. If that agent has an object, it will hold
+    out the object for you to pickup; otherwise, the agent will look sad.
+    If the agent was pointing at an object, the agent will resume pointing
+    afterward.
+
+    Parameters
+    ----------
+    objectId : string, optional
+        The "uuid" of the target object. Required unless the
+        "objectImageCoords" properties are given.
+    objectImageCoordsX : float, optional
+        The X of a pixel coordinate on the target object based on
+        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
+    objectImageCoordsY : float, optional
+        The Y of a pixel coordinate on the target object based on
+        your current viewport. Can be used in place of the "objectId" property.
+        (See note under "Action" header regarding image coordinates.)
+
+    Returns
+    -------
+    "SUCCESSFUL"
+        Action successful.
+    "NOT_INTERACTABLE"
+        If the object corresponding to the "objectImageCoords" vector is not an
+        interactable object.
+    "NOT_OBJECT"
+        If the object corresponding to the "objectId" (or object corresponding
+        to the "objectImageCoords" vector) is not an object.
+    "NOT_AGENT"
+        If the object being interacted with is not a simulation agent
+    "AGENT_CURRENTLY_INTERACTING_WTIH_PERFORMER"
+        If the object being interacted with is a simulation agent already
+        interacting with the performer.
+    "AGENT_IS_BUSY"
+        If the object being interacted with is a simulation agent that is
+        currently rotating to face an object or beginning its point animation.
+    "NOT_VISIBLE"
+        If the object corresponding to the "objectId" is not in the viewport.
+    "OUT_OF_REACH"
+        If you cannot move the object because you are out of reach.
     "FAILED"
         Unexpected error; please report immediately to development team.
     """
@@ -488,10 +727,9 @@ class Action(Enum):
     END_HABITUATION = (
         "EndHabituation",
         "h",
-        "Ends a habituation trial for the scene by blanking the screen " +
-        "for one action (and teleporting the agent if needed). Sometimes" +
-        " needed depending on the task type. (xPosition=float, " +
-        "zPosition=float, yRotation=float)"
+        "Ends a habituation trial for the scene by blanking the screen "
+        "for one action (and teleporting the agent if needed). Sometimes"
+        " needed depending on the task type."
     )
     """
     Ends a habituation trial for the scene by blanking the screen for one
@@ -503,19 +741,23 @@ class Action(Enum):
     guarantee that using a position intersecting another object or outside
     the room won't cause issues or errors.
 
-    Parameters
-    ----------
-    xPosition : float, optional
-        The global X position of the vector to teleport the agent to during
-        the blank screen. The Z position must also be specified for this to
-        work.
-    zPosition : float, optional
-        The global Z position of the vector to teleport the agent to during
-        the blank screen. The X position must also be specified for this to
-        work.
-    yRotation : float, optional
-        Degrees (global, not relative) to rotate the agent along the Y axis
-        during the blank screen.
+    Returns
+    -------
+    "SUCCESSFUL"
+        Action successful.
+    "FAILED"
+        Unexpected error; please report immediately to development team.
+    """
+
+    # Pass should always be the last action in the enum.
+    END_SCENE = (
+        "EndScene",
+        " ",
+        "There is no action available and end_scene needs to be called."
+    )
+    """
+    Call end_scene now there is no actions available.
+    Does nothing.
 
     Returns
     -------
@@ -553,11 +795,9 @@ class Action(Enum):
         return obj
 
     def __repr__(self):
-        return '<%s.%s: %s>' % (
-            self.__class__.__name__,
-            self._name_,
-            ', '.join([self._value_, self._key, self._desc])
-        )
+        return (
+            f"<{self.__class__.__name__}.{self._name_}: "
+            f"{', '.join([self._value_, self._key, self._desc])}>")
 
     @property
     def key(self):
@@ -615,3 +855,29 @@ class Action(Enum):
             return action, None
 
         return action, params
+
+
+FORCE_ACTIONS = [
+    Action.PUSH_OBJECT,
+    Action.PULL_OBJECT,
+    Action.TORQUE_OBJECT]
+OBJECT_MOVE_ACTIONS = [
+    Action.CLOSE_OBJECT,
+    Action.OPEN_OBJECT]
+MOVE_ACTIONS = [
+    Action.MOVE_AHEAD,
+    Action.MOVE_LEFT,
+    Action.MOVE_RIGHT,
+    Action.MOVE_BACK]
+OBJECT_IMAGE_ACTIONS = [
+    Action.CLOSE_OBJECT,
+    Action.OPEN_OBJECT,
+    Action.PICKUP_OBJECT,
+    Action.PUSH_OBJECT,
+    Action.PULL_OBJECT,
+    Action.TORQUE_OBJECT,
+    Action.ROTATE_OBJECT,
+    Action.INTERACT_WITH_AGENT,
+    Action.MOVE_OBJECT]
+RECEPTACLE_ACTIONS = [
+    Action.PUT_OBJECT]

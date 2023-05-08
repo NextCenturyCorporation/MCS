@@ -12,7 +12,7 @@ class Stringifier:
     which is why this is seperate from serialization
     """
 
-    NUMBER_OF_DECIMALS = 4
+    NUMBER_OF_DECIMALS = 6
     NUMBER_OF_SPACES = 4
 
     @staticmethod
@@ -90,7 +90,10 @@ class Stringifier:
                 if (metadata.state_list is not None)
                 else metadata.state_list,
                 Stringifier.vector_to_string(metadata.position),
-                metadata.distance_in_world,
+                str(round(
+                    metadata.distance_in_world,
+                    Stringifier.NUMBER_OF_DECIMALS
+                )),
                 Stringifier.vector_to_string(metadata.direction),
                 (
                     (

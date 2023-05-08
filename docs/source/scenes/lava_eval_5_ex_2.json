@@ -1,0 +1,87 @@
+﻿{
+    "name": "lava_eval_5_ex_2",
+    "version": 2,
+    "ceilingMaterial": "Custom/Materials/BlackDrywallMCS",
+    "floorMaterial": "Custom/Materials/BrownWoodMCS",
+    "wallMaterial": "Custom/Materials/WhiteWoodMCS",
+    "roomDimensions": {
+        "x": 12,
+        "y": 3,
+        "z": 12
+    },
+    "lava": [
+        { "x": 1, "z": -1 },
+        { "x": 1, "z": 0 },
+        { "x": 1, "z": 1 },
+        { "x": 1, "z": 2 },
+        { "x": 1, "z": 3 },
+        { "x": 1, "z": 4 },
+        { "x": 1, "z": 5 },
+        { "x": 1, "z": 6 },
+        { "x": 2, "z": 6 },
+        { "x": 3, "z": 6 },
+        { "x": 4, "z": 6 },
+        { "x": 5, "z": 6 },
+        { "x": 6, "z": 6 },
+        { "x": 6, "z": 5 },
+        { "x": 6, "z": 4 },
+        { "x": 6, "z": 3 },
+        { "x": 6, "z": 2 },
+        { "x": 6, "z": 1 },
+        { "x": 6, "z": 0 },
+        { "x": 6, "z": -1 },
+        { "x": 6, "z": -2 },
+        { "x": 6, "z": -3 },
+        { "x": 6, "z": -4 },
+        { "x": 6, "z": -5 },
+        { "x": 6, "z": -6 },
+        { "x": 5, "z": -6 },
+        { "x": 4, "z": -6 },
+        { "x": 3, "z": -6 },
+        { "x": 2, "z": -6 },
+        { "x": 1, "z": -6 }
+    ],
+    "performerStart": {
+        "position": {
+            "x": -5,
+            "z": 2
+        },
+        "rotation": {
+            "x": 0,
+            "y": 90
+        }
+    },
+    "goal": {
+        "category": "retrieval",
+        "metadata": {
+            "target": {
+                "id": "target"
+            }
+        },
+        "description": "Find and pick up the tiny light black white rubber ball.",
+        "last_step": 2500
+    },
+    "objects": [{
+        "id": "target",
+        "type": "soccer_ball",
+        "mass": 1,
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 4,
+                "y": 0.23,
+                "z": 2
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "scale": {
+                "x": 2,
+                "y": 2,
+                "z": 2
+            }
+        }]
+    }]
+}
