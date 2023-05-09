@@ -1,0 +1,263 @@
+{
+  "goal": {
+    "category": "retrieval",
+    "metadata": {
+      "target": {
+        "id": "8dce4f27-ef94-4fc4-be77-d6a8d5170bc4"
+      }
+    },
+    "description": "Find and pick up the small light black white rubber ball.",
+    "action_list": [],
+    "last_step": 4700
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [],
+  "name": "interactive_ramps_0001_30",
+  "objects": [
+    {
+      "id": "8dce4f27-ef94-4fc4-be77-d6a8d5170bc4",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ],
+      "materials": [],
+      "associatedWithAgent": "agent_702eface-8c3b-4823-aee4-f27becca6b44"
+    },
+    {
+      "id": "agent_702eface-8c3b-4823-aee4-f27becca6b44",
+      "type": "agent_male_04",
+      "mass": 75,
+      "agentSettings": {
+        "chest": 2,
+        "skin": 1,
+        "chestMaterial": 9,
+        "eyes": 0,
+        "feet": 0,
+        "feetMaterial": 1,
+        "hair": 2,
+        "hairMaterial": 1,
+        "hatMaterial": -1,
+        "hideHair": false,
+        "isElder": false,
+        "legs": 1,
+        "legsMaterial": 12,
+        "glasses": 0,
+        "jacket": 0,
+        "jacketMaterial": 0,
+        "tie": 0,
+        "tieMaterial": 0,
+        "showBeard": false,
+        "showGlasses": false,
+        "showJacket": false,
+        "showTie": false
+      },
+      "actions": [],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -0.0583,
+            "y": 1.4206,
+            "z": -9.7768
+          },
+          "rotation": {
+            "x": 0,
+            "y": 90,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "platform_5574f369-aaf2-4865-9def-d3b4c25d0a48",
+      "type": "cube",
+      "mass": 7694,
+      "materials": ["AI2-THOR/Materials/Wood/BlackWood"],
+      "kinematic": true,
+      "structure": true,
+      "lips": {
+        "front": true,
+        "back": true,
+        "left": true,
+        "right": true,
+        "gaps": {
+          "right": [
+            {
+              "low": 0.0369,
+              "high": 0.8633
+            }
+          ]
+        }
+      },
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -1.087,
+            "y": 0.7103,
+            "z": 10.256
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 12.4224,
+            "y": 1.4206,
+            "z": 3.488
+          }
+        }
+      ]
+    },
+    {
+      "id": "ramp_dd1ae674-fe3d-4092-821b-f19022aba112",
+      "type": "triangle",
+      "mass": 753,
+      "materials": ["AI2-THOR/Materials/Wood/BlackWood"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 5.8597,
+            "y": 0.7103,
+            "z": 10.082
+          },
+          "rotation": {
+            "x": 0,
+            "y": -90,
+            "z": 0
+          },
+          "scale": {
+            "x": 2.8823,
+            "y": 1.4206,
+            "z": 1.4711
+          }
+        }
+      ]
+    },
+    {
+      "id": "platform_6158e357-479b-4316-a9e0-8eef8431fe95",
+      "type": "cube",
+      "mass": 7350,
+      "materials": ["Custom/Materials/BlueWoodMCS"],
+      "kinematic": true,
+      "structure": true,
+      "lips": {
+        "front": true,
+        "back": true,
+        "left": true,
+        "right": true,
+        "gaps": {
+          "right": [
+            {
+              "low": 0.2173,
+              "high": 0.9155
+            }
+          ]
+        }
+      },
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -2.6641,
+            "y": 0.7103,
+            "z": -10.0582
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 10.6582,
+            "y": 1.4206,
+            "z": 3.8836
+          }
+        }
+      ]
+    },
+    {
+      "id": "ramp_52cf623d-63b0-4a8e-958a-e16560cc6a7c",
+      "type": "triangle",
+      "mass": 815,
+      "materials": ["Custom/Materials/BlueWoodMCS"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 3.5115,
+            "y": 0.7103,
+            "z": -9.8002
+          },
+          "rotation": {
+            "x": 0,
+            "y": -90,
+            "z": 0
+          },
+          "scale": {
+            "x": 2.7116,
+            "y": 1.4206,
+            "z": 1.693
+          }
+        }
+      ]
+    }
+  ],
+  "screenshot": false,
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
+  "floorMaterial": "AI2-THOR/Materials/Fabrics/Carpet3",
+  "floorTextures": [],
+  "intuitivePhysics": false,
+  "performerStart": {
+    "position": {
+      "x": -4.8496,
+      "y": 1.4206,
+      "z": -10.792
+    },
+    "rotation": {
+      "x": 0.0,
+      "y": 90.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 18.0,
+    "y": 5.0,
+    "z": 24.0
+  },
+  "wallMaterial": "AI2-THOR/Materials/Metals/WhiteMetal"
+}

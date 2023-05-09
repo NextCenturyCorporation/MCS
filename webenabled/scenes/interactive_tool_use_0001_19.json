@@ -1,0 +1,616 @@
+{
+  "goal": {
+    "category": "retrieval",
+    "metadata": {
+      "target": {
+        "id": "54365d9d-f6d8-41b9-8030-cbeafcd1faa9"
+      }
+    },
+    "description": "Find and pick up the small light black white rubber ball.",
+    "last_step": 5000,
+    "action_list": [["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"]]
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [
+    {
+      "x": 2,
+      "z": 1
+    },
+    {
+      "x": 2,
+      "z": 2
+    },
+    {
+      "x": 2,
+      "z": 3
+    },
+    {
+      "x": 2,
+      "z": 4
+    },
+    {
+      "x": 2,
+      "z": 5
+    },
+    {
+      "x": 2,
+      "z": 6
+    },
+    {
+      "x": 2,
+      "z": 7
+    },
+    {
+      "x": 2,
+      "z": 8
+    },
+    {
+      "x": 2,
+      "z": 9
+    },
+    {
+      "x": 3,
+      "z": 1
+    },
+    {
+      "x": 3,
+      "z": 2
+    },
+    {
+      "x": 3,
+      "z": 3
+    },
+    {
+      "x": 3,
+      "z": 4
+    },
+    {
+      "x": 3,
+      "z": 5
+    },
+    {
+      "x": 3,
+      "z": 6
+    },
+    {
+      "x": 3,
+      "z": 7
+    },
+    {
+      "x": 3,
+      "z": 8
+    },
+    {
+      "x": 3,
+      "z": 9
+    },
+    {
+      "x": 4,
+      "z": 1
+    },
+    {
+      "x": 4,
+      "z": 2
+    },
+    {
+      "x": 4,
+      "z": 3
+    },
+    {
+      "x": 4,
+      "z": 4
+    },
+    {
+      "x": 4,
+      "z": 8
+    },
+    {
+      "x": 4,
+      "z": 9
+    },
+    {
+      "x": 5,
+      "z": 1
+    },
+    {
+      "x": 5,
+      "z": 2
+    },
+    {
+      "x": 5,
+      "z": 3
+    },
+    {
+      "x": 5,
+      "z": 4
+    },
+    {
+      "x": 5,
+      "z": 8
+    },
+    {
+      "x": 5,
+      "z": 9
+    },
+    {
+      "x": 6,
+      "z": 1
+    },
+    {
+      "x": 6,
+      "z": 2
+    },
+    {
+      "x": 6,
+      "z": 3
+    },
+    {
+      "x": 6,
+      "z": 4
+    },
+    {
+      "x": 6,
+      "z": 8
+    },
+    {
+      "x": 6,
+      "z": 9
+    },
+    {
+      "x": 7,
+      "z": 1
+    },
+    {
+      "x": 7,
+      "z": 2
+    },
+    {
+      "x": 7,
+      "z": 3
+    },
+    {
+      "x": 7,
+      "z": 4
+    },
+    {
+      "x": 7,
+      "z": 5
+    },
+    {
+      "x": 7,
+      "z": 6
+    },
+    {
+      "x": 7,
+      "z": 7
+    },
+    {
+      "x": 7,
+      "z": 8
+    },
+    {
+      "x": 7,
+      "z": 9
+    },
+    {
+      "x": 8,
+      "z": 1
+    },
+    {
+      "x": 8,
+      "z": 2
+    },
+    {
+      "x": 8,
+      "z": 3
+    },
+    {
+      "x": 8,
+      "z": 4
+    },
+    {
+      "x": 8,
+      "z": 5
+    },
+    {
+      "x": 8,
+      "z": 6
+    },
+    {
+      "x": 8,
+      "z": 7
+    },
+    {
+      "x": 8,
+      "z": 8
+    },
+    {
+      "x": 8,
+      "z": 9
+    },
+    {
+      "x": -8,
+      "z": 1
+    },
+    {
+      "x": -8,
+      "z": 2
+    },
+    {
+      "x": -8,
+      "z": 3
+    },
+    {
+      "x": -8,
+      "z": 4
+    },
+    {
+      "x": -8,
+      "z": 5
+    },
+    {
+      "x": -8,
+      "z": 6
+    },
+    {
+      "x": -8,
+      "z": 7
+    },
+    {
+      "x": -8,
+      "z": 8
+    },
+    {
+      "x": -8,
+      "z": 9
+    },
+    {
+      "x": -7,
+      "z": 1
+    },
+    {
+      "x": -7,
+      "z": 2
+    },
+    {
+      "x": -7,
+      "z": 3
+    },
+    {
+      "x": -7,
+      "z": 4
+    },
+    {
+      "x": -7,
+      "z": 5
+    },
+    {
+      "x": -7,
+      "z": 6
+    },
+    {
+      "x": -7,
+      "z": 7
+    },
+    {
+      "x": -7,
+      "z": 8
+    },
+    {
+      "x": -7,
+      "z": 9
+    },
+    {
+      "x": -6,
+      "z": 1
+    },
+    {
+      "x": -6,
+      "z": 2
+    },
+    {
+      "x": -6,
+      "z": 3
+    },
+    {
+      "x": -6,
+      "z": 4
+    },
+    {
+      "x": -6,
+      "z": 8
+    },
+    {
+      "x": -6,
+      "z": 9
+    },
+    {
+      "x": -5,
+      "z": 1
+    },
+    {
+      "x": -5,
+      "z": 2
+    },
+    {
+      "x": -5,
+      "z": 3
+    },
+    {
+      "x": -5,
+      "z": 4
+    },
+    {
+      "x": -5,
+      "z": 8
+    },
+    {
+      "x": -5,
+      "z": 9
+    },
+    {
+      "x": -4,
+      "z": 1
+    },
+    {
+      "x": -4,
+      "z": 2
+    },
+    {
+      "x": -4,
+      "z": 3
+    },
+    {
+      "x": -4,
+      "z": 4
+    },
+    {
+      "x": -4,
+      "z": 8
+    },
+    {
+      "x": -4,
+      "z": 9
+    },
+    {
+      "x": -3,
+      "z": 1
+    },
+    {
+      "x": -3,
+      "z": 2
+    },
+    {
+      "x": -3,
+      "z": 3
+    },
+    {
+      "x": -3,
+      "z": 4
+    },
+    {
+      "x": -3,
+      "z": 5
+    },
+    {
+      "x": -3,
+      "z": 6
+    },
+    {
+      "x": -3,
+      "z": 7
+    },
+    {
+      "x": -3,
+      "z": 8
+    },
+    {
+      "x": -3,
+      "z": 9
+    },
+    {
+      "x": -2,
+      "z": 1
+    },
+    {
+      "x": -2,
+      "z": 2
+    },
+    {
+      "x": -2,
+      "z": 3
+    },
+    {
+      "x": -2,
+      "z": 4
+    },
+    {
+      "x": -2,
+      "z": 5
+    },
+    {
+      "x": -2,
+      "z": 6
+    },
+    {
+      "x": -2,
+      "z": 7
+    },
+    {
+      "x": -2,
+      "z": 8
+    },
+    {
+      "x": -2,
+      "z": 9
+    }
+  ],
+  "name": "interactive_tool_use_0001_19",
+  "objects": [
+    {
+      "id": "54365d9d-f6d8-41b9-8030-cbeafcd1faa9",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -5.0,
+            "y": 0.22,
+            "z": 6.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 180.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": []
+    },
+    {
+      "id": "tool_6b50b467-f5c9-4a74-ab21-c6f3b4993e50",
+      "type": "tool_rect_0_50_x_9_00",
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -5.0,
+            "y": 0.15,
+            "z": -4.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "tool_c198ce70-d391-4e7e-83b6-4bd96b52e215",
+      "type": "tool_rect_0_75_x_1_00",
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 5.0,
+            "y": 0.15,
+            "z": 0.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "platform_f6b0b336-6880-447e-a263-f869e871897b",
+      "type": "cube",
+      "mass": 2750,
+      "materials": ["Custom/Materials/OliveDrywallMCS"],
+      "kinematic": true,
+      "structure": true,
+      "lips": {
+        "front": false,
+        "back": false,
+        "left": false,
+        "right": false
+      },
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0.0,
+            "y": 0.5,
+            "z": 0.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 22.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "9689a78e-d380-4560-8122-c1cc8043e36e",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 5.0,
+            "y": 0.22,
+            "z": 6.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 225.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": []
+    }
+  ],
+  "screenshot": false,
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall4Tiled",
+  "floorMaterial": "AI2-THOR/Materials/Wood/LightWoodCounters 1",
+  "floorTextures": [],
+  "intuitivePhysics": false,
+  "performerStart": {
+    "position": {
+      "x": 0.0,
+      "y": 1.0,
+      "z": -10.5
+    },
+    "rotation": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 30.0,
+    "y": 3.0,
+    "z": 22.0
+  },
+  "wallMaterial": "Custom/Materials/OliveDrywallMCS"
+}

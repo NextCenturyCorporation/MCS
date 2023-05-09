@@ -1,0 +1,385 @@
+{
+  "goal": {
+    "category": "retrieval",
+    "metadata": {
+      "target": {
+        "id": "53a73203-18a7-4ad7-8e1f-a6aad428dd9f"
+      }
+    },
+    "description": "Find and pick up the small light black white rubber ball.",
+    "action_list": [],
+    "last_step": 4700
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [
+    {
+      "x": 0,
+      "z": -1
+    },
+    {
+      "x": 1,
+      "z": -1
+    },
+    {
+      "x": 2,
+      "z": -1
+    },
+    {
+      "x": 3,
+      "z": -1
+    },
+    {
+      "x": 4,
+      "z": -1
+    },
+    {
+      "x": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "z": 1
+    },
+    {
+      "x": 0,
+      "z": 2
+    },
+    {
+      "x": 0,
+      "z": 3
+    },
+    {
+      "x": 0,
+      "z": 4
+    },
+    {
+      "x": 1,
+      "z": 4
+    },
+    {
+      "x": 2,
+      "z": 4
+    },
+    {
+      "x": 3,
+      "z": 4
+    },
+    {
+      "x": 4,
+      "z": 4
+    },
+    {
+      "x": 4,
+      "z": 0
+    },
+    {
+      "x": 4,
+      "z": 1
+    },
+    {
+      "x": 4,
+      "z": 2
+    },
+    {
+      "x": 4,
+      "z": 3
+    },
+    {
+      "x": -5,
+      "z": 0
+    },
+    {
+      "x": -4,
+      "z": 0
+    },
+    {
+      "x": -3,
+      "z": 0
+    },
+    {
+      "x": -2,
+      "z": 0
+    },
+    {
+      "x": -1,
+      "z": 0
+    },
+    {
+      "x": 1,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "z": 3
+    },
+    {
+      "x": 1,
+      "z": 2
+    },
+    {
+      "x": 4,
+      "z": -2
+    },
+    {
+      "x": -6,
+      "z": 0
+    },
+    {
+      "x": 4,
+      "z": 5
+    },
+    {
+      "x": 0,
+      "z": -2
+    },
+    {
+      "x": 0,
+      "z": -3
+    },
+    {
+      "x": -7,
+      "z": 0
+    },
+    {
+      "x": 3,
+      "z": 5
+    },
+    {
+      "x": 5,
+      "z": 4
+    },
+    {
+      "x": 4,
+      "z": -3
+    },
+    {
+      "x": -1,
+      "z": 2
+    },
+    {
+      "x": -1,
+      "z": 3
+    },
+    {
+      "x": 2,
+      "z": 5
+    },
+    {
+      "x": 6,
+      "z": 4
+    },
+    {
+      "x": 3,
+      "z": -2
+    },
+    {
+      "x": 5,
+      "z": -1
+    },
+    {
+      "x": 6,
+      "z": -1
+    },
+    {
+      "x": 4,
+      "z": -4
+    },
+    {
+      "x": -1,
+      "z": -1
+    },
+    {
+      "x": -2,
+      "z": 3
+    },
+    {
+      "x": 1,
+      "z": 5
+    },
+    {
+      "x": 2,
+      "z": -2
+    },
+    {
+      "x": -1,
+      "z": 1
+    },
+    {
+      "x": 5,
+      "z": 3
+    },
+    {
+      "x": 7,
+      "z": 4
+    }
+  ],
+  "name": "interactive_lava_0001_12",
+  "objects": [
+    {
+      "id": "53a73203-18a7-4ad7-8e1f-a6aad428dd9f",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ],
+      "materials": [],
+      "associatedWithAgent": "agent_5950880d-2caf-4e02-a43b-fae917cf0eea"
+    },
+    {
+      "id": "agent_5950880d-2caf-4e02-a43b-fae917cf0eea",
+      "type": "agent_female_02",
+      "mass": 75,
+      "agentSettings": {
+        "chest": 1,
+        "skin": 13,
+        "chestMaterial": 0,
+        "eyes": 1,
+        "feet": 0,
+        "feetMaterial": 3,
+        "hair": 5,
+        "hairMaterial": 0,
+        "hatMaterial": -1,
+        "hideHair": false,
+        "isElder": false,
+        "legs": 3,
+        "legsMaterial": 13,
+        "glasses": 0,
+        "jacket": 0,
+        "jacketMaterial": 0,
+        "tie": 0,
+        "tieMaterial": 0,
+        "showBeard": false,
+        "showGlasses": false,
+        "showJacket": false,
+        "showTie": false
+      },
+      "actions": [],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 1.4306,
+            "y": 0,
+            "z": 9.324
+          },
+          "rotation": {
+            "x": 0,
+            "y": 135,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "blob_0a5bdcd7-c2b2-4916-92c7-e263fab97cab",
+      "type": "blob_04",
+      "mass": 75,
+      "materials": ["Custom/Materials/Magenta"],
+      "physics": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 2.866,
+            "y": 0.4032,
+            "z": 9.7594
+          },
+          "rotation": {
+            "x": 0,
+            "y": 135,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.7922,
+            "y": 1.7922,
+            "z": 1.7922
+          }
+        }
+      ]
+    },
+    {
+      "id": "platform_a6305262-0ec8-4ede-afb1-755a0e06afcd",
+      "type": "cube",
+      "mass": 125,
+      "materials": ["Custom/Materials/OrangeDrywallMCS"],
+      "kinematic": true,
+      "structure": true,
+      "lips": {
+        "front": false,
+        "back": false,
+        "left": false,
+        "right": false
+      },
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 8.4506,
+            "y": 0.5,
+            "z": -8.596
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1.0,
+            "z": 1
+          }
+        }
+      ]
+    }
+  ],
+  "screenshot": false,
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+  "floorMaterial": "UnityAssetStore/Baby_Room/Models/Materials/wood 1",
+  "floorTextures": [],
+  "intuitivePhysics": false,
+  "performerStart": {
+    "position": {
+      "x": 8.4506,
+      "y": 1.0,
+      "z": -8.596
+    },
+    "rotation": {
+      "x": 0.0,
+      "y": 45.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 21.0,
+    "y": 4.0,
+    "z": 21.0
+  },
+  "wallMaterial": "Custom/Materials/SpringGreenWoodMCS"
+}

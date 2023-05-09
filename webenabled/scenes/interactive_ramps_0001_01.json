@@ -1,0 +1,212 @@
+{
+  "goal": {
+    "category": "retrieval",
+    "metadata": {
+      "target": {
+        "id": "67e148b1-a206-4f44-ad0d-1110cb5d5140"
+      }
+    },
+    "description": "Find and pick up the small light black white rubber ball.",
+    "action_list": [],
+    "last_step": 4700
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [],
+  "name": "interactive_ramps_0001_01",
+  "objects": [
+    {
+      "id": "67e148b1-a206-4f44-ad0d-1110cb5d5140",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 1.7868,
+            "y": 0.22,
+            "z": 2.579
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": []
+    },
+    {
+      "id": "platform_7e5a13e7-56c0-45f9-8751-696658be4664",
+      "type": "cube",
+      "mass": 18289,
+      "materials": ["AI2-THOR/Materials/Wood/BlackWood"],
+      "kinematic": true,
+      "structure": true,
+      "lips": {
+        "front": true,
+        "back": true,
+        "left": true,
+        "right": true,
+        "gaps": {
+          "front": [
+            {
+              "low": 0.7218,
+              "high": 0.8368
+            }
+          ]
+        }
+      },
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0.2771,
+            "y": 0.8975,
+            "z": 7.9549
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 10.0744,
+            "y": 1.7951,
+            "z": 8.0903
+          }
+        }
+      ]
+    },
+    {
+      "id": "ramp_78495570-6faa-4745-a4ab-a7456fea0ded",
+      "type": "triangle",
+      "mass": 619,
+      "materials": ["AI2-THOR/Materials/Wood/BlackWood"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 3.0907,
+            "y": 0.8976,
+            "z": 2.7186
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.1582,
+            "y": 1.7951,
+            "z": 2.3822
+          }
+        }
+      ]
+    },
+    {
+      "id": "platform_f3977af7-9d71-4ce2-a610-f6adc3e5d2e8",
+      "type": "cube",
+      "mass": 3471,
+      "materials": ["Custom/Materials/BlueWoodMCS"],
+      "kinematic": true,
+      "structure": true,
+      "lips": {
+        "front": true,
+        "back": true,
+        "left": true,
+        "right": true,
+        "gaps": {
+          "front": [
+            {
+              "low": 0.5149,
+              "high": 0.8732
+            }
+          ]
+        }
+      },
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0.7619,
+            "y": 2.7572,
+            "z": 10.7768
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 5.8984,
+            "y": 1.9242,
+            "z": 2.4464
+          }
+        }
+      ]
+    },
+    {
+      "id": "ramp_50abecc7-5c5c-4c34-8bc3-e3c210c709d2",
+      "type": "triangle",
+      "mass": 1208,
+      "materials": ["Custom/Materials/BlueWoodMCS"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 1.9064,
+            "y": 2.7572,
+            "z": 8.3655
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 2.1134,
+            "y": 1.9242,
+            "z": 2.3762
+          }
+        }
+      ]
+    }
+  ],
+  "screenshot": false,
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
+  "floorMaterial": "AI2-THOR/Materials/Fabrics/Carpet3",
+  "floorTextures": [],
+  "intuitivePhysics": false,
+  "performerStart": {
+    "position": {
+      "x": -3.476,
+      "y": 0.0,
+      "z": -1.2795
+    },
+    "rotation": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 18.0,
+    "y": 5.0,
+    "z": 24.0
+  },
+  "wallMaterial": "AI2-THOR/Materials/Metals/WhiteMetal"
+}

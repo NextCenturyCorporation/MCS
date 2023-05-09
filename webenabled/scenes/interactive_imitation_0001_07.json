@@ -1,0 +1,352 @@
+{
+  "goal": {
+    "category": "imitation",
+    "metadata": {
+      "target": {
+        "id": "2c47b52b-5f41-4689-8d6c-a9ce7cec5ace"
+      }
+    },
+    "description": "Open the containers in the correct order for the tiny light black white rubber ball to be placed.",
+    "triggeredByTargetSequence": [
+      "afb059ce-950d-4a03-a003-15378d274660"
+    ],
+    "action_list": [["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["EndHabituation,xPosition=0.0,zPosition=-3.75,yRotation=0.0"]],
+    "last_step": 3200
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [],
+  "name": "interactive_imitation_0001_07",
+  "objects": [
+    {
+      "id": "2c47b52b-5f41-4689-8d6c-a9ce7cec5ace",
+      "type": "soccer_ball",
+      "mass": 1.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 0.9,
+            "y": 2.44,
+            "z": -1.6
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        },
+        {
+          "stepBegin": 54,
+          "position": {
+            "x": 0.9,
+            "y": 2.44,
+            "z": -1.6
+          }
+        }
+      ],
+      "materials": [],
+      "triggeredBy": true,
+      "kinematic": true,
+      "moves": [
+        {
+          "stepBegin": 0,
+          "stepEnd": 8,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        }
+      ],
+      "togglePhysics": [
+        {
+          "stepBegin": 14
+        }
+      ]
+    },
+    {
+      "id": "agent_1c050f43-a91f-4d59-a865-eb38e4eb00b5",
+      "type": "agent_male_02",
+      "mass": 75,
+      "agentSettings": {
+        "chest": 1,
+        "skin": 4,
+        "chestMaterial": 9,
+        "eyes": 2,
+        "feet": 1,
+        "feetMaterial": 8,
+        "hair": 4,
+        "hairMaterial": 3,
+        "hatMaterial": -1,
+        "hideHair": false,
+        "isElder": false,
+        "legs": 1,
+        "legsMaterial": 14,
+        "glasses": 0,
+        "jacket": 0,
+        "jacketMaterial": 0,
+        "tie": 0,
+        "tieMaterial": 0,
+        "showBeard": false,
+        "showGlasses": false,
+        "showJacket": false,
+        "showTie": false
+      },
+      "actions": [
+        {
+          "stepBegin": 18,
+          "stepEnd": 28,
+          "isLoopAnimation": false,
+          "id": "TPE_jump"
+        }
+      ],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -0.3,
+            "y": 0,
+            "z": 1.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 90,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        },
+        {
+          "stepBegin": 54,
+          "position": {
+            "x": 1.7226,
+            "y": 0,
+            "z": 2
+          },
+          "rotation": {
+            "y": 180
+          }
+        }
+      ],
+      "agentMovement": {
+        "repeat": false,
+        "stepBegin": 1,
+        "sequence": [
+          {
+            "animation": "TPM_walk",
+            "endPoint": {
+              "x": 0.4,
+              "z": 1.0
+            }
+          },
+          {
+            "animation": "TPM_walk",
+            "endPoint": {
+              "x": 0.4,
+              "z": 0.85
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "afb059ce-950d-4a03-a003-15378d274660",
+      "type": "chest_1",
+      "mass": 5.0,
+      "salientMaterials": ["wood"],
+      "receptacle": true,
+      "openable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 0.9,
+            "y": 0.0,
+            "z": 1.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": -90.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/ChartreuseWoodMCS"],
+      "openClose": [
+        {
+          "step": 22,
+          "open": true
+        },
+        {
+          "step": 54,
+          "open": false
+        }
+      ]
+    },
+    {
+      "id": "414d0453-c5a8-4567-abed-406eedc24a02",
+      "type": "chest_1",
+      "mass": 5.0,
+      "salientMaterials": ["wood"],
+      "receptacle": true,
+      "openable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 0.9,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": -90.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/RoseWoodMCS"]
+    },
+    {
+      "id": "1e2e8de6-f4c2-45a1-8b7c-448865c47f78",
+      "type": "chest_1",
+      "mass": 5.0,
+      "salientMaterials": ["wood"],
+      "receptacle": true,
+      "openable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 0.9,
+            "y": 0.0,
+            "z": -1.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": -90.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/GreyWoodMCS"]
+    },
+    {
+      "id": "placer_bc4a1b56-08c1-4a6f-ab7b-3550cbec6da7",
+      "type": "cylinder",
+      "mass": 1,
+      "materials": ["Custom/Materials/Magenta"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0.9,
+            "y": 3.55,
+            "z": -1.6
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.05,
+            "y": 1.0,
+            "z": 0.05
+          }
+        },
+        {
+          "stepBegin": 54,
+          "position": {
+            "x": 0.9,
+            "y": 3.55,
+            "z": -1.6
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 0,
+          "stepEnd": 8,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 19,
+          "stepEnd": 26,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "changeMaterials": [
+        {
+          "stepBegin": 14,
+          "materials": [
+            "Custom/Materials/Cyan"
+          ]
+        }
+      ],
+      "states": [["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["inactive"]],
+      "triggeredBy": true
+    }
+  ],
+  "screenshot": false,
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall4Tiled",
+  "floorMaterial": "AI2-THOR/Materials/Fabrics/Carpet3",
+  "floorTextures": [],
+  "intuitivePhysics": false,
+  "performerStart": {
+    "position": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": -3.75
+    },
+    "rotation": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 18.0,
+    "y": 3,
+    "z": 9.0
+  },
+  "wallMaterial": "AI2-THOR/Materials/Wood/WoodFloorsCross"
+}

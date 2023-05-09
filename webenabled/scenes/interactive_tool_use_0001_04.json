@@ -1,0 +1,225 @@
+{
+  "goal": {
+    "category": "retrieval",
+    "metadata": {
+      "target": {
+        "id": "4bc60ef7-4b55-4905-89b9-95545e3bfa06"
+      }
+    },
+    "description": "Find and pick up the small light black white rubber ball.",
+    "actionList": [],
+    "last_step": 5500
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [
+    {
+      "x": -9,
+      "z": 1
+    },
+    {
+      "x": -9,
+      "z": 2
+    },
+    {
+      "x": -9,
+      "z": 3
+    },
+    {
+      "x": -9,
+      "z": 4
+    },
+    {
+      "x": -9,
+      "z": 5
+    },
+    {
+      "x": -9,
+      "z": 6
+    },
+    {
+      "x": -8,
+      "z": 1
+    },
+    {
+      "x": -8,
+      "z": 2
+    },
+    {
+      "x": -8,
+      "z": 3
+    },
+    {
+      "x": -8,
+      "z": 4
+    },
+    {
+      "x": -8,
+      "z": 5
+    },
+    {
+      "x": -8,
+      "z": 6
+    },
+    {
+      "x": -7,
+      "z": 1
+    },
+    {
+      "x": -7,
+      "z": 2
+    },
+    {
+      "x": -7,
+      "z": 5
+    },
+    {
+      "x": -7,
+      "z": 6
+    },
+    {
+      "x": -6,
+      "z": 1
+    },
+    {
+      "x": -6,
+      "z": 2
+    },
+    {
+      "x": -6,
+      "z": 5
+    },
+    {
+      "x": -6,
+      "z": 6
+    },
+    {
+      "x": -5,
+      "z": 1
+    },
+    {
+      "x": -5,
+      "z": 2
+    },
+    {
+      "x": -5,
+      "z": 3
+    },
+    {
+      "x": -5,
+      "z": 4
+    },
+    {
+      "x": -5,
+      "z": 5
+    },
+    {
+      "x": -5,
+      "z": 6
+    },
+    {
+      "x": -4,
+      "z": 1
+    },
+    {
+      "x": -4,
+      "z": 2
+    },
+    {
+      "x": -4,
+      "z": 3
+    },
+    {
+      "x": -4,
+      "z": 4
+    },
+    {
+      "x": -4,
+      "z": 5
+    },
+    {
+      "x": -4,
+      "z": 6
+    }
+  ],
+  "name": "interactive_tool_use_0001_04",
+  "objects": [
+    {
+      "id": "4bc60ef7-4b55-4905-89b9-95545e3bfa06",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -0.5,
+            "y": 0.22,
+            "z": 4.5
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 135.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": []
+    },
+    {
+      "id": "tool_e2980420-4c67-4e60-883f-839d6ef7a7d7",
+      "type": "tool_rect_0_50_x_6_00",
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 5.5,
+            "y": 0.15,
+            "z": 4.5
+          },
+          "rotation": {
+            "x": 0,
+            "y": 45,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    }
+  ],
+  "screenshot": false,
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall4Tiled",
+  "floorMaterial": "AI2-THOR/Materials/Wood/LightWoodCounters 1",
+  "floorTextures": [],
+  "intuitivePhysics": false,
+  "performerStart": {
+    "position": {
+      "x": -0.213,
+      "y": 0.0,
+      "z": -5.453
+    },
+    "rotation": {
+      "x": 0.0,
+      "y": 246.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 25.0,
+    "y": 3.0,
+    "z": 25.0
+  },
+  "wallMaterial": "Custom/Materials/OliveDrywallMCS"
+}
