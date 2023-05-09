@@ -1,0 +1,315 @@
+{
+  "goal": {
+    "category": "retrieval",
+    "metadata": {
+      "target": {
+        "id": "9faf2b70-d4fb-4169-b24a-e344606f1a5c"
+      }
+    },
+    "description": "Find and pick up the tiny light black white rubber ball.",
+    "action_list": [["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"]],
+    "last_step": 2900
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [],
+  "name": "interactive_set_rotation_0001_19",
+  "objects": [
+    {
+      "id": "9faf2b70-d4fb-4169-b24a-e344606f1a5c",
+      "type": "soccer_ball",
+      "mass": 1.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -1.62,
+            "y": 4.4,
+            "z": 1.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": [],
+      "kinematic": true,
+      "moves": [
+        {
+          "stepBegin": 0,
+          "stepEnd": 14,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        }
+      ],
+      "togglePhysics": [
+        {
+          "stepBegin": 20
+        }
+      ]
+    },
+    {
+      "id": "ad07c52a-fb7b-4b72-b837-73803d22be93",
+      "type": "separate_container",
+      "mass": 4.0,
+      "salientMaterials": ["wood"],
+      "receptacle": true,
+      "openable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -1.62,
+            "y": 0.1,
+            "z": 1.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 0.4,
+            "y": 0.4,
+            "z": 0.4
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/GreenWoodMCS"]
+    },
+    {
+      "id": "7727729f-c368-4cd4-8089-837e406942a9",
+      "type": "lid",
+      "mass": 0.1,
+      "salientMaterials": ["wood"],
+      "openable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -1.62,
+            "y": 4.5,
+            "z": 1.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 0.4,
+            "y": 0.4,
+            "z": 0.4
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/GreenWoodMCS"],
+      "lidAttachment": {
+        "stepBegin": 55,
+        "lidAttachmentObjId": "ad07c52a-fb7b-4b72-b837-73803d22be93"
+      },
+      "moves": [
+        {
+          "stepBegin": 40,
+          "stepEnd": 55,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "placer_940b0477-5e28-4419-ae6f-75356a26fc26",
+      "type": "cylinder",
+      "mass": 1,
+      "materials": ["Custom/Materials/Magenta"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -1.62,
+            "y": 6.335,
+            "z": 1.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.05,
+            "y": 1.825,
+            "z": 0.05
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 0,
+          "stepEnd": 14,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 25,
+          "stepEnd": 38,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "changeMaterials": [
+        {
+          "stepBegin": 20,
+          "materials": [
+            "Custom/Materials/Cyan"
+          ]
+        }
+      ],
+      "states": [["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["inactive"]]
+    },
+    {
+      "id": "placer_44c80f80-c7ed-47df-8a78-7e5adf54eb49",
+      "type": "cylinder",
+      "mass": 1,
+      "materials": ["Custom/Materials/Magenta"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -1.62,
+            "y": 6.282,
+            "z": 1.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.08,
+            "y": 1.75,
+            "z": 0.08
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 40,
+          "stepEnd": 55,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 66,
+          "stepEnd": 80,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "changeMaterials": [
+        {
+          "stepBegin": 61,
+          "materials": [
+            "Custom/Materials/Cyan"
+          ]
+        }
+      ],
+      "states": [["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["inactive"]]
+    },
+    {
+      "id": "turntable_05192f84-512e-4f75-91e6-88498ec9be60",
+      "type": "rotating_cog",
+      "mass": 10000,
+      "materials": ["Custom/Materials/GreyWoodMCS"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0,
+            "y": 0.05,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 4.0,
+            "y": 5.0,
+            "z": 4.0
+          }
+        }
+      ],
+      "rotates": [
+        {
+          "stepBegin": 80,
+          "stepEnd": 151,
+          "vector": {
+            "x": 0,
+            "y": 5,
+            "z": 0
+          }
+        }
+      ]
+    }
+  ],
+  "screenshot": false,
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+  "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite",
+  "floorTextures": [],
+  "intuitivePhysics": false,
+  "performerStart": {
+    "position": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": -3.5
+    },
+    "rotation": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  },
+  "restrictOpenObjects": true,
+  "roomDimensions": {
+    "x": 12.0,
+    "y": 4.0,
+    "z": 12.0
+  },
+  "wallMaterial": "UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 4"
+}

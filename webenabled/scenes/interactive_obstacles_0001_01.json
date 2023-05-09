@@ -1,0 +1,128 @@
+{
+  "goal": {
+    "category": "retrieval",
+    "metadata": {
+      "target": {
+        "id": "6ef38f0a-3b05-48d2-bceb-60cd55e0a2bf"
+      }
+    },
+    "description": "Find and pick up the tiny light black white rubber ball.",
+    "last_step": 2800
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [],
+  "name": "interactive_obstacles_0001_01",
+  "objects": [
+    {
+      "id": "6ef38f0a-3b05-48d2-bceb-60cd55e0a2bf",
+      "type": "soccer_ball",
+      "mass": 1.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 4.36,
+            "y": 0.11,
+            "z": -1.1418
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 270.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": []
+    },
+    {
+      "id": "6065e6a5-4c16-412d-a731-44c400a1bc4c",
+      "type": "crayon_green",
+      "mass": 0.125,
+      "salientMaterials": ["wax"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 270.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": -1.61,
+            "y": 0.005,
+            "z": -3.87
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": []
+    },
+    {
+      "id": "9ea63733-2055-40db-bca8-c9a52ecbb7c8",
+      "type": "shelf_2",
+      "mass": 14.0001,
+      "salientMaterials": ["metal"],
+      "receptacle": true,
+      "shows": [
+        {
+          "position": {
+            "x": 3.8573,
+            "y": 0.0,
+            "z": 0.1272
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 518.3896,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 2.0,
+            "z": 0.5
+          }
+        }
+      ],
+      "materials": ["AI2-THOR/Materials/Metals/HammeredMetal_AlbedoTransparency 1"]
+    }
+  ],
+  "screenshot": false,
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
+  "floorMaterial": "UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 1",
+  "floorTextures": [],
+  "intuitivePhysics": false,
+  "performerStart": {
+    "position": {
+      "x": 2.85,
+      "y": 0.0,
+      "z": 2.67
+    },
+    "rotation": {
+      "x": 0.0,
+      "y": 270.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 11.0,
+    "y": 4.0,
+    "z": 12.0
+  },
+  "wallMaterial": "Custom/Materials/BrownDrywallMCS"
+}

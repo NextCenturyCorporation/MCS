@@ -1,0 +1,6748 @@
+{
+  "goal": {
+    "category": "agents",
+    "action_list": [["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["EndHabituation"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["EndHabituation"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["EndHabituation"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["EndHabituation"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["EndHabituation"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["EndHabituation"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["EndHabituation"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["EndHabituation"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"]],
+    "habituation_total": 8,
+    "last_step": 172,
+    "metadata": {}
+  },
+  "holes": [],
+  "isometric": true,
+  "lava": [],
+  "name": "passive_agent_multiple_agents_0001_02",
+  "objects": [
+    {
+      "id": "agent_0fa77c90-8406-49bd-b5f3-8d74d6364627",
+      "type": "blob_12",
+      "materials": ["Custom/Materials/Blue"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -0.05,
+            "y": 0.2398,
+            "z": 0.075
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.999,
+            "y": 0.999,
+            "z": 0.999
+          }
+        },
+        {
+          "stepBegin": 3,
+          "position": {
+            "x": -0.05,
+            "y": 0.2398,
+            "z": 0.1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 4,
+          "position": {
+            "x": -0.075,
+            "y": 0.2398,
+            "z": 0.2
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 5,
+          "position": {
+            "x": -0.1,
+            "y": 0.2398,
+            "z": 0.3
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 6,
+          "position": {
+            "x": -0.125,
+            "y": 0.2398,
+            "z": 0.4
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 7,
+          "position": {
+            "x": -0.15,
+            "y": 0.2398,
+            "z": 0.5
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 8,
+          "position": {
+            "x": -0.15,
+            "y": 0.2398,
+            "z": 0.6
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 9,
+          "position": {
+            "x": -0.2066,
+            "y": 0.2398,
+            "z": 0.7668
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 16,
+          "position": {
+            "x": -0.05,
+            "y": 0.2398,
+            "z": 0.075
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 19,
+          "position": {
+            "x": -0.075,
+            "y": 0.2398,
+            "z": 0.075
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 20,
+          "position": {
+            "x": -0.175,
+            "y": 0.2398,
+            "z": 0.1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 21,
+          "position": {
+            "x": -0.275,
+            "y": 0.2398,
+            "z": 0.125
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 22,
+          "position": {
+            "x": -0.375,
+            "y": 0.2398,
+            "z": 0.125
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 23,
+          "position": {
+            "x": -0.475,
+            "y": 0.2398,
+            "z": 0.15
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 24,
+          "position": {
+            "x": -0.575,
+            "y": 0.2398,
+            "z": 0.175
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 25,
+          "position": {
+            "x": -0.7118,
+            "y": 0.2398,
+            "z": 0.1924
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 30,
+          "position": {
+            "x": -0.05,
+            "y": 0.2398,
+            "z": 0.075
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 33,
+          "position": {
+            "x": -0.025,
+            "y": 0.2398,
+            "z": 0.05
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 34,
+          "position": {
+            "x": 0.075,
+            "y": 0.2398,
+            "z": 0.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 35,
+          "position": {
+            "x": 0.175,
+            "y": 0.2398,
+            "z": -0.075
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 36,
+          "position": {
+            "x": 0.275,
+            "y": 0.2398,
+            "z": -0.125
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 37,
+          "position": {
+            "x": 0.375,
+            "y": 0.2398,
+            "z": -0.2
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 38,
+          "position": {
+            "x": 0.475,
+            "y": 0.2398,
+            "z": -0.275
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 39,
+          "position": {
+            "x": 0.575,
+            "y": 0.2398,
+            "z": -0.325
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 40,
+          "position": {
+            "x": 0.675,
+            "y": 0.2398,
+            "z": -0.4
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 41,
+          "position": {
+            "x": 0.775,
+            "y": 0.2398,
+            "z": -0.475
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 42,
+          "position": {
+            "x": 0.875,
+            "y": 0.2398,
+            "z": -0.525
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 43,
+          "position": {
+            "x": 0.9816,
+            "y": 0.2398,
+            "z": -0.6066
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 48,
+          "position": {
+            "x": -0.05,
+            "y": 0.2398,
+            "z": 0.075
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 51,
+          "position": {
+            "x": -0.05,
+            "y": 0.2398,
+            "z": 0.1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 52,
+          "position": {
+            "x": 0.0,
+            "y": 0.2398,
+            "z": 0.2
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 53,
+          "position": {
+            "x": 0.05,
+            "y": 0.2398,
+            "z": 0.3
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 54,
+          "position": {
+            "x": 0.1,
+            "y": 0.2398,
+            "z": 0.4
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 55,
+          "position": {
+            "x": 0.15,
+            "y": 0.2398,
+            "z": 0.5
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 56,
+          "position": {
+            "x": 0.2,
+            "y": 0.2398,
+            "z": 0.6
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 57,
+          "position": {
+            "x": 0.25,
+            "y": 0.2398,
+            "z": 0.7
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 58,
+          "position": {
+            "x": 0.3,
+            "y": 0.2398,
+            "z": 0.8
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 59,
+          "position": {
+            "x": 0.35,
+            "y": 0.2398,
+            "z": 0.9
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 60,
+          "position": {
+            "x": 0.4,
+            "y": 0.2398,
+            "z": 1.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 61,
+          "position": {
+            "x": 0.45,
+            "y": 0.2398,
+            "z": 1.1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 62,
+          "position": {
+            "x": 0.475,
+            "y": 0.2398,
+            "z": 1.2
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 63,
+          "position": {
+            "x": 0.525,
+            "y": 0.2398,
+            "z": 1.3
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 64,
+          "position": {
+            "x": 0.6191,
+            "y": 0.2398,
+            "z": 1.4441
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 70,
+          "position": {
+            "x": -0.05,
+            "y": 0.2398,
+            "z": 0.075
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 73,
+          "position": {
+            "x": -0.05,
+            "y": 0.2398,
+            "z": 0.05
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 74,
+          "position": {
+            "x": 0.0,
+            "y": 0.2398,
+            "z": -0.05
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 75,
+          "position": {
+            "x": 0.025,
+            "y": 0.2398,
+            "z": -0.15
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 76,
+          "position": {
+            "x": 0.05,
+            "y": 0.2398,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 77,
+          "position": {
+            "x": 0.1,
+            "y": 0.2398,
+            "z": -0.35
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 78,
+          "position": {
+            "x": 0.125,
+            "y": 0.2398,
+            "z": -0.45
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 79,
+          "position": {
+            "x": 0.15,
+            "y": 0.2398,
+            "z": -0.55
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 80,
+          "position": {
+            "x": 0.2,
+            "y": 0.2398,
+            "z": -0.65
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 81,
+          "position": {
+            "x": 0.225,
+            "y": 0.2398,
+            "z": -0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 82,
+          "position": {
+            "x": 0.269,
+            "y": 0.2398,
+            "z": -0.8691
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 88,
+          "position": {
+            "x": -0.05,
+            "y": 0.2398,
+            "z": 0.075
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 91,
+          "position": {
+            "x": -0.05,
+            "y": 0.2398,
+            "z": 0.05
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 92,
+          "position": {
+            "x": -0.1,
+            "y": 0.2398,
+            "z": -0.05
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 93,
+          "position": {
+            "x": -0.15,
+            "y": 0.2398,
+            "z": -0.15
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 94,
+          "position": {
+            "x": -0.175,
+            "y": 0.2398,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 95,
+          "position": {
+            "x": -0.225,
+            "y": 0.2398,
+            "z": -0.35
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 96,
+          "position": {
+            "x": -0.275,
+            "y": 0.2398,
+            "z": -0.45
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 97,
+          "position": {
+            "x": -0.3,
+            "y": 0.2398,
+            "z": -0.55
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 98,
+          "position": {
+            "x": -0.35,
+            "y": 0.2398,
+            "z": -0.65
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 99,
+          "position": {
+            "x": -0.4,
+            "y": 0.2398,
+            "z": -0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 100,
+          "position": {
+            "x": -0.425,
+            "y": 0.2398,
+            "z": -0.85
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 101,
+          "position": {
+            "x": -0.475,
+            "y": 0.2398,
+            "z": -0.95
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 102,
+          "position": {
+            "x": -0.525,
+            "y": 0.2398,
+            "z": -1.05
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 103,
+          "position": {
+            "x": -0.55,
+            "y": 0.2398,
+            "z": -1.15
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 104,
+          "position": {
+            "x": -0.6316,
+            "y": 0.2398,
+            "z": -1.2816
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 110,
+          "position": {
+            "x": -0.05,
+            "y": 0.2398,
+            "z": 0.075
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 113,
+          "position": {
+            "x": -0.025,
+            "y": 0.2398,
+            "z": 0.1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 114,
+          "position": {
+            "x": 0.075,
+            "y": 0.2398,
+            "z": 0.175
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 115,
+          "position": {
+            "x": 0.175,
+            "y": 0.2398,
+            "z": 0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 116,
+          "position": {
+            "x": 0.275,
+            "y": 0.2398,
+            "z": 0.35
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 117,
+          "position": {
+            "x": 0.375,
+            "y": 0.2398,
+            "z": 0.425
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 118,
+          "position": {
+            "x": 0.475,
+            "y": 0.2398,
+            "z": 0.5
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 119,
+          "position": {
+            "x": 0.575,
+            "y": 0.2398,
+            "z": 0.575
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 120,
+          "position": {
+            "x": 0.675,
+            "y": 0.2398,
+            "z": 0.675
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 121,
+          "position": {
+            "x": 0.775,
+            "y": 0.2398,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 122,
+          "position": {
+            "x": 0.875,
+            "y": 0.2398,
+            "z": 0.825
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 123,
+          "position": {
+            "x": 0.975,
+            "y": 0.2398,
+            "z": 0.9
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 124,
+          "position": {
+            "x": 1.075,
+            "y": 0.2398,
+            "z": 1.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 125,
+          "position": {
+            "x": 1.175,
+            "y": 0.2398,
+            "z": 1.075
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 126,
+          "position": {
+            "x": 1.275,
+            "y": 0.2398,
+            "z": 1.15
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 127,
+          "position": {
+            "x": 1.375,
+            "y": 0.2398,
+            "z": 1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 128,
+          "position": {
+            "x": 1.4816,
+            "y": 0.2398,
+            "z": 1.3316
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 133,
+          "position": {
+            "x": -0.05,
+            "y": 0.2398,
+            "z": 0.075
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 136,
+          "position": {
+            "x": -0.025,
+            "y": 0.2398,
+            "z": 0.05
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 137,
+          "position": {
+            "x": 0.025,
+            "y": 0.2398,
+            "z": -0.05
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 138,
+          "position": {
+            "x": 0.1,
+            "y": 0.2398,
+            "z": -0.15
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 139,
+          "position": {
+            "x": 0.175,
+            "y": 0.2398,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 140,
+          "position": {
+            "x": 0.225,
+            "y": 0.2398,
+            "z": -0.35
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 141,
+          "position": {
+            "x": 0.3,
+            "y": 0.2398,
+            "z": -0.45
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 142,
+          "position": {
+            "x": 0.375,
+            "y": 0.2398,
+            "z": -0.55
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 143,
+          "position": {
+            "x": 0.425,
+            "y": 0.2398,
+            "z": -0.65
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 144,
+          "position": {
+            "x": 0.5,
+            "y": 0.2398,
+            "z": -0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 145,
+          "position": {
+            "x": 0.575,
+            "y": 0.2398,
+            "z": -0.85
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 146,
+          "position": {
+            "x": 0.625,
+            "y": 0.2398,
+            "z": -0.95
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 147,
+          "position": {
+            "x": 0.7,
+            "y": 0.2398,
+            "z": -1.05
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 148,
+          "position": {
+            "x": 0.8441,
+            "y": 0.2398,
+            "z": -1.2191
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          }
+        }
+      ],
+      "hides": [
+        {
+          "stepBegin": 154
+        }
+      ],
+      "kinematic": true,
+      "physics": true
+    },
+    {
+      "id": "agent_9f0e3157-060e-4e3d-a940-fd046e8de522",
+      "type": "blob_03",
+      "materials": ["Custom/Materials/Purple"],
+      "shows": [
+        {
+          "stepBegin": 154,
+          "position": {
+            "x": -0.05,
+            "y": 0.414,
+            "z": 0.075
+          },
+          "rotation": {
+            "x": 0,
+            "y": 180,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.2,
+            "y": 1.2,
+            "z": 1.2
+          }
+        },
+        {
+          "stepBegin": 157,
+          "position": {
+            "x": -0.025,
+            "y": 0.414,
+            "z": 0.05
+          },
+          "rotation": {
+            "x": 0,
+            "y": 180,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 158,
+          "position": {
+            "x": 0.05,
+            "y": 0.414,
+            "z": -0.05
+          },
+          "rotation": {
+            "x": 0,
+            "y": 180,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 159,
+          "position": {
+            "x": 0.15,
+            "y": 0.414,
+            "z": -0.15
+          },
+          "rotation": {
+            "x": 0,
+            "y": 180,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 160,
+          "position": {
+            "x": 0.25,
+            "y": 0.414,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 180,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 161,
+          "position": {
+            "x": 0.325,
+            "y": 0.414,
+            "z": -0.35
+          },
+          "rotation": {
+            "x": 0,
+            "y": 180,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 162,
+          "position": {
+            "x": 0.425,
+            "y": 0.414,
+            "z": -0.45
+          },
+          "rotation": {
+            "x": 0,
+            "y": 180,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 163,
+          "position": {
+            "x": 0.5,
+            "y": 0.414,
+            "z": -0.55
+          },
+          "rotation": {
+            "x": 0,
+            "y": 180,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 164,
+          "position": {
+            "x": 0.6,
+            "y": 0.414,
+            "z": -0.65
+          },
+          "rotation": {
+            "x": 0,
+            "y": 180,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 165,
+          "position": {
+            "x": 0.7,
+            "y": 0.414,
+            "z": -0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 180,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 166,
+          "position": {
+            "x": 0.775,
+            "y": 0.414,
+            "z": -0.85
+          },
+          "rotation": {
+            "x": 0,
+            "y": 180,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 167,
+          "position": {
+            "x": 0.875,
+            "y": 0.414,
+            "z": -0.95
+          },
+          "rotation": {
+            "x": 0,
+            "y": 180,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 168,
+          "position": {
+            "x": 1.019,
+            "y": 0.414,
+            "z": -1.119
+          },
+          "rotation": {
+            "x": 0,
+            "y": 180,
+            "z": 0
+          }
+        }
+      ],
+      "hides": [
+        {
+          "stepBegin": 0
+        },
+        {
+          "stepBegin": 16
+        },
+        {
+          "stepBegin": 30
+        },
+        {
+          "stepBegin": 48
+        },
+        {
+          "stepBegin": 70
+        },
+        {
+          "stepBegin": 88
+        },
+        {
+          "stepBegin": 110
+        },
+        {
+          "stepBegin": 133
+        }
+      ],
+      "kinematic": true,
+      "physics": true
+    },
+    {
+      "id": "home_45180f8a-1ccc-4bbd-b9d8-9dd53545c9c9",
+      "type": "cube",
+      "materials": ["Custom/Materials/Magenta"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -0.05,
+            "y": 0.01,
+            "z": 0.075
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.02,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true
+    },
+    {
+      "id": "object_85af4b55-9e66-4fd5-bb97-4ad02c8a6ae3",
+      "type": "square_frustum_with_base",
+      "materials": ["Custom/Materials/Grey"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -0.275,
+            "y": 0.225,
+            "z": 1.125
+          },
+          "rotation": {
+            "x": 0,
+            "y": 45,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.3181,
+            "y": 0.225,
+            "z": 0.3181
+          }
+        },
+        {
+          "stepBegin": 16,
+          "position": {
+            "x": -1.075,
+            "y": 0.225,
+            "z": 0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 45,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 30,
+          "position": {
+            "x": 1.25,
+            "y": 0.225,
+            "z": -0.775
+          },
+          "rotation": {
+            "x": 0,
+            "y": 45,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 48,
+          "position": {
+            "x": 0.75,
+            "y": 0.225,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 45,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 70,
+          "position": {
+            "x": 0.375,
+            "y": 0.225,
+            "z": -1.2
+          },
+          "rotation": {
+            "x": 0,
+            "y": 45,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 88,
+          "position": {
+            "x": -0.75,
+            "y": 0.225,
+            "z": -1.6
+          },
+          "rotation": {
+            "x": 0,
+            "y": 45,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 110,
+          "position": {
+            "x": 1.725,
+            "y": 0.225,
+            "z": 1.525
+          },
+          "rotation": {
+            "x": 0,
+            "y": 45,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 133,
+          "position": {
+            "x": 1.0,
+            "y": 0.225,
+            "z": -1.5
+          },
+          "rotation": {
+            "x": 0,
+            "y": 45,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 154,
+          "position": {
+            "x": 1.225,
+            "y": 0.225,
+            "z": -1.35
+          },
+          "rotation": {
+            "x": 0,
+            "y": 45,
+            "z": 0
+          }
+        }
+      ],
+      "kinematic": true,
+      "physics": true,
+      "changeMaterials": [
+        {
+          "stepBegin": 9,
+          "materials": [
+            "Custom/Materials/Red"
+          ]
+        },
+        {
+          "stepBegin": 16,
+          "materials": [
+            "Custom/Materials/Grey"
+          ]
+        },
+        {
+          "stepBegin": 25,
+          "materials": [
+            "Custom/Materials/Red"
+          ]
+        },
+        {
+          "stepBegin": 30,
+          "materials": [
+            "Custom/Materials/Grey"
+          ]
+        },
+        {
+          "stepBegin": 43,
+          "materials": [
+            "Custom/Materials/Red"
+          ]
+        },
+        {
+          "stepBegin": 48,
+          "materials": [
+            "Custom/Materials/Grey"
+          ]
+        },
+        {
+          "stepBegin": 64,
+          "materials": [
+            "Custom/Materials/Red"
+          ]
+        },
+        {
+          "stepBegin": 70,
+          "materials": [
+            "Custom/Materials/Grey"
+          ]
+        },
+        {
+          "stepBegin": 82,
+          "materials": [
+            "Custom/Materials/Red"
+          ]
+        },
+        {
+          "stepBegin": 88,
+          "materials": [
+            "Custom/Materials/Grey"
+          ]
+        },
+        {
+          "stepBegin": 104,
+          "materials": [
+            "Custom/Materials/Red"
+          ]
+        },
+        {
+          "stepBegin": 110,
+          "materials": [
+            "Custom/Materials/Grey"
+          ]
+        },
+        {
+          "stepBegin": 128,
+          "materials": [
+            "Custom/Materials/Red"
+          ]
+        },
+        {
+          "stepBegin": 133,
+          "materials": [
+            "Custom/Materials/Grey"
+          ]
+        },
+        {
+          "stepBegin": 148,
+          "materials": [
+            "Custom/Materials/Red"
+          ]
+        },
+        {
+          "stepBegin": 154,
+          "materials": [
+            "Custom/Materials/Grey"
+          ]
+        },
+        {
+          "stepBegin": 168,
+          "materials": [
+            "Custom/Materials/Red"
+          ]
+        },
+        {
+          "stepBegin": 173,
+          "materials": [
+            "Custom/Materials/Grey"
+          ]
+        }
+      ],
+      "hides": []
+    },
+    {
+      "id": "platform_1d1b756c-37ab-48da-8aea-96e990c60243",
+      "type": "cube",
+      "mass": 94,
+      "materials": ["AI2-THOR/Materials/Walls/YellowDrywall"],
+      "kinematic": true,
+      "structure": true,
+      "lips": {
+        "front": false,
+        "back": false,
+        "left": false,
+        "right": false
+      },
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 4,
+            "y": 1.5,
+            "z": -4
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 3,
+            "z": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "object_915a23bc-5dac-42e2-b958-14bf54a7db26",
+      "type": "tube_narrow",
+      "materials": ["Custom/Materials/Olive"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0.125,
+            "y": 0.225,
+            "z": -0.975
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.45,
+            "y": 0.45,
+            "z": 0.45
+          }
+        },
+        {
+          "stepBegin": 16,
+          "position": {
+            "x": 0.675,
+            "y": 0.225,
+            "z": -0.825
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 30,
+          "position": {
+            "x": 0.125,
+            "y": 0.225,
+            "z": -1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 48,
+          "position": {
+            "x": 1.725,
+            "y": 0.225,
+            "z": 1.55
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 70,
+          "position": {
+            "x": -0.275,
+            "y": 0.225,
+            "z": 1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 88,
+          "position": {
+            "x": 1.225,
+            "y": 0.225,
+            "z": -1.35
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 110,
+          "position": {
+            "x": 0.725,
+            "y": 0.225,
+            "z": 1.625
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 133,
+          "position": {
+            "x": -0.5,
+            "y": 0.225,
+            "z": -1.475
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 154,
+          "position": {
+            "x": -0.75,
+            "y": 0.225,
+            "z": -1.6
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        }
+      ],
+      "kinematic": true,
+      "physics": true,
+      "changeMaterials": [
+        {
+          "stepBegin": 9,
+          "materials": [
+            "Custom/Materials/Red"
+          ]
+        },
+        {
+          "stepBegin": 16,
+          "materials": [
+            "Custom/Materials/Olive"
+          ]
+        },
+        {
+          "stepBegin": 25,
+          "materials": [
+            "Custom/Materials/Red"
+          ]
+        },
+        {
+          "stepBegin": 30,
+          "materials": [
+            "Custom/Materials/Olive"
+          ]
+        },
+        {
+          "stepBegin": 43,
+          "materials": [
+            "Custom/Materials/Red"
+          ]
+        },
+        {
+          "stepBegin": 48,
+          "materials": [
+            "Custom/Materials/Olive"
+          ]
+        },
+        {
+          "stepBegin": 64,
+          "materials": [
+            "Custom/Materials/Red"
+          ]
+        },
+        {
+          "stepBegin": 70,
+          "materials": [
+            "Custom/Materials/Olive"
+          ]
+        },
+        {
+          "stepBegin": 82,
+          "materials": [
+            "Custom/Materials/Red"
+          ]
+        },
+        {
+          "stepBegin": 88,
+          "materials": [
+            "Custom/Materials/Olive"
+          ]
+        },
+        {
+          "stepBegin": 104,
+          "materials": [
+            "Custom/Materials/Red"
+          ]
+        },
+        {
+          "stepBegin": 110,
+          "materials": [
+            "Custom/Materials/Olive"
+          ]
+        },
+        {
+          "stepBegin": 128,
+          "materials": [
+            "Custom/Materials/Red"
+          ]
+        },
+        {
+          "stepBegin": 133,
+          "materials": [
+            "Custom/Materials/Olive"
+          ]
+        },
+        {
+          "stepBegin": 148,
+          "materials": [
+            "Custom/Materials/Red"
+          ]
+        },
+        {
+          "stepBegin": 154,
+          "materials": [
+            "Custom/Materials/Olive"
+          ]
+        },
+        {
+          "stepBegin": 168,
+          "materials": [
+            "Custom/Materials/Red"
+          ]
+        },
+        {
+          "stepBegin": 173,
+          "materials": [
+            "Custom/Materials/Olive"
+          ]
+        }
+      ],
+      "hides": []
+    },
+    {
+      "id": "wall_d3dee508-7842-48e0-8cb5-300c849b6722",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 1.75,
+            "y": 0.0625,
+            "z": -1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 16
+        }
+      ]
+    },
+    {
+      "id": "wall_311b5b3e-3e65-46ef-961e-2853c3203782",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 16
+        }
+      ]
+    },
+    {
+      "id": "wall_9944689b-fede-4bb1-ba64-cac3ff0af966",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 16
+        }
+      ]
+    },
+    {
+      "id": "wall_b698bb08-9eb2-4df5-8024-771e0c977439",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 16
+        }
+      ]
+    },
+    {
+      "id": "wall_3fc0570c-619e-4b05-92be-35023601e6ee",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 16
+        }
+      ]
+    },
+    {
+      "id": "wall_aaa3d07c-51f2-46a5-91b9-0557d1947fa0",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": -0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 16
+        }
+      ]
+    },
+    {
+      "id": "wall_4a7a9597-316a-4b27-8c7a-57eaf7b0d523",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -1.25,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 16
+        }
+      ]
+    },
+    {
+      "id": "wall_2ed334da-8669-4853-aea2-5d73a2e6dfaa",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 16
+        }
+      ]
+    },
+    {
+      "id": "wall_07c6198d-84b6-42e9-8605-4c4f7af9a69a",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 1.25,
+            "y": 0.0625,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 16
+        }
+      ]
+    },
+    {
+      "id": "wall_42574b20-f044-47ff-aa29-0daca0fa7423",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0.75,
+            "y": 0.0625,
+            "z": 0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 16
+        }
+      ]
+    },
+    {
+      "id": "wall_bc0c7af9-6306-4525-84ea-6b9be9715f84",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -1.25,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 16
+        }
+      ]
+    },
+    {
+      "id": "wall_336f2691-6943-4a0e-b082-e34276fef405",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": -1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 16
+        }
+      ]
+    },
+    {
+      "id": "wall_a9a2ed88-b465-4fa0-be31-0d579456d63b",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -1.25,
+            "y": 0.0625,
+            "z": -1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 16
+        }
+      ]
+    },
+    {
+      "id": "wall_5fa5f7b5-23af-4d64-9077-1dc1de94b0e0",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 16
+        }
+      ]
+    },
+    {
+      "id": "wall_0e7ab28d-9306-4bcc-a912-76685a77e55a",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 1.25,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 16
+        }
+      ]
+    },
+    {
+      "id": "wall_8ca118c7-eda8-44a0-8838-c138b3ecf9df",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0.75,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 16
+        }
+      ]
+    },
+    {
+      "id": "wall_f5468769-5b67-4dd3-8bed-ab7a9aa07aae",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0.25,
+            "y": 0.0625,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 16
+        }
+      ]
+    },
+    {
+      "id": "wall_65d5676b-713d-48f6-a0a2-204463dff6d5",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 16,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": 1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 30
+        }
+      ]
+    },
+    {
+      "id": "wall_c983762d-a2c2-4fee-8b2d-9e365c67a51a",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 16,
+          "position": {
+            "x": 1.75,
+            "y": 0.0625,
+            "z": -1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 30
+        }
+      ]
+    },
+    {
+      "id": "wall_5084744a-8902-4fc9-80e8-1cc45465e455",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 16,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 30
+        }
+      ]
+    },
+    {
+      "id": "wall_53aa7938-601f-455a-8e5f-d7e819e8cb4e",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 16,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 30
+        }
+      ]
+    },
+    {
+      "id": "wall_2fed73a7-7de6-4bc4-b19d-fa2b9a9bd868",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 16,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": -0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 30
+        }
+      ]
+    },
+    {
+      "id": "wall_7992c2de-129d-45cf-a370-45b106a5b108",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 16,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 30
+        }
+      ]
+    },
+    {
+      "id": "wall_b331397d-5cde-4cc5-9684-95f6072198ea",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 16,
+          "position": {
+            "x": 0.25,
+            "y": 0.0625,
+            "z": 1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 30
+        }
+      ]
+    },
+    {
+      "id": "wall_de89333d-e0bd-414b-8354-911e830ac5e2",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 16,
+          "position": {
+            "x": 1.25,
+            "y": 0.0625,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 30
+        }
+      ]
+    },
+    {
+      "id": "wall_882a1eb9-74f7-4b5b-8860-cbc1e54dd619",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 16,
+          "position": {
+            "x": 0.75,
+            "y": 0.0625,
+            "z": 0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 30
+        }
+      ]
+    },
+    {
+      "id": "wall_7c8e48ee-b0f1-42f9-8103-8e573a9ce124",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 16,
+          "position": {
+            "x": 0.25,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 30
+        }
+      ]
+    },
+    {
+      "id": "wall_c710c721-4d8c-43a2-9a12-a1018cfee83a",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 16,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": -1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 30
+        }
+      ]
+    },
+    {
+      "id": "wall_e744d805-6145-4680-a78f-1703a57ac37f",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 16,
+          "position": {
+            "x": -1.25,
+            "y": 0.0625,
+            "z": -1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 30
+        }
+      ]
+    },
+    {
+      "id": "wall_886fef0d-3f13-45db-a6e5-0ffde8a18786",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 16,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 30
+        }
+      ]
+    },
+    {
+      "id": "wall_ea2e06e7-3ff0-4bd4-a4de-f2554f8394e6",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 16,
+          "position": {
+            "x": 1.25,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 30
+        }
+      ]
+    },
+    {
+      "id": "wall_4681049b-d68c-49be-b320-3b1f751408f3",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 16,
+          "position": {
+            "x": 0.75,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 30
+        }
+      ]
+    },
+    {
+      "id": "wall_0ff49640-f1da-477e-a538-f6c84fe47218",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 16,
+          "position": {
+            "x": 0.25,
+            "y": 0.0625,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 30
+        }
+      ]
+    },
+    {
+      "id": "wall_8c907207-f590-4408-a98f-fa9f444fd546",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 30,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": 1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 48
+        }
+      ]
+    },
+    {
+      "id": "wall_4063ed0f-fdd6-4382-8650-1c12ec9cd7b0",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 30,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 48
+        }
+      ]
+    },
+    {
+      "id": "wall_d794a79d-78df-4122-bd2e-4fa1af6902ea",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 30,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 48
+        }
+      ]
+    },
+    {
+      "id": "wall_a1b9d929-5c32-420e-a51e-4122227937ec",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 30,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 48
+        }
+      ]
+    },
+    {
+      "id": "wall_746e72c1-5b3b-4d38-b16e-6fe45e9a5273",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 30,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 48
+        }
+      ]
+    },
+    {
+      "id": "wall_69d9e06a-c0f6-46d6-92b3-c99bd297cb96",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 30,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": -0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 48
+        }
+      ]
+    },
+    {
+      "id": "wall_5686dc26-d595-41a3-897f-cb332f9720fb",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 30,
+          "position": {
+            "x": -1.25,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 48
+        }
+      ]
+    },
+    {
+      "id": "wall_e8f3cdc7-be8e-4188-aa12-91b3d20547f3",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 30,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 48
+        }
+      ]
+    },
+    {
+      "id": "wall_37be2699-9e36-4a22-bdc2-42023428a49a",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 30,
+          "position": {
+            "x": 0.25,
+            "y": 0.0625,
+            "z": 1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 48
+        }
+      ]
+    },
+    {
+      "id": "wall_b0410442-61d5-4f7e-9140-62f63f15673e",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 30,
+          "position": {
+            "x": 1.25,
+            "y": 0.0625,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 48
+        }
+      ]
+    },
+    {
+      "id": "wall_e9f8a451-f40c-483f-8a44-8f3377229ae3",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 30,
+          "position": {
+            "x": 0.25,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 48
+        }
+      ]
+    },
+    {
+      "id": "wall_5db2312b-2b1c-40de-8f03-310e26bccbd9",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 30,
+          "position": {
+            "x": -1.25,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 48
+        }
+      ]
+    },
+    {
+      "id": "wall_c90b3e39-304a-4749-9437-35c72d85bf71",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 30,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": -1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 48
+        }
+      ]
+    },
+    {
+      "id": "wall_63dd6106-c1c7-423f-ace9-43d96d24ec1c",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 30,
+          "position": {
+            "x": -1.25,
+            "y": 0.0625,
+            "z": -1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 48
+        }
+      ]
+    },
+    {
+      "id": "wall_8278cdca-7b78-4eba-b893-2da912fde261",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 30,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 48
+        }
+      ]
+    },
+    {
+      "id": "wall_b3aad587-a6f2-4788-aebd-7a1961e5208f",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 30,
+          "position": {
+            "x": 0.75,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 48
+        }
+      ]
+    },
+    {
+      "id": "wall_6d171958-041d-4963-95ae-da22b7e6692c",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 30,
+          "position": {
+            "x": 0.25,
+            "y": 0.0625,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 48
+        }
+      ]
+    },
+    {
+      "id": "wall_e05713b4-c856-437a-a1a7-4d18be18039f",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 48,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": 1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 70
+        }
+      ]
+    },
+    {
+      "id": "wall_6d9537da-abd9-4494-8469-4d2f24d04898",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 48,
+          "position": {
+            "x": 1.75,
+            "y": 0.0625,
+            "z": -1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 70
+        }
+      ]
+    },
+    {
+      "id": "wall_4283c19a-19e9-4d61-9702-b2a6f25601f9",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 48,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 70
+        }
+      ]
+    },
+    {
+      "id": "wall_763a698a-0ca8-4546-85ce-04bfd0fd7117",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 48,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 70
+        }
+      ]
+    },
+    {
+      "id": "wall_fd45e78b-dd74-4d28-833d-731d38a97ba7",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 48,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 70
+        }
+      ]
+    },
+    {
+      "id": "wall_ea89a82a-bb38-4f19-a1a2-79df7840a449",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 48,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 70
+        }
+      ]
+    },
+    {
+      "id": "wall_30414fa3-9ea6-4f0c-b3d8-fb6ef5fe3e3a",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 48,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": -0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 70
+        }
+      ]
+    },
+    {
+      "id": "wall_f5732132-b330-47c7-8e90-4c1ce67e3ea2",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 48,
+          "position": {
+            "x": -1.25,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 70
+        }
+      ]
+    },
+    {
+      "id": "wall_998fc9c8-e3da-452a-b679-6e9722d93413",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 48,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 70
+        }
+      ]
+    },
+    {
+      "id": "wall_524c247f-017f-488b-a470-8207a4c6171f",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 48,
+          "position": {
+            "x": -1.25,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 70
+        }
+      ]
+    },
+    {
+      "id": "wall_962d1ef3-c9a9-4ead-b0fb-30933c688a7f",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 48,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": -1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 70
+        }
+      ]
+    },
+    {
+      "id": "wall_8db42982-5f18-4322-972f-45cbf169ef7b",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 48,
+          "position": {
+            "x": -1.25,
+            "y": 0.0625,
+            "z": -1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 70
+        }
+      ]
+    },
+    {
+      "id": "wall_e064e3b8-fe2e-43bc-91d9-d47acf1bdb72",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 48,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 70
+        }
+      ]
+    },
+    {
+      "id": "wall_fd731de7-6c33-44bb-9d82-1b6a977b2f41",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 48,
+          "position": {
+            "x": 1.25,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 70
+        }
+      ]
+    },
+    {
+      "id": "wall_e7e01cc4-f8bb-478a-976c-8add8fe8f172",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 70,
+          "position": {
+            "x": 1.75,
+            "y": 0.0625,
+            "z": -1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 88
+        }
+      ]
+    },
+    {
+      "id": "wall_72a3bae1-6020-4f0c-a71e-929586cc5e28",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 70,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 88
+        }
+      ]
+    },
+    {
+      "id": "wall_31df05f9-b0e5-49b9-99cb-1c4f75d1d3a2",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 70,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 88
+        }
+      ]
+    },
+    {
+      "id": "wall_eeab5e17-92b2-4e41-b69f-62cff75974a5",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 70,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 88
+        }
+      ]
+    },
+    {
+      "id": "wall_aa700906-3fa6-4d16-afbe-c6f77f8ddb87",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 70,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": -0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 88
+        }
+      ]
+    },
+    {
+      "id": "wall_95d5cba4-df46-45e7-9946-ff042425a22e",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 70,
+          "position": {
+            "x": -1.25,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 88
+        }
+      ]
+    },
+    {
+      "id": "wall_a2e078f8-62a3-4ae1-a7e8-94021c93b2f2",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 70,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 88
+        }
+      ]
+    },
+    {
+      "id": "wall_3c3e5625-ec6c-4a2c-9ced-45272ace1b77",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 70,
+          "position": {
+            "x": 1.25,
+            "y": 0.0625,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 88
+        }
+      ]
+    },
+    {
+      "id": "wall_fb1a9068-116b-4074-8a86-cf42a74d9630",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 70,
+          "position": {
+            "x": 0.75,
+            "y": 0.0625,
+            "z": 0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 88
+        }
+      ]
+    },
+    {
+      "id": "wall_63556248-ca6b-445f-828d-4f31b7d4b806",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 70,
+          "position": {
+            "x": -1.25,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 88
+        }
+      ]
+    },
+    {
+      "id": "wall_964c45df-f16f-42fc-96c9-cae9f901dd2b",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 70,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": -1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 88
+        }
+      ]
+    },
+    {
+      "id": "wall_b28f4b9f-5179-468c-92f9-3a38d5030884",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 70,
+          "position": {
+            "x": -1.25,
+            "y": 0.0625,
+            "z": -1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 88
+        }
+      ]
+    },
+    {
+      "id": "wall_05b454a6-e6fe-4985-9110-8084a2c3ede6",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 70,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 88
+        }
+      ]
+    },
+    {
+      "id": "wall_d86cb05a-c093-4caa-bb25-ca1d5b97f6f4",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 70,
+          "position": {
+            "x": 1.25,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 88
+        }
+      ]
+    },
+    {
+      "id": "wall_9fdad965-6a94-40aa-91d1-75368310c19f",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 70,
+          "position": {
+            "x": 0.75,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 88
+        }
+      ]
+    },
+    {
+      "id": "wall_1d2ac96a-e15f-412e-83d5-afb4109a45a9",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 70,
+          "position": {
+            "x": 0.25,
+            "y": 0.0625,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 88
+        }
+      ]
+    },
+    {
+      "id": "wall_cebe4856-a93c-4134-b162-913a55519e17",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 88,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": 1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 110
+        }
+      ]
+    },
+    {
+      "id": "wall_edade282-b85f-4c4e-8209-c4faf34cec74",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 88,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 110
+        }
+      ]
+    },
+    {
+      "id": "wall_761f9853-1edd-411a-ae5f-a65cd27b157d",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 88,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 110
+        }
+      ]
+    },
+    {
+      "id": "wall_c7b9f794-da98-4797-aad5-e3149d210872",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 88,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 110
+        }
+      ]
+    },
+    {
+      "id": "wall_56fe8009-9035-4ba9-a0fb-5a08c6939c56",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 88,
+          "position": {
+            "x": -1.25,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 110
+        }
+      ]
+    },
+    {
+      "id": "wall_6818d351-80a4-47f7-bdaa-be9a0cb19306",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 88,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 110
+        }
+      ]
+    },
+    {
+      "id": "wall_6028b50b-42fb-48c5-8447-1361639bf20a",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 88,
+          "position": {
+            "x": 0.25,
+            "y": 0.0625,
+            "z": 1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 110
+        }
+      ]
+    },
+    {
+      "id": "wall_0f69fd8e-6bed-4541-a51b-7f34d9fe03db",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 88,
+          "position": {
+            "x": 1.25,
+            "y": 0.0625,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 110
+        }
+      ]
+    },
+    {
+      "id": "wall_ad1dd271-bfef-4f80-8c4e-397985575b52",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 88,
+          "position": {
+            "x": 0.75,
+            "y": 0.0625,
+            "z": 0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 110
+        }
+      ]
+    },
+    {
+      "id": "wall_967f187a-67c9-4961-b1bb-ef1ff538a9fa",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 88,
+          "position": {
+            "x": 0.25,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 110
+        }
+      ]
+    },
+    {
+      "id": "wall_64860f2e-1e04-46a2-9789-81379d0bc2e2",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 88,
+          "position": {
+            "x": -1.25,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 110
+        }
+      ]
+    },
+    {
+      "id": "wall_7ab01649-5529-4172-9aa5-db743d34d2f2",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 88,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": -1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 110
+        }
+      ]
+    },
+    {
+      "id": "wall_bd9e7c6d-a71a-4469-baf5-5dec05af37ee",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 88,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 110
+        }
+      ]
+    },
+    {
+      "id": "wall_261e49ed-b912-476a-b576-86e9fb97f8fe",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 88,
+          "position": {
+            "x": 1.25,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 110
+        }
+      ]
+    },
+    {
+      "id": "wall_b9a24941-f434-483a-91ec-fb40d5abbeaf",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 88,
+          "position": {
+            "x": 0.75,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 110
+        }
+      ]
+    },
+    {
+      "id": "wall_fe45df28-5a9b-4c0a-8d08-d6a2f5c514b5",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 88,
+          "position": {
+            "x": 0.25,
+            "y": 0.0625,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 110
+        }
+      ]
+    },
+    {
+      "id": "wall_e423eedb-7f84-4f0d-b300-c975b1292089",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 110,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": 1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 133
+        }
+      ]
+    },
+    {
+      "id": "wall_cc9c38f0-04fa-483d-8a95-1b592f0c317c",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 110,
+          "position": {
+            "x": 1.75,
+            "y": 0.0625,
+            "z": -1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 133
+        }
+      ]
+    },
+    {
+      "id": "wall_273df99d-645c-41d4-ba91-46096b5411aa",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 110,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 133
+        }
+      ]
+    },
+    {
+      "id": "wall_942d85aa-508c-4186-9a5f-7bfbea861c7a",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 110,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 133
+        }
+      ]
+    },
+    {
+      "id": "wall_4b86cb4b-db4f-4e01-a0e7-0de607e91205",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 110,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 133
+        }
+      ]
+    },
+    {
+      "id": "wall_daf5cfe6-cca9-440e-8221-2715cbca4c16",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 110,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 133
+        }
+      ]
+    },
+    {
+      "id": "wall_569d8b70-f217-4c80-b141-fd9f1368a3cb",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 110,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": -0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 133
+        }
+      ]
+    },
+    {
+      "id": "wall_e095cd84-7730-4cd7-b8de-52bc6b82ed2e",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 110,
+          "position": {
+            "x": -1.25,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 133
+        }
+      ]
+    },
+    {
+      "id": "wall_deb02acc-e1ad-426a-bdf4-fb92513e758a",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 110,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 133
+        }
+      ]
+    },
+    {
+      "id": "wall_642d8025-3db0-4541-a577-0358a76a3afe",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 110,
+          "position": {
+            "x": -1.25,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 133
+        }
+      ]
+    },
+    {
+      "id": "wall_94684e6b-bacc-44d3-9484-f51e7302daf0",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 110,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": -1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 133
+        }
+      ]
+    },
+    {
+      "id": "wall_1139c540-3965-4e68-aad6-d068775a63d8",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 110,
+          "position": {
+            "x": -1.25,
+            "y": 0.0625,
+            "z": -1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 133
+        }
+      ]
+    },
+    {
+      "id": "wall_daedfdc3-b573-4cfe-91c4-74e09ab3f4d4",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 110,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 133
+        }
+      ]
+    },
+    {
+      "id": "wall_fe0bd3e0-b8d5-4be2-8ac1-abc68759ef06",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 110,
+          "position": {
+            "x": 1.25,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 133
+        }
+      ]
+    },
+    {
+      "id": "wall_6eea78d1-0d0f-47a8-b725-3d14b38341ce",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 133,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": 1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 154
+        }
+      ]
+    },
+    {
+      "id": "wall_c44ad6cd-127c-4cc2-b983-53d98af6cc62",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 133,
+          "position": {
+            "x": 1.75,
+            "y": 0.0625,
+            "z": -1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 154
+        }
+      ]
+    },
+    {
+      "id": "wall_0d539e1d-cad2-4d8b-8d0f-5b779429861e",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 133,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 154
+        }
+      ]
+    },
+    {
+      "id": "wall_7bf6a99b-ef92-457d-81a2-931067972589",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 133,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 154
+        }
+      ]
+    },
+    {
+      "id": "wall_d1b26e36-04eb-4c4d-ba35-de974cabeb80",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 133,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 154
+        }
+      ]
+    },
+    {
+      "id": "wall_a1b6cbc5-eb89-4769-9b82-eb159c091cb8",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 133,
+          "position": {
+            "x": -1.25,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 154
+        }
+      ]
+    },
+    {
+      "id": "wall_ba2dff4d-8997-49a4-b79d-179a80f5bd82",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 133,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 154
+        }
+      ]
+    },
+    {
+      "id": "wall_0c4854ef-3c0f-4735-8d01-d1864e2d5359",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 133,
+          "position": {
+            "x": 0.25,
+            "y": 0.0625,
+            "z": 1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 154
+        }
+      ]
+    },
+    {
+      "id": "wall_edb5b725-a020-43b9-96be-b86cca0776b4",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 133,
+          "position": {
+            "x": 1.25,
+            "y": 0.0625,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 154
+        }
+      ]
+    },
+    {
+      "id": "wall_487242fa-ef4b-4618-8bac-fbf25915ed68",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 133,
+          "position": {
+            "x": 0.75,
+            "y": 0.0625,
+            "z": 0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 154
+        }
+      ]
+    },
+    {
+      "id": "wall_740c15a8-a55e-4fc0-99dc-cbb1200f43ea",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 133,
+          "position": {
+            "x": 0.25,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 154
+        }
+      ]
+    },
+    {
+      "id": "wall_61ccfc8d-529b-46a3-9441-9b3774cd32c7",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 133,
+          "position": {
+            "x": -1.25,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 154
+        }
+      ]
+    },
+    {
+      "id": "wall_9b0ee9c9-772c-4234-a74e-ef4229f71eb6",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 133,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": -1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 154
+        }
+      ]
+    },
+    {
+      "id": "wall_f6345a1d-9644-4160-9c72-34985deed731",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 133,
+          "position": {
+            "x": -1.25,
+            "y": 0.0625,
+            "z": -1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 154
+        }
+      ]
+    },
+    {
+      "id": "wall_ed1ed948-d31f-4654-ba5c-8f5e1615cbb4",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 133,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 154
+        }
+      ]
+    },
+    {
+      "id": "wall_73e39596-e659-458d-94ea-81013730ecf1",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 133,
+          "position": {
+            "x": 1.25,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 154
+        }
+      ]
+    },
+    {
+      "id": "wall_c2ff451e-4ab3-4175-bf9b-58eaca289e54",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 133,
+          "position": {
+            "x": 0.75,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 154
+        }
+      ]
+    },
+    {
+      "id": "wall_c1437366-4a2c-4a57-8048-69de26b3f120",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 133,
+          "position": {
+            "x": 0.25,
+            "y": 0.0625,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true,
+      "hides": [
+        {
+          "stepBegin": 154
+        }
+      ]
+    },
+    {
+      "id": "wall_fe3338fe-8a83-4800-93f2-3fbb1e7c8d8e",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 154,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": 1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true
+    },
+    {
+      "id": "wall_86d0096f-93c1-437e-bbfc-c0cfe23b6284",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 154,
+          "position": {
+            "x": -0.75,
+            "y": 0.0625,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true
+    },
+    {
+      "id": "wall_b1d169fb-741c-4997-917f-97b89361a922",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 154,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true
+    },
+    {
+      "id": "wall_8fce9e19-c07a-4460-b207-8849f1713291",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 154,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true
+    },
+    {
+      "id": "wall_f1946989-fa32-4212-b8e8-de01b0cfac04",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 154,
+          "position": {
+            "x": -1.25,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true
+    },
+    {
+      "id": "wall_944bf894-f7b0-470a-bae3-27918f14ed8c",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 154,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": 1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true
+    },
+    {
+      "id": "wall_339bd475-3891-41cd-afc3-2cf4d4a19d34",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 154,
+          "position": {
+            "x": 0.25,
+            "y": 0.0625,
+            "z": 1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true
+    },
+    {
+      "id": "wall_d2e98894-dacd-449f-a92c-11283242126e",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 154,
+          "position": {
+            "x": 1.25,
+            "y": 0.0625,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true
+    },
+    {
+      "id": "wall_6eb939b8-9912-4631-bc16-d0edfa0264a0",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 154,
+          "position": {
+            "x": 0.75,
+            "y": 0.0625,
+            "z": 0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true
+    },
+    {
+      "id": "wall_3d60279a-5a02-4945-b287-f340ad1722df",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 154,
+          "position": {
+            "x": 0.25,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true
+    },
+    {
+      "id": "wall_0420cba3-3ec4-4ff9-a909-724fb3399e8f",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 154,
+          "position": {
+            "x": -1.25,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true
+    },
+    {
+      "id": "wall_95782a43-373e-47a0-add2-dda96986b4e4",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 154,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": -1.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true
+    },
+    {
+      "id": "wall_30844c1d-a87b-44b5-bc59-ac4e8ba24515",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 154,
+          "position": {
+            "x": -1.75,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true
+    },
+    {
+      "id": "wall_803b7872-1ae3-4d99-8fe2-818f6ce7857c",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 154,
+          "position": {
+            "x": 1.25,
+            "y": 0.0625,
+            "z": -0.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true
+    },
+    {
+      "id": "wall_9324648d-0c2b-420e-a47b-0c33063e05ab",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 154,
+          "position": {
+            "x": 0.75,
+            "y": 0.0625,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true
+    },
+    {
+      "id": "wall_a0f92950-afd3-4886-b598-eae9d5d6dcba",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 154,
+          "position": {
+            "x": 0.25,
+            "y": 0.0625,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true
+    },
+    {
+      "id": "wall_grid_front",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0,
+            "y": 0.0625,
+            "z": 2.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true
+    },
+    {
+      "id": "wall_grid_back",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0,
+            "y": 0.0625,
+            "z": -2.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 5,
+            "y": 0.125,
+            "z": 0.5
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true
+    },
+    {
+      "id": "wall_grid_left",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -2.25,
+            "y": 0.0625,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 4
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true
+    },
+    {
+      "id": "wall_grid_right",
+      "type": "cube",
+      "materials": ["Custom/Materials/Black"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 2.25,
+            "y": 0.0625,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.125,
+            "z": 4
+          }
+        }
+      ],
+      "kinematic": true,
+      "structure": true
+    }
+  ],
+  "screenshot": false,
+  "version": 3,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+  "floorMaterial": "AI2-THOR/Materials/Wood/WoodGrain_Brown",
+  "floorTextures": [],
+  "intuitivePhysics": false,
+  "performerStart": {
+    "position": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    "rotation": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 10.0,
+    "y": 3.0,
+    "z": 10.0
+  },
+  "wallMaterial": "AI2-THOR/Materials/Wood/BedroomFloor1"
+}

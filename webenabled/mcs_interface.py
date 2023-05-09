@@ -157,22 +157,27 @@ class MCSInterface:
     def get_action_list(self, scene_filename):
         """Simplification of getting the action list as a function
         of step"""
+        is_passive = False
+        actions = GoalMetadata.DEFAULT_ACTIONS
         try:
             with open(scene_filename, 'r') as scene_file:
                 scene_data = json.load(scene_file)
                 if 'goal' in scene_data:
                     goal = scene_data['goal']
+                    if 'category' in goal:
+                        is_passive = goal['category'] in [
+                            'agents',
+                            'intuitive_physics',
+                            'passive'
+                        ]
+                    if is_passive:
+                        actions = GoalMetadata.DEFAULT_PASSIVE_SCENE_ACTIONS
                     if 'action_list' in goal:
-                        action_list = goal['action_list']
-                        return self.simplify_action_list(
-                            scene_filename, action_list[0])
-                    else:
-                        return self.simplify_action_list(
-                            scene_filename,
-                            GoalMetadata.DEFAULT_ACTIONS)
+                        actions = goal['action_list'][0]
+                    return self.simplify_action_list(scene_filename, actions)
         except Exception as e:
             self.logger.warn(f"Exception in reading json file: {e}")
-            return GoalMetadata.DEFAULT_ACTIONS
+            return self.simplify_action_list(scene_filename, actions)
 
     def simplify_action_list(self, scene_filename, default_action_list):
         """The action list looks something like:

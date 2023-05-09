@@ -1,0 +1,336 @@
+{
+  "goal": {
+    "category": "retrieval",
+    "metadata": {
+      "target": {
+        "id": "1d1c9f8f-5ab0-4eed-85b4-124baa133fdc"
+      }
+    },
+    "description": "Find and pick up the tiny light black white rubber ball.",
+    "last_step": 3100
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [],
+  "name": "interactive_containers_0001_03",
+  "objects": [
+    {
+      "id": "1d1c9f8f-5ab0-4eed-85b4-124baa133fdc",
+      "type": "soccer_ball",
+      "mass": 1.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -1.0011,
+            "y": 0.11,
+            "z": 0.4678
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 364.5037,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": []
+    },
+    {
+      "id": "93dbf640-9d9e-4b41-819f-36e3b59a170f",
+      "type": "chest_7",
+      "mass": 10.0,
+      "salientMaterials": ["wood"],
+      "receptacle": true,
+      "openable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -0.93,
+            "y": 0,
+            "z": 1.37
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 135.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": ["AI2-THOR/Materials/Wood/DarkWood2"],
+      "canContainTarget": true
+    },
+    {
+      "id": "261a2da3-98b3-495b-bbbe-4664fa90d6d4",
+      "type": "toolbox_2",
+      "mass": 5.0,
+      "salientMaterials": ["plastic"],
+      "receptacle": true,
+      "openable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 0.19,
+            "y": 0.0,
+            "z": 3.55
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 135.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color 2"],
+      "canContainTarget": true
+    },
+    {
+      "id": "99b3ff70-416c-4158-8962-cfc60a31696d",
+      "type": "toolbox_2",
+      "mass": 7.0,
+      "salientMaterials": ["plastic"],
+      "receptacle": true,
+      "openable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 5.01,
+            "y": 0.0,
+            "z": -0.65
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 135.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.4,
+            "y": 1.4,
+            "z": 1.4
+          }
+        }
+      ],
+      "materials": ["AI2-THOR/Materials/Plastics/OrangePlastic"],
+      "canContainTarget": true
+    },
+    {
+      "id": "ee740f8f-1ed5-4b8c-91af-2560f2dfa258",
+      "type": "apple_2",
+      "mass": 0.5,
+      "salientMaterials": ["food"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 135.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": 7.24,
+            "y": 0.03,
+            "z": -1.23
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": []
+    },
+    {
+      "id": "ea5f023d-f332-4edb-b8b8-59ebb6ee71a7",
+      "type": "block_blank_wood_cube",
+      "mass": 0.666,
+      "salientMaterials": ["wood"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 135.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": 6.42,
+            "y": 0.05,
+            "z": 0.61
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": ["UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/gray_1x1"]
+    },
+    {
+      "id": "67971168-742c-44ab-afdd-9554dcaccf35",
+      "type": "table_1",
+      "mass": 4.0125,
+      "salientMaterials": ["metal"],
+      "pickupable": true,
+      "receptacle": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 135.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": 4.82,
+            "y": 0.0,
+            "z": -4.71
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 0.5875,
+            "y": 0.5,
+            "z": 0.25
+          }
+        }
+      ],
+      "materials": ["AI2-THOR/Materials/Metals/HammeredMetal_AlbedoTransparency 1","AI2-THOR/Materials/Metals/HammeredMetal_AlbedoTransparency 1"]
+    },
+    {
+      "id": "ee006ec6-76a0-4d39-a6e4-45a0df91e7df",
+      "type": "plate_1",
+      "mass": 0.5,
+      "salientMaterials": ["plastic"],
+      "moveable": true,
+      "pickupable": true,
+      "receptacle": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 135.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": 4.4,
+            "y": 0.005,
+            "z": -3.41
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": ["UnityAssetStore/Kindergarten_Interior/Models/Materials/color 1"]
+    },
+    {
+      "id": "18d40ddd-1eea-4794-b608-ebcd672578d6",
+      "type": "block_blue_letter_c",
+      "mass": 0.666,
+      "salientMaterials": ["wood"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 135.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": 0.11,
+            "y": 0,
+            "z": 0.69
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": ["UnityAssetStore/KD_AlphabetBlocks/Assets/Textures/Blue/TOYBlocks_AlphabetBlock_C_Blue_1K/ToyBlockBlueC"]
+    },
+    {
+      "id": "c2f0cf48-b8be-41e8-907e-8ede6c381e97",
+      "type": "trolley_1",
+      "mass": 3.0,
+      "salientMaterials": ["wood"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 315.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": 1.11,
+            "y": 0.0075,
+            "z": 1.53
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.5,
+            "y": 1.5,
+            "z": 1.5
+          }
+        }
+      ],
+      "materials": ["UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/yellow_1x1"]
+    }
+  ],
+  "screenshot": false,
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+  "floorMaterial": "UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 4",
+  "floorTextures": [],
+  "intuitivePhysics": false,
+  "performerStart": {
+    "position": {
+      "x": -1.39,
+      "y": 0.0,
+      "z": -4.47
+    },
+    "rotation": {
+      "x": 0.0,
+      "y": 135.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 15.0,
+    "y": 3.0,
+    "z": 11.0
+  },
+  "wallMaterial": "AI2-THOR/Materials/Metals/BrownMetal 1"
+}

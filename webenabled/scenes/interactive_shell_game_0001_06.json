@@ -1,0 +1,772 @@
+{
+  "goal": {
+    "category": "retrieval",
+    "metadata": {
+      "target": {
+        "id": "96e2b072-3a23-401a-b637-dc8e6e7e27b3"
+      }
+    },
+    "description": "Find and pick up the tiny light black white rubber ball.",
+    "action_list": [["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"]],
+    "last_step": 2500
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [],
+  "name": "interactive_shell_game_0001_06",
+  "objects": [
+    {
+      "id": "96e2b072-3a23-401a-b637-dc8e6e7e27b3",
+      "type": "soccer_ball",
+      "mass": 1.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 0.75,
+            "y": 4.4,
+            "z": 4.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": [],
+      "kinematic": true,
+      "moves": [
+        {
+          "stepBegin": 0,
+          "stepEnd": 14,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        }
+      ],
+      "togglePhysics": [
+        {
+          "stepBegin": 20
+        }
+      ]
+    },
+    {
+      "id": "1518cc0a-e161-476c-84a3-be3653b833ca",
+      "type": "separate_container",
+      "mass": 4.0,
+      "salientMaterials": ["wood"],
+      "receptacle": true,
+      "openable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 0.75,
+            "y": 0,
+            "z": 4.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 0.4,
+            "y": 0.4,
+            "z": 0.4
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/GreenWoodMCS"],
+      "moves": [
+        {
+          "stepBegin": 100,
+          "stepEnd": 104,
+          "vector": {
+            "x": 0,
+            "y": 0,
+            "z": -0.25
+          }
+        },
+        {
+          "stepBegin": 105,
+          "stepEnd": 107,
+          "vector": {
+            "x": 0.25,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 108,
+          "stepEnd": 112,
+          "vector": {
+            "x": 0,
+            "y": 0,
+            "z": 0.25
+          }
+        }
+      ]
+    },
+    {
+      "id": "3149f3c3-b289-4776-af1a-945494deb6b5",
+      "type": "separate_container",
+      "mass": 4.0,
+      "salientMaterials": ["wood"],
+      "receptacle": true,
+      "openable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 0.0,
+            "y": 0,
+            "z": 4.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 0.4,
+            "y": 0.4,
+            "z": 0.4
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/GreenWoodMCS"],
+      "moves": [
+        {
+          "stepBegin": 151,
+          "stepEnd": 159,
+          "vector": {
+            "x": 0,
+            "y": 0,
+            "z": -0.25
+          }
+        },
+        {
+          "stepBegin": 160,
+          "stepEnd": 162,
+          "vector": {
+            "x": 0.25,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 163,
+          "stepEnd": 171,
+          "vector": {
+            "x": 0,
+            "y": 0,
+            "z": 0.25
+          }
+        }
+      ]
+    },
+    {
+      "id": "7988e52f-0708-4451-8b32-df7a1bb02f1d",
+      "type": "separate_container",
+      "mass": 4.0,
+      "salientMaterials": ["wood"],
+      "receptacle": true,
+      "openable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -0.75,
+            "y": 0,
+            "z": 4.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 0.4,
+            "y": 0.4,
+            "z": 0.4
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/GreenWoodMCS"]
+    },
+    {
+      "id": "67896665-47a9-4e6a-aea7-a0bb1bd30542",
+      "type": "lid",
+      "mass": 0.1,
+      "salientMaterials": ["wood"],
+      "openable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 0.75,
+            "y": 4.4,
+            "z": 4.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 0.4,
+            "y": 0.4,
+            "z": 0.4
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/GreenWoodMCS"],
+      "lidAttachment": {
+        "stepBegin": 55,
+        "lidAttachmentObjId": "1518cc0a-e161-476c-84a3-be3653b833ca"
+      },
+      "moves": [
+        {
+          "stepBegin": 40,
+          "stepEnd": 55,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "2303101a-a297-4802-8ad6-e37c1e521508",
+      "type": "lid",
+      "mass": 0.1,
+      "salientMaterials": ["wood"],
+      "openable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 0.0,
+            "y": 4.4,
+            "z": 4.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 0.4,
+            "y": 0.4,
+            "z": 0.4
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/GreenWoodMCS"],
+      "lidAttachment": {
+        "stepBegin": 55,
+        "lidAttachmentObjId": "3149f3c3-b289-4776-af1a-945494deb6b5"
+      },
+      "moves": [
+        {
+          "stepBegin": 40,
+          "stepEnd": 55,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "b2b232b3-a72f-4357-9ddc-ae596fcd12c7",
+      "type": "lid",
+      "mass": 0.1,
+      "salientMaterials": ["wood"],
+      "openable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -0.75,
+            "y": 4.4,
+            "z": 4.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 0.4,
+            "y": 0.4,
+            "z": 0.4
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/GreenWoodMCS"],
+      "lidAttachment": {
+        "stepBegin": 55,
+        "lidAttachmentObjId": "7988e52f-0708-4451-8b32-df7a1bb02f1d"
+      },
+      "moves": [
+        {
+          "stepBegin": 40,
+          "stepEnd": 55,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "placer_8b542dfd-c7fe-49a7-89a8-be2e0dbe32ef",
+      "type": "cylinder",
+      "mass": 1,
+      "materials": ["Custom/Materials/Magenta"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0.75,
+            "y": 6.335,
+            "z": 4.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.05,
+            "y": 1.825,
+            "z": 0.05
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 0,
+          "stepEnd": 14,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 25,
+          "stepEnd": 38,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "changeMaterials": [
+        {
+          "stepBegin": 20,
+          "materials": [
+            "Custom/Materials/Cyan"
+          ]
+        }
+      ],
+      "states": [["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["inactive"]]
+    },
+    {
+      "id": "placer_cc3a6720-dfd3-4307-9182-f5b9ee63da6a",
+      "type": "cylinder",
+      "mass": 1,
+      "materials": ["Custom/Materials/Magenta"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0.75,
+            "y": 6.232,
+            "z": 4.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.08,
+            "y": 1.8,
+            "z": 0.08
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 40,
+          "stepEnd": 55,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 66,
+          "stepEnd": 80,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "changeMaterials": [
+        {
+          "stepBegin": 61,
+          "materials": [
+            "Custom/Materials/Cyan"
+          ]
+        }
+      ],
+      "states": [["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["inactive"]]
+    },
+    {
+      "id": "placer_0826acb1-e2e4-42df-a529-877df43afc0c",
+      "type": "cylinder",
+      "mass": 1,
+      "materials": ["Custom/Materials/Magenta"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0.0,
+            "y": 6.232,
+            "z": 4.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.08,
+            "y": 1.8,
+            "z": 0.08
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 40,
+          "stepEnd": 55,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 66,
+          "stepEnd": 80,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "changeMaterials": [
+        {
+          "stepBegin": 61,
+          "materials": [
+            "Custom/Materials/Cyan"
+          ]
+        }
+      ],
+      "states": [["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["inactive"]]
+    },
+    {
+      "id": "placer_b61e80be-284d-4d60-a30d-972a1b181e02",
+      "type": "cylinder",
+      "mass": 1,
+      "materials": ["Custom/Materials/Magenta"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -0.75,
+            "y": 6.232,
+            "z": 4.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.08,
+            "y": 1.8,
+            "z": 0.08
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 40,
+          "stepEnd": 55,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 66,
+          "stepEnd": 80,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "changeMaterials": [
+        {
+          "stepBegin": 61,
+          "materials": [
+            "Custom/Materials/Cyan"
+          ]
+        }
+      ],
+      "states": [["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["inactive"]]
+    },
+    {
+      "id": "placer_3fe4849b-6010-40dd-ad3d-7c973ea2872e",
+      "type": "cylinder",
+      "mass": 1,
+      "materials": ["Custom/Materials/Cyan"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0.75,
+            "y": 5.95,
+            "z": 3.84
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.08,
+            "y": 1.8,
+            "z": 0.08
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 80,
+          "stepEnd": 94,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 100,
+          "stepEnd": 104,
+          "vector": {
+            "x": 0,
+            "y": 0,
+            "z": -0.25
+          }
+        },
+        {
+          "stepBegin": 105,
+          "stepEnd": 107,
+          "vector": {
+            "x": 0.25,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 108,
+          "stepEnd": 112,
+          "vector": {
+            "x": 0,
+            "y": 0,
+            "z": 0.25
+          }
+        },
+        {
+          "stepBegin": 117,
+          "stepEnd": 131,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "changeMaterials": [
+        {
+          "stepBegin": 96,
+          "materials": [
+            "Custom/Materials/Magenta"
+          ]
+        },
+        {
+          "stepBegin": 114,
+          "materials": [
+            "Custom/Materials/Cyan"
+          ]
+        }
+      ],
+      "states": [["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"]]
+    },
+    {
+      "id": "placer_7408c4db-a190-4bfb-8ddb-929fb3d949b1",
+      "type": "cylinder",
+      "mass": 1,
+      "materials": ["Custom/Materials/Cyan"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0.0,
+            "y": 5.95,
+            "z": 3.84
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.08,
+            "y": 1.8,
+            "z": 0.08
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 131,
+          "stepEnd": 145,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 151,
+          "stepEnd": 159,
+          "vector": {
+            "x": 0,
+            "y": 0,
+            "z": -0.25
+          }
+        },
+        {
+          "stepBegin": 160,
+          "stepEnd": 162,
+          "vector": {
+            "x": 0.25,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 163,
+          "stepEnd": 171,
+          "vector": {
+            "x": 0,
+            "y": 0,
+            "z": 0.25
+          }
+        },
+        {
+          "stepBegin": 176,
+          "stepEnd": 190,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "changeMaterials": [
+        {
+          "stepBegin": 147,
+          "materials": [
+            "Custom/Materials/Magenta"
+          ]
+        },
+        {
+          "stepBegin": 173,
+          "materials": [
+            "Custom/Materials/Cyan"
+          ]
+        }
+      ],
+      "states": [["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"]]
+    }
+  ],
+  "screenshot": false,
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
+  "floorMaterial": "AI2-THOR/Materials/Wood/WornWood",
+  "floorTextures": [],
+  "intuitivePhysics": false,
+  "performerStart": {
+    "position": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": -2.0
+    },
+    "rotation": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  },
+  "restrictOpenObjects": true,
+  "roomDimensions": {
+    "x": 10.0,
+    "y": 4.0,
+    "z": 10.0
+  },
+  "wallMaterial": "Custom/Materials/RoseWoodMCS"
+}
