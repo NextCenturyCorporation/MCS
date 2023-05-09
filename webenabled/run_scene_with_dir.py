@@ -33,7 +33,7 @@ class RunSceneWithDir:
         self.image_out_dir = image_out_dir
 
     def run_loop(self):
-        print(f"Starting controller.  Watching files at {command_dir}." +
+        print(f"Starting controller.  Watching files at {command_dir}.",
               f"  Writing images to {image_dir}")
 
         self.controller = mcs.create_controller(

@@ -17,7 +17,7 @@ def start_subprocess(command_dir, image_dir):
         ["python3", "run_scene_with_dir.py",
          "--mcs_command_in_dir", command_dir,
          "--mcs_image_out_dir", image_dir])
-    logger.info(f"Unity controller process started:  {proc.pid}." +
+    logger.info(f"Unity controller process started:  {proc.pid}.",
                 f" Command: {command_dir}.  Img: {image_dir}")
     return proc.pid
 
