@@ -39,7 +39,7 @@ class RunSceneWithDir:
         self.controller = mcs.create_controller(
             config_file_or_dict='./config_level1.ini')
 
-        # print("Staring to listen for commands")
+        # print("Starting to listen for commands")
         patterns = ["command_*.txt"]
         ignore_patterns = None
         ignore_directories = False
@@ -65,7 +65,18 @@ class RunSceneWithDir:
 
         self.controller.end_scene()
 
+    def create_command_file(self, command_text_file):
+        try:
+            file = open(command_text_file, 'x')
+            file.close()
+        except Exception as e:
+            print(f"Failed to create {command_text_file}: {e}")
+
     def load_command_file(self, command_text_file):
+
+        if os.path.exists(command_text_file) is False:
+            self.create_command_file(command_text_file)
+
         try:
             with open(command_text_file, 'r') as command_file:
                 commands = [line.strip() for line in command_file]
@@ -94,11 +105,7 @@ class RunSceneWithDir:
             return
 
         try:
-            scene_data, status = mcs.load_scene_json_file(self.scene_file)
-            if status is not None:
-                raise ValueError(
-                    f"Unable to read in {self.scene_file}: {status}")
-
+            scene_data = mcs.load_scene_json_file(self.scene_file)
             self.controller.end_scene()
             output: StepMetadata = self.controller.start_scene(scene_data)
             self.save_output(output)
@@ -136,7 +143,7 @@ class RunSceneWithDir:
     # Watchdog functions
     # ----------------------------------
     def on_created(self, event):
-        # print(f"{event.src_path} created!")
+        print(f"{event.src_path} created!")
         self.load_command_file(event.src_path)
         os.unlink(event.src_path)
 

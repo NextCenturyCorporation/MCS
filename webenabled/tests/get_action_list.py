@@ -34,5 +34,5 @@ def simplify_action_list(default_action_list):
 
 if __name__ == "__main__":
     # show_actions_for_scene()
-    simple_list = simplify_action_list(GoalMetadata.ACTION_LIST)
+    simple_list = simplify_action_list(GoalMetadata.DEFAULT_ACTIONS)
     print(f"Simple list {simple_list}")

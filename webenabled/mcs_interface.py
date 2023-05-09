@@ -169,10 +169,10 @@ class MCSInterface:
                     else:
                         return self.simplify_action_list(
                             scene_filename,
-                            GoalMetadata.ACTION_LIST)
+                            GoalMetadata.DEFAULT_ACTIONS)
         except Exception as e:
             self.logger.warn(f"Exception in reading json file: {e}")
-            return GoalMetadata.ACTION_LIST
+            return GoalMetadata.DEFAULT_ACTIONS
 
     def simplify_action_list(self, scene_filename, default_action_list):
         """The action list looks something like:
