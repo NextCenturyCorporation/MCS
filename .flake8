@@ -6,6 +6,7 @@ exclude =
         docs,
         setup.py,
         template_playroom.py,
-        venv
-        unit-test/lib
-        unit-test/bin
+        venv,
+        unit-test/lib,
+        unit-test/bin,
+        webenabled/venv
