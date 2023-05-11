@@ -23,9 +23,9 @@ IMAGE_WAIT_TIMEOUT = 3.0
 def convert_key_to_action(key: str, logger):
     for action in mcs.Action:
         if key == action.key:
-            logger.debug(f"Got action {action.value} from {key}")
+            logger.info(f"Converting {key} into {action.value}")
             return action.value
-    logger.warn(f"Do not recognize:  {key}.  Returning pass")
+    logger.info(f"Unable to convert {key}. Returning Pass...")
     return "Pass"
 
 
@@ -45,9 +45,9 @@ class MCSInterface:
             os.mkdir(MCS_INTERFACE_TMP_DIR)
 
         self.command_out_dir = MCS_INTERFACE_TMP_DIR + \
-            "cmd_" + str(time.time()) + "/"
+            "cmd_" + str(time.time())
         self.image_in_dir = MCS_INTERFACE_TMP_DIR + \
-            "img_" + str(time.time()) + "/"
+            "img_" + str(time.time())
         if not exists(self.command_out_dir):
             os.mkdir(self.command_out_dir)
         if not exists(self.image_in_dir):
@@ -85,16 +85,8 @@ class MCSInterface:
         return is_process_running(self.pid)
 
     def load_scene(self, scene_filename: str):
-        self.logger.info(f" loading {scene_filename}")
         action_list_str = self.get_action_list(scene_filename)
-        self.logger.info(f"Action list: {action_list_str}")
         img = self._post_step_and_get_image(scene_filename)
-        self.logger.info(f"done loading scene. image is {img} ")
-
-        # TODO:  Decide if we should do this
-        # img = self.perform_action(" ")
-        # self.logger.info(f" finished action pass {img}")
-
         return img, action_list_str
 
     def perform_action(self, key: str):
@@ -103,7 +95,7 @@ class MCSInterface:
 
     def _post_step_and_get_image(self, action):
         command_file_name = self.command_out_dir + \
-            "command_" + str(uuid.uuid4()) + ".txt"
+            "/command_" + str(uuid.uuid4()) + ".txt"
         f = open(command_file_name, "a")
         f.write(action)
         f.close()
@@ -118,10 +110,11 @@ class MCSInterface:
             timenow = time.time()
             elapsed = (timenow - timestart)
             if elapsed > IMAGE_WAIT_TIMEOUT:
-                self.logger.debug("timeout, returning blank")
-                return self.blank_path
+                self.logger.info("Timeout waiting for image")
+                self.img_name = self.blank_path
+                return self.img_name
 
-            list_of_files = glob.glob(self.image_in_dir + "*.png")
+            list_of_files = glob.glob(self.image_in_dir + "/*.png")
             if len(list_of_files) > 0:
                 latest_file = max(list_of_files, key=os.path.getctime)
 
@@ -137,9 +130,8 @@ class MCSInterface:
                     else:
                         break
 
-                # self.logger.info(f"Returning from interface: {latest_file}")
                 self.img_name = latest_file
-                return latest_file
+                return self.img_name
 
             time.sleep(0.05)
 
@@ -172,11 +164,11 @@ class MCSInterface:
                         ]
                     if is_passive:
                         actions = GoalMetadata.DEFAULT_PASSIVE_SCENE_ACTIONS
-                    if 'action_list' in goal:
+                    if goal.get('action_list'):
                         actions = goal['action_list'][0]
                     return self.simplify_action_list(scene_filename, actions)
-        except Exception as e:
-            self.logger.warn(f"Exception in reading json file: {e}")
+        except Exception:
+            self.logger.exception("Exception in reading json file")
             return self.simplify_action_list(scene_filename, actions)
 
     def simplify_action_list(self, scene_filename, default_action_list):
