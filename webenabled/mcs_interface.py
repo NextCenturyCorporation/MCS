@@ -17,7 +17,7 @@ IMG_WIDTH = 640
 IMG_HEIGHT = 480
 MCS_INTERFACE_TMP_DIR = "static/mcsinterface/"
 BLANK_IMAGE_NAME = 'blank_640x480.png'
-IMAGE_WAIT_TIMEOUT = 3.0
+IMAGE_WAIT_TIMEOUT = 20.0
 
 
 def convert_key_to_action(key: str, logger):
@@ -130,8 +130,9 @@ class MCSInterface:
                     else:
                         break
 
-                self.img_name = latest_file
-                return self.img_name
+                if latest_file != self.img_name:
+                    self.img_name = latest_file
+                    return self.img_name
 
             time.sleep(0.05)
 

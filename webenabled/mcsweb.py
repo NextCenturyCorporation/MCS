@@ -83,7 +83,7 @@ def show_mcs_page():
         app.logger.warn("Cannot load MCS interface")
         return
 
-    img = mcs_interface.get_latest_image()
+    img = mcs_interface.blank_path
     scene_list = mcs_interface.get_scene_list()
     rendered_template = render_template(
         'mcs_page.html', unityimg=img, scene_list=scene_list)
@@ -102,9 +102,9 @@ def handle_keypress():
         return
 
     key = clean_request_data(request)
-    img_name = mcs_interface.perform_action(key)
-    app.logger.info(f"Key press: {key}, output: {img_name}")
-    resp = jsonify(img_name)
+    img = mcs_interface.perform_action(key)
+    app.logger.info(f"Key press: {key}, output: {img}")
+    resp = jsonify(image=img)
     return resp
 
 
@@ -118,7 +118,7 @@ def handle_scene_selection():
 
     # Get the scene filename and tell interface to load it.
     scene_filename = clean_request_data(request)
-    app.logger.info(f"Start scene: {scene_filename}")
-    _, action_list = mcs_interface.load_scene("scenes/" + scene_filename)
-    resp = jsonify(action_list=action_list)
+    img, action_list = mcs_interface.load_scene("scenes/" + scene_filename)
+    app.logger.info(f"Start scene: {scene_filename}, output: {img}")
+    resp = jsonify(action_list=action_list, image=img)
     return resp
