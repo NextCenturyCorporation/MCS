@@ -1,30 +1,17 @@
+import logging
 import random
 import string
-from logging.config import dictConfig
 
 from flask import (Flask, jsonify, make_response, render_template, request,
                    session)
 # See: https://www.geeksforgeeks.org/how-to-use-flask-session-in-python-flask/
 from flask_session import Session
 from mcs_interface import MCSInterface
+from webenabled_common import LOG_CONFIG
 
 # Configure logging _before_ creating the app oject
 # https://flask.palletsprojects.com/en/2.0.x/logging/
-dictConfig({
-    'version': 1,
-    'formatters': {'default': {
-        'format': '[%(asctime)s] %(levelname)s in %(module)s: %(message)s',
-    }},
-    'handlers': {'wsgi': {
-        'class': 'logging.StreamHandler',
-        'stream': 'ext://flask.logging.wsgi_errors_stream',
-        'formatter': 'default'
-    }},
-    'root': {
-        'level': 'INFO',
-        'handlers': ['wsgi']
-    }
-})
+logging.config.dictConfig(LOG_CONFIG)
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
