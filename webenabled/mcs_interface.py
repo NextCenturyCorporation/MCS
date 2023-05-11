@@ -40,6 +40,8 @@ class MCSInterface:
 
     def __init__(self):
         self.logger = current_app.logger
+        # TODO FIXME Use the step number from the output metadata.
+        self.step_number = 0
 
         if not exists(MCS_INTERFACE_TMP_DIR):
             os.mkdir(MCS_INTERFACE_TMP_DIR)
@@ -86,11 +88,13 @@ class MCSInterface:
 
     def load_scene(self, scene_filename: str):
         action_list_str = self.get_action_list(scene_filename)
+        self.step_number = 0
         img = self._post_step_and_get_image(scene_filename)
         return img, action_list_str
 
     def perform_action(self, key: str):
         action = convert_key_to_action(key, self.logger)
+        self.step_number = self.step_number + 1
         return self._post_step_and_get_image(action)
 
     def _post_step_and_get_image(self, action):
@@ -177,11 +181,11 @@ class MCSInterface:
         [('CloseObject', {}), ('DropObject', {}), ('MoveAhead', {}), ...
         which is not very user-friendly.  For each of them, remove
         the extra quotes"""
-        simple_list_str = scene_filename + ": "
+        actions = []
         if default_action_list is not None and len(default_action_list) > 0:
             for action_pair in default_action_list:
                 if isinstance(action_pair, tuple) and len(action_pair) > 0:
-                    simple_list_str += (" " + action_pair[0])
+                    actions.append(action_pair[0])
                 else:
-                    simple_list_str += (" " + action_pair)
-        return simple_list_str
+                    actions.append(action_pair)
+        return ", ".join(actions)
