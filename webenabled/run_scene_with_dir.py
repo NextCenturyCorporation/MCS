@@ -20,21 +20,13 @@ from os.path import exists
 
 from watchdog.events import PatternMatchingEventHandler
 from watchdog.observers import Observer
+from webenabled_common import LOG_CONFIG
 
 import machine_common_sense as mcs
 from machine_common_sense import StepMetadata
 
-logging_config = mcs.LoggingConfig.get_configurable_logging_config(
-    log_level='DEBUG',
-    logger_names=['run_scene_with_dir'],
-    console=True,
-    debug_file=False,
-    info_file=False,
-    console_format='precise'
-)
-mcs.LoggingConfig.init_logging(log_config=logging_config)
+logging.config.dictConfig(LOG_CONFIG)
 logger = logging.getLogger('run_scene_with_dir')
-LOGGER_PREFIX = "[in run_scene_with_dir]"
 
 
 class RunSceneWithDir:
@@ -47,7 +39,7 @@ class RunSceneWithDir:
 
     def run_loop(self):
         logger.info(
-            f"{LOGGER_PREFIX} Starting controller: watching command directory "
+            f"Starting controller: watching command directory "
             f"{self.command_in_dir[(self.command_in_dir.rfind('/') + 1):]}"
             f", writing to image directory "
             f"{self.image_out_dir[(self.image_out_dir.rfind('/') + 1):]}"
@@ -74,9 +66,7 @@ class RunSceneWithDir:
             while True:
                 time.sleep(1)
         except Exception:
-            logger.exception(
-                f"{LOGGER_PREFIX} Sleep interrupted, stopping observer"
-            )
+            logger.exception("Sleep interrupted, stopping observer")
             observer.stop()
 
         observer.join()
@@ -88,9 +78,7 @@ class RunSceneWithDir:
             file = open(command_text_file, 'x')
             file.close()
         except Exception:
-            logger.exception(
-                f"{LOGGER_PREFIX} Failed to create {command_text_file}"
-            )
+            logger.exception(f"Failed to create {command_text_file}")
 
     def load_command_file(self, command_text_file):
 
@@ -101,9 +89,7 @@ class RunSceneWithDir:
             with open(command_text_file, 'r') as command_file:
                 commands = [line.strip() for line in command_file]
         except Exception:
-            logger.exception(
-                f"{LOGGER_PREFIX} Failed to open {command_text_file}"
-            )
+            logger.exception(f"Failed to open {command_text_file}")
             return
 
         for command in commands:
@@ -120,10 +106,10 @@ class RunSceneWithDir:
                 self.step_and_save(command)
 
     def load_scene(self):
-        logger.info(f"{LOGGER_PREFIX} Loading file {self.scene_file}")
+        logger.info(f"Loading file {self.scene_file}")
 
         if not exists(self.scene_file):
-            logger.warn(f"{LOGGER_PREFIX} Missing file {self.scene_file}")
+            logger.warn(f"Missing file {self.scene_file}")
             return
 
         try:
@@ -132,52 +118,45 @@ class RunSceneWithDir:
             output: StepMetadata = self.controller.start_scene(scene_data)
             self.save_output(output)
         except Exception:
-            logger.exception(
-                f"{LOGGER_PREFIX} Error loading file {self.scene_file}"
-            )
+            logger.exception(f"Error loading file {self.scene_file}")
 
     def step_and_save(self, command):
-        logger.info(f"{LOGGER_PREFIX} Executing command {command}")
+        logger.info(f"Executing command {command}")
         try:
             output: StepMetadata = self.controller.step(command)
             if output is not None:
                 self.save_output(output)
         except Exception:
-            logger.exception(
-                f"{LOGGER_PREFIX} Error executing command {command}"
-            )
+            logger.exception(f"Error executing command {command}")
 
     def save_output(self, output: StepMetadata):
-        logger.info(f"{LOGGER_PREFIX} Saving output step {output.step_number}")
+        logger.info(f"Saving output step {output.step_number}")
         try:
             img_list = output.image_list
             if len(img_list) > 0:
                 img_path = f"{self.image_out_dir}/{str(uuid.uuid4())}.png"
-                logger.info(f"{LOGGER_PREFIX} Saved image to {img_path}")
+                logger.info(
+                    f"Saved RGB image on step {output.step_number} to "
+                    f"{img_path}"
+                )
                 img = img_list[0]
                 img.save(img_path)
                 return img_path
             else:
-                logger.warn(
-                    f"{LOGGER_PREFIX} Missing output image on step "
-                    f"{output.step_number}"
-                )
+                logger.warn(f"Missing RGB image on step {output.step_number}")
         except Exception:
-            logger.exception(
-                f"{LOGGER_PREFIX} Error saving output step "
-                f"{output.step_number}"
-            )
+            logger.exception(f"Error saving output step {output.step_number}")
 
     # ----------------------------------
     # Watchdog functions
     # ----------------------------------
     def on_created(self, event):
-        logger.info(f"{LOGGER_PREFIX} Creation event: {event.src_path}")
+        logger.info(f"Creation event: {event.src_path}")
         self.load_command_file(event.src_path)
         os.unlink(event.src_path)
 
     def on_modified(self, event):
-        logger.info(f"{LOGGER_PREFIX} Modification event: {event.src_path}")
+        logger.info(f"Modification event: {event.src_path}")
         self.load_command_file(event.src_path)
         os.unlink(event.src_path)
 
