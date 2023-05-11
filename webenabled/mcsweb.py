@@ -63,13 +63,13 @@ def get_mcs_interface(request, label):
         else:
             app.logger.info("MCS interface is unavailable")
 
-    # Don't recognize, create new mcs interface
-    mcs_interface = MCSInterface()
-    mcs_interface.start_mcs()
-
     letters = string.ascii_lowercase
     uniq_id_str = ''.join(random.choice(letters) for i in range(10))
     app.logger.info(f"{label}: new user: {uniq_id_str}")
+
+    # Don't recognize, create new mcs interface
+    mcs_interface = MCSInterface(uniq_id_str)
+    mcs_interface.start_mcs()
     session[uniq_id_str] = mcs_interface
 
     return mcs_interface, uniq_id_str

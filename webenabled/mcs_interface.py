@@ -1,3 +1,4 @@
+import datetime
 import glob
 import json
 import os
@@ -38,7 +39,7 @@ class MCSInterface:
     In particular, you cannot include the code from subprocess_runner,
     """
 
-    def __init__(self):
+    def __init__(self, user: str):
         self.logger = current_app.logger
         # TODO FIXME Use the step number from the output metadata.
         self.step_number = 0
@@ -46,10 +47,10 @@ class MCSInterface:
         if not exists(MCS_INTERFACE_TMP_DIR):
             os.mkdir(MCS_INTERFACE_TMP_DIR)
 
-        self.command_out_dir = MCS_INTERFACE_TMP_DIR + \
-            "cmd_" + str(time.time())
-        self.image_in_dir = MCS_INTERFACE_TMP_DIR + \
-            "img_" + str(time.time())
+        time_str = datetime.datetime.now().strftime("%y%m%d_%H%M%S")
+        suffix = f"{time_str}_{user}"
+        self.command_out_dir = f"{MCS_INTERFACE_TMP_DIR}cmd_{suffix}"
+        self.image_in_dir = f"{MCS_INTERFACE_TMP_DIR}img_{suffix}"
         if not exists(self.command_out_dir):
             os.mkdir(self.command_out_dir)
         if not exists(self.image_in_dir):
