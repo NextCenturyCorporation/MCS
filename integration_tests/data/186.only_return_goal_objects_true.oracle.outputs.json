@@ -1,1312 +1,322 @@
 ﻿[
     {
+        "head_tilt": 40,
         "objects": [
             {
+                "direction_x": -0.45,
+                "direction_y": -0.58,
+                "direction_z": 0.68,
+                "distance": 1.06,
+                "held": false,
                 "id": "a9b7bbb2-107e-4ed2-b2cf-b789f288396c",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -6.591,
-                            "y": 0.1536,
-                            "z": -5.2412
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 45.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
+                "mass": 1.4,
+                "position_x": -5.5,
+                "position_z": -3.25,
+                "shape": "ball",
+                "visible": true
             },
             {
+                "direction_x": -0.28,
+                "direction_y": -0.76,
+                "direction_z": 0.59,
+                "distance": 0.8,
+                "held": false,
                 "id": "1244a5fc-dfb9-48ba-a2b9-ec88b89bfbe1",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -5.7603,
-                            "y": 0.1536,
-                            "z": 0.2543
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 180.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
+                "mass": 1.4,
+                "position_x": -5.25,
+                "position_z": -3.5,
+                "shape": "ball",
+                "visible": true
             },
             {
+                "direction_x": 0.03,
+                "direction_y": -0.64,
+                "direction_z": 0.76,
+                "distance": 0.95,
+                "held": false,
                 "id": "755a6b61-523a-47ee-8704-50fe856ff178",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -10.8063,
-                            "y": 0.1536,
-                            "z": 0.2367
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 225.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
+                "mass": 1.4,
+                "position_x": -5.0,
+                "position_z": -3.25,
+                "shape": "ball",
+                "visible": true
             },
             {
+                "direction_x": 0.34,
+                "direction_y": -0.74,
+                "direction_z": 0.58,
+                "distance": 0.82,
+                "held": false,
                 "id": "460d9b68-63ca-433c-8b7d-84ae1d50c1ee",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -3.8366,
-                            "y": 0.1536,
-                            "z": -3.3044
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 45.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
+                "mass": 1.4,
+                "position_x": -4.75,
+                "position_z": -3.5,
+                "shape": "ball",
+                "visible": true
             }
         ],
         "objects_count": 4,
         "position_x": -5.028800010681152,
-        "position_z": -3.9728000164031982
+        "position_z": -3.9728000164031982,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 0,
+        "structural_objects_count": 6
     },
     {
+        "head_tilt": 40,
         "objects": [
             {
+                "direction_x": 0.0,
+                "direction_y": -0.51,
+                "direction_z": 0.86,
+                "distance": 0.46,
+                "held": true,
                 "id": "a9b7bbb2-107e-4ed2-b2cf-b789f288396c",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -6.591,
-                            "y": 0.1536,
-                            "z": -5.2412
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 45.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
+                "mass": 1.4,
+                "position_x": -5.03,
+                "position_z": -3.58,
+                "shape": "ball",
+                "visible": true
             },
             {
+                "direction_x": -0.28,
+                "direction_y": -0.76,
+                "direction_z": 0.59,
+                "distance": 0.8,
+                "held": false,
                 "id": "1244a5fc-dfb9-48ba-a2b9-ec88b89bfbe1",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -5.7603,
-                            "y": 0.1536,
-                            "z": 0.2543
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 180.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
+                "mass": 1.4,
+                "position_x": -5.25,
+                "position_z": -3.5,
+                "shape": "ball",
+                "visible": true
             },
             {
+                "direction_x": 0.03,
+                "direction_y": -0.64,
+                "direction_z": 0.76,
+                "distance": 0.95,
+                "held": false,
                 "id": "755a6b61-523a-47ee-8704-50fe856ff178",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -10.8063,
-                            "y": 0.1536,
-                            "z": 0.2367
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 225.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
+                "mass": 1.4,
+                "position_x": -5.0,
+                "position_z": -3.25,
+                "shape": "ball",
+                "visible": true
             },
             {
+                "direction_x": 0.34,
+                "direction_y": -0.74,
+                "direction_z": 0.58,
+                "distance": 0.82,
+                "held": false,
                 "id": "460d9b68-63ca-433c-8b7d-84ae1d50c1ee",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -3.8366,
-                            "y": 0.1536,
-                            "z": -3.3044
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 45.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
+                "mass": 1.4,
+                "position_x": -4.75,
+                "position_z": -3.5,
+                "shape": "ball",
+                "visible": true
             }
         ],
         "objects_count": 4,
         "position_x": -5.028800010681152,
-        "position_z": -3.87280011177063
+        "position_z": -3.9728000164031982,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 1,
+        "structural_objects_count": 6
     },
     {
+        "head_tilt": 40,
         "objects": [
             {
+                "direction_x": 0.0,
+                "direction_y": -0.51,
+                "direction_z": 0.86,
+                "distance": 0.46,
+                "held": true,
                 "id": "a9b7bbb2-107e-4ed2-b2cf-b789f288396c",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -6.591,
-                            "y": 0.1536,
-                            "z": -5.2412
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 45.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
+                "mass": 1.4,
+                "position_x": -5.03,
+                "position_z": -3.58,
+                "shape": "ball",
+                "visible": true
             },
             {
+                "direction_x": 0.0,
+                "direction_y": -0.51,
+                "direction_z": 0.86,
+                "distance": 0.46,
+                "held": true,
                 "id": "1244a5fc-dfb9-48ba-a2b9-ec88b89bfbe1",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -5.7603,
-                            "y": 0.1536,
-                            "z": 0.2543
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 180.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
+                "mass": 1.4,
+                "position_x": -5.03,
+                "position_z": -3.58,
+                "shape": "ball",
+                "visible": true
             },
             {
+                "direction_x": 0.03,
+                "direction_y": -0.64,
+                "direction_z": 0.76,
+                "distance": 0.95,
+                "held": false,
                 "id": "755a6b61-523a-47ee-8704-50fe856ff178",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -10.8063,
-                            "y": 0.1536,
-                            "z": 0.2367
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 225.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
+                "mass": 1.4,
+                "position_x": -5.0,
+                "position_z": -3.25,
+                "shape": "ball",
+                "visible": true
             },
             {
+                "direction_x": 0.34,
+                "direction_y": -0.74,
+                "direction_z": 0.58,
+                "distance": 0.82,
+                "held": false,
                 "id": "460d9b68-63ca-433c-8b7d-84ae1d50c1ee",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -3.8366,
-                            "y": 0.1536,
-                            "z": -3.3044
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 45.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
+                "mass": 1.4,
+                "position_x": -4.75,
+                "position_z": -3.5,
+                "shape": "ball",
+                "visible": true
             }
         ],
         "objects_count": 4,
         "position_x": -5.028800010681152,
-        "position_z": -3.87
+        "position_z": -3.9728000164031982,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 2,
+        "structural_objects_count": 6
     },
     {
+        "head_tilt": 40,
         "objects": [
             {
+                "direction_x": 0.0,
+                "direction_y": -0.51,
+                "direction_z": 0.86,
+                "distance": 0.46,
+                "held": true,
                 "id": "a9b7bbb2-107e-4ed2-b2cf-b789f288396c",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -6.591,
-                            "y": 0.1536,
-                            "z": -5.2412
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 45.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
+                "mass": 1.4,
+                "position_x": -5.03,
+                "position_z": -3.58,
+                "shape": "ball",
+                "visible": true
             },
             {
+                "direction_x": 0.0,
+                "direction_y": -0.51,
+                "direction_z": 0.86,
+                "distance": 0.46,
+                "held": true,
                 "id": "1244a5fc-dfb9-48ba-a2b9-ec88b89bfbe1",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -5.7603,
-                            "y": 0.1536,
-                            "z": 0.2543
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 180.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
+                "mass": 1.4,
+                "position_x": -5.03,
+                "position_z": -3.58,
+                "shape": "ball",
+                "visible": true
             },
             {
+                "direction_x": 0.0,
+                "direction_y": -0.51,
+                "direction_z": 0.86,
+                "distance": 0.46,
+                "held": true,
                 "id": "755a6b61-523a-47ee-8704-50fe856ff178",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -10.8063,
-                            "y": 0.1536,
-                            "z": 0.2367
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 225.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
+                "mass": 1.4,
+                "position_x": -5.03,
+                "position_z": -3.58,
+                "shape": "ball",
+                "visible": true
             },
             {
+                "direction_x": 0.34,
+                "direction_y": -0.74,
+                "direction_z": 0.58,
+                "distance": 0.82,
+                "held": false,
                 "id": "460d9b68-63ca-433c-8b7d-84ae1d50c1ee",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -3.8366,
-                            "y": 0.1536,
-                            "z": -3.3044
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 45.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
+                "mass": 1.4,
+                "position_x": -4.75,
+                "position_z": -3.5,
+                "shape": "ball",
+                "visible": true
             }
         ],
         "objects_count": 4,
         "position_x": -5.028800010681152,
-        "position_z": -3.87280011177063
+        "position_z": -3.9728000164031982,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 3,
+        "structural_objects_count": 6
     },
     {
+        "head_tilt": 40,
         "objects": [
             {
+                "direction_x": 0.0,
+                "direction_y": -0.51,
+                "direction_z": 0.86,
+                "distance": 0.46,
+                "held": true,
                 "id": "a9b7bbb2-107e-4ed2-b2cf-b789f288396c",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -6.591,
-                            "y": 0.1536,
-                            "z": -5.2412
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 45.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
+                "mass": 1.4,
+                "position_x": -5.03,
+                "position_z": -3.58,
+                "shape": "ball",
+                "visible": true
             },
             {
+                "direction_x": 0.0,
+                "direction_y": -0.51,
+                "direction_z": 0.86,
+                "distance": 0.46,
+                "held": true,
                 "id": "1244a5fc-dfb9-48ba-a2b9-ec88b89bfbe1",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -5.7603,
-                            "y": 0.1536,
-                            "z": 0.2543
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 180.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
+                "mass": 1.4,
+                "position_x": -5.03,
+                "position_z": -3.58,
+                "shape": "ball",
+                "visible": true
             },
             {
+                "direction_x": 0.0,
+                "direction_y": -0.51,
+                "direction_z": 0.86,
+                "distance": 0.46,
+                "held": true,
                 "id": "755a6b61-523a-47ee-8704-50fe856ff178",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -10.8063,
-                            "y": 0.1536,
-                            "z": 0.2367
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 225.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
+                "mass": 1.4,
+                "position_x": -5.03,
+                "position_z": -3.58,
+                "shape": "ball",
+                "visible": true
             },
             {
+                "direction_x": 0.0,
+                "direction_y": -0.51,
+                "direction_z": 0.86,
+                "distance": 0.46,
+                "held": true,
                 "id": "460d9b68-63ca-433c-8b7d-84ae1d50c1ee",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -3.8366,
-                            "y": 0.1536,
-                            "z": -3.3044
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 45.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
+                "mass": 1.4,
+                "position_x": -5.03,
+                "position_z": -3.58,
+                "shape": "ball",
+                "visible": true
             }
         ],
         "objects_count": 4,
         "position_x": -5.028800010681152,
-        "position_z": -3.87
-    },
-    {
-        "objects": [
-            {
-                "id": "a9b7bbb2-107e-4ed2-b2cf-b789f288396c",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -6.591,
-                            "y": 0.1536,
-                            "z": -5.2412
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 45.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
-            },
-            {
-                "id": "1244a5fc-dfb9-48ba-a2b9-ec88b89bfbe1",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -5.7603,
-                            "y": 0.1536,
-                            "z": 0.2543
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 180.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
-            },
-            {
-                "id": "755a6b61-523a-47ee-8704-50fe856ff178",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -10.8063,
-                            "y": 0.1536,
-                            "z": 0.2367
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 225.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
-            },
-            {
-                "id": "460d9b68-63ca-433c-8b7d-84ae1d50c1ee",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -3.8366,
-                            "y": 0.1536,
-                            "z": -3.3044
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 45.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
-            }
-        ],
-        "objects_count": 4,
-        "position_x": -5.028800010681152,
-        "position_z": -3.87280011177063
-    },
-    {
-        "objects": [
-            {
-                "id": "a9b7bbb2-107e-4ed2-b2cf-b789f288396c",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -6.591,
-                            "y": 0.1536,
-                            "z": -5.2412
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 45.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
-            },
-            {
-                "id": "1244a5fc-dfb9-48ba-a2b9-ec88b89bfbe1",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -5.7603,
-                            "y": 0.1536,
-                            "z": 0.2543
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 180.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
-            },
-            {
-                "id": "755a6b61-523a-47ee-8704-50fe856ff178",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -10.8063,
-                            "y": 0.1536,
-                            "z": 0.2367
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 225.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
-            },
-            {
-                "id": "460d9b68-63ca-433c-8b7d-84ae1d50c1ee",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -3.8366,
-                            "y": 0.1536,
-                            "z": -3.3044
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 45.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
-            }
-        ],
-        "objects_count": 4,
-        "position_x": -5.028800010681152,
-        "position_z": -3.87
-    },
-    {
-        "objects": [
-            {
-                "id": "a9b7bbb2-107e-4ed2-b2cf-b789f288396c",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -6.591,
-                            "y": 0.1536,
-                            "z": -5.2412
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 45.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
-            },
-            {
-                "id": "1244a5fc-dfb9-48ba-a2b9-ec88b89bfbe1",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -5.7603,
-                            "y": 0.1536,
-                            "z": 0.2543
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 180.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
-            },
-            {
-                "id": "755a6b61-523a-47ee-8704-50fe856ff178",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -10.8063,
-                            "y": 0.1536,
-                            "z": 0.2367
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 225.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
-            },
-            {
-                "id": "460d9b68-63ca-433c-8b7d-84ae1d50c1ee",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -3.8366,
-                            "y": 0.1536,
-                            "z": -3.3044
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 45.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
-            }
-        ],
-        "objects_count": 4,
-        "position_x": -5.028800010681152,
-        "position_z": -3.87280011177063
-    },
-    {
-        "objects": [
-            {
-                "id": "a9b7bbb2-107e-4ed2-b2cf-b789f288396c",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -6.591,
-                            "y": 0.1536,
-                            "z": -5.2412
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 45.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
-            },
-            {
-                "id": "1244a5fc-dfb9-48ba-a2b9-ec88b89bfbe1",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -5.7603,
-                            "y": 0.1536,
-                            "z": 0.2543
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 180.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
-            },
-            {
-                "id": "755a6b61-523a-47ee-8704-50fe856ff178",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -10.8063,
-                            "y": 0.1536,
-                            "z": 0.2367
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 225.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
-            },
-            {
-                "id": "460d9b68-63ca-433c-8b7d-84ae1d50c1ee",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -3.8366,
-                            "y": 0.1536,
-                            "z": -3.3044
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 45.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
-            }
-        ],
-        "objects_count": 4,
-        "position_x": -5.028800010681152,
-        "position_z": -3.87
-    },
-    {
-        "objects": [
-            {
-                "id": "a9b7bbb2-107e-4ed2-b2cf-b789f288396c",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -6.591,
-                            "y": 0.1536,
-                            "z": -5.2412
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 45.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
-            },
-            {
-                "id": "1244a5fc-dfb9-48ba-a2b9-ec88b89bfbe1",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -5.7603,
-                            "y": 0.1536,
-                            "z": 0.2543
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 180.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
-            },
-            {
-                "id": "755a6b61-523a-47ee-8704-50fe856ff178",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -10.8063,
-                            "y": 0.1536,
-                            "z": 0.2367
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 225.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
-            },
-            {
-                "id": "460d9b68-63ca-433c-8b7d-84ae1d50c1ee",
-                "mass": 1.3968,
-                "materials": [],
-                "moveable": true,
-                "pickupable": true,
-                "salientMaterials": [
-                    "rubber"
-                ],
-                "shows": [
-                    {
-                        "position": {
-                            "x": -3.8366,
-                            "y": 0.1536,
-                            "z": -3.3044
-                        },
-                        "rotation": {
-                            "x": 0.0,
-                            "y": 45.0,
-                            "z": 0.0
-                        },
-                        "scale": {
-                            "x": 1.3968,
-                            "y": 1.3968,
-                            "z": 1.3968
-                        },
-                        "stepBegin": 0
-                    }
-                ],
-                "type": "soccer_ball"
-            }
-        ],
-        "objects_count": 4,
-        "position_x": -5.028800010681152,
-        "position_z": -3.87280011177063
+        "position_z": -3.9728000164031982,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 0,
+        "step_number": 4,
+        "structural_objects_count": 6
     }
 ]
