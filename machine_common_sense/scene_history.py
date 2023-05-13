@@ -48,7 +48,7 @@ class SceneHistory(object):
         yield 'confidence', self.confidence
         yield 'violations_xy_list', self.violations_xy_list
         yield 'internal_state', self.internal_state
-        yield 'output', dict(self.output) if(
+        yield 'output', dict(self.output) if (
             self.output) is not None else self.output
         yield 'delta_time_millis', self.delta_time_millis
         yield 'target_visible', self.target_visible
