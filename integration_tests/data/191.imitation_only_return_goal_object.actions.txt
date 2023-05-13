@@ -1,0 +1,2 @@
+﻿LookDown
+PickupObject,objectId=soccer_ball_1
