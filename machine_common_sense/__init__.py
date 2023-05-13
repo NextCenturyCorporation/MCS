@@ -30,10 +30,6 @@ logger = logging.getLogger(__name__)
 # Set default logging handler to avoid "No handler found" warnings
 logger.addHandler(logging.NullHandler())
 
-# Timeout at 3 minutes (180 seconds).  It was 60 seconds but
-# this can cause timeouts on EC2 instances
-TIME_LIMIT_SECONDS = 180
-
 
 def get_controller(unity_exec: str, config: ConfigManager):
     """Function to get the controller, pulled into its own
@@ -48,7 +44,7 @@ def get_controller_with_timeout(unity_exec: str, config: ConfigManager):
     with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
         future = executor.submit(get_controller, unity_exec, config)
         try:
-            controller = future.result(timeout=TIME_LIMIT_SECONDS)
+            controller = future.result(timeout=config.get_controller_timeout())
             return controller
         except concurrent.futures.TimeoutError as Msg:
             logger.error("Timeout error in creating controller", exc_info=Msg)
