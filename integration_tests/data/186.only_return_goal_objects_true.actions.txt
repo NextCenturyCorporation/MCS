@@ -1,1 +1,4 @@
-MoveAhead
+PickupObject,objectId=a9b7bbb2-107e-4ed2-b2cf-b789f288396c
+PickupObject,objectId=1244a5fc-dfb9-48ba-a2b9-ec88b89bfbe1
+PickupObject,objectId=755a6b61-523a-47ee-8704-50fe856ff178
+PickupObject,objectId=460d9b68-63ca-433c-8b7d-84ae1d50c1ee
