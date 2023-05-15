@@ -2,12 +2,19 @@
 
 ## Install
 
-First check out the project.  Then run the following commands to set up the environment.
+First, "git clone" this repository. Then run the following commands from this folder to setup your python environment:
 
 ```
-python -m venv venv
+python -m venv --prompt webenabled venv
 source venv/bin/activate
+python -m pip install --upgrade pip setuptools wheel
 python -m pip install -r requirements.txt
+```
+
+If you are a developer for this software, we recommend you install the machine_common_sense library in editable mode:
+
+```
+python -m pip install -e ../
 ```
 
 ## Scene Files
