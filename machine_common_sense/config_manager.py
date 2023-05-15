@@ -340,6 +340,7 @@ class ConfigManager:
     CONFIG_TIMEOUT = 'timeout'
     CONFIG_TOP_DOWN_PLOTTER = 'top_down_plotter'
     CONFIG_TOP_DOWN_CAMERA = 'top_down_camera'
+    CONFIG_CONTROLLER_TIMEOUT = 'controller_timeout'
     CONFIG_VIDEO_ENABLED = 'video_enabled'
 
     # Please keep the aspect ratio as 3:2 because the IntPhys scenes are built
@@ -353,6 +354,9 @@ class ConfigManager:
     # Default time to allow on a single step before timing out
     # is 1 hour (represented in seconds)
     TIMEOUT_DEFAULT = 3600
+
+    # Default time for initalizing a controller.
+    CONTROLLER_TIMEOUT_DEFAULT = 180
 
     def __init__(self, config_file_or_dict=None):
         '''
@@ -571,6 +575,24 @@ class ConfigManager:
             fallback=self.STEPS_ALLOWED_IN_LAVA_DEFAULT
         )
 
+    def get_controller_timeout(self):
+        """ Time (in seconds) to allow a run to be idle
+        before attempting to end scene"""
+        return self._config.getint(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_CONTROLLER_TIMEOUT,
+            fallback=self.CONTROLLER_TIMEOUT_DEFAULT
+        )
+
+    def set_controller_timeout(self, seconds):
+        """ Time (in seconds) to allow a controller to initialization
+        before attempting to end scene"""
+        return self._config.set(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_CONTROLLER_TIMEOUT,
+            seconds
+        )
+
     def get_timeout(self):
         """ Time (in seconds) to allow a run to be idle
         before attempting to end scene"""
@@ -578,6 +600,15 @@ class ConfigManager:
             self.CONFIG_DEFAULT_SECTION,
             self.CONFIG_TIMEOUT,
             fallback=self.TIMEOUT_DEFAULT
+        )
+
+    def set_timeout(self, seconds):
+        """ Setting the time (in seconds) to allow a run to be idle
+        before attempting to end scene"""
+        return self._config.set(
+            self.CONFIG_DEFAULT_SECTION,
+            self.CONFIG_TIMEOUT,
+            seconds
         )
 
     def is_top_down_plotter(self) -> bool:
@@ -694,6 +725,7 @@ class SceneConfiguration(BaseModel):
             ))
 
         goal = self.goal
+        goal.metadata = goal.metadata or {}
 
         # Transform action list data from strings to tuples.
         action_list = goal.action_list or []

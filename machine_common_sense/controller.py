@@ -297,8 +297,7 @@ class Controller():
             return config_data
         return SceneConfiguration(**config_data)
 
-    @typeguard.typechecked
-    def step(self, action: str, **kwargs) -> Optional[StepMetadata]:
+    def step(self, action: str, **kwargs: str) -> Optional[StepMetadata]:
         """
         Runs the given action within the current scene.
 

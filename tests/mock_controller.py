@@ -75,7 +75,7 @@ class MockControllerAI2THOR(Controller):
         check_config_path = os.getenv(
             ConfigManager.CONFIG_FILE_ENV_VAR, None)
 
-        if(check_config_path is not None):
+        if (check_config_path is not None):
             os.environ.pop(ConfigManager.CONFIG_FILE_ENV_VAR)
 
         self._subscribers = []

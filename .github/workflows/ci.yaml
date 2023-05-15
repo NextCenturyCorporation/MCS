@@ -15,12 +15,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
-      - name: Install Python 3
-        uses: actions/setup-python@v2
+        uses: actions/checkout@v3
+      - name: Install Python 3.7
+        uses: actions/setup-python@v4
         with:
           python-version: 3.7
-      - name: Install dependencies
+      - name: Install pip dependencies
         # Need to explicitly install requirementslib==1.6.9 here
         # so that later isort step works
         run: |
@@ -28,7 +28,7 @@ jobs:
           python -m pip install -r requirements.txt
       - name: Run unit tests
         run: python -m unittest
-      - name: Run isort
+      - name: Isort
         uses: isort/isort-action@v1.0.0
       - name: Flake8
         run: flake8
