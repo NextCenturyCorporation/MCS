@@ -6536,8 +6536,7 @@
                 "shape": "chest",
                 "texture_color_list": [
                     "green"
-                ],
-                "visible": true
+                ]
             },
             {
                 "direction_x": 0.69,
