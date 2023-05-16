@@ -5034,8 +5034,7 @@
                 "shape": "chest",
                 "texture_color_list": [
                     "yellow"
-                ],
-                "visible": false
+                ]
             },
             {
                 "direction_x": 0.32,
@@ -5169,8 +5168,7 @@
                 "shape": "chest",
                 "texture_color_list": [
                     "yellow"
-                ],
-                "visible": false
+                ]
             },
             {
                 "direction_x": 0.34,
@@ -5304,8 +5302,7 @@
                 "shape": "chest",
                 "texture_color_list": [
                     "yellow"
-                ],
-                "visible": true
+                ]
             },
             {
                 "direction_x": 0.35,
@@ -7329,8 +7326,7 @@
                 "shape": "chest",
                 "texture_color_list": [
                     "yellow"
-                ],
-                "visible": true
+                ]
             },
             {
                 "direction_x": 0.66,
@@ -7464,8 +7460,7 @@
                 "shape": "chest",
                 "texture_color_list": [
                     "yellow"
-                ],
-                "visible": false
+                ]
             },
             {
                 "direction_x": 0.67,
@@ -7599,8 +7594,7 @@
                 "shape": "chest",
                 "texture_color_list": [
                     "yellow"
-                ],
-                "visible": false
+                ]
             },
             {
                 "direction_x": 0.68,
