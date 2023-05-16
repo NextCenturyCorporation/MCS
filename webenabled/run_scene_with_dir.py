@@ -15,7 +15,6 @@ import argparse
 import logging
 import os
 import time
-import uuid
 from os.path import exists
 
 from watchdog.events import PatternMatchingEventHandler
@@ -131,10 +130,16 @@ class RunSceneWithDir:
 
     def save_output(self, output: StepMetadata):
         logger.info(f"Saving output step {output.step_number}")
+        scene_id = self.scene_file[
+            (self.scene_file.rfind('/') + 1):(self.scene_file.rfind('.'))
+        ]
         try:
             img_list = output.image_list
             if len(img_list) > 0:
-                img_path = f"{self.image_out_dir}/{str(uuid.uuid4())}.png"
+                img_path = (
+                    f'{self.image_out_dir}/rgb_{scene_id}_step_'
+                    f'{output.step_number}.png'
+                )
                 logger.info(
                     f"Saved RGB image on step {output.step_number} to "
                     f"{img_path}"
@@ -151,12 +156,12 @@ class RunSceneWithDir:
     # Watchdog functions
     # ----------------------------------
     def on_created(self, event):
-        logger.info(f"Creation event: {event.src_path}")
+        logger.info(f"File creation: {event.src_path}")
         self.load_command_file(event.src_path)
         os.unlink(event.src_path)
 
     def on_modified(self, event):
-        logger.info(f"Modification event: {event.src_path}")
+        logger.info(f"File modified: {event.src_path}")
         self.load_command_file(event.src_path)
         os.unlink(event.src_path)
 

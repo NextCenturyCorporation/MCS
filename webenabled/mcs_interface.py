@@ -3,7 +3,6 @@ import glob
 import json
 import os
 import time
-import uuid
 from os.path import exists
 
 from flask import current_app
@@ -43,6 +42,7 @@ class MCSInterface:
         self.logger = current_app.logger
         # TODO FIXME Use the step number from the output metadata.
         self.step_number = 0
+        self.scene_id = None
 
         if not exists(MCS_INTERFACE_TMP_DIR):
             os.mkdir(MCS_INTERFACE_TMP_DIR)
@@ -90,6 +90,9 @@ class MCSInterface:
     def load_scene(self, scene_filename: str):
         action_list_str = self.get_action_list(scene_filename)
         self.step_number = 0
+        self.scene_id = scene_filename[
+            (scene_filename.rfind('/') + 1):(scene_filename.rfind('.'))
+        ]
         img = self._post_step_and_get_image(scene_filename)
         return img, action_list_str
 
@@ -99,8 +102,10 @@ class MCSInterface:
         return self._post_step_and_get_image(action)
 
     def _post_step_and_get_image(self, action):
-        command_file_name = self.command_out_dir + \
-            "/command_" + str(uuid.uuid4()) + ".txt"
+        command_file_name = (
+            f'{self.command_out_dir}/command_{self.scene_id}_step_'
+            f'{self.step_number}.txt'
+        )
         f = open(command_file_name, "a")
         f.write(action)
         f.close()
@@ -119,7 +124,7 @@ class MCSInterface:
                 self.img_name = self.blank_path
                 return self.img_name
 
-            list_of_files = glob.glob(self.image_in_dir + "/*.png")
+            list_of_files = glob.glob(self.image_in_dir + "/rgb_*.png")
             if len(list_of_files) > 0:
                 latest_file = max(list_of_files, key=os.path.getctime)
 
