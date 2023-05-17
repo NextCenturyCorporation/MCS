@@ -24,9 +24,9 @@
             },
             {
                 "direction_x": 0,
-                "direction_y": -0.93,
-                "direction_z": 0.38,
-                "distance": 0.72,
+                "direction_y": -0.95,
+                "direction_z": 0.32,
+                "distance": 0.73,
                 "held": false,
                 "id": "small_ball",
                 "mass": 1.0,
@@ -34,7 +34,7 @@
                     "PLASTIC"
                 ],
                 "position_x": 0,
-                "position_z": 0.27,
+                "position_z": 0.23,
                 "rotation_y": 0,
                 "shape": "ball",
                 "texture_color_list": [
@@ -5945,7 +5945,7 @@
             {
                 "direction_x": 0.0,
                 "direction_y": -0.91,
-                "direction_z": 0.42,
+                "direction_z": 0.41,
                 "distance": 0.76,
                 "held": false,
                 "id": "small_ball",
@@ -6019,7 +6019,7 @@
             {
                 "direction_x": 0.0,
                 "direction_y": -0.91,
-                "direction_z": 0.42,
+                "direction_z": 0.41,
                 "distance": 0.76,
                 "held": false,
                 "id": "small_ball",
@@ -6093,7 +6093,7 @@
             {
                 "direction_x": 0.0,
                 "direction_y": -0.91,
-                "direction_z": 0.42,
+                "direction_z": 0.41,
                 "distance": 0.76,
                 "held": false,
                 "id": "small_ball",
@@ -6167,7 +6167,7 @@
             {
                 "direction_x": 0.0,
                 "direction_y": -0.91,
-                "direction_z": 0.42,
+                "direction_z": 0.41,
                 "distance": 0.76,
                 "held": false,
                 "id": "small_ball",
@@ -6241,7 +6241,7 @@
             {
                 "direction_x": 0.0,
                 "direction_y": -0.91,
-                "direction_z": 0.42,
+                "direction_z": 0.41,
                 "distance": 0.76,
                 "held": false,
                 "id": "small_ball",
@@ -6315,7 +6315,7 @@
             {
                 "direction_x": 0.0,
                 "direction_y": -0.91,
-                "direction_z": 0.42,
+                "direction_z": 0.41,
                 "distance": 0.76,
                 "held": false,
                 "id": "small_ball",
