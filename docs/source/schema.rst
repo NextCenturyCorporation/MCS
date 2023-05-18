@@ -2289,7 +2289,7 @@ Furniture Objects
 Tool Objects
 -------------
 
-All of the tools have the `tool` shape, `metal` material, `moveable` and `receptacle` attributes, and the same grey and black colors/textures.
+All the tools have the `tool` shape, `metal` salient material, `moveable` and `receptacle` attributes, and default to the same grey texture, though can be assigned any :ref:`tool material <Tool Materials>` using their `"materials"` property.
 
 .. list-table::
     :header-rows: 1
@@ -3069,6 +3069,14 @@ Specific textures for `sofa_4`, `sofa_5`, `sofa_6`, AND `sofa_7` only.
 - `"AI2-THOR/Objects/Physics/SimObjsPhysics/THORKEA Objects/THORKEA_Assets_Furniture/Sofa/Materials/THORKEA_Sofa_Kramfors_Fabric_Mat"`
 - `"AI2-THOR/Objects/Physics/SimObjsPhysics/THORKEA Objects/THORKEA_Assets_Furniture/Sofa/Materials/THORKEA_Sofa_Solsta_Fabric_Mat"`
 - `"AI2-THOR/Objects/Physics/SimObjsPhysics/THORKEA Objects/THORKEA_Assets_Furniture/Sofa/Materials/THORKEA_Sofa_Vreta_Fabric_Mat"`
+
+Tool Materials
+**************
+
+- `"UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_13"` (grey)
+- `"UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_15"` (brown)
+- `"UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_34"` (pink)
+- `"UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_36"` (green)
 
 Wall Materials
 **************
