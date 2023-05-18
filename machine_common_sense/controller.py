@@ -151,9 +151,9 @@ class Controller():
         self._timer_in_progress = False
         timeout_seconds = self._config.get_timeout()
 
-        if(self._last_step_check < self.__step_number):
+        if (self._last_step_check < self.__step_number):
             # skip step check for Initialize step
-            if(self.__step_number != 0):
+            if (self.__step_number != 0):
                 self._last_step_check = self.__step_number
 
             timer_seconds = timeout_seconds - \
@@ -165,9 +165,10 @@ class Controller():
             self._timer_in_progress = True
         else:
             time_str = str(datetime.timedelta(seconds=timeout_seconds))
-            logger.debug(
+            logger.warning(
                 f"Attempting to end scene due to inactivity (user not taking"
-                f" any steps) for {time_str} (hh:mm:ss)")
+                f" any steps). Currently this polls for step progress "
+                f"every {time_str} (hh:mm:ss)")
             self.end_scene(rating=None, score=-1)
 
             _thread.interrupt_main()
@@ -275,7 +276,7 @@ class Controller():
 
             # TODO Should this be in the if block?  Now that we are using
             # subscribers, we may want to always register
-            if(self._failure_handler_registered is False and
+            if (self._failure_handler_registered is False and
                     self._config.is_history_enabled()):
                 # make sure history file is written when program exits
                 atexit.register(self.end_scene, rating=None, score=-1)
@@ -502,7 +503,7 @@ class Controller():
             }
 
         """
-        if(not self._end_scene_called):
+        if (not self._end_scene_called):
             payload = self._create_event_payload_kwargs()
             payload['rating'] = rating
             payload['score'] = score

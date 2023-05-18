@@ -93,6 +93,7 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "distance": 1.5,
                     "distanceXZ": 1.1,
                     "isPickedUp": False,
+                    "wasPickedUp": False,
                     "mass": 12.34,
                     "objectBounds": {
                         "objectBoundsCorners": [
@@ -136,6 +137,7 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "distance": 2.5,
                     "distanceXZ": 2.0,
                     "isPickedUp": False,
+                    "wasPickedUp": False,
                     "mass": 34.56,
                     "objectBounds": {
                         "objectBoundsCorners": [
@@ -180,6 +182,7 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "distance": 2.5,
                     "distanceXZ": 2.2,
                     "isPickedUp": False,
+                    "wasPickedUp": False,
                     "mass": 56.78,
                     "objectBounds": {
                         "objectBoundsCorners": [
@@ -223,6 +226,7 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "distance": 3.5,
                     "distanceXZ": 3.3,
                     "isPickedUp": False,
+                    "wasPickedUp": False,
                     "mass": 78.90,
                     "objectBounds": {
                         "objectBoundsCorners": [
@@ -280,6 +284,7 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "distance": 0,
                     "distanceXZ": 0,
                     "isPickedUp": True,
+                    "wasPickedUp": True,
                     "mass": 1,
                     "objectId": "testId1",
                     "position": {
@@ -311,6 +316,7 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "distance": 1.5,
                     "distanceXZ": 1.1,
                     "isPickedUp": False,
+                    "wasPickedUp": False,
                     "mass": 12.34,
                     "objectBounds": {
                         "objectBoundsCorners": [
@@ -354,6 +360,7 @@ class TestControllerOutputHandler(unittest.TestCase):
                     "distance": 2.5,
                     "distanceXZ": 2,
                     "isPickedUp": False,
+                    "wasPickedUp": False,
                     "mass": 34.56,
                     "objectBounds": {
                         "objectBoundsCorners": [
@@ -613,9 +620,9 @@ class TestControllerOutputHandler(unittest.TestCase):
 
         # IF we are at default level, shouldn't depth maps, object masks be
         # restricted?
-        self.assertEqual(len(actual.depth_map_list), 0)
+        self.assertEqual(len(actual.depth_map_list), 1)
         self.assertEqual(len(actual.image_list), 1)
-        self.assertEqual(len(actual.object_mask_list), 0)
+        self.assertEqual(len(actual.object_mask_list), 1)
         '''numpy.testing.assert_almost_equal(
             numpy.array(actual.depth_map_list[0]),
             numpy.array([[30, 60], [90, 120]], dtype=numpy.float32),
