@@ -378,9 +378,9 @@ class Parameter:
         )
 
     def _validate_and_convert_params(self, **kwargs) -> Tuple[Action, Dict]:
-        """Need a validation/conversion step for what ai2thor will accept as input
-        to keep parameters more simple for the user (in this case, wrapping
-        rotation degrees into an object)
+        """Need a validation/conversion step for what ai2thor will accept as
+        input to keep parameters more simple for the user (in this case,
+        wrapping rotation degrees into an object)
         """
         action = Action(kwargs.get('action'))
         kwargs.pop('action')

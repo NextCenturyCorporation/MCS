@@ -1,30 +1,17 @@
+import logging
 import random
 import string
-from logging.config import dictConfig
 
 from flask import (Flask, jsonify, make_response, render_template, request,
                    session)
 # See: https://www.geeksforgeeks.org/how-to-use-flask-session-in-python-flask/
 from flask_session import Session
 from mcs_interface import MCSInterface
+from webenabled_common import LOG_CONFIG
 
 # Configure logging _before_ creating the app oject
 # https://flask.palletsprojects.com/en/2.0.x/logging/
-dictConfig({
-    'version': 1,
-    'formatters': {'default': {
-        'format': '[%(asctime)s] %(levelname)s in %(module)s: %(message)s',
-    }},
-    'handlers': {'wsgi': {
-        'class': 'logging.StreamHandler',
-        'stream': 'ext://flask.logging.wsgi_errors_stream',
-        'formatter': 'default'
-    }},
-    'root': {
-        'level': 'INFO',
-        'handlers': ['wsgi']
-    }
-})
+logging.config.dictConfig(LOG_CONFIG)
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
@@ -47,26 +34,21 @@ def clean_request_data(response):
     return data
 
 
-def get_mcs_interface(request):
+def get_mcs_interface(request, label):
     # Do we know who this is?
     uniq_id_str = request.cookies.get("uniq_id")
-    app.logger.info(f"Uniq id: {uniq_id_str}")
 
     # If old user, get stored mcs interface
     if uniq_id_str is not None:
+        app.logger.info(f"{label}: existing user: {uniq_id_str}")
         mcs_interface = session.get(uniq_id_str)
         if mcs_interface is not None:
-            app.logger.info("mcs_interface found in session")
             controller_alive = mcs_interface.is_controller_alive()
             if controller_alive:
-                app.logger.info("controller alive, returning interface")
                 return mcs_interface, uniq_id_str
-            else:
-                app.logger.info("controller not alive")
+            app.logger.info("MCS controller is unavailable")
         else:
-            app.logger.info("mcs_interface is not found in session")
-    else:
-        app.logger.info("cannot find uniq id in cookies")
+            app.logger.info("MCS interface is unavailable")
 
     # Don't recognize, create new mcs interface
     mcs_interface = MCSInterface()
@@ -74,7 +56,7 @@ def get_mcs_interface(request):
 
     letters = string.ascii_lowercase
     uniq_id_str = ''.join(random.choice(letters) for i in range(10))
-    app.logger.info(f"New user with id {uniq_id_str}")
+    app.logger.info(f"{label}: new user: {uniq_id_str}")
     session[uniq_id_str] = mcs_interface
 
     return mcs_interface, uniq_id_str
@@ -82,9 +64,10 @@ def get_mcs_interface(request):
 
 @app.route('/mcs')
 def show_mcs_page():
-    mcs_interface, uniq_id_str = get_mcs_interface(request)
+    app.logger.info("=" * 30)
+    mcs_interface, uniq_id_str = get_mcs_interface(request, "Load page")
     if mcs_interface is None:
-        app.logger.warn("Unable to load mcs_interface in session")
+        app.logger.warn("Cannot load MCS interface")
         return
 
     img = mcs_interface.get_latest_image()
@@ -99,29 +82,30 @@ def show_mcs_page():
 
 @app.route("/keypress", methods=["POST"])
 def handle_keypress():
-    mcs_interface, _ = get_mcs_interface(request)
-    app.logger.warn(f"in handle_keypress {mcs_interface}")
+    app.logger.info("=" * 30)
+    mcs_interface, _ = get_mcs_interface(request, "Key press")
     if mcs_interface is None:
-        app.logger.warn("Unable to load mcs_interface")
+        app.logger.warn("Cannot load MCS interface")
         return
 
     key = clean_request_data(request)
     img_name = mcs_interface.perform_action(key)
-    app.logger.debug(f"key pressed is {key} img name is {img_name}")
+    app.logger.info(f"Key press: {key}, output: {img_name}")
     resp = jsonify(img_name)
     return resp
 
 
 @app.route("/scene_selection", methods=["POST"])
 def handle_scene_selection():
-    mcs_interface, _ = get_mcs_interface(request)
+    app.logger.info("=" * 30)
+    mcs_interface, _ = get_mcs_interface(request, "Start scene")
     if mcs_interface is None:
-        app.logger.warn("Unable to load mcs_interface")
+        app.logger.warn("Cannot load MCS interface")
         return
 
     # Get the scene filename and tell interface to load it.
     scene_filename = clean_request_data(request)
-    app.logger.warning(f'opening scene {scene_filename}')
+    app.logger.info(f"Start scene: {scene_filename}")
     _, action_list = mcs_interface.load_scene("scenes/" + scene_filename)
     resp = jsonify(action_list=action_list)
     return resp

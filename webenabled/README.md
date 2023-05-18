@@ -2,12 +2,19 @@
 
 ## Install
 
-First check out the project.  Then run the following commands to set up the environment.
+First, "git clone" this repository. Then run the following commands from this folder to setup your python environment:
 
 ```
-python -m venv venv
+python -m venv --prompt webenabled venv
 source venv/bin/activate
+python -m pip install --upgrade pip setuptools wheel
 python -m pip install -r requirements.txt
+```
+
+If you are a developer for this software, we recommend you install the machine_common_sense library in editable mode:
+
+```
+python -m pip install -e ../
 ```
 
 ## Scene Files
@@ -37,3 +44,10 @@ On same or other machine, go to:
 http://<machine.ip.address>:8080/mcs
 ```
 
+## Overview
+
+1. Routing is done in `mcsweb`. Loading `localhost:8080/mcs` calls `show_mcs_page`. This uses `request.cookies` to identify new user sessions. A single `MCSInterface` is instantiated for each user session. The page is rendered using `templates/mcs_page.html`.
+2. The `MCSInterface` class creates the `cmd_<time>/` and `img_<time>/` directories in `static/mcsinterface/` for the input and output data for the current user session. It starts a subprocess in a separate thread which runs `run_scene_with_dir.py`. It watches the `img_<time>/` directory for images the subprocess saves in that directory, which are the images returned by action steps.
+3. The `run_scene_with_dir` script creates the MCS Controller and starts a watchdog Observer to watch for changes to the `cmd_<time>/` directory. Whenever a new "command" text file is created or modified, it triggers the Observer, which reads the command (either a scene filename ending in ".json" or an MCS action like Pass or MoveAhead), gives it to the MCS Controller via either its `start_scene` or `step` function, and saves the output image in the `img_<time>` directory.
+4. When the user selects a scene in the UI, the `handle_scene_selection` function in `mcsweb` calls `load_scene` in `MCSInterface` which saves a "command" text file containing the scene filename.
+5. When the user presses a key in the UI, the `handle_keypress` function in `mcsweb` calls `perform_action` in `MCSInterface` which saves a "command" text file containing the action string.

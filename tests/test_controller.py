@@ -6,6 +6,7 @@ from types import SimpleNamespace
 from unittest.mock import ANY, MagicMock
 
 import numpy as np
+import typeguard
 
 import machine_common_sense as mcs
 from machine_common_sense.config_manager import (ConfigManager, MetadataTier,
@@ -370,7 +371,7 @@ class TestController(unittest.TestCase):
                 ]}
         }
 
-        with self.assertRaises(TypeError):
+        with self.assertRaises(typeguard.TypeCheckError):
             self.controller.end_scene("1.0", np.float64(0.5), {
                 1: {
                     "rating": 1.0,
