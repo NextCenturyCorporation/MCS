@@ -3,9 +3,9 @@
         "head_tilt": 60,
         "objects": [
             {
-                "direction_x": 0.3,
-                "direction_y": -0.93,
-                "direction_z": 0.2,
+                "direction_x": 0.27,
+                "direction_y": -0.95,
+                "direction_z": 0.18,
                 "distance": 0.7,
                 "held": false,
                 "id": "ball",
@@ -13,7 +13,7 @@
                 "material_list": [
                     "PLASTIC"
                 ],
-                "position_x": 0.21,
+                "position_x": 0.19,
                 "position_z": 4.74,
                 "rotation_y": 0,
                 "shape": "ball",
@@ -40,7 +40,7 @@
                 "direction_x": 0.28,
                 "direction_y": -0.94,
                 "direction_z": 0.19,
-                "distance": 0.73,
+                "distance": 0.75,
                 "held": false,
                 "id": "ball",
                 "mass": 1.0,
@@ -49,7 +49,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -83,7 +83,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -117,7 +117,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -151,7 +151,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -185,7 +185,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -219,7 +219,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -253,7 +253,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -287,7 +287,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -321,7 +321,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -355,7 +355,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -389,7 +389,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -423,7 +423,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -457,7 +457,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -491,7 +491,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -525,7 +525,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -559,7 +559,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -593,7 +593,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -627,7 +627,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -661,7 +661,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -695,7 +695,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -729,7 +729,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -763,7 +763,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -797,7 +797,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -831,7 +831,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -865,7 +865,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -899,7 +899,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -933,7 +933,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -967,7 +967,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -1001,7 +1001,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -1035,7 +1035,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -1069,7 +1069,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -1103,7 +1103,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -1137,7 +1137,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -1171,7 +1171,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -1205,7 +1205,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -1239,7 +1239,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -1273,7 +1273,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -1307,7 +1307,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -1341,7 +1341,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -1375,7 +1375,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -1409,7 +1409,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -1443,7 +1443,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -1477,7 +1477,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -1511,7 +1511,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -1545,7 +1545,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -1579,7 +1579,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -1613,7 +1613,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -1647,7 +1647,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -1681,7 +1681,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
@@ -1715,7 +1715,7 @@
                 ],
                 "position_x": 0.21,
                 "position_z": 4.74,
-                "rotation_y": 0,
+                "rotation_y": 359,
                 "shape": "ball",
                 "texture_color_list": [
                     "red"
