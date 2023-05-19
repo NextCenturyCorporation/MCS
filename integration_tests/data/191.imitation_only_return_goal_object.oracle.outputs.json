@@ -33,7 +33,7 @@
         "position_x": 0.0,
         "position_z": 0.0,
         "return_status": "SUCCESSFUL",
-        "reward": -0.002,
+        "reward": 0.999,
         "rotation_y": 0.0,
         "step_number": 2,
         "structural_objects_count": 0
