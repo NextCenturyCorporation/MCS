@@ -4,10 +4,13 @@
 
 First, "git clone" this repository. Then run the following commands from this folder to setup your python environment:
 
+_(TODO: Remove the 4th line once 0.7.0 is released)_
+
 ```
 python -m venv --prompt webenabled venv
 source venv/bin/activate
 python -m pip install --upgrade pip setuptools wheel
+python -m pip install -e ../
 python -m pip install -r requirements.txt
 ```
 
@@ -24,9 +27,11 @@ scene files will appear on the web page
 
 ## Run Web Server
 
-For development, run flask directly, passing in command line options
+For development, run the server directly:
 
-```FLASK_APP=mcsweb FLASK_DEBUG=1 flask run --port=8080 --host=0.0.0.0```
+_(Note that we're calling `venv/bin/flask` to ensure it's the correct version of flask, which is especially important on Mac)_
+
+```FLASK_APP=mcsweb FLASK_DEBUG=1 venv/bin/flask run --port=8080 --host=0.0.0.0```
 
 Where:
 - FLASK_APP is the name of the python file to run.
