@@ -7,7 +7,7 @@ First, "git clone" this repository. Then run the following commands from this fo
 _(TODO: Remove the 4th line once 0.7.0 is released)_
 
 ```
-python -m venv --prompt webenabled venv
+python3 -m venv --prompt webenabled venv
 source venv/bin/activate
 python -m pip install --upgrade pip setuptools wheel
 python -m pip install -e ../
@@ -26,6 +26,8 @@ Put scene json files into scenes/.   The directory will be scanned and the list 
 scene files will appear on the web page 
 
 ## Run Web Server
+
+First, run `cache_addressables` to cache all addressable assets and prevent possible timeout issues. You should do this each time you reboot your machine.
 
 For development, run the server directly:
 
