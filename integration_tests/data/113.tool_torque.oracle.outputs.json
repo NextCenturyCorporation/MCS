@@ -17,8 +17,7 @@
                 "rotation_y": 0.0,
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey",
-                    "black"
+                    "grey"
                 ],
                 "visible": true
             }
@@ -49,8 +48,7 @@
                 "rotation_y": 1,
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey",
-                    "black"
+                    "grey"
                 ],
                 "visible": true
             }
@@ -81,8 +79,7 @@
                 "rotation_y": 2,
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey",
-                    "black"
+                    "grey"
                 ],
                 "visible": true
             }
@@ -113,8 +110,7 @@
                 "rotation_y": 4,
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey",
-                    "black"
+                    "grey"
                 ],
                 "visible": true
             }
@@ -145,8 +141,7 @@
                 "rotation_y": 7,
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey",
-                    "black"
+                    "grey"
                 ],
                 "visible": true
             }
@@ -177,8 +172,7 @@
                 "rotation_y": 9,
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey",
-                    "black"
+                    "grey"
                 ],
                 "visible": true
             }
@@ -209,8 +203,7 @@
                 "rotation_y": 10,
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey",
-                    "black"
+                    "grey"
                 ],
                 "visible": true
             }
@@ -244,8 +237,7 @@
                 ],
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey",
-                    "black"
+                    "grey"
                 ],
                 "visible": true
             }
@@ -279,8 +271,7 @@
                 ],
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey",
-                    "black"
+                    "grey"
                 ],
                 "visible": true
             }
