@@ -1,0 +1,77 @@
+﻿{
+    "name": "multi retrieval scene with pickup number version two",
+    "version": 2,
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+    "wallMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
+    "performerStart": {
+        "position": {
+            "x": 0,
+            "z": 0
+        },
+        "rotation": {
+            "x": 20,
+            "y": 0
+        }
+    },
+    "objects": [{
+        "id": "soccer_ball_1",
+        "type": "soccer_ball",
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": -0.5,
+                "y": 0.22,
+                "z": 0.5
+            },
+            "scale": {
+                "x": 2,
+                "y": 2,
+                "z": 2
+            }
+        }]
+    }, {
+        "id": "soccer_ball_2",
+        "type": "soccer_ball",
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0.5,
+                "y": 0.22,
+                "z": 0.5
+            },
+            "scale": {
+                "x": 2,
+                "y": 2,
+                "z": 2
+            }
+        }]
+    }, {
+        "id": "soccer_ball_3",
+        "type": "soccer_ball",
+        "shows": [{
+            "stepBegin": 0,
+            "position": {
+                "x": 0,
+                "y": 0.22,
+                "z": 1.5
+            },
+            "scale": {
+                "x": 2,
+                "y": 2,
+                "z": 2
+            }
+        }]
+    }],
+    "goal": {
+        "category": "multi retrieval",
+        "metadata": {
+            "pickup_number": 2,
+            "targets": [
+                {"id": "soccer_ball_1"},
+                {"id": "soccer_ball_2"},
+                {"id": "soccer_ball_3"}
+            ]
+        }
+    }
+}

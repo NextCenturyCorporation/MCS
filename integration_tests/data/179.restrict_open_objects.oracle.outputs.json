@@ -371,8 +371,7 @@
                 "shape": "chest",
                 "texture_color_list": [
                     "brown"
-                ],
-                "visible": true
+                ]
             }
         ],
         "objects_count": 2,
@@ -689,8 +688,7 @@
                 "shape": "chest",
                 "texture_color_list": [
                     "brown"
-                ],
-                "visible": true
+                ]
             },
             {
                 "direction_x": 0.23,

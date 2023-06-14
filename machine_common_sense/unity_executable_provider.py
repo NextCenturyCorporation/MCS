@@ -22,8 +22,8 @@ MAC_DEV_URL = "https://ai2thor-unity-releases.s3.amazonaws.com/MCS-AI2-THOR-Unit
 
 
 class UnityExecutableProvider():
-    '''Automatically provides MCS AI2-THOR Unity executable for the MCS package.
-    Will check a cache and download if necessary'''
+    '''Automatically provides MCS AI2-THOR Unity executable for the MCS
+    package. Will check a cache and download if necessary'''
 
     DOWNLOAD_FILE = "MCS-AI2-THOR-Unity-App-v{}.zip"
     PLATFORM_MAC = "Darwin"
@@ -225,8 +225,8 @@ class MacExecutionCache(AbstractExecutionCache):
 
 
 class LinuxExecutionCache(AbstractExecutionCache):
-    '''Handles Linux specific code for running a cache for MCS Unity executables.
-    '''
+    '''Handles Linux specific code for running a cache for MCS Unity
+    executables.'''
     REQUIRED_FILES = [
         "LinuxPlayer_s.debug",
         "UnityPlayer.so",

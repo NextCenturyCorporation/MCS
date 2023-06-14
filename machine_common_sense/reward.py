@@ -76,22 +76,30 @@ class Reward(object):
         metadata = goal.metadata or {}
         # Different goal categories may use different property names
         target_names = ['target', 'targets']
+        # Get the total number of targets.
+        pickup_number = metadata.get('pickup_number') or 0
         for target_name in target_names:
             # Some properties may be dicts, and some may be lists of dicts
             targets = metadata.get(target_name) or []
             targets = targets if isinstance(targets, list) else [targets]
+            # If pickup_number was not defined, use the list's length.
+            if not pickup_number:
+                pickup_number = len(targets)
             for target in targets:
                 goal_id = target.get('id')
                 goal_object = Reward.__get_object_from_list(objects, goal_id)
                 if goal_object:
                     goal_objects.append(goal_object)
 
-        # Only attain the reward if all targets are picked up
-        if goal_objects and all(
-                [obj.get('isPickedUp', False) for obj in goal_objects]):
+        picked_up = len([
+            object_metadata for object_metadata in goal_objects
+            if object_metadata.get('wasPickedUp')
+        ])
+        # Attain the reward if the required number of targets were picked-up.
+        if goal_objects and pickup_number and picked_up >= pickup_number:
             reward = goal_reward
 
-        return reward
+        return round(reward, 4)
 
     @staticmethod
     def _adjust_score_penalty(

@@ -496,6 +496,24 @@ All of the following object types have the `pickupable` attribute by default.
       - x=0.73,y=0.93,z=0.95
       - Forward
       - Cylindrical wooden barrel
+    * - `"barrel_3"`
+      - barrel
+      - 5
+      - X
+      - X
+      - :ref:`wood <Wood Materials>`
+      - x=0.73,y=0.93,z=0.73
+      - Forward
+      - Cylindrical wooden barrel
+    * - `"barrel_4"`
+      - barrel
+      - 5
+      - X
+      - X
+      - :ref:`wood <Wood Materials>`
+      - x=0.73,y=0.82,z=0.73
+      - Forward
+      - Cylindrical wooden barrel
     * - `"block_blank_blue_cube"`
       - blank block cube
       - 0.66
@@ -748,6 +766,24 @@ All of the following object types have the `pickupable` attribute by default.
       - x=0.134,y=0.052,z=0.036
       - Right
       - Toy car
+    * - `"car_4"`
+      - car
+      - 0.5
+      - 
+      - 
+      - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
+      - x=0.13,y=0.052,z=0.036
+      - Right
+      - Toy car
+    * - `"car_5"`
+      - car
+      - 0.5
+      - 
+      - 
+      - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
+      - x=0.9,y=0.36,z=0.42
+      - Right
+      - Toy car
     * - `"cart_2"`
       - cart
       - 0.5
@@ -802,6 +838,24 @@ All of the following object types have the `pickupable` attribute by default.
       - x=1.18,y=0.94,z=1.94
       - Forward
       - Suitcase
+    * - `"case_6"`
+      - case
+      - 5
+      - X
+      - X
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
+      - x=0.195,y=0.042,z=0.144
+      - Forward
+      - Suitcase
+    * - `"case_7"`
+      - case
+      - 5
+      - X
+      - X
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
+      - x=0.195,y=0.036,z=0.134
+      - Forward
+      - Suitcase
     * - `"crate_1"`
       - crate
       - 5
@@ -818,6 +872,24 @@ All of the following object types have the `pickupable` attribute by default.
       - X
       - :ref:`wood <Wood Materials>`
       - x=0.72,y=0.64,z=0.72
+      - Forward
+      - Cuboid wooden crate
+    * - `"crate_3"`
+      - crate
+      - 5
+      - X
+      - X
+      - :ref:`wood <Wood Materials>`
+      - x=0.8,y=0.98,z=0.8
+      - Forward
+      - Cuboid wooden crate
+    * - `"crate_4"`
+      - crate
+      - 5
+      - X
+      - X
+      - :ref:`wood <Wood Materials>`
+      - x=0.76,y=0.74,z=0.88
       - Forward
       - Cuboid wooden crate
     * - `"crayon_black"`
@@ -964,10 +1036,28 @@ All of the following object types have the `pickupable` attribute by default.
       - x=0.8,y=0.44,z=0.7
       - Forward
       - 
+    * - `"military_case_3"`
+      - case
+      - 5
+      - X
+      - X
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
+      - x=1.26,y=0.54,z=0.76
+      - Forward
+      - 
+    * - `"military_case_4"`
+      - case
+      - 5
+      - X
+      - X
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
+      - x=0.86,y=0.32,z=0.68
+      - Forward
+      - 
     * - `"pacifier"`
       - pacifier
-      - 
       - 0.5
+      - 
       - 
       - none
       - x=0.07,y=0.04,z=0.05
@@ -1000,6 +1090,15 @@ All of the following object types have the `pickupable` attribute by default.
       - x=0.202,y=0.113,z=0.206
       -
       - 
+    * - `"power_shovel"`
+      - power_shovel
+      - 0.5
+      - 
+      - 
+      - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
+      - x=0.18,y=0.08,z=0.042
+      - Right
+      - Toy power shovel construction vehicle
     * - `"racecar_red"`
       - car
       - 0.5
@@ -1009,6 +1108,15 @@ All of the following object types have the `pickupable` attribute by default.
       - x=0.07,y=0.06,z=0.15
       - Forward
       - Toy racecar
+    * - `"road_scraper"`
+      - road_scraper
+      - 0.5
+      - 
+      - 
+      - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
+      - x=0.136,y=0.066,z=0.038
+      - Right
+      - Toy road scraper construction vehicle
     * - `"roller"`
       - roller
       - 0.5
@@ -1063,6 +1171,15 @@ All of the following object types have the `pickupable` attribute by default.
       - x=0.065,y=0.067,z=0.17
       - Forward
       - Toy tank
+    * - `"tank_2"`
+      - tank
+      - 0.5
+      - 
+      - 
+      - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
+      - x=0.21,y=0.12,z=0.094
+      - Right
+      - Toy tank
     * - `"toolbox_1"`
       - toolbox
       - 5
@@ -1099,6 +1216,24 @@ All of the following object types have the `pickupable` attribute by default.
       - x=0.13,y=0.036,z=0.116
       - Forward
       - Toolbox
+    * - `"toolbox_5"`
+      - toolbox
+      - 5
+      - X
+      - X
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
+      - x=0.25,y=0.1,z=0.14
+      - Forward
+      - Toolbox
+    * - `"toolbox_6"`
+      - toolbox
+      - 5
+      - X
+      - X
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
+      - x=0.22,y=0.108,z=0.192
+      - Forward
+      - Toolbox
     * - `"train_1"`
       - train
       - 0.5
@@ -1117,6 +1252,24 @@ All of the following object types have the `pickupable` attribute by default.
       - x=0.09,y=0.064,z=0.036
       - Right
       - Toy train
+    * - `"train_3"`
+      - train
+      - 0.5
+      - 
+      - 
+      - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
+      - x=0.4,y=0.26,z=0.22
+      - Right
+      - Toy train
+    * - `"trike"`
+      - trike
+      - 0.5
+      - 
+      - 
+      - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
+      - x=0.04,y=0.074,z=0.112
+      - Forward
+      - Toy trike
     * - `"trolley_1"`
       - trolley
       - 0.5
@@ -1171,11 +1324,20 @@ All of the following object types have the `pickupable` attribute by default.
       - x=0.25,y=0.26,z=0.4
       - Forward
       - Toy truck
+    * - `"truck_5"`
+      - truck
+      - 0.5
+      - 
+      - 
+      - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
+      - x=0.19,y=0.072,z=0.04
+      - Right
+      - Toy truck
     * - `"turtle_on_wheels"`
       - turtle
-      - 
-      - 
       - 0.5
+      - 
+      - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.24,y=0.14,z=0.085
       - Right
@@ -1321,6 +1483,24 @@ Furniture Objects
       - 
       - :ref:`wood <Wood Materials>`
       - x=1.25,y=0.94,z=2.17
+      - 
+    * - `"bed_11"`
+      - bed
+      - 50
+      - 
+      - X
+      - 
+      - :ref:`wood <Wood Materials>`
+      - x=2,y=1.45,z=3.2
+      - 
+    * - `"bed_12"`
+      - bed
+      - 50
+      - 
+      - X
+      - 
+      - :ref:`wood <Wood Materials>`
+      - x=2,y=2.2,z=3.2
       - 
     * - `"bookcase_1_shelf"`
       - bookcase
@@ -1512,7 +1692,7 @@ Furniture Objects
       - x=0.6,y=0.84,z=0.76
       - 
     * - `"chair_13"`
-      - stool
+      - chair
       - 5
       - X
       - X
@@ -1521,13 +1701,31 @@ Furniture Objects
       - x=0.42,y=0.74,z=0.4
       - 
     * - `"chair_14"`
-      - stool
+      - chair
+      - 5
+      - X
+      - X
+      - 
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
+      - x=0.5,y=0.8,z=0.5
+      - 
+    * - `"chair_15"`
+      - chair
       - 5
       - X
       - X
       - 
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
-      - x=0.5,y=0.8,z=0.5
+      - x=0.42,y=0.94,z=0.4
+      - 
+    * - `"chair_16"`
+      - chair
+      - 5
+      - X
+      - X
+      - 
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
+      - x=0.5,y=0.92,z=0.5
       - 
     * - `"changing_table"`
       - changing table
@@ -1763,6 +1961,24 @@ Furniture Objects
       - :ref:`sofa_9 <Sofa 9 Materials>`
       - x=2.54,y=1.62,z=1.52
       - 
+    * - `"sofa_11"`
+      - sofa
+      - 100
+      - 
+      - X
+      - 
+      - none
+      - x=3.3,y=1.7,z=1.5
+      - 
+    * - `"sofa_12"`
+      - sofa
+      - 100
+      - 
+      - X
+      - 
+      - none
+      - x=0.8,y=1.08,z=2.22
+      - 
     * - `"sofa_chair_1"`
       - sofa chair
       - 50
@@ -1997,6 +2213,33 @@ Furniture Objects
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
       - x=0.96,y=0.64,z=0.93
       - Rectangular table
+    * - `"table_21"`
+      - table
+      - 10
+      - X
+      - X
+      - 
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
+      - x=1.286,y=0.913,z=0.822
+      - Rectangular table
+    * - `"table_22"`
+      - table
+      - 10
+      - X
+      - X
+      - 
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
+      - x=1.431,y=0.652,z=0.695
+      - Short oval table
+    * - `"table_25"`
+      - table
+      - 5
+      - X
+      - X
+      - 
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
+      - x=0.65,y=0.68,z=0.75
+      - Circular table
     * - `"table_26"`
       - table
       - 5
@@ -2015,6 +2258,15 @@ Furniture Objects
       - :ref:`plastic <Plastic Materials>`
       - x=1.2,y=0.7,z=1.2
       - Circular plastic table
+    * - `"table_28"`
+      - table
+      - 5
+      - X
+      - X
+      - 
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
+      - x=2,y=0.82,z=2
+      - Large circular table
     * - `"tv_2"`
       - television
       - 5
@@ -2037,7 +2289,7 @@ Furniture Objects
 Tool Objects
 -------------
 
-All of the tools have the `tool` shape, `metal` material, `moveable` and `receptacle` attributes, and the same grey and black colors/textures.
+All the tools have the `tool` shape, `metal` salient material, `moveable` and `receptacle` attributes, and default to the same grey texture, though can be assigned any :ref:`tool material <Tool Materials>` using their `"materials"` property.
 
 .. list-table::
     :header-rows: 1
@@ -2045,60 +2297,256 @@ All of the tools have the `tool` shape, `metal` material, `moveable` and `recept
     * - Object Type
       - Default Mass
       - Base Size
+      - Details
+
+    * - `"tool_hooked_0_50_x_4_00"`
+      - 3
+      - x=0.5,y=0.3,z=4
+      - Hooked (asymmetric) tool
+    * - `"tool_hooked_0_50_x_5_00"`
+      - 3.25
+      - x=0.5,y=0.3,z=5
+      - Hooked (asymmetric) tool
+    * - `"tool_hooked_0_50_x_6_00"`
+      - 3.5
+      - x=0.5,y=0.3,z=6
+      - Hooked (asymmetric) tool
+    * - `"tool_hooked_0_50_x_7_00"`
+      - 3.75
+      - x=0.5,y=0.3,z=7
+      - Hooked (asymmetric) tool
+    * - `"tool_hooked_0_50_x_8_00"`
+      - 4
+      - x=0.5,y=0.3,z=8
+      - Hooked (asymmetric) tool
+    * - `"tool_hooked_0_50_x_9_00"`
+      - 4.25
+      - x=0.5,y=0.3,z=9
+      - Hooked (asymmetric) tool
+
+    * - `"tool_hooked_0_75_x_4_00"`
+      - 3.33
+      - x=0.75,y=0.3,z=4
+      - Hooked (asymmetric) tool
+    * - `"tool_hooked_0_75_x_5_00"`
+      - 3.66
+      - x=0.75,y=0.3,z=5
+      - Hooked (asymmetric) tool
+    * - `"tool_hooked_0_75_x_6_00"`
+      - 4
+      - x=0.75,y=0.3,z=6
+      - Hooked (asymmetric) tool
+    * - `"tool_hooked_0_75_x_7_00"`
+      - 4.33
+      - x=0.75,y=0.3,z=7
+      - Hooked (asymmetric) tool
+    * - `"tool_hooked_0_75_x_8_00"`
+      - 4.66
+      - x=0.75,y=0.3,z=8
+      - Hooked (asymmetric) tool
+    * - `"tool_hooked_0_75_x_9_00"`
+      - 5
+      - x=0.75,y=0.3,z=9
+      - Hooked (asymmetric) tool
+
+    * - `"tool_hooked_1_00_x_4_00"`
+      - 4
+      - x=1,y=0.3,z=4
+      - Hooked (asymmetric) tool
+    * - `"tool_hooked_1_00_x_5_00"`
+      - 4.5
+      - x=1,y=0.3,z=5
+      - Hooked (asymmetric) tool
+    * - `"tool_hooked_1_00_x_6_00"`
+      - 5
+      - x=1,y=0.3,z=6
+      - Hooked (asymmetric) tool
+    * - `"tool_hooked_1_00_x_7_00"`
+      - 5.5
+      - x=1,y=0.3,z=7
+      - Hooked (asymmetric) tool
+    * - `"tool_hooked_1_00_x_8_00"`
+      - 6
+      - x=1,y=0.3,z=8
+      - Hooked (asymmetric) tool
+    * - `"tool_hooked_1_00_x_9_00"`
+      - 6.5
+      - x=1,y=0.3,z=9
+      - Hooked (asymmetric) tool
+
+    * - `"tool_rect_0_50_x_1_00"`
+      - 5
+      - x=0.5,y=0.3,z=1
+      - Rectangular (symmetric) tool, too small
     * - `"tool_rect_0_50_x_4_00"`
       - 3
       - x=0.5,y=0.3,z=4
+      - Rectangular (symmetric) tool
     * - `"tool_rect_0_50_x_5_00"`
       - 3.25
       - x=0.5,y=0.3,z=5
+      - Rectangular (symmetric) tool
     * - `"tool_rect_0_50_x_6_00"`
       - 3.5
       - x=0.5,y=0.3,z=6
+      - Rectangular (symmetric) tool
     * - `"tool_rect_0_50_x_7_00"`
       - 3.75
       - x=0.5,y=0.3,z=7
+      - Rectangular (symmetric) tool
     * - `"tool_rect_0_50_x_8_00"`
       - 4
       - x=0.5,y=0.3,z=8
+      - Rectangular (symmetric) tool
     * - `"tool_rect_0_50_x_9_00"`
       - 4.25
       - x=0.5,y=0.3,z=9
+      - Rectangular (symmetric) tool
+
+    * - `"tool_rect_0_63_x_1_00"`
+      - 5
+      - x=0.63,y=0.3,z=1
+      - Rectangular (symmetric) tool, too small
+    * - `"tool_rect_0_63_x_4_00"`
+      - 3
+      - x=0.63,y=0.3,z=4
+      - Rectangular (symmetric) tool
+    * - `"tool_rect_0_63_x_5_00"`
+      - 3.25
+      - x=0.63,y=0.3,z=5
+      - Rectangular (symmetric) tool
+    * - `"tool_rect_0_63_x_6_00"`
+      - 3.5
+      - x=0.63,y=0.3,z=6
+      - Rectangular (symmetric) tool
+    * - `"tool_rect_0_63_x_7_00"`
+      - 3.75
+      - x=0.63,y=0.3,z=7
+      - Rectangular (symmetric) tool
+    * - `"tool_rect_0_63_x_8_00"`
+      - 4
+      - x=0.63,y=0.3,z=8
+      - Rectangular (symmetric) tool
+    * - `"tool_rect_0_63_x_9_00"`
+      - 4.25
+      - x=0.63,y=0.3,z=9
+      - Rectangular (symmetric) tool
+
+    * - `"tool_rect_0_75_x_1_00"`
+      - 5
+      - x=0.75,y=0.3,z=1
+      - Rectangular (symmetric) tool, too small
     * - `"tool_rect_0_75_x_4_00"`
       - 3.33
       - x=0.75,y=0.3,z=4
+      - Rectangular (symmetric) tool
     * - `"tool_rect_0_75_x_5_00"`
       - 3.66
       - x=0.75,y=0.3,z=5
+      - Rectangular (symmetric) tool
     * - `"tool_rect_0_75_x_6_00"`
       - 4
       - x=0.75,y=0.3,z=6
+      - Rectangular (symmetric) tool
     * - `"tool_rect_0_75_x_7_00"`
       - 4.33
       - x=0.75,y=0.3,z=7
+      - Rectangular (symmetric) tool
     * - `"tool_rect_0_75_x_8_00"`
       - 4.66
       - x=0.75,y=0.3,z=8
+      - Rectangular (symmetric) tool
     * - `"tool_rect_0_75_x_9_00"`
       - 5
       - x=0.75,y=0.3,z=9
+      - Rectangular (symmetric) tool
+
+    * - `"tool_rect_0_88_x_1_00"`
+      - 5
+      - x=0.88,y=0.3,z=1
+      - Rectangular (symmetric) tool, too small
+    * - `"tool_rect_0_88_x_4_00"`
+      - 3.33
+      - x=0.88,y=0.3,z=4
+      - Rectangular (symmetric) tool
+    * - `"tool_rect_0_88_x_5_00"`
+      - 3.66
+      - x=0.88,y=0.3,z=5
+      - Rectangular (symmetric) tool
+    * - `"tool_rect_0_88_x_6_00"`
+      - 4
+      - x=0.88,y=0.3,z=6
+      - Rectangular (symmetric) tool
+    * - `"tool_rect_0_88_x_7_00"`
+      - 4.33
+      - x=0.88,y=0.3,z=7
+      - Rectangular (symmetric) tool
+    * - `"tool_rect_0_88_x_8_00"`
+      - 4.66
+      - x=0.88,y=0.3,z=8
+      - Rectangular (symmetric) tool
+    * - `"tool_rect_0_88_x_9_00"`
+      - 5
+      - x=0.88,y=0.3,z=9
+      - Rectangular (symmetric) tool
+
+    * - `"tool_rect_1_00_x_1_00"`
+      - 5
+      - x=1,y=0.3,z=1
+      - Rectangular (symmetric) tool, too small
     * - `"tool_rect_1_00_x_4_00"`
       - 4
       - x=1,y=0.3,z=4
+      - Rectangular (symmetric) tool
     * - `"tool_rect_1_00_x_5_00"`
       - 4.5
       - x=1,y=0.3,z=5
+      - Rectangular (symmetric) tool
     * - `"tool_rect_1_00_x_6_00"`
       - 5
       - x=1,y=0.3,z=6
+      - Rectangular (symmetric) tool
     * - `"tool_rect_1_00_x_7_00"`
       - 5.5
       - x=1,y=0.3,z=7
+      - Rectangular (symmetric) tool
     * - `"tool_rect_1_00_x_8_00"`
       - 6
       - x=1,y=0.3,z=8
+      - Rectangular (symmetric) tool
     * - `"tool_rect_1_00_x_9_00"`
       - 6.5
       - x=1,y=0.3,z=9
+      - Rectangular (symmetric) tool
+
+    * - `"tool_rect_1_13_x_1_00"`
+      - 5
+      - x=1.13,y=0.3,z=1
+      - Rectangular (symmetric) tool, too small
+    * - `"tool_rect_1_13_x_4_00"`
+      - 4
+      - x=1.13,y=0.3,z=4
+      - Rectangular (symmetric) tool
+    * - `"tool_rect_1_13_x_5_00"`
+      - 4.5
+      - x=1.13,y=0.3,z=5
+      - Rectangular (symmetric) tool
+    * - `"tool_rect_1_13_x_6_00"`
+      - 5
+      - x=1.13,y=0.3,z=6
+      - Rectangular (symmetric) tool
+    * - `"tool_rect_1_13_x_7_00"`
+      - 5.5
+      - x=1.13,y=0.3,z=7
+      - Rectangular (symmetric) tool
+    * - `"tool_rect_1_13_x_8_00"`
+      - 6
+      - x=1.13,y=0.3,z=8
+      - Rectangular (symmetric) tool
+    * - `"tool_rect_1_13_x_9_00"`
+      - 6.5
+      - x=1.13,y=0.3,z=9
+      - Rectangular (symmetric) tool
 
 Agents
 ******
@@ -2123,6 +2571,12 @@ These agents are used in scenes for the interactive tasks.
     * - `"agent_female_04"`
       - 70
       - x=0.5,y=1.6,z=0.5
+    * - `"agent_female_05"`
+      - 70
+      - x=0.5,y=1.6,z=0.5
+    * - `"agent_female_06"`
+      - 70
+      - x=0.5,y=1.6,z=0.5
     * - `"agent_male_01"`
       - 80
       - x=0.5,y=1.6,z=0.5
@@ -2133,6 +2587,12 @@ These agents are used in scenes for the interactive tasks.
       - 80
       - x=0.5,y=1.6,z=0.5
     * - `"agent_male_04"`
+      - 80
+      - x=0.5,y=1.6,z=0.5
+    * - `"agent_male_07"`
+      - 80
+      - x=0.5,y=1.6,z=0.5
+    * - `"agent_male_08"`
       - 80
       - x=0.5,y=1.6,z=0.5
 
@@ -2206,6 +2666,18 @@ The following objects have a default mass of 1 and no material restrictions. You
       - (x=1,y=1,z=1)
       - 0
     * - `"rollable_4"`
+      - (x=1,y=1,z=1)
+      - 0
+    * - `"rollable_5"`
+      - (x=1,y=1,z=1)
+      - 0
+    * - `"rollable_6"`
+      - (x=1,y=1,z=1)
+      - 0
+    * - `"rollable_7"`
+      - (x=1,y=1,z=1)
+      - 0
+    * - `"rollable_8"`
       - (x=1,y=1,z=1)
       - 0
     * - `"tie_fighter"`
@@ -2399,21 +2871,29 @@ Fabric Materials
 - `"AI2-THOR/Materials/Fabrics/RUG7"` (red and blue pattern)
 - `"AI2-THOR/Materials/Fabrics/RugPattern224"` (brown, green, and white pattern)
 - `"Custom/Materials/AzureCarpetMCS"`
+- `"Custom/Materials/BlackCarpetMCS"`
 - `"Custom/Materials/BlueCarpetMCS"`
+- `"Custom/Materials/BrownCarpetMCS"`
 - `"Custom/Materials/ChartreuseCarpetMCS"`
+- `"Custom/Materials/CreamCarpetMCS"`
 - `"Custom/Materials/CyanCarpetMCS"`
+- `"Custom/Materials/DarkGreyCarpetMCS"`
+- `"Custom/Materials/GoldenrodCarpetMCS"`
 - `"Custom/Materials/GreenCarpetMCS"`
 - `"Custom/Materials/GreyCarpetMCS"`
+- `"Custom/Materials/IndigoCarpetMCS"`
 - `"Custom/Materials/LimeCarpetMCS"`
 - `"Custom/Materials/MagentaCarpetMCS"`
 - `"Custom/Materials/MaroonCarpetMCS"`
 - `"Custom/Materials/NavyCarpetMCS"`
 - `"Custom/Materials/OliveCarpetMCS"`
 - `"Custom/Materials/OrangeCarpetMCS"`
+- `"Custom/Materials/PinkCarpetMCS"`
 - `"Custom/Materials/PurpleCarpetMCS"`
 - `"Custom/Materials/RedCarpetMCS"`
 - `"Custom/Materials/RoseCarpetMCS"`
 - `"Custom/Materials/SpringGreenCarpetMCS"`
+- `"Custom/Materials/TanCarpetMCS"`
 - `"Custom/Materials/TealCarpetMCS"`
 - `"Custom/Materials/VioletCarpetMCS"`
 - `"Custom/Materials/WhiteCarpetMCS"`
@@ -2429,7 +2909,9 @@ Custom-made textures that are completely flat colors.
 - `"Custom/Materials/Blue"`
 - `"Custom/Materials/Brown"`
 - `"Custom/Materials/Chartreuse"`
+- `"Custom/Materials/Cream"`
 - `"Custom/Materials/Cyan"`
+- `"Custom/Materials/DarkGrey"`
 - `"Custom/Materials/Goldenrod"`
 - `"Custom/Materials/Green"`
 - `"Custom/Materials/Grey"`
@@ -2588,6 +3070,14 @@ Specific textures for `sofa_4`, `sofa_5`, `sofa_6`, AND `sofa_7` only.
 - `"AI2-THOR/Objects/Physics/SimObjsPhysics/THORKEA Objects/THORKEA_Assets_Furniture/Sofa/Materials/THORKEA_Sofa_Solsta_Fabric_Mat"`
 - `"AI2-THOR/Objects/Physics/SimObjsPhysics/THORKEA Objects/THORKEA_Assets_Furniture/Sofa/Materials/THORKEA_Sofa_Vreta_Fabric_Mat"`
 
+Tool Materials
+**************
+
+- `"UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_13"` (grey)
+- `"UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_15"` (brown)
+- `"UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_34"` (pink)
+- `"UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_36"` (green)
+
 Wall Materials
 **************
 
@@ -2602,21 +3092,29 @@ Wall Materials
 - `"AI2-THOR/Materials/Walls/WallDrywallGrey"`
 - `"AI2-THOR/Materials/Walls/YellowDrywall"`
 - `"Custom/Materials/AzureDrywallMCS"`
+- `"Custom/Materials/BlackDrywallMCS"`
 - `"Custom/Materials/BlueDrywallMCS"`
+- `"Custom/Materials/BrownDrywallMCS"`
 - `"Custom/Materials/ChartreuseDrywallMCS"`
+- `"Custom/Materials/CreamDrywallMCS"`
 - `"Custom/Materials/CyanDrywallMCS"`
+- `"Custom/Materials/DarkGreyDrywallMCS"`
+- `"Custom/Materials/GoldenrodDrywallMCS"`
 - `"Custom/Materials/GreenDrywallMCS"`
 - `"Custom/Materials/GreyDrywallMCS"`
+- `"Custom/Materials/IndigoDrywallMCS"`
 - `"Custom/Materials/LimeDrywallMCS"`
 - `"Custom/Materials/MagentaDrywallMCS"`
 - `"Custom/Materials/MaroonDrywallMCS"`
 - `"Custom/Materials/NavyDrywallMCS"`
 - `"Custom/Materials/OliveDrywallMCS"`
 - `"Custom/Materials/OrangeDrywallMCS"`
+- `"Custom/Materials/PinkDrywallMCS"`
 - `"Custom/Materials/PurpleDrywallMCS"`
 - `"Custom/Materials/RedDrywallMCS"`
 - `"Custom/Materials/RoseDrywallMCS"`
 - `"Custom/Materials/SpringGreenDrywallMCS"`
+- `"Custom/Materials/TanDrywallMCS"`
 - `"Custom/Materials/TealDrywallMCS"`
 - `"Custom/Materials/VioletDrywallMCS"`
 - `"Custom/Materials/WhiteDrywallMCS"`
@@ -2639,21 +3137,29 @@ Wood Materials
 - `"AI2-THOR/Materials/Wood/WoodGrain_Tan"`
 - `"AI2-THOR/Materials/Wood/WornWood"`
 - `"Custom/Materials/AzureWoodMCS"`
+- `"Custom/Materials/BlackWoodMCS"`
 - `"Custom/Materials/BlueWoodMCS"`
+- `"Custom/Materials/BrownWoodMCS"`
 - `"Custom/Materials/ChartreuseWoodMCS"`
+- `"Custom/Materials/CreamWoodMCS"`
 - `"Custom/Materials/CyanWoodMCS"`
+- `"Custom/Materials/DarkGreyWoodMCS"`
+- `"Custom/Materials/GoldenrodWoodMCS"`
 - `"Custom/Materials/GreenWoodMCS"`
 - `"Custom/Materials/GreyWoodMCS"`
+- `"Custom/Materials/IndigoWoodMCS"`
 - `"Custom/Materials/LimeWoodMCS"`
 - `"Custom/Materials/MagentaWoodMCS"`
 - `"Custom/Materials/MaroonWoodMCS"`
 - `"Custom/Materials/NavyWoodMCS"`
 - `"Custom/Materials/OliveWoodMCS"`
 - `"Custom/Materials/OrangeWoodMCS"`
+- `"Custom/Materials/PinkWoodMCS"`
 - `"Custom/Materials/PurpleWoodMCS"`
 - `"Custom/Materials/RedWoodMCS"`
 - `"Custom/Materials/RoseWoodMCS"`
 - `"Custom/Materials/SpringGreenWoodMCS"`
+- `"Custom/Materials/TanWoodMCS"`
 - `"Custom/Materials/TealWoodMCS"`
 - `"Custom/Materials/VioletWoodMCS"`
 - `"Custom/Materials/WhiteWoodMCS"`
@@ -2675,8 +3181,8 @@ Chest Options
 .. list-table::
     :header-rows: 1
 
-    * - Chest Option (Female)
-      - Chest Option (Male)
+    * - Chest Option (Female 1-4)
+      - Chest Option (Male 1-4)
       - Description
     * - 0
       -
@@ -2698,13 +3204,65 @@ Chest Options
       - Short-sleeve casual button-down shirt
     * - 6
       - 4
-      - High-neck shirt
+      - High-neck no-button shirt
     * - 7
       - 5
-      - Long-sleeve shirt
+      - Long-sleeve no-button shirt
     * - 8
       - 6
-      - Short-sleeve shirt
+      - Short-sleeve no-button shirt
+
+.. list-table::
+    :header-rows: 1
+
+    * - Chest Option (Female 5-6)
+      - Chest Option (Male 7-8)
+      - Description
+    * - 0
+      -
+      - Sleeveless dress (ignores `legs`)
+    * - 1
+      -
+      - Short-sleeve dress (ignores `legs`)
+    * - 2
+      -
+      - Long-sleeve dress (ignores `legs`)
+    * - 3
+      - 0
+      - Sweater
+    * - 4
+      -
+      - Tank top
+    * - 5
+      - 1
+      - Short-sleeve t-shirt
+    * - 6
+      - 2
+      - Long-sleeve t-shirt
+    * - 7
+      - 4
+      - Sleeveless t-shirt
+    * - 8
+      -
+      - Sleeveless crop top
+    * - 9
+      -
+      - Short-sleeve crop top
+    * - 10
+      -
+      - Long-sleeve crop top
+    * -
+      - 3
+      - Long-sleeve turtleneck
+    * -
+      - 5
+      - Short-sleeve tucked-in t-shirt
+    * -
+      - 6
+      - Long-sleeve tucked-in t-shirt
+    * -
+      - 7
+      - Sleeveless tucked-in t-shirt
 
 Chest Material Options
 **********************
@@ -2713,8 +3271,8 @@ Chest Material Options
     :header-rows: 1
 
     * - Chest Option
-      - Material Options (Female)
-      - Material Options (Male)
+      - Material Options (Female 1-4)
+      - Material Options (Male 1-4)
     * - Dress or tank top
       - 0 to 13
       -
@@ -2727,6 +3285,16 @@ Chest Material Options
     * - Other shirts
       - 0 to 14
       - 0 to 11
+
+.. list-table::
+    :header-rows: 1
+
+    * - Chest Option
+      - Material Options (Male and Female 5-8)
+    * - Sweaters
+      - 0 to 11
+    * - All other shirts and dresses
+      - 0 to 15
 
 Eye Options
 ***********
@@ -2743,8 +3311,8 @@ Feet Options
 .. list-table::
     :header-rows: 1
 
-    * - Feet Option (Female)
-      - Feet Option (Male)
+    * - Feet Option (Female 1-4)
+      - Feet Option (Male 1-4)
       - Description
     * - 0
       - 0
@@ -2756,6 +3324,25 @@ Feet Options
       -
       - Formal shoe with heel
 
+.. list-table::
+    :header-rows: 1
+
+    * - Feet Option (Female 5-6)
+      - Feet Option (Male 7-8)
+      - Description
+    * - 0
+      - 0
+      - Shoes with white laces
+    * - 1
+      - 1
+      - Shoes with black laces
+    * - 2
+      - 2
+      - Small boots
+    * - 3
+      - 3
+      - Large boots
+
 Feet Material Options
 *********************
 
@@ -2764,12 +3351,12 @@ Feet Material Options
 
     * - Feet Option
       - Material Options
-    * - Formal shoe
-      - 0 to 11
     * - Sports shoe
       - 0 to 9
     * - Formal shoe with heel
       - 0 to 10
+    * - All other shoes
+      - 0 to 11
 
 Glasses Options
 ***************
@@ -2777,8 +3364,10 @@ Glasses Options
 .. list-table::
     :header-rows: 1
 
-    * - Glasses Options
+    * - Glasses Options (Male and Female 1-4)
+      - Glasses Options (Male and Female 5-8)
     * - 0 to 10
+      - 0 to 8
 
 Hair Options
 ************
@@ -2786,11 +3375,14 @@ Hair Options
 .. list-table::
     :header-rows: 1
 
-    * - Hair Material Options
+    * - Hair Material Options (Male and Female 1-4)
+      - Hair Material Options (Male and Female 5-8)
       - Hat?
     * - 0 to 6
+      - 0 to 4
       - No
     * - 7 to 9
+      - 5 to 6
       - Yes
 
 Hair Material Options
@@ -2799,12 +3391,40 @@ Hair Material Options
 .. list-table::
     :header-rows: 1
 
-    * - Hair Options
+    * - Hair Options (Male and Female 1-4)
       - Hair Material Options
     * - 0 to 9, excluding 5
       - 0 (yellow), 1 (brown), 2 (black), or 3 (white)
     * - 5
       - 0 (brown)
+
+.. list-table::
+    :header-rows: 1
+
+    * - Hair Options
+      - Hair Material Options (Female 5-6)
+      - Hair Material Options (Male 7-8)
+    * - 0
+      - 0 (yellow), 1 (brown), 2 (black), or 3 (red)
+      - 0 (yellow), 1 (brown), 2 (black), or 3 (yellow highlights)
+    * - 1
+      - 0 (yellow), 1 (brown), 2 (black), or 3 (yellow highlights)
+      - 0 (yellow), 1 (brown), 2 (black), or 3 (blue)
+    * - 2
+      - 0 (yellow), 1 (brown), 2 (black), or 3 (green)
+      - 0 (yellow), 1 (brown), 2 (black), or 3 (green)
+    * - 3
+      - 0 (yellow), 1 (brown), 2 (black), or 3 (yellow highlights)
+      - 0 (yellow), 1 (brown), or 2 (black)
+    * - 4
+      - 0 (yellow), 1 (orange), 2 (black), or 3 (red and purple)
+      - 0 (yellow), 1 (orange), 2 (black), or 3 (yellow and pink)
+    * - 5
+      - 0 (yellow), 1 (orange), 2 (black), or 3 (red and purple)
+      - 0 (yellow), 1 (brown), or 2 (black)
+    * - 6
+      - 0 (yellow), 1 (brown), 2 (black), or 3 (yellow highlights)
+      - None
 
 Hat Material Options
 ********************
@@ -2812,14 +3432,24 @@ Hat Material Options
 .. list-table::
     :header-rows: 1
 
-    * - Hair Option
+    * - Hair Option (Male and Female 1-4)
+      - Hair Option (Male and Female 5-8)
       - Hat Material Options
     * - 7
+      -
       - 0 to 11
     * - 8
+      -
       - 0 to 11
     * - 9
+      -
       - 0 to 5
+    * -
+      - 5
+      - 0 to 11
+    * -
+      - 6
+      - 0 to 11
 
 Legs Options
 ************
@@ -2827,8 +3457,8 @@ Legs Options
 .. list-table::
     :header-rows: 1
 
-    * - Chest Option (Female)
-      - Chest Option (Male)
+    * - Legs Option (Female 1-4)
+      - Legs Option (Male 1-4)
       - Description
     * - 0
       -
@@ -2843,6 +3473,43 @@ Legs Options
       -
       - Skirt
 
+.. list-table::
+    :header-rows: 1
+
+    * - Legs Option (Female 5-6)
+      - Legs Option (Male 7-8)
+      - Description
+    * - 0
+      - 1
+      - Skinny pants
+    * - 1
+      - 3
+      - Baggy pants
+    * - 2
+      - 0
+      - Skinny pants, cuffed
+    * - 3
+      - 2
+      - Baggy pants, cuffed
+    * - 4
+      -
+      - Skinny pants, high waist
+    * - 5
+      -
+      - Baggy pants, high waist
+    * - 6
+      - 4
+      - Short shorts
+    * - 7
+      - 5
+      - Short shorts, cuffed
+    * - 8
+      - 6
+      - Long shorts
+    * - 9
+      -
+      - Skirt
+
 Legs Material Options
 *********************
 
@@ -2851,10 +3518,12 @@ Legs Material Options
 
     * - Legs Option
       - Material Options
-    * - Leggings and pants
+    * - Leggings and pants (Male and Female 1-4)
       - 0 to 14
-    * - Skirt
+    * - Skirt (Female 1-4)
       - 0 to 13
+    * - All options (Male and Female 5-8)
+      - 0 to 23
 
 Skin Options
 ************
@@ -2862,8 +3531,8 @@ Skin Options
 .. list-table::
     :header-rows: 1
 
-    * - Skin Option (Female)
-      - Skin Option (Male)
+    * - Skin Option (Female 1-4)
+      - Skin Option (Male 1-8 and Female 5-8)
       - Description
     * - 0
       - 0
@@ -2945,6 +3614,8 @@ Unrestricted Animations
 - sad
 - Point_start
 - Point_hold
+- Point_start_index_finger
+- Point_hold_index_finger
 
 Elder Animations
 ****************

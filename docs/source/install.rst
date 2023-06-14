@@ -2,8 +2,8 @@
 Installation and Setup
 =======================
 
-.. _Download and unzip the Mac ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.6.5/MCS-AI2-THOR-Unity-App-v0.6.5-mac.zip
-.. _Download and unzip the Linux ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.6.5/MCS-AI2-THOR-Unity-App-v0.6.5-linux.zip
+.. _Download and unzip the Mac ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.7.0/MCS-AI2-THOR-Unity-App-v0.7.0-mac.zip
+.. _Download and unzip the Linux ZIP: https://github.com/NextCenturyCorporation/MCS/releases/download/0.7.0/MCS-AI2-THOR-Unity-App-v0.7.0-linux.zip
 
 Virtual Environments
 ------------------------
@@ -227,6 +227,35 @@ step_penalty
 (float, optional)
 
 Changes the negative penalty recieved for every step. Default: 0.001
+
+timeout
+^^^^^^^
+
+(int, optional)
+
+Sets the time (in seconds) to allow on a single step before timing out. Default 3600
+
+controller_timeout
+^^^^^^^^^^^^^^^^^^
+
+(int, optional)
+
+Sets the time (in seconds) to allow on controller initialization before timing out. Default 180
+
+terminal_output
+^^^^^^^^^^^^^^^
+
+(boolean or string, optional)
+
+The terminal output mode controls what output metadata is logged to the terminal during a run (using the debug logger). Multiple modes can be configured together using commas-delimited strings (for example: "actions,performer").
+
+- `all` or `true` (default): Prints all terminal output (listed below).
+- `minimal`: Prints minimal output, including step number, selected action, return status, goal, and current reward (if any).
+- `actions`: Prints all actions available for the next step.
+- `objects`: Prints all object metadata.
+- `performer`: Prints metadata for the performer agent, including camera and frame rate information.
+- `scene`: Prints metadata for the scene's room, including all structural objects.
+- `false` or `none`: Prints no terminal output, besides initialization, warning, and error messages.
 
 top_down_camera
 ^^^^^^^^^^^^^^^

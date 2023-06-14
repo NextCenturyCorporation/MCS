@@ -1,0 +1,67 @@
+{
+    "name": "Hooked Tool uses MoveObject in all directions on a ball, makes sure the ball does not move forward only backward",
+    "version": 2,
+    "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetWhite 3",
+    "wallMaterial": "AI2-THOR/Materials/Walls/Drywall",
+    "roomDimensions": {
+        "x": 19,
+        "y": 3,
+        "z": 19
+    },
+    "performerStart": {
+        "position": {
+            "x": 1,
+            "z": -4.5
+        },
+        "rotation": {
+            "x": 0,
+            "y": 0
+        }
+    },
+    "objects": [
+        {
+            "id": "tool_1",
+            "type": "tool_hooked_0_75_x_5_00",
+            "shows": [
+                {
+                    "stepBegin": 0,
+                    "position": {
+                        "x": 0.35,
+                        "y": 0.25,
+                        "z": -1.3
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "scale": {
+                        "x": 1,
+                        "y": 1,
+                        "z": 1
+                    }
+                }
+            ]
+        },
+        {
+            "id": "target",
+            "type": "soccer_ball",
+            "shows": [
+                {
+                    "stepBegin": 0,
+                    "position": {
+                        "x": 0,
+                        "y": 0.25,
+                        "z": 0
+                    },
+                    "scale": {
+                        "x": 2,
+                        "y": 2,
+                        "z": 2
+                    }
+                }
+            ]
+        }
+    ]
+  }

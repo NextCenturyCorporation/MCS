@@ -9,6 +9,11 @@ from machine_common_sense.scripts.run_interactive_scenes_follow_path import \
 commands = []
 
 
+"""
+Must be run at oracle metadata level on debug scene(s) with a "path" section.
+"""
+
+
 def parse_args():
     parser = argparse.ArgumentParser(description='Run MCS')
     parser.add_argument(
@@ -38,7 +43,7 @@ def parse_args():
 path_follower = PathFollower()
 
 
-def run_scene(controller: Controller, scene_data, path):
+def run_scene(controller: Controller, scene_data):
 
     print("Resetting the current scene...")
     output = controller.start_scene(scene_data)
@@ -59,11 +64,6 @@ def main():
     args = parse_args()
     scene_data = mcs.load_scene_json_file(args.mcs_scene_json_file)
 
-    path = scene_data.get('debug', {}).get('path')
-    if not path:
-        print("Scene did not have 'debug.path' section")
-        return
-
     controller = mcs.create_controller(
         unity_app_file_path=args.mcs_unity_build_file,
         config_file_or_dict=args.config_file_path,
@@ -78,7 +78,7 @@ def main():
         scene_data['name'] = scene_file_name[0:scene_file_name.find('.')]
 
     if controller is not None:
-        run_scene(controller, scene_data, path)
+        run_scene(controller, scene_data)
 
 
 if __name__ == "__main__":

@@ -6,6 +6,7 @@ from types import SimpleNamespace
 from unittest.mock import ANY, MagicMock
 
 import numpy as np
+import typeguard
 
 import machine_common_sense as mcs
 from machine_common_sense.config_manager import (ConfigManager, MetadataTier,
@@ -49,7 +50,7 @@ class TestController(unittest.TestCase):
             clockwise=True,
             consistentColors=False,
             continuous=True,
-            disablePosition=True,
+            disablePosition=False,
             goalObjectIds=[],
             gridSize=Parameter.GRID_SIZE,
             horizon=0.0,
@@ -68,8 +69,8 @@ class TestController(unittest.TestCase):
                 'y': 0
             },
             recordTopDown=False,
-            renderDepthImage=False,
-            renderObjectImage=False,
+            renderDepthImage=True,
+            renderObjectImage=True,
             rotation={'y': 0.0},
             snapToGrid=False,
             straight=1,
@@ -130,6 +131,7 @@ class TestController(unittest.TestCase):
                     "distance": 1.5,
                     "distanceXZ": 1.1,
                     "isPickedUp": False,
+                    "wasPickedUp": False,
                     "mass": 12.34,
                     "objectBounds": {
                         "objectBoundsCorners": [
@@ -169,6 +171,7 @@ class TestController(unittest.TestCase):
                     "distance": 2.5,
                     "distanceXZ": 2.0,
                     "isPickedUp": False,
+                    "wasPickedUp": False,
                     "mass": 34.56,
                     "objectBounds": {
                         "objectBoundsCorners": [
@@ -209,6 +212,7 @@ class TestController(unittest.TestCase):
                     "distance": 2.5,
                     "distanceXZ": 2.2,
                     "isPickedUp": False,
+                    "wasPickedUp": False,
                     "mass": 56.78,
                     "objectBounds": {
                         "objectBoundsCorners": [
@@ -248,6 +252,7 @@ class TestController(unittest.TestCase):
                     "distance": 3.5,
                     "distanceXZ": 3.3,
                     "isPickedUp": False,
+                    "wasPickedUp": False,
                     "mass": 78.90,
                     "objectBounds": {
                         "objectBoundsCorners": [
@@ -366,7 +371,7 @@ class TestController(unittest.TestCase):
                 ]}
         }
 
-        with self.assertRaises(TypeError):
+        with self.assertRaises(typeguard.TypeCheckError):
             self.controller.end_scene("1.0", np.float64(0.5), {
                 1: {
                     "rating": 1.0,
