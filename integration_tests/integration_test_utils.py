@@ -17,11 +17,6 @@ def print_divider():
 
 def add_test_args(parser: argparse.ArgumentParser,
                   handmade_only=False) -> argparse.ArgumentParser:
-    # if not handmade_only:
-    #    parser.add_argument(
-    #        'mcs_unity_github_branch_name',
-    #        help='Name of branch/tag on MCS AI2-THOR Unity GitHub repository'
-    #    )
     parser.add_argument(
         '--metadata',
         default=None,

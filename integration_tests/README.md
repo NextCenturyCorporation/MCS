@@ -7,6 +7,12 @@ The goal of the integration tests is to:
 ## Run Handmade Tests
 
 ```
+python run_handmade_tests.py
+```
+
+### Run Specific Unity Build
+
+```
 python run_handmade_tests.py --mcs_unity_build_file_path <mcs_unity_build_file_path>
 ```
 
@@ -26,12 +32,16 @@ Replace `001` with any test scene.
 
 ## Run Prefab Tests
 
-TODO MCS-432
-
-## Run All Tests
+Note that this test requires an internet connection to run.
 
 ```
-python run_tests.py --mcs_unity_build_file_path <mcs_unity_build_file_path>
+python run_prefab_tests.py
+```
+
+### Run on Development Branch
+
+```
+python run_prefab_tests.py --mcs_unity_version development
 ```
 
 ## Run the Autofixer
