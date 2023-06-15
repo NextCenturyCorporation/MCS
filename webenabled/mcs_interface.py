@@ -99,6 +99,8 @@ class MCSInterface:
         f = open(command_file_name, "a")
         f.write(action)
         f.close()
+        # wait for action to process
+        time.sleep(0.1)
         return self.get_image_name()
 
     def get_image_name(self):
@@ -122,6 +124,11 @@ class MCSInterface:
                 for file in list_of_files:
                     if file != latest_file:
                         os.unlink(file)
+
+                # wait to make sure we've finished loading the new image
+                # (not sure why the is_file_open check below didn't
+                # do the trick?)
+                time.sleep(0.1)
 
                 # Check to see if the unity controller still has the file open
                 for x in range(0, 100):
