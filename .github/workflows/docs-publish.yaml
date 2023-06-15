@@ -6,6 +6,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    id-token: write
+    contents: read
     steps:
     - name: Checkout
       uses: actions/checkout@master
@@ -14,7 +16,6 @@ jobs:
     - name: Build and Commit
       uses: sphinx-notes/pages@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
         documentation_path: docs/source
     - name: Push changes
       uses: ad-m/github-push-action@master
