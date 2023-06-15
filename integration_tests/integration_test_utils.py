@@ -1,12 +1,14 @@
 import argparse
 import pathlib
 
+METADATA_TIER_LIST = ['level1', 'level2', 'oracle']
+
 config_dir = pathlib.Path(__file__).parent
-METADATA_TIER_LIST = [
-    ('level1', str(config_dir / 'config_level1.ini')),
-    ('level2', str(config_dir / 'config_level2.ini')),
-    ('oracle', str(config_dir / 'config_oracle.ini'))
-]
+DEFAULT_TEST_CONFIGS = {
+    'level1': str(config_dir / 'config_level1.ini'),
+    'level2': str(config_dir / 'config_level2.ini'),
+    'oracle': str(config_dir / 'config_oracle.ini')
+}
 
 
 def print_divider():
@@ -15,15 +17,15 @@ def print_divider():
 
 def add_test_args(parser: argparse.ArgumentParser,
                   handmade_only=False) -> argparse.ArgumentParser:
-    if not handmade_only:
-        parser.add_argument(
-            'mcs_unity_github_branch_name',
-            help='Name of branch/tag on MCS AI2-THOR Unity GitHub repository'
-        )
+    # if not handmade_only:
+    #    parser.add_argument(
+    #        'mcs_unity_github_branch_name',
+    #        help='Name of branch/tag on MCS AI2-THOR Unity GitHub repository'
+    #    )
     parser.add_argument(
         '--metadata',
         default=None,
-        choices=[metadata_tier[0] for metadata_tier in METADATA_TIER_LIST],
+        choices=[metadata_tier for metadata_tier in METADATA_TIER_LIST],
         help='Metadata tier to run (by default, test each metadata tier)'
     )
     parser.add_argument(
