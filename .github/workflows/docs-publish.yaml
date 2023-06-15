@@ -9,7 +9,6 @@ jobs:
     permissions:
       pages: write 
       id-token: write
-      contents: read
     steps:
     - name: Checkout
       uses: actions/checkout@master
@@ -19,6 +18,7 @@ jobs:
       uses: sphinx-notes/pages@v3
       with:
         documentation_path: docs/source
+        publish: false
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
