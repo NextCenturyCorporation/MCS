@@ -317,6 +317,7 @@ def start_handmade_tests(
             continue
         print_divider()
         print(f'HANDMADE TEST METADATA TIER: {metadata_tier.upper()}')
+        print(f'mcs_unity_build: {mcs_unity_build}')
         # Create one controller to run all of the tests at this metadata tier.
         if (not controller):
             controller = mcs.create_controller(
