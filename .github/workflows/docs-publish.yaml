@@ -9,7 +9,7 @@ jobs:
     permissions:
       pages: write 
       id-token: write
-      contents: read
+      contents: write
       pull-requests: write
     steps:
     - name: Checkout
@@ -24,5 +24,5 @@ jobs:
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
-        github_token: ${{ secrets.PLE_PAT_ACTIONS }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: gh-pages
