@@ -12,7 +12,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: Build and Commit
-      uses: sphinx-notes/pages@master
+      uses: sphinx-notes/pages@v3
       with:
         documentation_path: docs/source
     - name: Push changes
