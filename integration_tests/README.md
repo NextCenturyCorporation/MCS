@@ -100,6 +100,8 @@ While adding a new test scene, you can run with the `--dev` flag to run the whol
 
 - Please have validation for each step.
 - If you do not include checks for properties, it does not mean those properties are null, it just means you are not checking them in the particular test. This is also true for objects: if you put an empty array for `objects`, it does not mean there are no objects, it just means you are not checking any object properties (so use `objects_count: 0` instead).
+- Any numerical property can be an array instead of a single number. The array must contain two numbers. The integration tests will use the numbers in the array as minimum and maximum values for validating the property at that step.
+- All numerical properties will be rounded to the hundredths place.
 
 #### Step Validation
 
@@ -151,3 +153,5 @@ While adding a new test scene, you can run with the `--dev` flag to run the whol
 - `state_list`: Expected object "states" at this step
 - `texture_color_list`: Expected object texture colors
 - `visible`: Whether this object is currently visible
+
+Copyright 2023 CACI (formerly Next Century Corporation)
