@@ -1,8 +1,8 @@
+import datetime
 import glob
 import json
 import os
 import time
-import uuid
 from os.path import exists
 
 from flask import current_app
@@ -38,16 +38,19 @@ class MCSInterface:
     In particular, you cannot include the code from subprocess_runner,
     """
 
-    def __init__(self):
+    def __init__(self, user: str):
         self.logger = current_app.logger
+        # TODO FIXME Use the step number from the output metadata.
+        self.step_number = 0
+        self.scene_id = None
 
         if not exists(MCS_INTERFACE_TMP_DIR):
             os.mkdir(MCS_INTERFACE_TMP_DIR)
 
-        self.command_out_dir = MCS_INTERFACE_TMP_DIR + \
-            "cmd_" + str(time.time())
-        self.image_in_dir = MCS_INTERFACE_TMP_DIR + \
-            "img_" + str(time.time())
+        time_str = datetime.datetime.now().strftime("%y%m%d_%H%M%S")
+        suffix = f"{time_str}_{user}"
+        self.command_out_dir = f"{MCS_INTERFACE_TMP_DIR}cmd_{suffix}"
+        self.image_in_dir = f"{MCS_INTERFACE_TMP_DIR}img_{suffix}"
         if not exists(self.command_out_dir):
             os.mkdir(self.command_out_dir)
         if not exists(self.image_in_dir):
@@ -86,16 +89,23 @@ class MCSInterface:
 
     def load_scene(self, scene_filename: str):
         action_list_str = self.get_action_list(scene_filename)
+        self.step_number = 0
+        self.scene_id = scene_filename[
+            (scene_filename.rfind('/') + 1):(scene_filename.rfind('.'))
+        ]
         img = self._post_step_and_get_image(scene_filename)
         return img, action_list_str
 
     def perform_action(self, key: str):
         action = convert_key_to_action(key, self.logger)
+        self.step_number = self.step_number + 1
         return self._post_step_and_get_image(action)
 
     def _post_step_and_get_image(self, action):
-        command_file_name = self.command_out_dir + \
-            "/command_" + str(uuid.uuid4()) + ".txt"
+        command_file_name = (
+            f'{self.command_out_dir}/command_{self.scene_id}_step_'
+            f'{self.step_number}.txt'
+        )
         f = open(command_file_name, "a")
         f.write(action)
         f.close()
@@ -116,7 +126,7 @@ class MCSInterface:
                 self.img_name = self.blank_path
                 return self.img_name
 
-            list_of_files = glob.glob(self.image_in_dir + "/*.png")
+            list_of_files = glob.glob(self.image_in_dir + "/rgb_*.png")
             if len(list_of_files) > 0:
                 latest_file = max(list_of_files, key=os.path.getctime)
 
@@ -184,11 +194,11 @@ class MCSInterface:
         [('CloseObject', {}), ('DropObject', {}), ('MoveAhead', {}), ...
         which is not very user-friendly.  For each of them, remove
         the extra quotes"""
-        simple_list_str = scene_filename + ": "
+        actions = []
         if default_action_list is not None and len(default_action_list) > 0:
             for action_pair in default_action_list:
                 if isinstance(action_pair, tuple) and len(action_pair) > 0:
-                    simple_list_str += (" " + action_pair[0])
+                    actions.append(action_pair[0])
                 else:
-                    simple_list_str += (" " + action_pair)
-        return simple_list_str
+                    actions.append(action_pair)
+        return ", ".join(actions)

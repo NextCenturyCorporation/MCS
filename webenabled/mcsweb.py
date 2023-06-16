@@ -50,13 +50,13 @@ def get_mcs_interface(request, label):
         else:
             app.logger.info("MCS interface is unavailable")
 
-    # Don't recognize, create new mcs interface
-    mcs_interface = MCSInterface()
-    mcs_interface.start_mcs()
-
     letters = string.ascii_lowercase
     uniq_id_str = ''.join(random.choice(letters) for i in range(10))
     app.logger.info(f"{label}: new user: {uniq_id_str}")
+
+    # Don't recognize, create new mcs interface
+    mcs_interface = MCSInterface(uniq_id_str)
+    mcs_interface.start_mcs()
     session[uniq_id_str] = mcs_interface
 
     return mcs_interface, uniq_id_str
@@ -90,8 +90,9 @@ def handle_keypress():
 
     key = clean_request_data(request)
     img = mcs_interface.perform_action(key)
-    app.logger.info(f"Key press: {key}, output: {img}")
-    resp = jsonify(image=img)
+    step_number = mcs_interface.step_number
+    app.logger.info(f"Key press: {key}, step {step_number}, output: {img}")
+    resp = jsonify(image=img, step=step_number)
     return resp
 
 
@@ -107,5 +108,10 @@ def handle_scene_selection():
     scene_filename = clean_request_data(request)
     img, action_list = mcs_interface.load_scene("scenes/" + scene_filename)
     app.logger.info(f"Start scene: {scene_filename}, output: {img}")
-    resp = jsonify(action_list=action_list, image=img)
+    resp = jsonify(
+        action_list=action_list,
+        image=img,
+        scene=scene_filename,
+        step=0
+    )
     return resp
