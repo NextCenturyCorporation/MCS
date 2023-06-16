@@ -6,15 +6,21 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      pages: write 
+      id-token: write
+      contents: write
+      pull-requests: write
     steps:
     - name: Checkout
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
       with:
         fetch-depth: 0
     - name: Build and Commit
-      uses: sphinx-notes/pages@master
+      uses: sphinx-notes/pages@v3
       with:
         documentation_path: docs/source
+        publish: false        
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
