@@ -17,7 +17,7 @@ IMG_WIDTH = 640
 IMG_HEIGHT = 480
 MCS_INTERFACE_TMP_DIR = "static/mcsinterface/"
 BLANK_IMAGE_NAME = 'blank_640x480.png'
-IMAGE_WAIT_TIMEOUT = 3.0
+IMAGE_WAIT_TIMEOUT = 20.0
 
 
 def convert_key_to_action(key: str, logger):
@@ -99,6 +99,8 @@ class MCSInterface:
         f = open(command_file_name, "a")
         f.write(action)
         f.close()
+        # wait for action to process
+        time.sleep(0.1)
         return self.get_image_name()
 
     def get_image_name(self):
@@ -123,6 +125,11 @@ class MCSInterface:
                     if file != latest_file:
                         os.unlink(file)
 
+                # wait to make sure we've finished loading the new image
+                # (not sure why the is_file_open check below didn't
+                # do the trick?)
+                time.sleep(0.1)
+
                 # Check to see if the unity controller still has the file open
                 for x in range(0, 100):
                     if is_file_open(self.pid, latest_file):
@@ -130,8 +137,9 @@ class MCSInterface:
                     else:
                         break
 
-                self.img_name = latest_file
-                return self.img_name
+                if latest_file != self.img_name:
+                    self.img_name = latest_file
+                    return self.img_name
 
             time.sleep(0.05)
 
