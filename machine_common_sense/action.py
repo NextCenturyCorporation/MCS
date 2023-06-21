@@ -749,7 +749,6 @@ class Action(Enum):
         Unexpected error; please report immediately to development team.
     """
 
-    # Pass should always be the last action in the enum.
     END_SCENE = (
         "EndScene",
         "q",
