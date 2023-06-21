@@ -752,7 +752,7 @@ class Action(Enum):
     # Pass should always be the last action in the enum.
     END_SCENE = (
         "EndScene",
-        " ",
+        "q",
         "There is no action available and end_scene needs to be called."
     )
     """
