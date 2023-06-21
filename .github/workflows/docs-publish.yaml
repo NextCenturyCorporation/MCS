@@ -13,16 +13,16 @@ jobs:
       pull-requests: write
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - name: Build and Commit
       uses: sphinx-notes/pages@v3
       with:
         documentation_path: docs/source
-        publish: false        
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.PLE_PAT_ACTIONS }}
         branch: gh-pages
+        force: true
