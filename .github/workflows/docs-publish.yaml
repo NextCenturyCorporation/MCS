@@ -20,7 +20,6 @@ jobs:
       uses: sphinx-notes/pages@v3
       with:
         documentation_path: docs/source
-        publish: false        
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
