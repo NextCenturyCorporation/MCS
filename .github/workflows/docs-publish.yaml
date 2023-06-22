@@ -6,9 +6,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      pages: write 
+      id-token: write
+      contents: write
+      pull-requests: write
     steps:
     - name: Checkout
-      uses: actions/checkout@master
+      uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - name: Build and Commit
@@ -18,5 +23,6 @@ jobs:
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.PLE_PAT_ACTIONS }}
         branch: gh-pages
+        force: true
