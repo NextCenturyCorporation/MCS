@@ -23,9 +23,9 @@ IMAGE_WAIT_TIMEOUT = 20.0
 def convert_key_to_action(key: str, logger):
     for action in mcs.Action:
         if key == action.key:
-            logger.info(f"Converting {key} into {action.value}")
+            logger.info(f"Converting '{key}' into {action.value}")
             return action.value
-    logger.info(f"Unable to convert {key}. Returning Pass...")
+    logger.info(f"Unable to convert '{key}'. Returning Pass...")
     return "Pass"
 
 
