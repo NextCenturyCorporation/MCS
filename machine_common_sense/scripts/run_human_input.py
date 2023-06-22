@@ -66,6 +66,17 @@ class HumanInputShell(cmd.Cmd):
     def precmd(self, line):
         return line
 
+    def parseline(self, line):
+        # don't strip line if spacebar was pressed
+        if (line == ' '):
+            i, n = 0, len(line)
+            while i < n and line[i] in self.identchars:
+                i = i + 1
+            cmd, arg = line[:i], line[i:].strip()
+            return cmd, arg, line
+        else:
+            return super().parseline(line)
+
     def postcmd(self, stop_flag, line) -> bool:
         print('================================================='
               '==============================')

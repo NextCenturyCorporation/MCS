@@ -61,7 +61,7 @@ setuptools.setup(
         'opencv-python==4.4.0.46; python_version<="3.9"',
         'opencv-python==4.5.4.60; python_version>="3.10"',
         'pydantic==1.10.7',
-        'requests==2.28.2',
+        'requests==2.31.0',
         'scikit-image==0.19.3',
         'Shapely==1.7.1; python_version<"3.10"',
         'Shapely==1.8.5; python_version>="3.10"',
