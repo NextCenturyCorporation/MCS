@@ -6,8 +6,8 @@ import os.path
 import time
 
 from additional_integration_tests import FUNCTION_LIST
-from integration_test_utils import (METADATA_TIER_LIST, add_test_args,
-                                    print_divider)
+from integration_test_utils import (DEFAULT_TEST_CONFIGS, METADATA_TIER_LIST,
+                                    add_test_args, print_divider)
 
 import machine_common_sense as mcs
 from machine_common_sense.logging_config import LoggingConfig
@@ -311,20 +311,19 @@ def start_handmade_tests(
     failed_test_list = []
     mcs.init_logging(LoggingConfig.get_errors_only_console_config())
     # Run each test scene at each metadata tier.
-    controller = None
-    for metadata_tier, config_filename in METADATA_TIER_LIST:
+    for metadata_tier in METADATA_TIER_LIST:
         if only_metadata_tier and metadata_tier != only_metadata_tier:
             continue
         print_divider()
         print(f'HANDMADE TEST METADATA TIER: {metadata_tier.upper()}')
+
         # Create one controller to run all of the tests at this metadata tier.
-        if (not controller):
-            controller = mcs.create_controller(
-                unity_app_file_path=mcs_unity_build,
-                unity_cache_version=unity_version,
-                config_file_or_dict=config_filename)
-        else:
-            mcs.change_config(controller, config_file_or_dict=config_filename)
+        config_filename = DEFAULT_TEST_CONFIGS[metadata_tier]
+        controller = mcs.create_controller(
+            unity_app_file_path=mcs_unity_build,
+            unity_cache_version=unity_version,
+            config_file_or_dict=config_filename
+        )
 
         reset_config = False
         # Run each test scene and record if it failed validation.
@@ -378,10 +377,13 @@ def start_handmade_tests(
                     controller, config_file_or_dict=config_filename)
 
         # Run each additional test at this metadata tier.
-        for runner_function in (
-                [func for func in FUNCTION_LIST
-                 if only_test_name is None or
-                 only_test_name in str(func)]):
+        for runner_function, config_data in [
+            (runner_function, config_data)
+            for runner_function, config_data in FUNCTION_LIST
+            if only_test_name is None or only_test_name in str(runner_function)
+        ]:
+            config = config_data[metadata_tier]
+            mcs.change_config(controller, config_file_or_dict=config)
             print(f'RUNNING TESTS: {runner_function.__name__}')
             successful, status = runner_function(controller, metadata_tier)
             test_name = runner_function.__name__
