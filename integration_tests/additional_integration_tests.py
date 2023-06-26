@@ -4,13 +4,29 @@ import math
 import os.path
 
 import numpy as np
+from integration_test_utils import DEFAULT_TEST_CONFIGS
 
 import machine_common_sense as mcs
 
 INTEGRATION_TESTS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+
 DEPTH_AND_SEGMENTATION_SCENE = (
     f'{INTEGRATION_TESTS_FOLDER}/depth_and_segmentation.scene.json'
 )
+DEPTH_AND_SEGMENTATION_TEST_CONFIGS = {
+    'level1': {
+        'history_enabled': False,
+        'metadata': 'level1'
+    },
+    'level2': {
+        'history_enabled': False,
+        'metadata': 'level2'
+    },
+    'oracle': {
+        'history_enabled': False,
+        'metadata': 'oracle'
+    },
+}
 
 DEPTH_DATA = (
     f'{INTEGRATION_TESTS_FOLDER}/depth_map.outputs.json'
@@ -472,9 +488,9 @@ def run_restricted_action_list_test(controller, metadata_tier):
 
 
 FUNCTION_LIST = [
-    run_depth_and_segmentation_test,
-    run_habituation_trial_counts_test,
-    run_position_by_step_test,
-    run_public_sample_scenes_test,
-    run_restricted_action_list_test
+    (run_depth_and_segmentation_test, DEPTH_AND_SEGMENTATION_TEST_CONFIGS),
+    (run_habituation_trial_counts_test, DEFAULT_TEST_CONFIGS),
+    (run_position_by_step_test, DEFAULT_TEST_CONFIGS),
+    (run_public_sample_scenes_test, DEFAULT_TEST_CONFIGS),
+    (run_restricted_action_list_test, DEFAULT_TEST_CONFIGS),
 ]
