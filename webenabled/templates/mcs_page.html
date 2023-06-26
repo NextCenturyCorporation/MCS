@@ -170,6 +170,7 @@
     // ---------------------------------------------------------
     // Handle clicking on one of the scene file names
     var lis = document.getElementById("scenes_unordered_list").getElementsByTagName('li');
+    var processingKeypress = false
 
     for (var i = 0; i < lis.length; i++) {
         lis[i].addEventListener('click', select_scene, false);
@@ -219,11 +220,20 @@
         if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
             return;
         }
+        if (processingKeypress) {
+            console.log('Currently processing keypress, ignoring new input.')
+            return;
+        }
+        processingKeypress = true
         fetch("{{url_for('handle_keypress')}}",
             {method: 'POST', body: JSON.stringify(e.key)})
             .then(parseJsonResponse)
             .then(updateStepNumber)
-            .then(updateImage);
+            .then(updateImage)
+            .then(function() {
+                processingKeypress = false
+            });
+
     }
 
     function updateImage(data) {
