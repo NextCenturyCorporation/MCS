@@ -213,9 +213,30 @@
     var lis = document.getElementById("scenes_unordered_list").getElementsByTagName('li');
     var processingKeypress = false
     loadingSpinner(false)
+    loadController()
 
     for (var i = 0; i < lis.length; i++) {
         lis[i].addEventListener('click', select_scene, false);
+    }
+
+    function eventHandleScenes() {
+        lis = document.getElementById("scenes_unordered_list").getElementsByTagName('li');
+        for (var i = 0; i < lis.length; i++) {
+            lis[i].addEventListener('click', select_scene, false);
+        }
+
+    }
+
+    function loadController() {
+        loadingSpinner(true)
+        resp = fetch("{{url_for('handle_load_controller')}}",
+            {method: 'POST', body: JSON.stringify(this.innerHTML)})
+            .then(parseJsonResponse)
+            .then(updateSceneList)
+            .then(updateImage)
+            .then(function() {
+                loadingSpinner(false)
+            });
     }
 
     function select_scene() {
@@ -255,6 +276,20 @@
         console.log("stepNumber is " + data.step);
         var stepNumber = document.getElementById('step_number');
         stepNumber.innerHTML = "Step: " + data.step;
+        return data;
+    }
+
+    function updateSceneList(data) {
+        var scenesString = ''
+
+        data.scene_list.forEach(scene => {
+            scenesString = scenesString.concat('<li>' + scene + '</li>')
+        });
+
+        var scenesList = document.getElementById('scenes_unordered_list');
+        scenesList.innerHTML = scenesString;
+        eventHandleScenes()
+
         return data;
     }
 
