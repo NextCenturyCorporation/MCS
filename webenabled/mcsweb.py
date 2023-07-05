@@ -70,7 +70,7 @@ def show_mcs_page():
         "controller and existing user session...")
     rendered_template = render_template(
         'mcs_page.html',
-        unityimg="static/mcsinterface/blank_600x400.png",
+        unityimg="static/blank_600x400.png",
         scene_list=[])
     resp = make_response(rendered_template)
 
