@@ -48,10 +48,6 @@
             margin: 0;
         }
 
-        div#header {
-            position: relative;
-        }
-
         div#header h1 {
             height: 80px;
             line-height: 80px;
@@ -59,14 +55,6 @@
             padding-left: 10px;
             background: #e0e0e0;
             color: #292929;
-        }
-
-        div#header a {
-            position: absolute;
-            right: 0;
-            top: 23px;
-            padding: 10px;
-            color: #006;
         }
 
         div#navigation {
@@ -121,11 +109,64 @@
             margin-left: auto;
             margin-right: auto;
         }
+
+        .overlay {
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            background: #ffffff;
+            opacity: 70%;
+        }
+
+        .overlay-inner {
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+
+        .overlay-content {
+            left: 50%;
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .spinner {
+            width: 120px;
+            height: 120px;
+            display: inline-block;
+            animation: spin 2s infinite linear;
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid #7fa0a9;
+            border-radius: 50%;
+        }
+
+        /* Safari */
+        @-webkit-keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 
 <body>
 <div id="container">
+    <div id="loading-spinner" class="overlay">
+        <div class="overlay-inner">
+            <div class="overlay-content"><span class="spinner"></span></div>
+        </div>
+    </div>
     <div id="header">
         <h1>MCS Demo</h1>
     </div>
@@ -171,19 +212,45 @@
     // Handle clicking on one of the scene file names
     var lis = document.getElementById("scenes_unordered_list").getElementsByTagName('li');
     var processingKeypress = false
+    loadingSpinner(false)
+    loadController()
 
     for (var i = 0; i < lis.length; i++) {
         lis[i].addEventListener('click', select_scene, false);
     }
 
+    function eventHandleScenes() {
+        lis = document.getElementById("scenes_unordered_list").getElementsByTagName('li');
+        for (var i = 0; i < lis.length; i++) {
+            lis[i].addEventListener('click', select_scene, false);
+        }
+
+    }
+
+    function loadController() {
+        loadingSpinner(true)
+        resp = fetch("{{url_for('handle_load_controller')}}",
+            {method: 'POST', body: JSON.stringify(this.innerHTML)})
+            .then(parseJsonResponse)
+            .then(updateSceneList)
+            .then(updateImage)
+            .then(function() {
+                loadingSpinner(false)
+            });
+    }
+
     function select_scene() {
+        loadingSpinner(true)
         resp = fetch("{{url_for('handle_scene_selection')}}",
             {method: 'POST', body: JSON.stringify(this.innerHTML)})
             .then(parseJsonResponse)
             .then(updateSceneFilename)
             .then(updateStepNumber)
             .then(updateActionList)
-            .then(updateImage);
+            .then(updateImage)
+            .then(function() {
+                loadingSpinner(false)
+            });
     }
 
     function parseJsonResponse(response) {
@@ -212,6 +279,20 @@
         return data;
     }
 
+    function updateSceneList(data) {
+        var scenesString = ''
+
+        data.scene_list.forEach(scene => {
+            scenesString = scenesString.concat('<li>' + scene + '</li>')
+        });
+
+        var scenesList = document.getElementById('scenes_unordered_list');
+        scenesList.innerHTML = scenesString;
+        eventHandleScenes()
+
+        return data;
+    }
+
     // ---------------------------------------------------------
     // Handle Key strokes (navigation)
     window.addEventListener('keydown', this.process_key, false);
@@ -225,6 +306,7 @@
             return;
         }
         processingKeypress = true
+        loadingSpinner(true)
         fetch("{{url_for('handle_keypress')}}",
             {method: 'POST', body: JSON.stringify(e.key)})
             .then(parseJsonResponse)
@@ -232,8 +314,17 @@
             .then(updateImage)
             .then(function() {
                 processingKeypress = false
+                loadingSpinner(false)
             });
 
+    }
+
+    function loadingSpinner(loading=true) {
+        if(loading) {
+            document.getElementById("loading-spinner").style.display = "block"
+        } else {
+            document.getElementById("loading-spinner").style.display = "none"
+        }
     }
 
     function updateImage(data) {

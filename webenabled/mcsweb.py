@@ -65,6 +65,21 @@ def get_mcs_interface(request, label):
 @app.route('/mcs')
 def show_mcs_page():
     app.logger.info("=" * 30)
+    app.logger.info(
+        "Initialize page before checking for "
+        "controller and existing user session...")
+    rendered_template = render_template(
+        'mcs_page.html',
+        unityimg="static/mcsinterface/blank_640x480.png",
+        scene_list=[])
+    resp = make_response(rendered_template)
+
+    return resp
+
+
+@app.route('/load_controller', methods=["POST"])
+def handle_load_controller():
+    app.logger.info("=" * 30)
     mcs_interface, uniq_id_str = get_mcs_interface(request, "Load page")
     if mcs_interface is None:
         app.logger.warn("Cannot load MCS interface")
@@ -72,9 +87,9 @@ def show_mcs_page():
 
     img = mcs_interface.blank_path
     scene_list = mcs_interface.get_scene_list()
-    rendered_template = render_template(
-        'mcs_page.html', unityimg=img, scene_list=scene_list)
-    resp = make_response(rendered_template)
+
+    resp = jsonify(image=img, scene_list=scene_list)
+
     resp.set_cookie("uniq_id", uniq_id_str)
 
     return resp
