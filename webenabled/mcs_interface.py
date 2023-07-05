@@ -13,10 +13,10 @@ from subprocess_runner import (is_file_open, is_process_running,
 import machine_common_sense as mcs
 from machine_common_sense import GoalMetadata
 
-IMG_WIDTH = 640
-IMG_HEIGHT = 480
+IMG_WIDTH = 600
+IMG_HEIGHT = 400
 MCS_INTERFACE_TMP_DIR = "static/mcsinterface/"
-BLANK_IMAGE_NAME = 'blank_640x480.png'
+BLANK_IMAGE_NAME = 'blank_600x400.png'
 IMAGE_WAIT_TIMEOUT = 20.0
 
 
