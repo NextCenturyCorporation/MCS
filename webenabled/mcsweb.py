@@ -19,11 +19,11 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 
-def clean_request_data(request, isJson=False):
+def clean_request_data(request, is_json=False):
     """When we get a response from the client, it can be a mess
     and wrapped in weird ways.  Clean it up."""
 
-    if not isJson:
+    if not is_json:
         # Request data comes as binary, convert to text
         data = request.data.decode("utf-8")
 
@@ -115,7 +115,7 @@ def handle_keypress():
         app.logger.warn("Cannot load MCS interface")
         return
 
-    params = clean_request_data(request, isJson=True)
+    params = clean_request_data(request, is_json=True)
     key = params["keypress"]
     img = mcs_interface.perform_action(params)
     step_number = mcs_interface.step_number
