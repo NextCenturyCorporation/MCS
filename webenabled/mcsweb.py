@@ -19,18 +19,30 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 
-def clean_request_data(response):
+def clean_request_data(request, isJson=False):
     """When we get a response from the client, it can be a mess
     and wrapped in weird ways.  Clean it up."""
 
-    # Request data comes as binary, convert to text
-    data = request.data.decode("utf-8")
+    if not isJson:
+        # Request data comes as binary, convert to text
+        data = request.data.decode("utf-8")
 
-    # Request data has quotes around it, remove them.
-    if data[0] == '"' and data[len(data) - 1] == '"':
-        data = data[1:len(data) - 1]
+        # Request data has quotes around it, remove them.
+        if data[0] == '"' and data[len(data) - 1] == '"':
+            data = data[1:len(data) - 1]
 
-    # app.app.logger.warning(f'values in request: {key}')
+    else:
+        # Read data as json
+        data = request.get_json(cache=False)
+
+        for key in data:
+            value = data[key]
+            # remove any extra quotes from strings
+            if isinstance(value, str) and value[0] == '"' and value[len(
+                    value) - 1] == '"':
+                value = value[1:len(value) - 1]
+                data[key] = value
+
     return data
 
 
@@ -103,8 +115,9 @@ def handle_keypress():
         app.logger.warn("Cannot load MCS interface")
         return
 
-    key = clean_request_data(request)
-    img = mcs_interface.perform_action(key)
+    params = clean_request_data(request, isJson=True)
+    key = params["keypress"]
+    img = mcs_interface.perform_action(params)
     step_number = mcs_interface.step_number
     app.logger.info(f"Key press: '{key}', step {step_number}, output: {img}")
     resp = jsonify(image=img, step=step_number)
