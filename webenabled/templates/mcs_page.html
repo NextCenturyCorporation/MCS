@@ -254,6 +254,7 @@
             .then(updateSceneFilename)
             .then(updateStepNumber)
             .then(updateActionList)
+            .then(clearImageCoordinates)
             .then(updateImage)
             .then(function() {
                 loadingSpinner(false)
@@ -332,6 +333,15 @@
         return params;
     }
 
+    function clearImageCoordinates(data) {
+        console.log("Scene has been reset, resetting image coordinates... ")
+        params = {}
+        document.getElementById('image_coord_x').innerHTML = "None"
+        document.getElementById('image_coord_y').innerHTML = "None"
+
+        return data;
+    }
+
     // listener for click
     document.getElementById('unityimg').onclick = function(e){
         updateImageCoords(e)
@@ -352,8 +362,8 @@
 
         if(actionKeysWithParams.includes(e.key)) {
             if(Object.keys(params).length === 0) {
-                alert("Image coords are required for your selected action. " +
-                "Please select image coordinates by clicking the point on the " +
+                alert("Image coordinates are required for your selected action. " +
+                "Please select image coordinates by clicking an area on the " +
                 "scene image you would like to use.");
                 return;
             }
