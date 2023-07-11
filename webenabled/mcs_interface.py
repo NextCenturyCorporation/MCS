@@ -114,10 +114,39 @@ class MCSInterface:
         )
         f = open(command_file_name, "a")
         if (action in image_coord_actions and params is not None):
-            x_coord = params["objectImageCoordsX"]
-            y_coord = params["objectImageCoordsY"]
-            action += (",objectImageCoordsX=" + str(x_coord) +
-                       ",objectImageCoordsY=" + str(y_coord))
+            if (action != "PutObject"):
+                x_coord = params["objectImageCoordsX"]
+                y_coord = params["objectImageCoordsY"]
+                action += (",objectImageCoordsX=" + str(x_coord) +
+                           ",objectImageCoordsY=" + str(y_coord))
+            else:
+                x_coord = params["receptacleObjectImageCoordsX"]
+                y_coord = params["receptacleObjectImageCoordsY"]
+                action += (",receptacleObjectImageCoordsX=" + str(x_coord) +
+                           ",receptacleObjectImageCoordsY=" + str(y_coord))
+
+            if (action in ["OpenObject", "CloseObject"] and
+                    "amount" in params):
+                amount = params["amount"]
+                action += (",amount=" + str(amount))
+
+            if (action in ["PullObject", "PushObject"] and
+                    "force" in params):
+                force = params["force"]
+                action += (",force=" + str(force))
+
+            if (action == "RotateObject" and
+                    "clockwise" in params):
+                clockwise = params["clockwise"]
+                action += (",clockwise=" + str(clockwise))
+
+            if (action == "MoveObject"):
+                if ("lateral" in params):
+                    lateral = params["lateral"]
+                    action += (",lateral=" + str(lateral))
+                if ("straight" in params):
+                    straight = params["straight"]
+                    action += (",straight=" + str(straight))
 
         f.write(action)
         f.close()

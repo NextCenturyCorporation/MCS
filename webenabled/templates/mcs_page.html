@@ -85,6 +85,7 @@
 
         div#content {
             margin: 0 25%;
+            padding-right: 25px;
         }
 
         div#navigation {
@@ -157,6 +158,11 @@
                 transform: rotate(360deg);
             }
         }
+
+        .input-fields {
+            display: flex;
+            justify-content: space-between;
+        }
     </style>
 </head>
 
@@ -175,11 +181,36 @@
             <p><div id="scene_filename">Scene: None</div></p>
             <p><div id="step_number">Step: N/A</div></p>
             <p><div id="action_list">Actions: N/A</div></p>
+            <hr/>
+            <p>
+                <div>Action Parameter Input Fields (if applicable for chosen keyboard shortcut, see <a href="https://nextcenturycorporation.github.io/MCS/api.html#machine_common_sense.Action">Action API</a> for more information on parameters):</div>
+            </p>
             <p><div id="image_coords_div">
-                <span>Image Coords to Use (if applicable): (
+                <span>Image Coordinates: (
                     x: <span id="image_coord_x">None</span>,
                     y: <span id="image_coord_y">None</span>
-                )</span></div></p>
+                )</span></div>
+            </p>
+            <p>
+                <div class="input-fields">
+                    <div>Amount: 
+                        <input type="number" min="0" max="1" step="0.1" value="1" id="amount"/>
+                    </div>
+                    <div>Force: 
+                        <input type="number" min="0" max="1" step="0.1" value="0.5" id="force"/>
+                    </div>
+                    <div>Clockwise: 
+                        <input type="checkbox" id="clockwise" checked>
+                    </div>
+                    <div>Lateral: 
+                        <input type="number" min="-1" max="1" step="1" value="0" id="lateral"/>
+                    </div>
+                    <div>Straight: 
+                        <input type="number" min="-1" max="1" step="1" value="1" id="straight"/>
+                    </div>
+                </div>
+            </p>
+            <p></p>
             <img id="unityimg" width="600" height="400" src="{{ unityimg }}" alt="my image" class="center"/>
             <br/>
             <p></p>
@@ -221,6 +252,12 @@
     var params = {}
     loadingSpinner(false)
     loadController()
+
+    // TODO
+    /*
+    function onChangeMe() {
+        console.log(event.target.checkValidity())
+    }*/
 
     for (var i = 0; i < lis.length; i++) {
         lis[i].addEventListener('click', select_scene, false);
@@ -379,7 +416,12 @@
             body: JSON.stringify({
                 "keypress": JSON.stringify(e.key),
                 "objectImageCoordsX": params.objectImageCoordsX,
-                "objectImageCoordsY": params.objectImageCoordsY
+                "objectImageCoordsY": params.objectImageCoordsY,
+                "amount": document.getElementById("amount").value,
+                "force": document.getElementById("force").value,
+                "clockwise": document.getElementById("clockwise").checked,
+                "lateral": document.getElementById("lateral").value,
+                "straight": document.getElementById("straight").value
             })
             })
             .then(parseJsonResponse)
