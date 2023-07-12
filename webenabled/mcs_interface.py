@@ -116,7 +116,7 @@ class MCSInterface:
         f = open(command_file_name, "a")
         if (action in image_coord_actions and params is not None):
             x_coord = params["objectImageCoordsX"]
-            y_coord = params["objectImageCoordsX"]
+            y_coord = params["objectImageCoordsY"]
             if (action != "PutObject"):
                 full_action_str += (",objectImageCoordsX=" + str(x_coord) +
                                     ",objectImageCoordsY=" + str(y_coord))

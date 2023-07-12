@@ -271,6 +271,7 @@
     // Handle clicking on one of the scene file names
     var lis = document.getElementById("scenes_unordered_list").getElementsByTagName('li');
     let actionKeysWithParams = ['1', '3', '4', '5', '6', '7', '8', '9', 'm', 'M', 't', 'T']
+    let arrowKeys = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"]
     var processingKeypress = false
     // default screen coordinates are in the center of image
     var params = {
@@ -410,7 +411,7 @@
         let errorMsg = document.getElementById("validation_errors")
 
         let amountVal = document.getElementById("amount").value
-        if(actionKey in ['1', '2'] && (amountVal > 1 || amountVal < 0)) {
+        if(['1', '2'].includes(actionKey) && (amountVal > 1 || amountVal < 0)) {
             errorMsg.innerHTML = "For OpenObject/CloseObject, the value " +
             "for 'amount' must be between 0 and 1."
             return false;
@@ -420,7 +421,7 @@
         // between 0 and 1, for Torque, make sure its -1 to 1
         let forceVal = document.getElementById("force").value
 
-        if(actionKey in ['5', '6'] && (forceVal > 1 || forceVal < 0)) {
+        if(['5', '6'].includes(actionKey) && (forceVal > 1 || forceVal < 0)) {
             errorMsg.innerHTML = "For PushObject/PullObject, the value " +
             "for 'force' must be between 0 and 1."
             return false;
@@ -436,13 +437,13 @@
         let straight = document.getElementById("straight").value
 
         if(actionKey == "M" || actionKey == "m") {
-            if (lateral in ['-1', '0', '1'] == false) {
+            if (['-1', '0', '1'].includes(lateral) == false) {
                 errorMsg.innerHTML = "For MoveObject, the value " +
                 "for 'lateral' must be either -1, 0, or 1."
                 return false;
             }
 
-            if((straight in ['-1', '0', '1']) == false) {
+            if((['-1', '0', '1'].includes(straight)) == false) {
                 errorMsg.innerHTML = "For MoveObject, the value " +
                 "for 'straight' must be either -1, 0, or 1."
                 return false;
@@ -463,7 +464,7 @@
     window.addEventListener('keydown', this.process_key, false);
 
     function process_key(e) {
-        if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+        if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || (arrowKeys.includes(e.key))) {
             return;
         }
         if (processingKeypress) {
