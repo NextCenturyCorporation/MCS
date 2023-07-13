@@ -172,9 +172,18 @@
     </div>
     <div id="wrapper">
         <div id="content">
-            <p><div id="scene_filename">Scene: None</div></p>
-            <p><div id="step_number">Step: N/A</div></p>
-            <p><div id="action_list">Actions: N/A</div></p>
+            <p><div id="scene_filename_div">
+                <span>Scene: </span>
+                <span id="scene_filename">None</span>
+            </div></p>
+            <p><div id="step_number_div">
+                <span>Step: </span>
+                <span id="step_number">N/A</span>
+            </div></p>
+            <p><div id="action_list_div">
+                <span>Actions: </span>
+                <span id="action_list">N/A</span>
+            </div></p>
             <p><div id="image_coords_div">
                 <span>Image Coords to Use (if applicable): (
                     x: <span id="image_coord_x">None</span>,
@@ -247,6 +256,11 @@
     }
 
     function select_scene() {
+        if(this.innerHTML == document.getElementById('scene_filename').innerHTML &&
+            document.getElementById('step_number').innerHTML == "0") {
+            console.log("Clicked scene is already selected and initialized. Returning...")
+            return;
+        }
         loadingSpinner(true)
         resp = fetch("{{url_for('handle_scene_selection')}}",
             {method: 'POST', body: JSON.stringify(this.innerHTML)})
@@ -269,21 +283,21 @@
     function updateActionList(data) {
         console.log("actionList is " + data.action_list);
         var actionList = document.getElementById('action_list');
-        actionList.innerHTML = "Actions: " + data.action_list;
+        actionList.innerHTML = data.action_list;
         return data;
     }
 
     function updateSceneFilename(data) {
         console.log("sceneFilename is " + data.scene);
         var sceneFilename = document.getElementById('scene_filename');
-        sceneFilename.innerHTML = "Scene: " + data.scene;
+        sceneFilename.innerHTML = data.scene;
         return data;
     }
 
     function updateStepNumber(data) {
         console.log("stepNumber is " + data.step);
         var stepNumber = document.getElementById('step_number');
-        stepNumber.innerHTML = "Step: " + data.step;
+        stepNumber.innerHTML = data.step;
         return data;
     }
 
