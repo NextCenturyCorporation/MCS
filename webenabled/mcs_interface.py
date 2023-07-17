@@ -13,10 +13,10 @@ from subprocess_runner import (is_file_open, is_process_running,
 import machine_common_sense as mcs
 from machine_common_sense import GoalMetadata
 
-IMG_WIDTH = 640
-IMG_HEIGHT = 480
+IMG_WIDTH = 600
+IMG_HEIGHT = 400
 MCS_INTERFACE_TMP_DIR = "static/mcsinterface/"
-BLANK_IMAGE_NAME = 'blank_640x480.png'
+BLANK_IMAGE_NAME = 'blank_600x400.png'
 IMAGE_WAIT_TIMEOUT = 20.0
 
 
@@ -96,17 +96,29 @@ class MCSInterface:
         img = self._post_step_and_get_image(scene_filename)
         return img, action_list_str
 
-    def perform_action(self, key: str):
+    def perform_action(self, params: object):
+        key = params["keypress"]
+        del params["keypress"]
         action = convert_key_to_action(key, self.logger)
         self.step_number = self.step_number + 1
-        return self._post_step_and_get_image(action)
+        return self._post_step_and_get_image(action, params)
 
-    def _post_step_and_get_image(self, action):
+    def _post_step_and_get_image(self, action: str, params=None):
+        image_coord_actions = ["CloseObject", "OpenObject", "PickupObject",
+                               "PullObject", "PushObject", "PutObject",
+                               "TorqueObject", "RotateObject", "MoveObject",
+                               "InteractWithAgent"]
         command_file_name = (
             f'{self.command_out_dir}/command_{self.scene_id}_step_'
             f'{self.step_number}.txt'
         )
         f = open(command_file_name, "a")
+        if (action in image_coord_actions and params is not None):
+            x_coord = params["objectImageCoordsX"]
+            y_coord = params["objectImageCoordsY"]
+            action += (",objectImageCoordsX=" + str(x_coord) +
+                       ",objectImageCoordsY=" + str(y_coord))
+
         f.write(action)
         f.close()
         # wait for action to process

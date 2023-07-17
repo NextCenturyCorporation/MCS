@@ -30,6 +30,10 @@
             overflow-y: scroll;
         }
 
+        #scenes_unordered_list:hover {
+            cursor: pointer;
+        }
+
         ul li a {
             display: block;
             width: 100%;
@@ -172,10 +176,24 @@
     </div>
     <div id="wrapper">
         <div id="content">
-            <p><div id="scene_filename">Scene: None</div></p>
-            <p><div id="step_number">Step: N/A</div></p>
-            <p><div id="action_list">Actions: N/A</div></p>
-            <img id="unityimg" width="640" height="480" src="{{ unityimg }}" alt="my image" class="center"/>
+            <p><div id="scene_filename_div">
+                <span>Scene: </span>
+                <span id="scene_filename">None</span>
+            </div></p>
+            <p><div id="step_number_div">
+                <span>Step: </span>
+                <span id="step_number">N/A</span>
+            </div></p>
+            <p><div id="action_list_div">
+                <span>Actions: </span>
+                <span id="action_list">N/A</span>
+            </div></p>
+            <p><div id="image_coords_div">
+                <span>Image Coords to Use (if applicable): (
+                    x: <span id="image_coord_x">None</span>,
+                    y: <span id="image_coord_y">None</span>
+                )</span></div></p>
+            <img id="unityimg" width="600" height="400" src="{{ unityimg }}" alt="my image" class="center"/>
             <br/>
             <p></p>
 
@@ -211,7 +229,9 @@
     // ---------------------------------------------------------
     // Handle clicking on one of the scene file names
     var lis = document.getElementById("scenes_unordered_list").getElementsByTagName('li');
+    let actionKeysWithParams = ['1', '3', '4', '5', '6', '7', '8', '9', 'm', 't']
     var processingKeypress = false
+    var params = {}
     loadingSpinner(false)
     loadController()
 
@@ -240,6 +260,11 @@
     }
 
     function select_scene() {
+        if(this.innerHTML == document.getElementById('scene_filename').innerHTML &&
+            document.getElementById('step_number').innerHTML == "0") {
+            console.log("Clicked scene is already selected and initialized. Returning...")
+            return;
+        }
         loadingSpinner(true)
         resp = fetch("{{url_for('handle_scene_selection')}}",
             {method: 'POST', body: JSON.stringify(this.innerHTML)})
@@ -247,6 +272,7 @@
             .then(updateSceneFilename)
             .then(updateStepNumber)
             .then(updateActionList)
+            .then(clearImageCoordinates)
             .then(updateImage)
             .then(function() {
                 loadingSpinner(false)
@@ -261,21 +287,21 @@
     function updateActionList(data) {
         console.log("actionList is " + data.action_list);
         var actionList = document.getElementById('action_list');
-        actionList.innerHTML = "Actions: " + data.action_list;
+        actionList.innerHTML = data.action_list;
         return data;
     }
 
     function updateSceneFilename(data) {
         console.log("sceneFilename is " + data.scene);
         var sceneFilename = document.getElementById('scene_filename');
-        sceneFilename.innerHTML = "Scene: " + data.scene;
+        sceneFilename.innerHTML = data.scene;
         return data;
     }
 
     function updateStepNumber(data) {
         console.log("stepNumber is " + data.step);
         var stepNumber = document.getElementById('step_number');
-        stepNumber.innerHTML = "Step: " + data.step;
+        stepNumber.innerHTML = data.step;
         return data;
     }
 
@@ -293,6 +319,52 @@
         return data;
     }
 
+    function getValidCoordinate(coordValue, maxValue) {
+        // Python API will only accept image coord values
+        // within the range of 0 to (max height/width - 1)
+        // sometimes screen clicking can give you a value
+        // slightly outside of this range, resolve it here.
+        if(coordValue < 0) {
+            return 0
+        } else if(coordValue >= maxValue) {
+            return coordValue = maxValue - 1
+        } else {
+            return coordValue
+        }
+    }
+
+    function updateImageCoords(e) {
+        let xValueMax = 600
+        let yValueMax = 400
+        let xValue = getValidCoordinate(e.offsetX, xValueMax)
+        let yValue = getValidCoordinate(e.offsetY, yValueMax)
+
+        params = {
+            "objectImageCoordsX": xValue,
+            "objectImageCoordsY": yValue
+        }
+        console.log("Image coords are: (x: " + xValue + ", y: " + yValue+ ")");
+        var imageCoordX = document.getElementById('image_coord_x');
+        imageCoordX.innerHTML = xValue;
+        var imageCoordY = document.getElementById('image_coord_y');
+        imageCoordY.innerHTML = yValue;
+        return params;
+    }
+
+    function clearImageCoordinates(data) {
+        console.log("Scene has been reset, resetting image coordinates... ")
+        params = {}
+        document.getElementById('image_coord_x').innerHTML = "None"
+        document.getElementById('image_coord_y').innerHTML = "None"
+
+        return data;
+    }
+
+    // listener for click
+    document.getElementById('unityimg').onclick = function(e){
+        updateImageCoords(e)
+    }
+
     // ---------------------------------------------------------
     // Handle Key strokes (navigation)
     window.addEventListener('keydown', this.process_key, false);
@@ -305,10 +377,29 @@
             console.log('Currently processing keypress, ignoring new input.')
             return;
         }
+
+        if(actionKeysWithParams.includes(e.key)) {
+            if(Object.keys(params).length === 0) {
+                alert("Image coordinates are required for your selected action. " +
+                "Please select image coordinates by clicking a point on the " +
+                "scene image you would like to use.");
+                return;
+            }
+        }
         processingKeypress = true
         loadingSpinner(true)
+
         fetch("{{url_for('handle_keypress')}}",
-            {method: 'POST', body: JSON.stringify(e.key)})
+            {method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "keypress": JSON.stringify(e.key),
+                "objectImageCoordsX": params.objectImageCoordsX,
+                "objectImageCoordsY": params.objectImageCoordsY
+            })
+            })
             .then(parseJsonResponse)
             .then(updateStepNumber)
             .then(updateImage)
