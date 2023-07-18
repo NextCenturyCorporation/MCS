@@ -6,7 +6,7 @@ from mcs_interface import MCSInterface
 def test_mcsinterface():
     mcsif = MCSInterface()
     print(f"command dir:  {mcsif.command_out_dir}")
-    print(f"image   dir:  {mcsif.image_in_dir}")
+    print(f"image   dir:  {mcsif.step_output_dir}")
 
 
 def test_start_mcs():

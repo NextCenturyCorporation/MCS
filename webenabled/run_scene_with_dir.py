@@ -5,13 +5,14 @@
 # Usage:
 #
 #     python3 run_scene_with_dir --mcs_command_in_dir indir
-#          --mcs_image_out_dir outdir
+#          --mcs_output_dir outdir
 #
 # where 'indir' is the name of an existing directory that is watched
 # files. When they appear, the commands are read in and executed.  The
 # resulting images from MCS are written out and put into the 'outdir'.
 #
 import argparse
+import json
 import logging
 import os
 import time
@@ -30,18 +31,18 @@ logger = logging.getLogger('run_scene_with_dir')
 
 class RunSceneWithDir:
 
-    def __init__(self, command_in_dir, image_out_dir):
+    def __init__(self, command_in_dir, output_dir):
         self.scene_file = None
         self.controller = None
         self.command_in_dir = command_in_dir
-        self.image_out_dir = image_out_dir
+        self.output_dir = output_dir
 
     def run_loop(self):
         logger.info(
             f"Starting controller: watching command directory "
             f"{self.command_in_dir[(self.command_in_dir.rfind('/') + 1):]}"
-            f", writing to image directory "
-            f"{self.image_out_dir[(self.image_out_dir.rfind('/') + 1):]}"
+            f", writing to output directory "
+            f"{self.output_dir[(self.output_dir.rfind('/') + 1):]}"
         )
 
         self.controller = mcs.create_controller(
@@ -115,7 +116,8 @@ class RunSceneWithDir:
             scene_data = mcs.load_scene_json_file(self.scene_file)
             self.controller.end_scene()
             output: StepMetadata = self.controller.start_scene(scene_data)
-            self.save_output(output)
+            self.save_output_info(output)
+            self.save_output_image(output)
         except Exception:
             logger.exception(f"Error loading file {self.scene_file}")
 
@@ -124,12 +126,45 @@ class RunSceneWithDir:
         try:
             output: StepMetadata = self.controller.step(command)
             if output is not None:
-                self.save_output(output)
+                self.save_output_info(output)
+                self.save_output_image(output)
         except Exception:
             logger.exception(f"Error executing command {command}")
 
-    def save_output(self, output: StepMetadata):
-        logger.info(f"Saving output step {output.step_number}")
+    def save_output_info(self, output: StepMetadata):
+        logger.info(f"Saving output info at step {output.step_number}")
+
+        output_to_save_dict = {
+            'step_number': output.step_number,
+            'return_status': output.return_status,
+            'reward': output.reward,
+            'steps_on_lava': output.steps_on_lava
+        }
+
+        output_to_save_json = json.dumps(output_to_save_dict, indent=4)
+
+        scene_id = self.scene_file[
+            (self.scene_file.rfind('/') + 1):(self.scene_file.rfind('.'))
+        ]
+        print(scene_id)
+        try:
+            output_path = (
+                f'{self.output_dir}/step_output_{scene_id}_step_'
+                f'{output.step_number}.json'
+            )
+            logger.info(
+                f"Saved json file on step {output.step_number} to "
+                f"{output_path}"
+            )
+            f = open(output_path, "a")
+            f.write(output_to_save_json)
+            f.close()
+        except Exception:
+            logger.exception(
+                f"Error saving output info on step {output.step_number}")
+
+    def save_output_image(self, output: StepMetadata):
+        logger.info(f"Saving output image at step {output.step_number}")
         scene_id = self.scene_file[
             (self.scene_file.rfind('/') + 1):(self.scene_file.rfind('.'))
         ]
@@ -137,7 +172,7 @@ class RunSceneWithDir:
             img_list = output.image_list
             if len(img_list) > 0:
                 img_path = (
-                    f'{self.image_out_dir}/rgb_{scene_id}_step_'
+                    f'{self.output_dir}/rgb_{scene_id}_step_'
                     f'{output.step_number}.png'
                 )
                 logger.info(
@@ -150,7 +185,8 @@ class RunSceneWithDir:
             else:
                 logger.warn(f"Missing RGB image on step {output.step_number}")
         except Exception:
-            logger.exception(f"Error saving output step {output.step_number}")
+            logger.exception(
+                f"Error saving output image on step {output.step_number}")
 
     # ----------------------------------
     # Watchdog functions
@@ -181,7 +217,7 @@ def parse_args():
         '--mcs_command_in_dir',
         help='MCS directory that commands will appear in')
     parser.add_argument(
-        '--mcs_image_out_dir',
+        '--mcs_output_dir',
         help='MCS directory that images will appear in')
     return parser.parse_args()
 
@@ -190,7 +226,7 @@ if __name__ == "__main__":
     args = parse_args()
     # scene_file = args.mcs_scene_json_file
     command_in_dir = args.mcs_command_in_dir
-    image_out_dir = args.mcs_image_out_dir
+    output_dir = args.mcs_output_dir
 
-    run_scene = RunSceneWithDir(command_in_dir, image_out_dir)
+    run_scene = RunSceneWithDir(command_in_dir, output_dir)
     run_scene.run_loop()

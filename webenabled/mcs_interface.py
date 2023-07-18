@@ -51,11 +51,11 @@ class MCSInterface:
         time_str = datetime.datetime.now().strftime("%y%m%d_%H%M%S")
         suffix = f"{time_str}_{user}"
         self.command_out_dir = f"{MCS_INTERFACE_TMP_DIR}cmd_{suffix}"
-        self.image_in_dir = f"{MCS_INTERFACE_TMP_DIR}img_{suffix}"
+        self.step_output_dir = f"{MCS_INTERFACE_TMP_DIR}output_{suffix}"
         if not exists(self.command_out_dir):
             os.mkdir(self.command_out_dir)
-        if not exists(self.image_in_dir):
-            os.mkdir(self.image_in_dir)
+        if not exists(self.step_output_dir):
+            os.mkdir(self.step_output_dir)
 
         # Make sure that there is a blank image (in case something goes wrong)
         self.blank_path = MCS_INTERFACE_TMP_DIR + BLANK_IMAGE_NAME
@@ -75,7 +75,7 @@ class MCSInterface:
     def start_mcs(self):
         # Start the unity controller.  (the function is in a different
         # file so we can pickle / store MCSInterface in the session)
-        self.pid = start_subprocess(self.command_out_dir, self.image_in_dir)
+        self.pid = start_subprocess(self.command_out_dir, self.step_output_dir)
 
         # Read in the image
         self.img_name = self.get_image_name()
@@ -172,13 +172,27 @@ class MCSInterface:
                 self.img_name = self.blank_path
                 return self.img_name
 
-            list_of_files = glob.glob(self.image_in_dir + "/rgb_*.png")
-            if len(list_of_files) > 0:
-                latest_file = max(list_of_files, key=os.path.getctime)
+            list_of_output_files = glob.glob(
+                self.step_output_dir + "/step_output_*.json")
+            list_of_img_files = glob.glob(self.step_output_dir + "/rgb_*.png")
 
-                # Remove old files?  Probably a good idea, keep disk usage down
-                for file in list_of_files:
-                    if file != latest_file:
+            # Cleanup old step output files before moving onto image files
+            if len(list_of_output_files) > 0:
+                latest_json_file = max(
+                    list_of_output_files, key=os.path.getctime)
+
+                for file in list_of_output_files:
+                    if file != latest_json_file:
+                        os.unlink(file)
+
+            # Image file logic
+            if len(list_of_img_files) > 0:
+                latest_image_file = max(
+                    list_of_img_files, key=os.path.getctime)
+
+                # Remove old files
+                for file in list_of_img_files:
+                    if file != latest_image_file:
                         os.unlink(file)
 
                 # wait to make sure we've finished loading the new image
@@ -188,13 +202,13 @@ class MCSInterface:
 
                 # Check to see if the unity controller still has the file open
                 for x in range(0, 100):
-                    if is_file_open(self.pid, latest_file):
+                    if is_file_open(self.pid, latest_image_file):
                         time.sleep(0.01)
                     else:
                         break
 
-                if latest_file != self.img_name:
-                    self.img_name = latest_file
+                if latest_image_file != self.img_name:
+                    self.img_name = latest_image_file
                     return self.img_name
 
             time.sleep(0.05)
