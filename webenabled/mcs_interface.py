@@ -43,6 +43,7 @@ class MCSInterface:
         # TODO FIXME Use the step number from the output metadata.
         self.step_number = 0
         self.scene_id = None
+        self.scene_filename = None
 
         if not exists(MCS_INTERFACE_TMP_DIR):
             os.mkdir(MCS_INTERFACE_TMP_DIR)
@@ -88,7 +89,8 @@ class MCSInterface:
         return is_process_running(self.pid)
 
     def load_scene(self, scene_filename: str):
-        action_list_str = self.get_action_list(scene_filename)
+        self.scene_filename = scene_filename
+        action_list_str = self.get_action_list()
         goal_info = self.get_goal_info(scene_filename)
         self.step_number = 0
         self.scene_id = scene_filename[
@@ -102,7 +104,8 @@ class MCSInterface:
         del params["keypress"]
         action = convert_key_to_action(key, self.logger)
         self.step_number = self.step_number + 1
-        return self._post_step_and_get_image(action, params)
+        action_list_str = self.get_action_list(step_number=self.step_number)
+        return self._post_step_and_get_image(action, params), action_list_str
 
     def _post_step_and_get_image(self, action: str, params=None):
         full_action_str = action
@@ -207,13 +210,13 @@ class MCSInterface:
         scene_list.sort()
         return scene_list
 
-    def get_action_list(self, scene_filename):
+    def get_action_list(self, step_number=0):
         """Simplification of getting the action list as a function
         of step"""
         is_passive = False
         actions = GoalMetadata.DEFAULT_ACTIONS
         try:
-            with open(scene_filename, 'r') as scene_file:
+            with open(self.scene_filename, 'r') as scene_file:
                 scene_data = json.load(scene_file)
                 if 'goal' in scene_data:
                     goal = scene_data['goal']
@@ -226,12 +229,12 @@ class MCSInterface:
                     if is_passive:
                         actions = GoalMetadata.DEFAULT_PASSIVE_SCENE_ACTIONS
                     if goal.get('action_list'):
-                        actions = goal['action_list'][0]
-                    return self.simplify_action_list(scene_filename, actions)
+                        actions = goal['action_list'][step_number]
+                    return self.simplify_action_list(actions)
         except Exception:
             self.logger.exception(
                 "Exception in reading actions from json file")
-            return self.simplify_action_list(scene_filename, actions)
+            return self.simplify_action_list(actions)
 
     def get_goal_info(self, scene_filename):
         """Obtain the goal info from a scene."""
@@ -244,7 +247,7 @@ class MCSInterface:
             self.logger.exception("Exception in reading goal from json file")
             return {}
 
-    def simplify_action_list(self, scene_filename, default_action_list):
+    def simplify_action_list(self, default_action_list):
         """The action list looks something like:
         [('CloseObject', {}), ('DropObject', {}), ('MoveAhead', {}), ...
         which is not very user-friendly.  For each of them, remove

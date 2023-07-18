@@ -569,6 +569,7 @@
             })
             .then(parseJsonResponse)
             .then(updateStepNumber)
+            .then(updateActionList)
             .then(updateImage)
             .then(function() {
                 processingKeypress = false

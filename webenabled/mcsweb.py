@@ -117,10 +117,10 @@ def handle_keypress():
 
     params = clean_request_data(request, is_json=True)
     key = params["keypress"]
-    img = mcs_interface.perform_action(params)
+    img, action_list = mcs_interface.perform_action(params)
     step_number = mcs_interface.step_number
     app.logger.info(f"Key press: '{key}', step {step_number}, output: {img}")
-    resp = jsonify(image=img, step=step_number)
+    resp = jsonify(action_list=action_list, image=img, step=step_number)
     return resp
 
 
