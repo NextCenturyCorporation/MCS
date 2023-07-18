@@ -197,6 +197,18 @@
                 <span>Actions: </span>
                 <span id="action_list">N/A</span>
             </div></p>
+            <p><div id="goal_cat_div">
+                <span>Goal Category: </span>
+                <span id="goal_cat">N/A</span>
+            </div></p>
+            <p><div id="goal_desc_div">
+                <span>Goal Description: </span>
+                <span id="goal_desc">N/A</span>
+            </div></p>
+            <p><div id="goal_last_step_div">
+                <span>Last Step: </span>
+                <span id="goal_last_step">N/A</span>
+            </div></p>
             <hr/>
             <p>
                 <div>
@@ -328,6 +340,7 @@
             .then(updateSceneFilename)
             .then(updateStepNumber)
             .then(updateActionList)
+            .then(updateGoalInfo)
             .then(clearImageCoordinates)
             .then(updateImage)
             .then(function() {
@@ -344,6 +357,33 @@
         console.log("actionList is " + data.action_list);
         var actionList = document.getElementById('action_list');
         actionList.innerHTML = data.action_list;
+        return data;
+    }
+
+    function updateGoalInfo(data) {
+        console.log("goalInfo is: ")
+        console.log(data.goal);
+        if("category" in data.goal) {
+            let goalCategory = document.getElementById('goal_cat');
+            goalCategory.innerHTML = data.goal.category;
+        } else {
+            console.warn("category not in goalInfo");
+        }
+
+        if("description" in data.goal) {
+            let goalDesc = document.getElementById('goal_desc');
+            goalDesc.innerHTML = data.goal.description;
+        } else {
+            console.warn("description not in goalInfo");
+        }
+
+        if("last_step" in data.goal) {
+            let lastStep = document.getElementById('goal_last_step');
+            lastStep.innerHTML = data.goal['last_step'];
+        } else {
+            console.warn("last_step not in goalInfo");
+        }
+
         return data;
     }
 

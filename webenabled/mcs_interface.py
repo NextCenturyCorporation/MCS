@@ -89,12 +89,13 @@ class MCSInterface:
 
     def load_scene(self, scene_filename: str):
         action_list_str = self.get_action_list(scene_filename)
+        goal_info = self.get_goal_info(scene_filename)
         self.step_number = 0
         self.scene_id = scene_filename[
             (scene_filename.rfind('/') + 1):(scene_filename.rfind('.'))
         ]
         img = self._post_step_and_get_image(scene_filename)
-        return img, action_list_str
+        return img, action_list_str, goal_info
 
     def perform_action(self, params: object):
         key = params["keypress"]
@@ -228,8 +229,20 @@ class MCSInterface:
                         actions = goal['action_list'][0]
                     return self.simplify_action_list(scene_filename, actions)
         except Exception:
-            self.logger.exception("Exception in reading json file")
+            self.logger.exception(
+                "Exception in reading actions from json file")
             return self.simplify_action_list(scene_filename, actions)
+
+    def get_goal_info(self, scene_filename):
+        """Obtain the goal info from a scene."""
+        try:
+            with open(scene_filename, 'r') as scene_file:
+                scene_data = json.load(scene_file)
+                if 'goal' in scene_data:
+                    return scene_data['goal']
+        except Exception:
+            self.logger.exception("Exception in reading goal from json file")
+            return {}
 
     def simplify_action_list(self, scene_filename, default_action_list):
         """The action list looks something like:

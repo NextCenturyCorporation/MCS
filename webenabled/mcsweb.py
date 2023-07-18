@@ -134,12 +134,14 @@ def handle_scene_selection():
 
     # Get the scene filename and tell interface to load it.
     scene_filename = clean_request_data(request)
-    img, action_list = mcs_interface.load_scene("scenes/" + scene_filename)
+    img, action_list, goal = mcs_interface.load_scene(
+        "scenes/" + scene_filename)
     app.logger.info(f"Start scene: {scene_filename}, output: {img}")
     resp = jsonify(
         action_list=action_list,
         image=img,
         scene=scene_filename,
+        goal=goal,
         step=0
     )
     return resp
