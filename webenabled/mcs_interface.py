@@ -210,9 +210,9 @@ class MCSInterface:
                     else:
                         break
 
-                f = open(latest_json_file, "r")
-                new_step_output = json.load(f)
-                f.close()
+                opened_json_file = open(latest_json_file, "r")
+                new_step_output = json.load(opened_json_file)
+                opened_json_file.close()
 
                 has_new_step_output = (("step_number" in new_step_output and
                                        (self.step_output is None or
