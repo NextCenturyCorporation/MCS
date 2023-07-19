@@ -44,6 +44,7 @@ class MCSInterface:
         self.step_number = 0
         self.scene_id = None
         self.scene_filename = None
+        self.step_output = None
 
         if not exists(MCS_INTERFACE_TMP_DIR):
             os.mkdir(MCS_INTERFACE_TMP_DIR)
@@ -72,13 +73,16 @@ class MCSInterface:
     def get_latest_image(self):
         return self.img_name
 
+    def get_latest_step_output(self):
+        return self.step_output
+
     def start_mcs(self):
         # Start the unity controller.  (the function is in a different
         # file so we can pickle / store MCSInterface in the session)
         self.pid = start_subprocess(self.command_out_dir, self.step_output_dir)
 
         # Read in the image
-        self.img_name = self.get_image_name()
+        self.img_name = self.get_image_name_and_step_output()
         return self.img_name
 
     def is_controller_alive(self):
@@ -96,8 +100,8 @@ class MCSInterface:
         self.scene_id = scene_filename[
             (scene_filename.rfind('/') + 1):(scene_filename.rfind('.'))
         ]
-        img = self._post_step_and_get_image(scene_filename)
-        return img, action_list_str, goal_info
+        img, step_output = self._post_step_and_get_output(scene_filename)
+        return img, step_output, action_list_str, goal_info
 
     def perform_action(self, params: object):
         key = params["keypress"]
@@ -105,9 +109,9 @@ class MCSInterface:
         action = convert_key_to_action(key, self.logger)
         self.step_number = self.step_number + 1
         action_list_str = self.get_action_list(step_number=self.step_number)
-        return self._post_step_and_get_image(action, params), action_list_str
+        return self._post_step_and_get_output(action, params), action_list_str
 
-    def _post_step_and_get_image(self, action: str, params=None):
+    def _post_step_and_get_output(self, action: str, params=None):
         full_action_str = action
         image_coord_actions = ["CloseObject", "OpenObject", "PickupObject",
                                "PullObject", "PushObject", "PutObject",
@@ -157,9 +161,9 @@ class MCSInterface:
         f.close()
         # wait for action to process
         time.sleep(0.1)
-        return self.get_image_name()
+        return self.get_image_name_and_step_output()
 
-    def get_image_name(self):
+    def get_image_name_and_step_output(self):
         """Watch the output directory, get image that appears.  If it does
         not appear in timeout seconds, give up and return blank."""
         timestart = time.time()
@@ -170,14 +174,14 @@ class MCSInterface:
             if elapsed > IMAGE_WAIT_TIMEOUT:
                 self.logger.info("Timeout waiting for image")
                 self.img_name = self.blank_path
-                return self.img_name
+                return self.img_name, self.step_output
 
             list_of_output_files = glob.glob(
                 self.step_output_dir + "/step_output_*.json")
             list_of_img_files = glob.glob(self.step_output_dir + "/rgb_*.png")
 
-            # Cleanup old step output files before moving onto image files
-            if len(list_of_output_files) > 0:
+            # Image file logic
+            if len(list_of_img_files) > 0 and len(list_of_output_files) > 0:
                 latest_json_file = max(
                     list_of_output_files, key=os.path.getctime)
 
@@ -185,8 +189,6 @@ class MCSInterface:
                     if file != latest_json_file:
                         os.unlink(file)
 
-            # Image file logic
-            if len(list_of_img_files) > 0:
                 latest_image_file = max(
                     list_of_img_files, key=os.path.getctime)
 
@@ -202,14 +204,27 @@ class MCSInterface:
 
                 # Check to see if the unity controller still has the file open
                 for x in range(0, 100):
-                    if is_file_open(self.pid, latest_image_file):
-                        time.sleep(0.01)
+                    if (is_file_open(self.pid, latest_image_file) or
+                            is_file_open(self.pid, latest_json_file)):
+                        time.sleep(0.03)
                     else:
                         break
 
-                if latest_image_file != self.img_name:
+                f = open(latest_json_file, "r")
+                new_step_output = json.load(f)
+                f.close()
+
+                has_new_step_output = (("step_number" in new_step_output and
+                                       (self.step_output is None or
+                                        self.step_number == 0)) or
+                                       ("step_number" in self.step_output and
+                                        new_step_output["step_number"] >
+                                        self.step_output["step_number"]))
+
+                if latest_image_file != self.img_name and has_new_step_output:
+                    self.step_output = new_step_output
                     self.img_name = latest_image_file
-                    return self.img_name
+                    return self.img_name, self.step_output
 
             time.sleep(0.05)
 
