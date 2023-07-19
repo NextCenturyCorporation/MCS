@@ -146,7 +146,6 @@ class RunSceneWithDir:
         scene_id = self.scene_file[
             (self.scene_file.rfind('/') + 1):(self.scene_file.rfind('.'))
         ]
-        print(scene_id)
         try:
             output_path = (
                 f'{self.output_dir}/step_output_{scene_id}_step_'
