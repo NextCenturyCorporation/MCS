@@ -117,15 +117,17 @@ def handle_keypress():
 
     params = clean_request_data(request, is_json=True)
     key = params["keypress"]
-    img_and_output, action_list = mcs_interface.perform_action(params)
+    action_string, img, step_output, action_list = mcs_interface.perform_action(params)  # noqa: E501
     step_number = mcs_interface.step_number
     app.logger.info(
-        f"Key press: '{key}', step {step_number}, output: {img_and_output}")
+        f"Key press: '{key}', action string: {action_string}, "
+        f"step {step_number}, img: {img}, output: {step_output}")
     resp = jsonify(
+        last_action=action_string,
         action_list=action_list,
-        image=img_and_output[0],
+        image=img,
         step=step_number,
-        step_output=img_and_output[1])
+        step_output=step_output)
     return resp
 
 
@@ -143,6 +145,7 @@ def handle_scene_selection():
         "scenes/" + scene_filename)
     app.logger.info(f"Start scene: {scene_filename}, output: {img}")
     resp = jsonify(
+        last_action="Initialize",
         action_list=action_list,
         image=img,
         scene=scene_filename,

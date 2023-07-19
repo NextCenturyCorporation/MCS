@@ -257,6 +257,10 @@
                 <span>Max Steps: </span>
                 <span id="goal_last_step">N/A</span>
             </div></p>
+            <p><div id="last_action_div">
+                <span>Last Action Taken: </span>
+                <span id="last_action">N/A</span>
+            </div></p>
             <p><div id="return_status_div">
                 <span>Return Status: </span>
                 <span id="return_status">N/A</span>
@@ -423,6 +427,13 @@
             returnStatus.innerHTML = data.step_output.return_status;
         } else {
             console.warn("return_status not in step_output");
+        }
+
+        if("last_action" in data) {
+            let lastAction = document.getElementById('last_action');
+            lastAction.innerHTML = data.last_action;
+        } else {
+            console.warn("last_action not in step_output");
         }
 
         if(isPassive) {

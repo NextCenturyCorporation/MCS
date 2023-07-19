@@ -100,7 +100,7 @@ class MCSInterface:
         self.scene_id = scene_filename[
             (scene_filename.rfind('/') + 1):(scene_filename.rfind('.'))
         ]
-        img, step_output = self._post_step_and_get_output(scene_filename)
+        _, img, step_output = self._post_step_and_get_output(scene_filename)
         return img, step_output, action_list_str, goal_info
 
     def perform_action(self, params: object):
@@ -109,7 +109,9 @@ class MCSInterface:
         action = convert_key_to_action(key, self.logger)
         self.step_number = self.step_number + 1
         action_list_str = self.get_action_list(step_number=self.step_number)
-        return self._post_step_and_get_output(action, params), action_list_str
+        full_action, img, step_output = self._post_step_and_get_output(
+            action, params)
+        return full_action, img, step_output, action_list_str
 
     def _post_step_and_get_output(self, action: str, params=None):
         full_action_str = action
@@ -161,7 +163,15 @@ class MCSInterface:
         f.close()
         # wait for action to process
         time.sleep(0.1)
-        return self.get_image_name_and_step_output()
+
+        action_to_return = full_action_str
+
+        if action_to_return.endswith("json"):
+            action_to_return = self.scene_id
+
+        img, step_output = self.get_image_name_and_step_output()
+
+        return action_to_return, img, step_output
 
     def get_image_name_and_step_output(self):
         """Watch the output directory, get image that appears.  If it does
