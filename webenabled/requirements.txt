@@ -1,4 +1,4 @@
-machine-common-sense==0.6.5
+machine-common-sense==0.7.0
 flask==2.3.2
 flask_session==0.5.0
 watchdog==3.0.0

@@ -22,7 +22,7 @@ IMAGE_WAIT_TIMEOUT = 20.0
 
 def convert_key_to_action(key: str, logger):
     for action in mcs.Action:
-        if key == action.key:
+        if key.lower() == action.key:
             logger.info(f"Converting '{key}' into {action.value}")
             return action.value
     logger.info(f"Unable to convert '{key}'. Returning Pass...")
@@ -104,6 +104,7 @@ class MCSInterface:
         return self._post_step_and_get_image(action, params)
 
     def _post_step_and_get_image(self, action: str, params=None):
+        full_action_str = action
         image_coord_actions = ["CloseObject", "OpenObject", "PickupObject",
                                "PullObject", "PushObject", "PutObject",
                                "TorqueObject", "RotateObject", "MoveObject",
@@ -116,10 +117,39 @@ class MCSInterface:
         if (action in image_coord_actions and params is not None):
             x_coord = params["objectImageCoordsX"]
             y_coord = params["objectImageCoordsY"]
-            action += (",objectImageCoordsX=" + str(x_coord) +
-                       ",objectImageCoordsY=" + str(y_coord))
+            if (action != "PutObject"):
+                full_action_str += (",objectImageCoordsX=" + str(x_coord) +
+                                    ",objectImageCoordsY=" + str(y_coord))
+            else:
+                full_action_str += (",receptacleObjectImageCoordsX=" +
+                                    str(x_coord) +
+                                    ",receptacleObjectImageCoordsY=" +
+                                    str(y_coord))
 
-        f.write(action)
+            if (action in ["OpenObject", "CloseObject"] and
+                    "amount" in params):
+                amount = params["amount"]
+                full_action_str += (",amount=" + str(amount))
+
+            if (action in ["PullObject", "PushObject", "TorqueObject"] and
+                    "force" in params):
+                force = params["force"]
+                full_action_str += (",force=" + str(force))
+
+            if (action == "RotateObject" and
+                    "clockwise" in params):
+                clockwise = params["clockwise"]
+                full_action_str += (",clockwise=" + str(clockwise))
+
+            if (action == "MoveObject"):
+                if ("lateral" in params):
+                    lateral = params["lateral"]
+                    full_action_str += (",lateral=" + str(lateral))
+                if ("straight" in params):
+                    straight = params["straight"]
+                    full_action_str += (",straight=" + str(straight))
+
+        f.write(full_action_str)
         f.close()
         # wait for action to process
         time.sleep(0.1)

@@ -89,6 +89,7 @@
 
         div#content {
             margin: 0 25%;
+            padding-right: 25px;
         }
 
         div#navigation {
@@ -161,6 +162,18 @@
                 transform: rotate(360deg);
             }
         }
+
+        .input_fields {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #validation_errors {
+            display: block;
+            color: red;
+            font-size: 80%;
+            min-height: 18px;
+        }
     </style>
 </head>
 
@@ -188,11 +201,52 @@
                 <span>Actions: </span>
                 <span id="action_list">N/A</span>
             </div></p>
+            <hr/>
+            <p>
+                <div>
+                    Action Parameter Input Fields:
+                </div>
+            </p>
+            <p>
+                <div>
+            Parameter(s) will be used if applicable for chosen keyboard shortcut, 
+            see <a href="https://nextcenturycorporation.github.io/MCS/api.html#machine_common_sense.Action">Action API</a>
+            for more information on parameters. If any of the inputs are not valid, an error message will be displayed,
+            and your chosen action will not be processed until error(s) are resolved.</div>
+            </p>
+            <p>
+                <div>
+                    For image coordinates, the default is the center of the scene image. 
+                    Click a point on the Unity image to populate with a different coordinate.
+                </div>
+            </p>
             <p><div id="image_coords_div">
-                <span>Image Coords to Use (if applicable): (
-                    x: <span id="image_coord_x">None</span>,
-                    y: <span id="image_coord_y">None</span>
-                )</span></div></p>
+                <span>Image Coordinates: (
+                    x: <span id="image_coord_x">300</span>,
+                    y: <span id="image_coord_y">200</span>
+                )</span></div>
+            </p>
+            <p>
+                <div class="input_fields">
+                    <div>Amount: 
+                        <input type="number" min="0" max="1" step="0.1" value="1" id="amount"/>
+                    </div>
+                    <div>Force: 
+                        <input type="number" min="-1" max="1" step="0.1" value="0.5" id="force"/>
+                    </div>
+                    <div>Clockwise: 
+                        <input type="checkbox" id="clockwise" checked>
+                    </div>
+                    <div>Lateral: 
+                        <input type="number" min="-1" max="1" step="1" value="0" id="lateral"/>
+                    </div>
+                    <div>Straight: 
+                        <input type="number" min="-1" max="1" step="1" value="1" id="straight"/>
+                    </div>
+                </div>
+            </p>
+            <span id="validation_errors"></span>
+            <p></p>
             <img id="unityimg" width="600" height="400" src="{{ unityimg }}" alt="my image" class="center"/>
             <br/>
             <p></p>
@@ -229,9 +283,15 @@
     // ---------------------------------------------------------
     // Handle clicking on one of the scene file names
     var lis = document.getElementById("scenes_unordered_list").getElementsByTagName('li');
-    let actionKeysWithParams = ['1', '3', '4', '5', '6', '7', '8', '9', 'm', 't']
+    let actionKeysWithParams = ['1', '3', '4', '5', '6', '7', '8', '9', 'm', 'M', 't', 'T']
+    let arrowKeys = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"]
     var processingKeypress = false
-    var params = {}
+    // default screen coordinates are in the center of image
+    var params = {
+        "objectImageCoordsX": 300,
+        "objectImageCoordsY": 200
+    }
+    var hasValidInput = true
     loadingSpinner(false)
     loadController()
 
@@ -353,11 +413,63 @@
 
     function clearImageCoordinates(data) {
         console.log("Scene has been reset, resetting image coordinates... ")
-        params = {}
-        document.getElementById('image_coord_x').innerHTML = "None"
-        document.getElementById('image_coord_y').innerHTML = "None"
+        params = {
+            "objectImageCoordsX": 300,
+            "objectImageCoordsY": 200
+        }
+        document.getElementById('image_coord_x').innerHTML = 300
+        document.getElementById('image_coord_y').innerHTML = 200
 
         return data;
+    }
+
+    // If the applicable action is triggered, checks any related input
+    // fields to ensure the values make sense.
+    function passesValidation(actionKey) {
+        let errorMsg = document.getElementById("validation_errors")
+
+        let amountVal = document.getElementById("amount").value
+        if(['1', '2'].includes(actionKey) && (amountVal > 1 || amountVal < 0)) {
+            errorMsg.innerHTML = "For OpenObject/CloseObject, the value " +
+            "for 'amount' must be between 0 and 1."
+            return false;
+        }
+
+        // if Push/PullObject, make sure force value is
+        // between 0 and 1, for Torque, make sure its -1 to 1
+        let forceVal = document.getElementById("force").value
+
+        if(['5', '6'].includes(actionKey) && (forceVal > 1 || forceVal < 0)) {
+            errorMsg.innerHTML = "For PushObject/PullObject, the value " +
+            "for 'force' must be between 0 and 1."
+            return false;
+        }
+
+        if(actionKey == '8' && (forceVal > 1 || forceVal < -1)) {
+            errorMsg.innerHTML = "For TorqueObject, the value " +
+            "for 'force' must be between -1 and 1."
+            return false;
+        }
+
+        let lateral = document.getElementById("lateral").value
+        let straight = document.getElementById("straight").value
+
+        if(actionKey == "M" || actionKey == "m") {
+            if (['-1', '0', '1'].includes(lateral) == false) {
+                errorMsg.innerHTML = "For MoveObject, the value " +
+                "for 'lateral' must be either -1, 0, or 1."
+                return false;
+            }
+
+            if((['-1', '0', '1'].includes(straight)) == false) {
+                errorMsg.innerHTML = "For MoveObject, the value " +
+                "for 'straight' must be either -1, 0, or 1."
+                return false;
+            }
+        }
+
+        errorMsg.innerHTML = ""
+        return true;
     }
 
     // listener for click
@@ -370,11 +482,25 @@
     window.addEventListener('keydown', this.process_key, false);
 
     function process_key(e) {
-        if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) {
+        if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || (arrowKeys.includes(e.key))) {
             return;
         }
         if (processingKeypress) {
             console.log('Currently processing keypress, ignoring new input.')
+            return;
+        }
+
+        hasValidInput = passesValidation(e.key)
+
+        if (!hasValidInput) {
+            console.log('Input values are not valid, returning without ' +
+            'processing action.')
+            return;
+        }
+
+        if(e.key == 'q' || e.key == 'Q') {
+            alert("EndScene is not supported. Please select a new scene from the " + 
+            "left to change scenes instead, or close the browser if you are finished.");
             return;
         }
 
@@ -397,7 +523,12 @@
             body: JSON.stringify({
                 "keypress": JSON.stringify(e.key),
                 "objectImageCoordsX": params.objectImageCoordsX,
-                "objectImageCoordsY": params.objectImageCoordsY
+                "objectImageCoordsY": params.objectImageCoordsY,
+                "amount": document.getElementById("amount").value,
+                "force": document.getElementById("force").value,
+                "clockwise": document.getElementById("clockwise").checked,
+                "lateral": document.getElementById("lateral").value,
+                "straight": document.getElementById("straight").value
             })
             })
             .then(parseJsonResponse)
