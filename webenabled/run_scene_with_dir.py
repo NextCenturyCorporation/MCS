@@ -12,6 +12,7 @@
 # resulting images from MCS are written out and put into the 'outdir'.
 #
 import argparse
+import glob
 import json
 import logging
 import os
@@ -36,6 +37,7 @@ class RunSceneWithDir:
         self.controller = None
         self.command_in_dir = command_in_dir
         self.output_dir = output_dir
+        self.step_number = 0
 
     def run_loop(self):
         logger.info(
@@ -100,6 +102,7 @@ class RunSceneWithDir:
             # Handle file names (new scene file) by loading
             if command.endswith(".json"):
                 self.scene_file = command
+                self.step_number = 0
                 self.load_scene()
             else:
                 # Otherwise, assume that it is a valid action
@@ -128,8 +131,32 @@ class RunSceneWithDir:
             if output is not None:
                 self.save_output_info(output)
                 self.save_output_image(output)
-        except Exception:
+                self.step_number = output.step_number
+        except Exception as error:
             logger.exception(f"Error executing command {command}")
+            self.log_error(error)
+
+    def log_error(self, error):
+        # Save error output to a separate file
+        scene_id = self.scene_file[
+            (self.scene_file.rfind('/') + 1):(self.scene_file.rfind('.'))
+        ]
+        error_output_file = f'{self.output_dir}/error_{scene_id}_step_{self.step_number}.json'  # noqa: E501
+
+        try:
+            f = open(error_output_file, "w")
+            output_to_save_dict = {
+                'step_number': self.step_number,
+                'error': str(error)
+            }
+
+            output_to_save_json = json.dumps(output_to_save_dict, indent=4)
+
+            f.write(output_to_save_json)
+            f.close()
+        except Exception:
+            logger.exception(
+                f"Error saving error output to file {error_output_file}")
 
     def save_output_info(self, output: StepMetadata):
         logger.info(f"Saving output info at step {output.step_number}")

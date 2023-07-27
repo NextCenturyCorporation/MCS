@@ -107,10 +107,12 @@ class MCSInterface:
         key = params["keypress"]
         del params["keypress"]
         action = convert_key_to_action(key, self.logger)
-        self.step_number = self.step_number + 1
-        action_list_str = self.get_action_list(step_number=self.step_number)
         full_action, img, step_output = self._post_step_and_get_output(
             action, params)
+        if (step_output):
+            self.step_number = step_output.get('step_number', self.step_number)
+            action_list_str = self.get_action_list(
+                step_number=self.step_number)
         return full_action, img, step_output, action_list_str
 
     def _post_step_and_get_output(self, action: str, params=None):
@@ -225,11 +227,11 @@ class MCSInterface:
                 opened_json_file.close()
 
                 has_new_step_output = (("step_number" in new_step_output and
-                                       (self.step_output is None or
-                                        self.step_number == 0)) or
+                                        (self.step_output is None or
+                                         self.step_number == 0)) or
                                        ("step_number" in self.step_output and
-                                        new_step_output["step_number"] >
-                                        self.step_output["step_number"]))
+                                       new_step_output["step_number"] >
+                                       self.step_output["step_number"]))
 
                 if latest_image_file != self.img_name and has_new_step_output:
                     self.step_output = new_step_output
