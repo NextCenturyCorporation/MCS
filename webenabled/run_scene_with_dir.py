@@ -132,9 +132,19 @@ class RunSceneWithDir:
                 self.save_output_info(output)
                 self.save_output_image(output)
                 self.step_number = output.step_number
+                self.delete_old_error_files()
         except Exception as error:
             logger.exception(f"Error executing command {command}")
             self.log_error(error)
+
+    def delete_old_error_files(self):
+        # Delete outdated error files
+        list_of_error_files = glob.glob(
+            self.output_dir + "/error_*.json")
+
+        if len(list_of_error_files) > 0:
+            for file in list_of_error_files:
+                os.unlink(file)
 
     def log_error(self, error):
         # Save error output to a separate file
