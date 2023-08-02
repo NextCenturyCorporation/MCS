@@ -265,6 +265,10 @@
                 <span>Return Status: </span>
                 <span id="return_status">N/A</span>
             </div></p>
+            <p><div id="error_div">
+                <span>Error (if applicable): </span>
+                <span id="error">N/A</span>
+            </div></p>
             <p><div id="reward_div">
                 <span>Reward: </span>
                 <span id="reward">N/A</span>
@@ -421,6 +425,15 @@
 
         let passiveCategories = ["intuitive physics", "passive", "agents"]
         let isPassive = passiveCategories.includes(document.getElementById('goal_cat').innerHTML)
+
+        if("error_output" in data.step_output) {
+            console.warn("last attempted step resulted in an error");
+            let errorOutput = document.getElementById('error');
+            errorOutput.innerHTML = data.step_output.error_output.error;
+        } else {
+            let errorOutput = document.getElementById('error');
+            errorOutput.innerHTML = "N/A"
+        }
 
         if("return_status" in data.step_output) {
             let returnStatus = document.getElementById('return_status');
