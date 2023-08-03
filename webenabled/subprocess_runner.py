@@ -11,18 +11,18 @@ import subprocess
 from flask import current_app
 
 
-def start_subprocess(command_dir, image_dir):
+def start_subprocess(command_dir, output_dir):
     logger = current_app.logger
     proc = subprocess.Popen(
         ["python3", "run_scene_with_dir.py",
          "--mcs_command_in_dir", command_dir,
-         "--mcs_image_out_dir", image_dir])
+         "--mcs_output_dir", output_dir])
     pid_str = str(proc.pid)
     logger.info(
         f"Running script to start the MCS Controller with command directory "
         f"{command_dir[(command_dir.rfind('/') + 1):]}"
-        f" and image directory "
-        f"{image_dir[(image_dir.rfind('/') + 1):]}"
+        f" and output directory "
+        f"{output_dir[(output_dir.rfind('/') + 1):]}"
         f": PID={pid_str}"
     )
     return proc.pid

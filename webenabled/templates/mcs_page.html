@@ -193,13 +193,17 @@
                 <span>Scene: </span>
                 <span id="scene_filename">None</span>
             </div></p>
-            <p><div id="step_number_div">
-                <span>Step: </span>
-                <span id="step_number">N/A</span>
-            </div></p>
             <p><div id="action_list_div">
-                <span>Actions: </span>
+                <span>Actions Available: </span>
                 <span id="action_list">N/A</span>
+            </div></p>
+            <p><div id="goal_cat_div">
+                <span>Goal Category: </span>
+                <span id="goal_cat">N/A</span>
+            </div></p>
+            <p><div id="goal_desc_div">
+                <span>Goal Description: </span>
+                <span id="goal_desc">N/A</span>
             </div></p>
             <hr/>
             <p>
@@ -248,6 +252,32 @@
             <span id="validation_errors"></span>
             <p></p>
             <img id="unityimg" width="600" height="400" src="{{ unityimg }}" alt="my image" class="center"/>
+
+            <p><div id="step_number_div">
+                <span>Step: </span>
+                <span id="step_number">N/A</span>
+            </div></p>
+            <p><div id="goal_last_step_div">
+                <span>Max Steps: </span>
+                <span id="goal_last_step">N/A</span>
+            </div></p>
+            <p><div id="last_action_div">
+                <span>Last Action Taken: </span>
+                <span id="last_action">N/A</span>
+            </div></p>
+            <p><div id="return_status_div">
+                <span>Return Status: </span>
+                <span id="return_status">N/A</span>
+            </div></p>
+            <p><div id="reward_div">
+                <span>Reward: </span>
+                <span id="reward">N/A</span>
+            </div></p>
+            <p><div id="steps_on_lava_div">
+                <span>Steps On Lava: </span>
+                <span id="steps_on_lava">N/A</span>
+            </div></p>
+
             <br/>
             <p></p>
 
@@ -332,6 +362,8 @@
             .then(updateSceneFilename)
             .then(updateStepNumber)
             .then(updateActionList)
+            .then(updateGoalInfo)
+            .then(updateOutputInfo)
             .then(clearImageCoordinates)
             .then(updateImage)
             .then(function() {
@@ -348,6 +380,88 @@
         console.log("actionList is " + data.action_list);
         var actionList = document.getElementById('action_list');
         actionList.innerHTML = data.action_list;
+        return data;
+    }
+
+    function updateGoalInfo(data) {
+        console.log("goalInfo is: ")
+        console.log(data.goal);
+
+        if("category" in data.goal) {
+            let goalCategory = document.getElementById('goal_cat');
+            goalCategory.innerHTML = data.goal.category;
+        } else {
+            console.warn("category not in goalInfo");
+        }
+
+        if("description" in data.goal) {
+            let hasNoDesc = ["intuitive physics", "passive"].includes(data.goal.category)
+
+            if(hasNoDesc) {
+                document.getElementById("goal_desc_div").style.display = "none"
+            } else {
+                document.getElementById("goal_desc_div").style.display = "block"
+
+                let goalDesc = document.getElementById('goal_desc');
+                goalDesc.innerHTML = data.goal.description;
+            }
+        } else {
+            console.warn("description not in goalInfo");
+        }
+
+        if("last_step" in data.goal) {
+            let lastStep = document.getElementById('goal_last_step');
+            lastStep.innerHTML = data.goal['last_step'];
+        } else {
+            console.warn("last_step not in goalInfo");
+        }
+
+        return data;
+    }
+
+    function updateOutputInfo(data) {
+        console.log("step output is: ")
+        console.log(data.step_output);
+
+        let passiveCategories = ["intuitive physics", "passive", "agents"]
+        let isPassive = passiveCategories.includes(document.getElementById('goal_cat').innerHTML)
+
+        if("return_status" in data.step_output) {
+            let returnStatus = document.getElementById('return_status');
+            returnStatus.innerHTML = data.step_output.return_status;
+        } else {
+            console.warn("return_status not in step_output");
+        }
+
+        if("last_action" in data) {
+            let lastAction = document.getElementById('last_action');
+            lastAction.innerHTML = data.last_action;
+        } else {
+            console.warn("last_action not in step_output");
+        }
+
+        if(isPassive) {
+            document.getElementById("reward_div").style.display = "none"
+            document.getElementById("steps_on_lava_div").style.display = "none"
+        } else {
+            document.getElementById("reward_div").style.display = "block"
+            document.getElementById("steps_on_lava_div").style.display = "block"
+
+            if("reward" in data.step_output) {
+                let reward = document.getElementById('reward');
+                reward.innerHTML = data.step_output.reward;
+            } else {
+                console.warn("reward not in step_output");
+            }
+
+            if("steps_on_lava" in data.step_output) {
+                let stepsOnLava = document.getElementById('steps_on_lava');
+                stepsOnLava.innerHTML = data.step_output.steps_on_lava;
+            } else {
+                console.warn("steps_on_lava not in step_output");
+            }
+        }
+
         return data;
     }
 
@@ -533,6 +647,8 @@
             })
             .then(parseJsonResponse)
             .then(updateStepNumber)
+            .then(updateActionList)
+            .then(updateOutputInfo)
             .then(updateImage)
             .then(function() {
                 processingKeypress = false

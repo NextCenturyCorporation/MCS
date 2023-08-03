@@ -43,6 +43,8 @@ class MCSInterface:
         # TODO FIXME Use the step number from the output metadata.
         self.step_number = 0
         self.scene_id = None
+        self.scene_filename = None
+        self.step_output = None
 
         if not exists(MCS_INTERFACE_TMP_DIR):
             os.mkdir(MCS_INTERFACE_TMP_DIR)
@@ -50,11 +52,11 @@ class MCSInterface:
         time_str = datetime.datetime.now().strftime("%y%m%d_%H%M%S")
         suffix = f"{time_str}_{user}"
         self.command_out_dir = f"{MCS_INTERFACE_TMP_DIR}cmd_{suffix}"
-        self.image_in_dir = f"{MCS_INTERFACE_TMP_DIR}img_{suffix}"
+        self.step_output_dir = f"{MCS_INTERFACE_TMP_DIR}output_{suffix}"
         if not exists(self.command_out_dir):
             os.mkdir(self.command_out_dir)
-        if not exists(self.image_in_dir):
-            os.mkdir(self.image_in_dir)
+        if not exists(self.step_output_dir):
+            os.mkdir(self.step_output_dir)
 
         # Make sure that there is a blank image (in case something goes wrong)
         self.blank_path = MCS_INTERFACE_TMP_DIR + BLANK_IMAGE_NAME
@@ -71,13 +73,16 @@ class MCSInterface:
     def get_latest_image(self):
         return self.img_name
 
+    def get_latest_step_output(self):
+        return self.step_output
+
     def start_mcs(self):
         # Start the unity controller.  (the function is in a different
         # file so we can pickle / store MCSInterface in the session)
-        self.pid = start_subprocess(self.command_out_dir, self.image_in_dir)
+        self.pid = start_subprocess(self.command_out_dir, self.step_output_dir)
 
         # Read in the image
-        self.img_name = self.get_image_name()
+        self.img_name = self.get_image_name_and_step_output()
         return self.img_name
 
     def is_controller_alive(self):
@@ -88,22 +93,27 @@ class MCSInterface:
         return is_process_running(self.pid)
 
     def load_scene(self, scene_filename: str):
-        action_list_str = self.get_action_list(scene_filename)
+        self.scene_filename = scene_filename
+        action_list_str = self.get_action_list()
+        goal_info = self.get_goal_info(scene_filename)
         self.step_number = 0
         self.scene_id = scene_filename[
             (scene_filename.rfind('/') + 1):(scene_filename.rfind('.'))
         ]
-        img = self._post_step_and_get_image(scene_filename)
-        return img, action_list_str
+        _, img, step_output = self._post_step_and_get_output(scene_filename)
+        return img, step_output, action_list_str, goal_info
 
     def perform_action(self, params: object):
         key = params["keypress"]
         del params["keypress"]
         action = convert_key_to_action(key, self.logger)
         self.step_number = self.step_number + 1
-        return self._post_step_and_get_image(action, params)
+        action_list_str = self.get_action_list(step_number=self.step_number)
+        full_action, img, step_output = self._post_step_and_get_output(
+            action, params)
+        return full_action, img, step_output, action_list_str
 
-    def _post_step_and_get_image(self, action: str, params=None):
+    def _post_step_and_get_output(self, action: str, params=None):
         full_action_str = action
         image_coord_actions = ["CloseObject", "OpenObject", "PickupObject",
                                "PullObject", "PushObject", "PutObject",
@@ -153,9 +163,17 @@ class MCSInterface:
         f.close()
         # wait for action to process
         time.sleep(0.1)
-        return self.get_image_name()
 
-    def get_image_name(self):
+        action_to_return = full_action_str
+
+        if action_to_return.endswith("json"):
+            action_to_return = self.scene_id
+
+        img, step_output = self.get_image_name_and_step_output()
+
+        return action_to_return, img, step_output
+
+    def get_image_name_and_step_output(self):
         """Watch the output directory, get image that appears.  If it does
         not appear in timeout seconds, give up and return blank."""
         timestart = time.time()
@@ -166,15 +184,27 @@ class MCSInterface:
             if elapsed > IMAGE_WAIT_TIMEOUT:
                 self.logger.info("Timeout waiting for image")
                 self.img_name = self.blank_path
-                return self.img_name
+                return self.img_name, self.step_output
 
-            list_of_files = glob.glob(self.image_in_dir + "/rgb_*.png")
-            if len(list_of_files) > 0:
-                latest_file = max(list_of_files, key=os.path.getctime)
+            list_of_output_files = glob.glob(
+                self.step_output_dir + "/step_output_*.json")
+            list_of_img_files = glob.glob(self.step_output_dir + "/rgb_*.png")
 
-                # Remove old files?  Probably a good idea, keep disk usage down
-                for file in list_of_files:
-                    if file != latest_file:
+            # Image file logic
+            if len(list_of_img_files) > 0 and len(list_of_output_files) > 0:
+                latest_json_file = max(
+                    list_of_output_files, key=os.path.getctime)
+
+                for file in list_of_output_files:
+                    if file != latest_json_file:
+                        os.unlink(file)
+
+                latest_image_file = max(
+                    list_of_img_files, key=os.path.getctime)
+
+                # Remove old files
+                for file in list_of_img_files:
+                    if file != latest_image_file:
                         os.unlink(file)
 
                 # wait to make sure we've finished loading the new image
@@ -184,14 +214,27 @@ class MCSInterface:
 
                 # Check to see if the unity controller still has the file open
                 for x in range(0, 100):
-                    if is_file_open(self.pid, latest_file):
-                        time.sleep(0.01)
+                    if (is_file_open(self.pid, latest_image_file) or
+                            is_file_open(self.pid, latest_json_file)):
+                        time.sleep(0.03)
                     else:
                         break
 
-                if latest_file != self.img_name:
-                    self.img_name = latest_file
-                    return self.img_name
+                opened_json_file = open(latest_json_file, "r")
+                new_step_output = json.load(opened_json_file)
+                opened_json_file.close()
+
+                has_new_step_output = (("step_number" in new_step_output and
+                                       (self.step_output is None or
+                                        self.step_number == 0)) or
+                                       ("step_number" in self.step_output and
+                                        new_step_output["step_number"] >
+                                        self.step_output["step_number"]))
+
+                if latest_image_file != self.img_name and has_new_step_output:
+                    self.step_output = new_step_output
+                    self.img_name = latest_image_file
+                    return self.img_name, self.step_output
 
             time.sleep(0.05)
 
@@ -206,13 +249,13 @@ class MCSInterface:
         scene_list.sort()
         return scene_list
 
-    def get_action_list(self, scene_filename):
+    def get_action_list(self, step_number=0):
         """Simplification of getting the action list as a function
         of step"""
         is_passive = False
         actions = GoalMetadata.DEFAULT_ACTIONS
         try:
-            with open(scene_filename, 'r') as scene_file:
+            with open(self.scene_filename, 'r') as scene_file:
                 scene_data = json.load(scene_file)
                 if 'goal' in scene_data:
                     goal = scene_data['goal']
@@ -225,13 +268,25 @@ class MCSInterface:
                     if is_passive:
                         actions = GoalMetadata.DEFAULT_PASSIVE_SCENE_ACTIONS
                     if goal.get('action_list'):
-                        actions = goal['action_list'][0]
-                    return self.simplify_action_list(scene_filename, actions)
+                        actions = goal['action_list'][step_number]
+                    return self.simplify_action_list(actions)
         except Exception:
-            self.logger.exception("Exception in reading json file")
-            return self.simplify_action_list(scene_filename, actions)
+            self.logger.exception(
+                "Exception in reading actions from json file")
+            return self.simplify_action_list(actions)
 
-    def simplify_action_list(self, scene_filename, default_action_list):
+    def get_goal_info(self, scene_filename):
+        """Obtain the goal info from a scene."""
+        try:
+            with open(scene_filename, 'r') as scene_file:
+                scene_data = json.load(scene_file)
+                if 'goal' in scene_data:
+                    return scene_data['goal']
+        except Exception:
+            self.logger.exception("Exception in reading goal from json file")
+            return {}
+
+    def simplify_action_list(self, default_action_list):
         """The action list looks something like:
         [('CloseObject', {}), ('DropObject', {}), ('MoveAhead', {}), ...
         which is not very user-friendly.  For each of them, remove
