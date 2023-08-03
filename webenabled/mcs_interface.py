@@ -83,7 +83,7 @@ class MCSInterface:
         self.pid = start_subprocess(self.command_out_dir, self.step_output_dir)
 
         # Read in the image
-        self.img_name = self.get_image_name_and_step_output(init=True)
+        self.img_name = self.get_image_name_and_step_output(startup=True)
         return self.img_name
 
     def is_controller_alive(self):
@@ -169,14 +169,17 @@ class MCSInterface:
 
         action_to_return = full_action_str
 
-        if action_to_return.endswith("json"):
+        is_initialize = action_to_return.endswith("json")
+
+        if is_initialize:
             action_to_return = self.scene_id
 
-        img, step_output = self.get_image_name_and_step_output()
+        img, step_output = self.get_image_name_and_step_output(
+            init_scene=is_initialize)
 
         return action_to_return, img, step_output
 
-    def get_image_name_and_step_output(self, init=False):
+    def get_image_name_and_step_output(self, startup=False, init_scene=False):
         """Watch the output directory, get image that appears.  If it does
         not appear in timeout seconds, give up and return blank."""
         timestart = time.time()
@@ -184,7 +187,7 @@ class MCSInterface:
         while True:
             timenow = time.time()
             elapsed = (timenow - timestart)
-            if (init and elapsed > UNITY_STARTUP_WAIT_TIMEOUT):
+            if (startup and elapsed > UNITY_STARTUP_WAIT_TIMEOUT):
                 self.logger.info(
                     "Display blank image on default when starting up.")
                 self.img_name = self.blank_path
@@ -192,7 +195,6 @@ class MCSInterface:
 
             if elapsed > IMAGE_WAIT_TIMEOUT:
                 self.logger.info("Timeout waiting for image")
-                self.img_name = self.blank_path
 
                 list_of_error_files = glob.glob(
                     self.step_output_dir + "/error_*.json")
@@ -202,11 +204,12 @@ class MCSInterface:
                         list_of_error_files, key=os.path.getctime
                     )
                     if latest_error_file.endswith(
-                            f"step_{self.step_number}.json"):
+                            f"step_{self.step_number}.json") or init_scene:
                         opened_error_file = open(latest_error_file, "r")
                         new_error_output = json.load(opened_error_file)
                         opened_error_file.close()
-                        self.img_name = self.blank_path
+                        if (self.img_name is None):
+                            self.img_name = self.blank_path
                         if (self.step_output is None):
                             self.step_output = {}
 

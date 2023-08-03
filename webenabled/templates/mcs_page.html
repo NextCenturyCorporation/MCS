@@ -170,6 +170,11 @@
             font-size: 80%;
             min-height: 18px;
         }
+
+        #error_div {
+            display: none;
+            color: red;
+        }
     </style>
 </head>
 
@@ -258,7 +263,7 @@
                 <span id="goal_last_step">N/A</span>
             </div></p>
             <p><div id="last_action_div">
-                <span>Last Action Taken: </span>
+                <span>Last Action Attempted: </span>
                 <span id="last_action">N/A</span>
             </div></p>
             <p><div id="return_status_div">
@@ -266,7 +271,7 @@
                 <span id="return_status">N/A</span>
             </div></p>
             <p><div id="error_div">
-                <span>Error (if applicable): </span>
+                <span>Error: </span>
                 <span id="error">N/A</span>
             </div></p>
             <p><div id="reward_div">
@@ -426,14 +431,7 @@
         let passiveCategories = ["intuitive physics", "passive", "agents"]
         let isPassive = passiveCategories.includes(document.getElementById('goal_cat').innerHTML)
 
-        if("error_output" in data.step_output) {
-            console.warn("last attempted step resulted in an error");
-            let errorOutput = document.getElementById('error');
-            errorOutput.innerHTML = data.step_output.error_output.error;
-        } else {
-            let errorOutput = document.getElementById('error');
-            errorOutput.innerHTML = "N/A"
-        }
+        let errorOutput = document.getElementById('error');
 
         if("return_status" in data.step_output) {
             let returnStatus = document.getElementById('return_status');
@@ -447,6 +445,22 @@
             lastAction.innerHTML = data.last_action;
         } else {
             console.warn("last_action not in step_output");
+        }
+
+        if("error_output" in data.step_output) {
+            console.warn("last attempted step resulted in an error");
+            document.getElementById("error_div").style.display = "block"
+            errorOutput.innerHTML = data.step_output.error_output.error;
+
+            if(data.step_output.error_output.error.includes("[Errno 32] Broken pipe")) {
+                errorOutput.innerHTML += " - the Unity app is likely not running. Restart the Flask app and try again. "
+            }
+
+            document.getElementById("return_status_div").style.display = "none"
+        } else {
+            errorOutput.innerHTML = "N/A"
+            document.getElementById("error_div").style.display = "none"
+            document.getElementById("return_status_div").style.display = "block"
         }
 
         if(isPassive) {
