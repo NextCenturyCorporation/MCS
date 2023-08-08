@@ -68,10 +68,15 @@
 
         div#navigation {
             background: #7fa0a9;
+            padding-bottom: 20px;
         }
 
         div#navigation li {
             list-style: none;
+        }
+
+        div#navigation div {
+            padding: 10px;
         }
 
         div#extra {
@@ -195,7 +200,7 @@
         </div>
     </div>
     <div id="header">
-        <h1>MCS Demo</h1>
+        <h1>Machine Common Sense</h1>
     </div>
     <div id="wrapper">
         <div id="content">
@@ -203,19 +208,8 @@
                 <span>Scene: </span>
                 <span id="scene_filename">None</span>
             </div></p>
-            <p><div id="action_list_div">
-                <span>Actions Available: </span>
-                <span id="action_list">N/A</span>
-            </div></p>
-            <p><div id="goal_cat_div">
-                <span>Goal Category: </span>
-                <span id="goal_cat">N/A</span>
-            </div></p>
-            <p><div id="goal_desc_div">
-                <span>Goal Description: </span>
-                <span id="goal_desc">N/A</span>
-            </div></p>
-            <hr/>
+            <img id="unityimg" width="600" height="400" src="{{ unityimg }}" alt="my image"/>
+
             <p>
                 <div>
                     Action Parameter Input Fields:
@@ -261,36 +255,6 @@
             </p>
             <span id="validation_errors"></span>
             <p></p>
-            <img id="unityimg" width="600" height="400" src="{{ unityimg }}" alt="my image" class="center"/>
-
-            <p><div id="step_number_div">
-                <span>Step: </span>
-                <span id="step_number">N/A</span>
-            </div></p>
-            <p><div id="goal_last_step_div">
-                <span>Max Steps: </span>
-                <span id="goal_last_step">N/A</span>
-            </div></p>
-            <p><div id="last_action_div">
-                <span>Last Action Attempted: </span>
-                <span id="last_action">N/A</span>
-            </div></p>
-            <p><div id="return_status_div">
-                <span>Return Status: </span>
-                <span id="return_status">N/A</span>
-            </div></p>
-            <p><div id="error_div">
-                <span>Error: </span>
-                <span id="error">N/A</span>
-            </div></p>
-            <p><div id="reward_div">
-                <span>Reward: </span>
-                <span id="reward">N/A</span>
-            </div></p>
-            <p><div id="steps_on_lava_div">
-                <span>Steps On Lava: </span>
-                <span id="steps_on_lava">N/A</span>
-            </div></p>
 
             <br/>
             <p></p>
@@ -305,6 +269,47 @@
                 <option>{{ scene }}</option>
             {% endfor %}
         </select>
+
+        <div id="goal_cat_div">
+            <span>Goal Category: </span>
+            <span id="goal_cat">N/A</span>
+        </div>
+        <div id="goal_desc_div">
+            <span>Goal Description: </span>
+            <span id="goal_desc">N/A</span>
+        </div>
+        <div id="step_number_div">
+            <span>Step: </span>
+            <span id="step_number">N/A</span>
+        </div>
+        <div id="goal_last_step_div">
+            <span>Max Steps: </span>
+            <span id="goal_last_step">N/A</span>
+        </div>
+        <div id="last_action_div">
+            <span>Last Action Attempted: </span>
+            <span id="last_action">N/A</span>
+        </div>
+        <div id="return_status_div">
+            <span>Return Status: </span>
+            <span id="return_status">N/A</span>
+        </div>
+        <div id="error_div">
+            <span>Error: </span>
+            <span id="error">N/A</span>
+        </div>
+        <div id="reward_div">
+            <span>Reward: </span>
+            <span id="reward">N/A</span>
+        </div>
+        <div id="steps_on_lava_div">
+            <span>Steps On Lava: </span>
+            <span id="steps_on_lava">N/A</span>
+        </div>
+        <div id="action_list_div">
+            <span>Actions Available: </span>
+            <span id="action_list">N/A</span>
+        </div>
     </div>
     <div id="extra">
         <p><strong>Keyboard Shortcuts</strong></p>
