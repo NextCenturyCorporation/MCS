@@ -102,6 +102,10 @@
             padding-right: 25px;
         }
 
+        div#content div {
+            padding: 10px 0 10px 0;
+        }
+
         div#navigation {
             float: left;
             width: 20%;
@@ -204,60 +208,50 @@
     </div>
     <div id="wrapper">
         <div id="content">
-            <p><div id="scene_filename_div">
+            <div id="scene_filename_div">
                 <span>Scene: </span>
                 <span id="scene_filename">None</span>
-            </div></p>
+            </div>
             <img id="unityimg" width="600" height="400" src="{{ unityimg }}" alt="my image"/>
 
-            <p>
-                <div>
-                    Action Parameter Input Fields:
-                </div>
-            </p>
-            <p>
-                <div>
+            <div>
+                Action Parameter Input Fields:
+            </div>
+
+            <div>
             Parameter(s) will be used if applicable for chosen keyboard shortcut, 
             see <a href="https://nextcenturycorporation.github.io/MCS/api.html#machine_common_sense.Action">Action API</a>
             for more information on parameters. If any of the inputs are not valid, an error message will be displayed,
             and your chosen action will not be processed until error(s) are resolved.</div>
-            </p>
-            <p>
-                <div>
-                    For image coordinates, the default is the center of the scene image. 
-                    Click a point on the Unity image to populate with a different coordinate.
-                </div>
-            </p>
-            <p><div id="image_coords_div">
+            <div>
+                For image coordinates, the default is the center of the scene image. 
+                Click a point on the Unity image to populate with a different coordinate.
+            </div>
+            <div id="image_coords_div">
                 <span>Image Coordinates: (
                     x: <span id="image_coord_x">300</span>,
                     y: <span id="image_coord_y">200</span>
                 )</span></div>
-            </p>
-            <p>
-                <div class="input_fields">
-                    <div>Amount: 
-                        <input type="number" min="0" max="1" step="0.1" value="1" id="amount"/>
-                    </div>
-                    <div>Force: 
-                        <input type="number" min="-1" max="1" step="0.1" value="0.5" id="force"/>
-                    </div>
-                    <div>Clockwise: 
-                        <input type="checkbox" id="clockwise" checked>
-                    </div>
-                    <div>Lateral: 
-                        <input type="number" min="-1" max="1" step="1" value="0" id="lateral"/>
-                    </div>
-                    <div>Straight: 
-                        <input type="number" min="-1" max="1" step="1" value="1" id="straight"/>
-                    </div>
+            <div class="input_fields">
+                <div>Amount: 
+                    <input type="number" min="0" max="1" step="0.1" value="1" id="amount"/>
                 </div>
-            </p>
+                <div>Force: 
+                    <input type="number" min="-1" max="1" step="0.1" value="0.5" id="force"/>
+                </div>
+                <div>Clockwise: 
+                    <input type="checkbox" id="clockwise" checked>
+                </div>
+                <div>Lateral: 
+                    <input type="number" min="-1" max="1" step="1" value="0" id="lateral"/>
+                </div>
+                <div>Straight: 
+                    <input type="number" min="-1" max="1" step="1" value="1" id="straight"/>
+                </div>
+            </div>
             <span id="validation_errors"></span>
-            <p></p>
 
             <br/>
-            <p></p>
 
         </div>
     </div>
