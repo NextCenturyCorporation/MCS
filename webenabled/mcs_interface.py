@@ -18,6 +18,7 @@ IMG_HEIGHT = 400
 MCS_INTERFACE_TMP_DIR = "static/mcsinterface/"
 BLANK_IMAGE_NAME = 'blank_600x400.png'
 IMAGE_WAIT_TIMEOUT = 20.0
+UNITY_STARTUP_WAIT_TIMEOUT = 10.0
 
 
 def convert_key_to_action(key: str, logger):
@@ -82,7 +83,7 @@ class MCSInterface:
         self.pid = start_subprocess(self.command_out_dir, self.step_output_dir)
 
         # Read in the image
-        self.img_name = self.get_image_name_and_step_output()
+        self.img_name = self.get_image_name_and_step_output(startup=True)
         return self.img_name
 
     def is_controller_alive(self):
@@ -107,10 +108,12 @@ class MCSInterface:
         key = params["keypress"]
         del params["keypress"]
         action = convert_key_to_action(key, self.logger)
-        self.step_number = self.step_number + 1
-        action_list_str = self.get_action_list(step_number=self.step_number)
         full_action, img, step_output = self._post_step_and_get_output(
             action, params)
+        if (step_output):
+            self.step_number = step_output.get('step_number', self.step_number)
+            action_list_str = self.get_action_list(
+                step_number=self.step_number)
         return full_action, img, step_output, action_list_str
 
     def _post_step_and_get_output(self, action: str, params=None):
@@ -162,18 +165,21 @@ class MCSInterface:
         f.write(full_action_str)
         f.close()
         # wait for action to process
-        time.sleep(0.1)
+        time.sleep(0.5)
 
         action_to_return = full_action_str
 
-        if action_to_return.endswith("json"):
+        is_initialize = action_to_return.endswith("json")
+
+        if is_initialize:
             action_to_return = self.scene_id
 
-        img, step_output = self.get_image_name_and_step_output()
+        img, step_output = self.get_image_name_and_step_output(
+            init_scene=is_initialize)
 
         return action_to_return, img, step_output
 
-    def get_image_name_and_step_output(self):
+    def get_image_name_and_step_output(self, startup=False, init_scene=False):
         """Watch the output directory, get image that appears.  If it does
         not appear in timeout seconds, give up and return blank."""
         timestart = time.time()
@@ -181,9 +187,37 @@ class MCSInterface:
         while True:
             timenow = time.time()
             elapsed = (timenow - timestart)
+            if (startup and elapsed > UNITY_STARTUP_WAIT_TIMEOUT):
+                self.logger.info(
+                    "Display blank image on default when starting up.")
+                self.img_name = self.blank_path
+                return self.img_name, self.step_output
+
             if elapsed > IMAGE_WAIT_TIMEOUT:
                 self.logger.info("Timeout waiting for image")
-                self.img_name = self.blank_path
+
+                list_of_error_files = glob.glob(
+                    self.step_output_dir + "/error_*.json")
+
+                if len(list_of_error_files) > 0:
+                    latest_error_file = max(
+                        list_of_error_files, key=os.path.getctime
+                    )
+                    if latest_error_file.endswith(
+                            f"step_{self.step_number}.json") or init_scene:
+                        opened_error_file = open(latest_error_file, "r")
+                        new_error_output = json.load(opened_error_file)
+                        opened_error_file.close()
+                        if (self.img_name is None):
+                            self.img_name = self.blank_path
+                        if (self.step_output is None):
+                            self.step_output = {}
+
+                        self.step_output['error_output'] = {
+                            'step_number': new_error_output["step_number"],
+                            'error': new_error_output["error"]
+                        }
+
                 return self.img_name, self.step_output
 
             list_of_output_files = glob.glob(
@@ -191,7 +225,8 @@ class MCSInterface:
             list_of_img_files = glob.glob(self.step_output_dir + "/rgb_*.png")
 
             # Image file logic
-            if len(list_of_img_files) > 0 and len(list_of_output_files) > 0:
+            if len(list_of_img_files) > 0 and len(
+                    list_of_output_files) > 0:  # noqa: E501
                 latest_json_file = max(
                     list_of_output_files, key=os.path.getctime)
 
@@ -225,11 +260,11 @@ class MCSInterface:
                 opened_json_file.close()
 
                 has_new_step_output = (("step_number" in new_step_output and
-                                       (self.step_output is None or
-                                        self.step_number == 0)) or
+                                        (self.step_output is None or
+                                         self.step_number == 0)) or
                                        ("step_number" in self.step_output and
-                                        new_step_output["step_number"] >
-                                        self.step_output["step_number"]))
+                                       new_step_output["step_number"] >
+                                       self.step_output["step_number"]))
 
                 if latest_image_file != self.img_name and has_new_step_output:
                     self.step_output = new_step_output
