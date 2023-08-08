@@ -30,7 +30,12 @@
             overflow-y: scroll;
         }
 
-        #scenes_unordered_list:hover {
+        #scenes_dropdown {
+            max-width: 300px;
+            margin: 5px 5px 10px 10px;
+        }
+
+        #scenes_dropdown:hover {
             cursor: pointer;
         }
 
@@ -295,12 +300,11 @@
     <div id="navigation">
         <p><strong>Scenes</strong></p>
         <p>Pick from one of the following scenes:</p>
-        <ul id="scenes_unordered_list">
+        <select id="scenes_dropdown">
             {% for scene in scene_list %}
-                <li>{{ scene }}</li>
+                <option>{{ scene }}</option>
             {% endfor %}
-        </ul>
-
+        </select>
     </div>
     <div id="extra">
         <p><strong>Keyboard Shortcuts</strong></p>
@@ -316,12 +320,11 @@
     <div id="footer"><p>Footer</p>
     </div>
 </div>
-<script type="text/javascript">AddFillerLink("content", "navigation", "extra")</script>
 <script src="https://unpkg.com/whatwg-fetch@2.0.4/fetch.js"></script>
 <script>
     // ---------------------------------------------------------
     // Handle clicking on one of the scene file names
-    var lis = document.getElementById("scenes_unordered_list").getElementsByTagName('li');
+    var sceneSelect = document.getElementById("scenes_dropdown");
     let actionKeysWithParams = ['1', '3', '4', '5', '6', '7', '8', '9', 'm', 'M', 't', 'T']
     let arrowKeys = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"]
     var processingKeypress = false
@@ -334,16 +337,11 @@
     loadingSpinner(false)
     loadController()
 
-    for (var i = 0; i < lis.length; i++) {
-        lis[i].addEventListener('click', select_scene, false);
-    }
+    sceneSelect.addEventListener('change', select_scene, false);
 
     function eventHandleScenes() {
-        lis = document.getElementById("scenes_unordered_list").getElementsByTagName('li');
-        for (var i = 0; i < lis.length; i++) {
-            lis[i].addEventListener('click', select_scene, false);
-        }
-
+        sceneSelect = document.getElementById("scenes_dropdown");
+        sceneSelect.addEventListener('change', select_scene, false);
     }
 
     function loadController() {
@@ -359,14 +357,9 @@
     }
 
     function select_scene() {
-        if(this.innerHTML == document.getElementById('scene_filename').innerHTML &&
-            document.getElementById('step_number').innerHTML == "0") {
-            console.log("Clicked scene is already selected and initialized. Returning...")
-            return;
-        }
         loadingSpinner(true)
         resp = fetch("{{url_for('handle_scene_selection')}}",
-            {method: 'POST', body: JSON.stringify(this.innerHTML)})
+            {method: 'POST', body: JSON.stringify(sceneSelect.value)})
             .then(parseJsonResponse)
             .then(updateSceneFilename)
             .then(updateStepNumber)
@@ -510,10 +503,10 @@
         var scenesString = ''
 
         data.scene_list.forEach(scene => {
-            scenesString = scenesString.concat('<li>' + scene + '</li>')
+            scenesString = scenesString.concat('<option value=\"' + scene + '\">' + scene + '</option>')
         });
 
-        var scenesList = document.getElementById('scenes_unordered_list');
+        var scenesList = document.getElementById('scenes_dropdown');
         scenesList.innerHTML = scenesString;
         eventHandleScenes()
 
