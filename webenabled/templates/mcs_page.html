@@ -7,28 +7,52 @@
         html, body {
             margin: 0;
             padding: 0;
+            background-color: #F8F8F8;
+            height: 100%;
+        }
+        #container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
+        #content-wrapper {
+            display: flex;
+            flex-direction: row;
+        }
+
+        div#header h1 {
+            height: 80px;
+            line-height: 80px;
+            margin: 0;
+            padding-left: 10px;
+            color: #F8F8F8;
+            background: #5F6871;
+        }
+        
         body {
             color: #292929;
-            font: 90% Verdana, Arial, sans-serif;
+            font-family: Arial, Verdana, sans-serif;
+            font-size: 16px;
             font-weight: 300;
         }
 
-        p {
-            padding: 0 10px;
-            line-height: 1.8;
+        div#scene_nav_info {
+            flex: 1
         }
 
-        ul {
-            list-style-type: none;
-            margin: 10px;
+        .section > div {
             padding: 10px;
-            height: 200px;
-            width: 90%;
-            overflow: hidden;
-            overflow-y: scroll;
         }
+
+        .section > p {
+            padding: 0 10px 0;
+        }
+
+        .section > img {
+            padding: 0 10px 0;
+        }
+
 
         #scenes_dropdown {
             max-width: 300px;
@@ -39,94 +63,22 @@
             cursor: pointer;
         }
 
-        ul li a {
-            display: block;
-            width: 100%;
-            text-decoration: none;
-            padding: 5px;
-            color: #072c3e;
-            background-color: #98b8b9;
-        }
-
-        ul li a:hover {
-            background-color: #ccc;
-        }
-
-        h3 {
-            padding: 5px 20px;
-            margin: 0;
-        }
-
-        div#header h1 {
-            height: 80px;
-            line-height: 80px;
-            margin: 0;
-            padding-left: 10px;
-            background: #e0e0e0;
-            color: #292929;
-        }
-
-        div#navigation {
-            background: #7fa0a9;
-            padding-bottom: 20px;
-        }
-
-        div#navigation li {
-            list-style: none;
-        }
-
-        div#navigation div {
-            padding: 10px;
-        }
-
-        div#extra {
-            background: #7fa0a9;
-        }
-
-        div#footer {
-            background: #42444e;
-            color: #fff;
-        }
-
-        div#footer p {
-            padding: 20px 10px;
-        }
-
-        div#wrapper {
-            float: left;
-            width: 100%;
-        }
-
-        div#content {
-            margin: 0 25%;
-            padding-right: 25px;
-        }
-
-        div#content div {
-            padding: 10px 0 10px 0;
-        }
-
-        div#navigation {
-            float: left;
-            width: 20%;
-            margin-left: -100%;
-        }
-
-        div#extra {
-            float: left;
-            width: 25%;
-            margin-left: -25%;
-        }
-
         div#footer {
             clear: left;
             width: 100%;
+            color: #5F6871;
+            background-color: #F8F8F8;;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            text-align: center;
+        }
+        div#footer p {
+            padding: 10px 10px;
         }
 
-        .center {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
+        .section {
+            margin: 0.75em;
         }
 
         .overlay {
@@ -206,23 +158,75 @@
     <div id="header">
         <h1>Machine Common Sense</h1>
     </div>
-    <div id="wrapper">
-        <div id="content">
+    <div id="content-wrapper">
+        <div id="scene_nav_info" class="section">
+            <p><strong>Scenes</strong></p>
+            <p>Pick from one of the following scenes:</p>
+            <select id="scenes_dropdown">
+                {% for scene in scene_list %}
+                    <option>{{ scene }}</option>
+                {% endfor %}
+            </select>
+    
+            <p><strong>Scene Info:</strong></p>
+            <div id="goal_cat_div">
+                <span>Goal Category: </span>
+                <span id="goal_cat">N/A</span>
+            </div>
+            <div id="goal_desc_div">
+                <span>Goal Description: </span>
+                <span id="goal_desc">N/A</span>
+            </div>
+            <div id="step_number_div">
+                <span>Step: </span>
+                <span id="step_number">N/A</span>
+            </div>
+            <div id="goal_last_step_div">
+                <span>Max Steps: </span>
+                <span id="goal_last_step">N/A</span>
+            </div>
+            <div id="last_action_div">
+                <span>Last Action Attempted: </span>
+                <span id="last_action">N/A</span>
+            </div>
+            <div id="return_status_div">
+                <span>Return Status: </span>
+                <span id="return_status">N/A</span>
+            </div>
+            <div id="error_div">
+                <span>Error: </span>
+                <span id="error">N/A</span>
+            </div>
+            <div id="reward_div">
+                <span>Reward: </span>
+                <span id="reward">N/A</span>
+            </div>
+            <div id="steps_on_lava_div">
+                <span>Steps On Lava: </span>
+                <span id="steps_on_lava">N/A</span>
+            </div>
+            <div id="action_list_div">
+                <span>Actions Available: </span>
+                <span id="action_list">N/A</span>
+            </div>
+        </div>
+        <div id="scene_demo" class="section">
             <div id="scene_filename_div">
-                <span>Scene: </span>
+                <span><strong>Scene Name: </strong></span>
                 <span id="scene_filename">None</span>
             </div>
             <img id="unityimg" width="600" height="400" src="{{ unityimg }}" alt="my image"/>
 
             <div>
-                Action Parameter Input Fields:
+                <strong>Action Parameter Input Fields:</strong>
             </div>
 
             <div>
-            Parameter(s) will be used if applicable for chosen keyboard shortcut, 
-            see <a href="https://nextcenturycorporation.github.io/MCS/api.html#machine_common_sense.Action">Action API</a>
-            for more information on parameters. If any of the inputs are not valid, an error message will be displayed,
-            and your chosen action will not be processed until error(s) are resolved.</div>
+                Parameter(s) will be used if applicable for chosen keyboard shortcut, 
+                see <a href="https://nextcenturycorporation.github.io/MCS/api.html#machine_common_sense.Action">Action API</a>
+                for more information on parameters. If any of the inputs are not valid, an error message will be displayed,
+                and your chosen action will not be processed until error(s) are resolved.
+            </div>
             <div>
                 For image coordinates, the default is the center of the scene image. 
                 Click a point on the Unity image to populate with a different coordinate.
@@ -254,69 +258,21 @@
             <br/>
 
         </div>
-    </div>
-    <div id="navigation">
-        <p><strong>Scenes</strong></p>
-        <p>Pick from one of the following scenes:</p>
-        <select id="scenes_dropdown">
-            {% for scene in scene_list %}
-                <option>{{ scene }}</option>
-            {% endfor %}
-        </select>
-
-        <div id="goal_cat_div">
-            <span>Goal Category: </span>
-            <span id="goal_cat">N/A</span>
-        </div>
-        <div id="goal_desc_div">
-            <span>Goal Description: </span>
-            <span id="goal_desc">N/A</span>
-        </div>
-        <div id="step_number_div">
-            <span>Step: </span>
-            <span id="step_number">N/A</span>
-        </div>
-        <div id="goal_last_step_div">
-            <span>Max Steps: </span>
-            <span id="goal_last_step">N/A</span>
-        </div>
-        <div id="last_action_div">
-            <span>Last Action Attempted: </span>
-            <span id="last_action">N/A</span>
-        </div>
-        <div id="return_status_div">
-            <span>Return Status: </span>
-            <span id="return_status">N/A</span>
-        </div>
-        <div id="error_div">
-            <span>Error: </span>
-            <span id="error">N/A</span>
-        </div>
-        <div id="reward_div">
-            <span>Reward: </span>
-            <span id="reward">N/A</span>
-        </div>
-        <div id="steps_on_lava_div">
-            <span>Steps On Lava: </span>
-            <span id="steps_on_lava">N/A</span>
-        </div>
-        <div id="action_list_div">
-            <span>Actions Available: </span>
-            <span id="action_list">N/A</span>
+        <div id="shortcuts" class="section">
+            <p><strong>Keyboard Shortcuts</strong></p>
+            <p>Below are the keyboard shortcuts. Make sure your mouse is somewhere in the
+                browser window and key strokes will be sent to the environment.</p>
+    
+            <img id="keyboard" width="400" src="static/keyboard.jpg" alt="keyboard" class="center"/>
+    
+            <p>The left part of the keyboard is for <strong>motion</strong>
+                so that 'a' and 'd' make the agent move left or right without rotating.
+                To <strong>rotate</strong> left and right, use 'j' and 'l' (lower case 'L') </p>
         </div>
     </div>
-    <div id="extra">
-        <p><strong>Keyboard Shortcuts</strong></p>
-        <p>Below are the keyboard shortcuts. Make sure your mouse is somewhere in the
-            browser window and key strokes will be sent to the environment.</p>
 
-        <img id="keyboard" width="400" src="static/keyboard.jpg" alt="keyboard" class="center"/>
-
-        <p>The left part of the keyboard is for <strong>motion</strong>
-            so that 'a' and 'd' make the agent move left or right without rotating.
-            To <strong>rotate</strong> left and right, use 'j' and 'l' (lower case 'L') </p>
-    </div>
-    <div id="footer"><p>Footer</p>
+    <div id="footer">
+        <p>This research was developed with funding from the Defense Advanced Research Projects Agency (DARPA). The views, opinions and/or findings expressed are those of the author and should not be interpreted as representing the official views or policies of the Department of Defense or the U.S. Government.<br/> <a href="https://www.darpa.mil/program/machine-common-sense" target="_blank">DARPA's Machine Common Sense (MCS) Program Page</a></p>
     </div>
 </div>
 <script src="https://unpkg.com/whatwg-fetch@2.0.4/fetch.js"></script>
