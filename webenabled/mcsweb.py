@@ -1,12 +1,22 @@
 import logging
+import os
 import random
 import string
+import typeguard
+
+# Override the typechecked decorator used in machine_common_sense to do nothing
+# because it doesn't work with pyinstaller since the final package doesn't
+# include source code. (I tried setting PYTHONOPTIMIZE as recommended in the
+# typeguard docs but that didn't work.)
+def mock_decorator(func):
+    return func
+typeguard.typechecked = mock_decorator
 
 from flask import (Flask, jsonify, make_response, render_template, request,
                    session)
 # See: https://www.geeksforgeeks.org/how-to-use-flask-session-in-python-flask/
 from flask_session import Session
-from mcs_interface import MCSInterface
+from mcs_interface import MCS_INTERFACE_TMP_DIR, MCSInterface
 from webenabled_common import LOG_CONFIG
 
 # Configure logging _before_ creating the app oject
@@ -44,6 +54,14 @@ def clean_request_data(request, is_json=False):
                 data[key] = value
 
     return data
+
+
+def convert_image_path(img: str) -> str:
+    # In packages made by pyinstaller, we need to adjust the image path for the
+    # HTML page, even though python is being run from a parent directory.
+    if img.find(MCS_INTERFACE_TMP_DIR) > 0:
+        return img[img.find(MCS_INTERFACE_TMP_DIR):]
+    return img
 
 
 def get_mcs_interface(request, label):
@@ -98,6 +116,7 @@ def handle_load_controller():
         return
 
     img = mcs_interface.blank_path
+    img = convert_image_path(img)
     scene_list = mcs_interface.get_scene_list()
 
     resp = jsonify(image=img, scene_list=scene_list)
@@ -118,6 +137,7 @@ def handle_keypress():
     params = clean_request_data(request, is_json=True)
     key = params["keypress"]
     action_string, img, step_output, action_list = mcs_interface.perform_action(params)  # noqa: E501
+    img = convert_image_path(img)
     step_number = mcs_interface.step_number
     app.logger.info(
         f"Key press: '{key}', action string: {action_string}, "
@@ -143,6 +163,7 @@ def handle_scene_selection():
     scene_filename = clean_request_data(request)
     img, step_output, action_list, goal_info = mcs_interface.load_scene(
         "scenes/" + scene_filename)
+    img = convert_image_path(img)
     app.logger.info(f"Start scene: {scene_filename}, output: {img}")
     resp = jsonify(
         last_action="Initialize",
@@ -154,3 +175,7 @@ def handle_scene_selection():
         step_output=step_output
     )
     return resp
+
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=8080, debug=True)

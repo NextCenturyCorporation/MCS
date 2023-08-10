@@ -17,7 +17,7 @@ import json
 import logging
 import os
 import time
-from os.path import exists
+from os.path import exists, relpath
 
 from watchdog.events import PatternMatchingEventHandler
 from watchdog.observers import Observer
@@ -84,7 +84,7 @@ class RunSceneWithDir:
 
     def load_command_file(self, command_text_file):
 
-        if os.path.exists(command_text_file) is False:
+        if exists(command_text_file) is False:
             self.create_command_file(command_text_file)
 
         try:
@@ -224,17 +224,26 @@ class RunSceneWithDir:
             logger.exception(
                 f"Error saving output image on step {output.step_number}")
 
+    def convert_file_path(path: str) -> str:
+        # Must convert a absolute file path to a relative file path in the
+        # pyinstaller package.
+        if path.startswith('/'):
+            return relpath(path, os.getcwd())
+        return path
+
     # ----------------------------------
     # Watchdog functions
     # ----------------------------------
     def on_created(self, event):
-        logger.info(f"File creation: {event.src_path}")
-        self.load_command_file(event.src_path)
+        path = convert_file_path(event.src_path)
+        logger.info(f"File creation: {path}")
+        self.load_command_file(path)
         os.unlink(event.src_path)
 
     def on_modified(self, event):
-        logger.info(f"File modified: {event.src_path}")
-        self.load_command_file(event.src_path)
+        path = convert_file_path(event.src_path)
+        logger.info(f"File modified: {path}")
+        self.load_command_file(path)
         os.unlink(event.src_path)
 
     def on_moved(self, event):
