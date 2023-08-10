@@ -37,7 +37,7 @@
             font-weight: 300;
         }
 
-        div#scene_nav_info {
+        div#scene-nav-info {
             flex: 1
         }
 
@@ -54,12 +54,12 @@
         }
 
 
-        #scenes_dropdown {
+        #scenes-dropdown {
             max-width: 300px;
             margin: 5px 5px 10px 10px;
         }
 
-        #scenes_dropdown:hover {
+        #scenes-dropdown:hover {
             cursor: pointer;
         }
 
@@ -76,7 +76,7 @@
             margin-top: 90px;
         }
 
-        #shortcuts .closebtn {
+        #shortcuts .close-btn {
             position: absolute;
             top: 0;
             right: 25px;
@@ -97,7 +97,7 @@
             color: #a3a8ad;
         }
 
-        .openbtn {
+        .open-btn {
             font-size: 20px;
             /* background-color: #007bff */
             background-color: #59C3C3;
@@ -106,12 +106,12 @@
             border: none;
         }
 
-        .openbtn:hover {
+        .open-btn:hover {
             color: #F8F8F8;
             background-color: #047471;
         }
 
-        #scene_demo {
+        #scene-demo {
             transition: margin-left 0.5s;
             padding: 16px;
         }
@@ -209,10 +209,10 @@
         <h1>Machine Common Sense</h1>
     </div>
     <div id="content-wrapper">
-        <div id="scene_nav_info" class="section">
+        <div id="scene-nav-info" class="section">
             <p><strong>Scenes</strong></p>
             <p>Pick from one of the following scenes:</p>
-            <select id="scenes_dropdown">
+            <select id="scenes-dropdown">
                 {% for scene in scene_list %}
                     <option>{{ scene }}</option>
                 {% endfor %}
@@ -260,7 +260,7 @@
                 <span id="action_list">N/A</span>
             </div>
         </div>
-        <div id="scene_demo" class="section">
+        <div id="scene-demo" class="section">
             <div id="scene_filename_div">
                 <span><strong>Scene Name: </strong></span>
                 <span id="scene_filename">None</span>
@@ -268,7 +268,7 @@
             <img id="unityimg" width="600" height="400" src="{{ unityimg }}" alt="my image"/>
 
             <div>
-                <button class="openbtn" id="openbtn" onclick="showShortcutInfo()">Help/Keyboard Shortcuts</button>
+                <button class="open-btn" id="open-btn" onclick="showShortcutInfo()">Help/Keyboard Shortcuts</button>
             </div>
             <div>
                 <strong>Action Parameter Input Fields:</strong>
@@ -312,7 +312,7 @@
 
         </div>
         <div id="shortcuts" class="section">
-            <a href="javascript:void(0)" class="closebtn" onclick="hideShortcutInfo()">×</a>
+            <a href="javascript:void(0)" class="close-btn" onclick="hideShortcutInfo()">×</a>
             <p><strong>Keyboard Shortcuts</strong></p>
             <p>Below are the keyboard shortcuts. Make sure your mouse is somewhere in the
                 browser window and key strokes will be sent to the environment.</p>
@@ -333,7 +333,7 @@
 <script>
     // ---------------------------------------------------------
     // Handle clicking on one of the scene file names
-    var sceneSelect = document.getElementById("scenes_dropdown");
+    var sceneSelect = document.getElementById("scenes-dropdown");
     let actionKeysWithParams = ['1', '3', '4', '5', '6', '7', '8', '9', 'm', 'M', 't', 'T']
     let arrowKeys = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"]
     var processingKeypress = false
@@ -349,7 +349,7 @@
     sceneSelect.addEventListener('change', select_scene, false);
 
     function eventHandleScenes() {
-        sceneSelect = document.getElementById("scenes_dropdown");
+        sceneSelect = document.getElementById("scenes-dropdown");
         sceneSelect.addEventListener('change', select_scene, false);
     }
 
@@ -515,7 +515,7 @@
             scenesString = scenesString.concat('<option value=\"' + scene + '\">' + scene + '</option>')
         });
 
-        var scenesList = document.getElementById('scenes_dropdown');
+        var scenesList = document.getElementById('scenes-dropdown');
         scenesList.innerHTML = scenesString;
         eventHandleScenes()
 
@@ -703,12 +703,12 @@
 
     function showShortcutInfo() {
       document.getElementById("shortcuts").style.width = "30%";
-      document.getElementById("scene_demo").style.marginRight = "30%";
+      document.getElementById("scene-demo").style.marginRight = "30%";
     }
 
    function hideShortcutInfo() {
       document.getElementById("shortcuts").style.width = "0";
-      document.getElementById("scene_demo").style.marginRight = "0";
+      document.getElementById("scene-demo").style.marginRight = "0";
    }
 
 
