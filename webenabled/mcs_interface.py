@@ -92,7 +92,7 @@ class MCSInterface:
         self.pid = start_subprocess(self.command_out_dir, self.step_output_dir)
 
         # Read in the image
-        self.img_name = self.get_image_name_and_step_output(startup=True)
+        self.img_name, _ = self.get_image_name_and_step_output(startup=True)
         return self.img_name
 
     def is_controller_alive(self):

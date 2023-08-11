@@ -224,7 +224,7 @@ class RunSceneWithDir:
             logger.exception(
                 f"Error saving output image on step {output.step_number}")
 
-    def convert_file_path(path: str) -> str:
+    def convert_file_path(self, path: str) -> str:
         # Must convert a absolute file path to a relative file path in the
         # pyinstaller package.
         if path.startswith('/'):
