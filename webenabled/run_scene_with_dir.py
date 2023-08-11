@@ -235,13 +235,13 @@ class RunSceneWithDir:
     # Watchdog functions
     # ----------------------------------
     def on_created(self, event):
-        path = convert_file_path(event.src_path)
+        path = self.convert_file_path(event.src_path)
         logger.info(f"File creation: {path}")
         self.load_command_file(path)
         os.unlink(event.src_path)
 
     def on_modified(self, event):
-        path = convert_file_path(event.src_path)
+        path = self.convert_file_path(event.src_path)
         logger.info(f"File modified: {path}")
         self.load_command_file(path)
         os.unlink(event.src_path)

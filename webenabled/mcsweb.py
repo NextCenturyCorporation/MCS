@@ -1,8 +1,9 @@
 import logging
-import os
 import random
 import string
+
 import typeguard
+
 
 # Override the typechecked decorator used in machine_common_sense to do nothing
 # because it doesn't work with pyinstaller since the final package doesn't
@@ -10,6 +11,8 @@ import typeguard
 # typeguard docs but that didn't work.)
 def mock_decorator(func):
     return func
+
+
 typeguard.typechecked = mock_decorator
 
 from flask import (Flask, jsonify, make_response, render_template, request,
