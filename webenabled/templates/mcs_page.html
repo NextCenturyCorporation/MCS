@@ -163,19 +163,19 @@
             height: 16px;
         }
 
-        .input_fields {
+        .input-fields {
             display: flex;
             justify-content: space-between;
         }
 
-        #validation_errors {
+        #validation-errors {
             display: block;
             color: red;
             font-size: 80%;
             min-height: 18px;
         }
 
-        #error_div {
+        #error-div {
             display: none;
             color: red;
         }
@@ -200,7 +200,7 @@
             padding-bottom: 10px;
         }
 
-        #scene_name_div {
+        #scene-name-div {
             margin-top: 1em;
             padding-top: 0px;
         }
@@ -233,22 +233,22 @@
             </select>
         </div>
         <div id="scene-demo" class="section">
-            <div id="scene_name_div">
+            <div id="scene-name-div">
                 <span><strong>Scene Name: </strong></span>
-                <span id="scene_filename">None</span>
+                <span id="scene-filename">None</span>
             </div>
-            <div id="goal_cat_div">
+            <div id="goal-cat-div">
                 <span><strong>Goal Category: </strong></span>
-                <span id="goal_cat">N/A</span>
+                <span id="goal-cat">N/A</span>
             </div>
-            <div id="goal_desc_div">
+            <div id="goal-desc-div">
                 <span><strong>Goal Description: </strong></span>
-                <span id="goal_desc">N/A</span>
+                <span id="goal-desc">N/A</span>
             </div>
 
-            <div id="action_list_div">
+            <div id="action-list-div">
                 <span><strong>Actions Available: </strong></span>
-                <span id="action_list">N/A</span>
+                <span id="action-list">N/A</span>
             </div>
             <div id="img-and-outputs">
                 <div class="output-col">
@@ -256,33 +256,33 @@
                 </div>
                 <div class="output-col output-info">
                     <div><strong>Outputs</strong></div>
-                    <div id="step_number_div">
+                    <div id="step-number-div">
                         <span>Step: </span>
-                        <span id="step_number">N/A</span>
+                        <span id="step-number">N/A</span>
                     </div>
-                    <div id="goal_last_step_div">
+                    <div id="goal-last-step-div">
                         <span>Max Steps:</span>
-                        <span id="goal_last_step">N/A</span>
+                        <span id="goal-last-step">N/A</span>
                     </div>
-                    <div id="last_action_div">
+                    <div id="last-action-div">
                         <span>Last Action Attempted: </span>
-                        <span id="last_action">N/A</span>
+                        <span id="last-action">N/A</span>
                     </div>
-                    <div id="return_status_div">
+                    <div id="return-status-div">
                         <span>Return Status: </span>
-                        <span id="return_status">N/A</span>
+                        <span id="return-status">N/A</span>
                     </div>
-                    <div id="error_div">
+                    <div id="error-div">
                         <span>Error: </span>
                         <span id="error">N/A</span>
                     </div>
-                    <div id="reward_div">
+                    <div id="reward-div">
                         <span>Reward: </span>
                         <span id="reward">N/A</span>
                     </div>
-                    <div id="steps_on_lava_div">
+                    <div id="steps-on-lava-div">
                         <span>Steps On Lava: </span>
-                        <span id="steps_on_lava">N/A</span>
+                        <span id="steps-on-lava">N/A</span>
                     </div>
                 </div>
             </div>
@@ -303,10 +303,10 @@
             </div>
             <div id="image_coords_div">
                 <span>Image Coordinates: (
-                    x: <span id="image_coord_x">300</span>,
-                    y: <span id="image_coord_y">200</span>
+                    x: <span id="image-coord-x">300</span>,
+                    y: <span id="image-coord-y">200</span>
                 )</span></div>
-            <div class="input_fields">
+            <div class="input-fields">
                 <div>Amount: 
                     <input type="number" min="0" max="1" step="0.1" value="1" id="amount"/>
                 </div>
@@ -323,7 +323,7 @@
                     <input type="number" min="-1" max="1" step="1" value="1" id="straight"/>
                 </div>
             </div>
-            <span id="validation_errors"></span>
+            <span id="validation-errors"></span>
 
             <br/>
 
@@ -405,7 +405,7 @@
 
     function updateActionList(data) {
         console.log("actionList is " + data.action_list);
-        var actionList = document.getElementById('action_list');
+        var actionList = document.getElementById('action-list');
         actionList.innerHTML = data.action_list;
         return data;
     }
@@ -415,7 +415,7 @@
         console.log(data.goal);
 
         if("category" in data.goal) {
-            let goalCategory = document.getElementById('goal_cat');
+            let goalCategory = document.getElementById('goal-cat');
             goalCategory.innerHTML = data.goal.category;
         } else {
             console.warn("category not in goalInfo");
@@ -425,11 +425,11 @@
             let hasNoDesc = ["intuitive physics", "passive"].includes(data.goal.category)
 
             if(hasNoDesc) {
-                document.getElementById("goal_desc_div").style.display = "none"
+                document.getElementById("goal-desc-div").style.display = "none"
             } else {
-                document.getElementById("goal_desc_div").style.display = "block"
+                document.getElementById("goal-desc-div").style.display = "block"
 
-                let goalDesc = document.getElementById('goal_desc');
+                let goalDesc = document.getElementById('goal-desc');
                 goalDesc.innerHTML = data.goal.description;
             }
         } else {
@@ -437,7 +437,7 @@
         }
 
         if("last_step" in data.goal) {
-            let lastStep = document.getElementById('goal_last_step');
+            let lastStep = document.getElementById('goal-last-step');
             lastStep.innerHTML = data.goal['last_step'];
         } else {
             console.warn("last_step not in goalInfo");
@@ -451,19 +451,19 @@
         console.log(data.step_output);
 
         let passiveCategories = ["intuitive physics", "passive", "agents"]
-        let isPassive = passiveCategories.includes(document.getElementById('goal_cat').innerHTML)
+        let isPassive = passiveCategories.includes(document.getElementById('goal-cat').innerHTML)
 
         let errorOutput = document.getElementById('error');
 
         if("return_status" in data.step_output) {
-            let returnStatus = document.getElementById('return_status');
+            let returnStatus = document.getElementById('return-status');
             returnStatus.innerHTML = data.step_output.return_status;
         } else {
-            console.warn("return_status not in step_output");
+            console.warn("return-status-div not in step_output");
         }
 
         if("last_action" in data) {
-            let lastAction = document.getElementById('last_action');
+            let lastAction = document.getElementById('last-action');
             lastAction.innerHTML = data.last_action;
         } else {
             console.warn("last_action not in step_output");
@@ -471,26 +471,26 @@
 
         if("error_output" in data.step_output) {
             console.warn("last attempted step resulted in an error");
-            document.getElementById("error_div").style.display = "block"
+            document.getElementById("error-div").style.display = "block"
             errorOutput.innerHTML = data.step_output.error_output.error;
 
             if(data.step_output.error_output.error.includes("[Errno 32] Broken pipe")) {
                 errorOutput.innerHTML += " - the Unity app is likely not running. Restart the Flask app and try again. "
             }
 
-            document.getElementById("return_status_div").style.display = "none"
+            document.getElementById("return-status-div").style.display = "none"
         } else {
             errorOutput.innerHTML = "N/A"
-            document.getElementById("error_div").style.display = "none"
-            document.getElementById("return_status_div").style.display = "block"
+            document.getElementById("error-div").style.display = "none"
+            document.getElementById("return-status-div").style.display = "block"
         }
 
         if(isPassive) {
-            document.getElementById("reward_div").style.display = "none"
-            document.getElementById("steps_on_lava_div").style.display = "none"
+            document.getElementById("reward-div").style.display = "none"
+            document.getElementById("steps-on-lava-div").style.display = "none"
         } else {
-            document.getElementById("reward_div").style.display = "block"
-            document.getElementById("steps_on_lava_div").style.display = "block"
+            document.getElementById("reward-div").style.display = "block"
+            document.getElementById("steps-on-lava-div").style.display = "block"
 
             if("reward" in data.step_output) {
                 let reward = document.getElementById('reward');
@@ -500,7 +500,7 @@
             }
 
             if("steps_on_lava" in data.step_output) {
-                let stepsOnLava = document.getElementById('steps_on_lava');
+                let stepsOnLava = document.getElementById('steps-on-lava');
                 stepsOnLava.innerHTML = data.step_output.steps_on_lava;
             } else {
                 console.warn("steps_on_lava not in step_output");
@@ -512,14 +512,14 @@
 
     function updateSceneFilename(data) {
         console.log("sceneFilename is " + data.scene);
-        var sceneFilename = document.getElementById('scene_filename');
+        var sceneFilename = document.getElementById('scene-filename');
         sceneFilename.innerHTML = data.scene;
         return data;
     }
 
     function updateStepNumber(data) {
         console.log("stepNumber is " + data.step);
-        var stepNumber = document.getElementById('step_number');
+        var stepNumber = document.getElementById('step-number');
         stepNumber.innerHTML = data.step;
         return data;
     }
@@ -563,9 +563,9 @@
             "objectImageCoordsY": yValue
         }
         console.log("Image coords are: (x: " + xValue + ", y: " + yValue+ ")");
-        var imageCoordX = document.getElementById('image_coord_x');
+        var imageCoordX = document.getElementById('image-coord-x');
         imageCoordX.innerHTML = xValue;
-        var imageCoordY = document.getElementById('image_coord_y');
+        var imageCoordY = document.getElementById('image-coord-y');
         imageCoordY.innerHTML = yValue;
         return params;
     }
@@ -576,8 +576,8 @@
             "objectImageCoordsX": 300,
             "objectImageCoordsY": 200
         }
-        document.getElementById('image_coord_x').innerHTML = 300
-        document.getElementById('image_coord_y').innerHTML = 200
+        document.getElementById('image-coord-x').innerHTML = 300
+        document.getElementById('image-coord-y').innerHTML = 200
 
         return data;
     }
@@ -585,7 +585,7 @@
     // If the applicable action is triggered, checks any related input
     // fields to ensure the values make sense.
     function passesValidation(actionKey) {
-        let errorMsg = document.getElementById("validation_errors")
+        let errorMsg = document.getElementById("validation-errors")
 
         let amountVal = document.getElementById("amount").value
         if(['1', '2'].includes(actionKey) && (amountVal > 1 || amountVal < 0)) {
