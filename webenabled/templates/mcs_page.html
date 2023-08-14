@@ -465,7 +465,7 @@
             let returnStatus = document.getElementById('return-status');
             returnStatus.innerHTML = data.step_output.return_status;
         } else {
-            console.warn("return-status-div not in step_output");
+            console.warn("return_status not in step_output");
         }
 
         if("last_action" in data) {
