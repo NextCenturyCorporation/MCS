@@ -7,8 +7,7 @@
         html, body {
             margin: 0;
             padding: 0;
-            /*background-color: #F8F8F8;*/
-            background-color: #5F6871;
+            background-color: #e3e7ea;
         }
         #container {
             display: flex;
@@ -40,6 +39,7 @@
 
         div#scene-nav-info {
             flex: 1;
+            min-width: 350px;
         }
 
         .section {
@@ -75,57 +75,13 @@
         }
 
         #shortcuts {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: -10;
-            top: 0;
-            right: 0;
-            background-color: #F8F8F8;
-            overflow-x: hidden;
-            transition: 0.5s;
-            margin-top: 90px;
+            margin-right: 15px;
         }
 
-        #shortcuts .close-btn {
-            position: absolute;
-            top: 0;
-            right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
-        }
-
-        #shortcuts a {
-            padding: 8px 8px 8px 32px;
-            text-decoration: none;
-            font-size: 25px;
-            color: #5F6871;
+        .center {
             display: block;
-            transition: 0.3s;
-        }
-
-        #shortcuts a:hover {
-            color: #a3a8ad;
-        }
-
-        .open-btn {
-            font-size: 20px;
-            /* background-color: #007bff */
-            background-color: #59C3C3;
-            cursor: pointer;
-            padding: 10px 15px;
-            border: none;
-        }
-
-        .open-btn:hover {
-            color: #F8F8F8;
-            background-color: #047471;
-        }
-
-        #scene-demo {
-            transition: margin-left 0.5s;
-            padding: 16px;
-            margin-right: 10px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         #footer {
@@ -276,9 +232,6 @@
             <img id="unityimg" width="600" height="400" src="{{ unityimg }}" alt="my image"/>
 
             <div>
-                <button class="open-btn" id="open-btn" onclick="showShortcutInfo()">Help/Keyboard Shortcuts</button>
-            </div>
-            <div>
                 <strong>Action Parameter Input Fields:</strong>
             </div>
 
@@ -320,7 +273,6 @@
 
         </div>
         <div id="shortcuts" class="section">
-            <a href="javascript:void(0)" class="close-btn" onclick="hideShortcutInfo()">×</a>
             <p><strong>Keyboard Shortcuts</strong></p>
             <p>Below are the keyboard shortcuts. Make sure your mouse is somewhere in the
                 browser window and key strokes will be sent to the environment.</p>
@@ -708,19 +660,6 @@
         imgref.src = data.image;
         return data;
     }
-
-    function showShortcutInfo() {
-        document.getElementById("shortcuts").style.width = "30%";
-        document.getElementById("shortcuts").style["z-index"] = "1";
-        document.getElementById("scene-demo").style.marginRight = "30%";
-    }
-
-    function hideShortcutInfo() {
-        document.getElementById("shortcuts").style.width = "0";
-        document.getElementById("shortcuts").style["z-index"] = "-10";
-        document.getElementById("scene-demo").style.marginRight = "10px";
-    }
-
 
 </script>
 </body>
