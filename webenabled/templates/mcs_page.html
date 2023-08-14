@@ -40,6 +40,7 @@
         div#scene-nav-info {
             flex: 1;
             min-width: 400px;
+            margin-bottom: 10px
         }
 
         .section {
@@ -182,12 +183,12 @@
             color: red;
         }
 
-        #img-and-outputs {
+        .row {
             display: flex;
             flex-direction: row;
         }
 
-        .output-col {
+        .column {
             display: flex;
             flex-direction: column;
         }
@@ -197,7 +198,7 @@
             margin-right: 5px;
         }
 
-        .output-col > div {
+        .output-info > div {
             padding-top: 10px;
             padding-bottom: 10px;
         }
@@ -225,14 +226,27 @@
         <h1>Machine Common Sense</h1>
     </div>
     <div id="content-wrapper">
-        <div id="scene-nav-info" class="section">
-            <p><strong>Scenes</strong>
-            <p>Pick from one of the following scenes:</p>
-            <select id="scenes-dropdown" size="15">
-                {% for scene in scene_list %}
-                    <option>{{ scene }}</option>
-                {% endfor %}
-            </select>
+        <div class="column">
+            <div id="scene-nav-info" class="section">
+                <p><strong>Scenes</strong>
+                <p>Pick from one of the following scenes:</p>
+                <select id="scenes-dropdown" size="15">
+                    {% for scene in scene_list %}
+                        <option>{{ scene }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div id="shortcuts" class="section">
+                <p><strong>Keyboard Shortcuts</strong></p>
+                <p>Below are the keyboard shortcuts. Make sure your mouse is somewhere in the
+                    browser window and key strokes will be sent to the environment.</p>
+        
+                <img id="keyboard" width="400" src="static/keyboard.jpg" alt="keyboard" class="center"/>
+        
+                <p>The left part of the keyboard is for <strong>motion</strong>
+                    so that 'a' and 'd' make the agent move left or right without rotating.
+                    To <strong>rotate</strong> left and right, use 'j' and 'l' (lower case 'L') </p>
+            </div>
         </div>
         <div id="scene-demo" class="section">
             <div id="scene-name-div">
@@ -252,11 +266,11 @@
                 <span><strong>Actions Available: </strong></span>
                 <span id="action-list">N/A</span>
             </div>
-            <div id="img-and-outputs">
-                <div class="output-col">
+            <div class="row">
+                <div class="column">
                     <img id="unityimg" width="600" height="400" src="{{ unityimg }}" alt="current step image"/>
                 </div>
-                <div class="output-col output-info">
+                <div class="column output-info">
                     <div><strong>Outputs</strong></div>
                     <div id="step-number-div">
                         <span>Step: </span>
@@ -329,18 +343,8 @@
 
             <br/>
 
-        </div>
-        <div id="shortcuts" class="section">
-            <p><strong>Keyboard Shortcuts</strong></p>
-            <p>Below are the keyboard shortcuts. Make sure your mouse is somewhere in the
-                browser window and key strokes will be sent to the environment.</p>
-    
-            <img id="keyboard" width="400" src="static/keyboard.jpg" alt="keyboard" class="center"/>
-    
-            <p>The left part of the keyboard is for <strong>motion</strong>
-                so that 'a' and 'd' make the agent move left or right without rotating.
-                To <strong>rotate</strong> left and right, use 'j' and 'l' (lower case 'L') </p>
-        </div>
+        </div>  
+
     </div>
 
     <div id="footer">
