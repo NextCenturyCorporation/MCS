@@ -178,6 +178,20 @@
             display: none;
             color: red;
         }
+
+        #outputs {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .output-col {
+            width: 50%;
+        }
+
+        .output-col > div {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
     </style>
 </head>
 
@@ -193,19 +207,19 @@
     </div>
     <div id="content-wrapper">
         <div id="scene-nav-info" class="section">
-            <p><strong>Scenes</strong></p>
+            <p><strong>Scenes</strong>
             <p>Pick from one of the following scenes:</p>
-            <select id="scenes-dropdown" size="40">
+            <select id="scenes-dropdown" size="15">
                 {% for scene in scene_list %}
                     <option>{{ scene }}</option>
                 {% endfor %}
             </select>
         </div>
         <div id="scene-demo" class="section">
-            <div id="scene_filename_div">
+            <p>
                 <span><strong>Scene Name: </strong></span>
                 <span id="scene_filename">None</span>
-            </div>
+            </p>
             <div id="goal_cat_div">
                 <span><strong>Goal Category: </strong></span>
                 <span id="goal_cat">N/A</span>
@@ -214,33 +228,39 @@
                 <span><strong>Goal Description: </strong></span>
                 <span id="goal_desc">N/A</span>
             </div>
-            <div id="step_number_div">
-                <span><strong>Step: </strong></span>
-                <span id="step_number">N/A</span>
-            </div>
-            <div id="goal_last_step_div">
-                <span><strong>Max Steps:</strong></span>
-                <span id="goal_last_step">N/A</span>
-            </div>
-            <div id="last_action_div">
-                <span><strong>Last Action Attempted: </strong></span>
-                <span id="last_action">N/A</span>
-            </div>
-            <div id="return_status_div">
-                <span><strong>Return Status: </strong></span>
-                <span id="return_status">N/A</span>
-            </div>
-            <div id="error_div">
-                <span><strong>Error: </strong></span>
-                <span id="error">N/A</span>
-            </div>
-            <div id="reward_div">
-                <span><strong>Reward: </strong></span>
-                <span id="reward">N/A</span>
-            </div>
-            <div id="steps_on_lava_div">
-                <span><strong>Steps On Lava: </strong></span>
-                <span id="steps_on_lava">N/A</span>
+            <div id="outputs">
+                <div class="output-col">
+                    <div id="step_number_div">
+                        <span><strong>Step: </strong></span>
+                        <span id="step_number">N/A</span>
+                    </div>
+                    <div id="goal_last_step_div">
+                        <span><strong>Max Steps:</strong></span>
+                        <span id="goal_last_step">N/A</span>
+                    </div>
+                    <div id="last_action_div">
+                        <span><strong>Last Action Attempted: </strong></span>
+                        <span id="last_action">N/A</span>
+                    </div>
+                </div>
+                <div class="output-col">
+                    <div id="return_status_div">
+                        <span><strong>Return Status: </strong></span>
+                        <span id="return_status">N/A</span>
+                    </div>
+                    <div id="error_div">
+                        <span><strong>Error: </strong></span>
+                        <span id="error">N/A</span>
+                    </div>
+                    <div id="reward_div">
+                        <span><strong>Reward: </strong></span>
+                        <span id="reward">N/A</span>
+                    </div>
+                    <div id="steps_on_lava_div">
+                        <span><strong>Steps On Lava: </strong></span>
+                        <span id="steps_on_lava">N/A</span>
+                    </div>
+                </div>
             </div>
             <div id="action_list_div">
                 <span><strong>Actions Available: </strong></span>
