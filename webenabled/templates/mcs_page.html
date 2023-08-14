@@ -75,6 +75,7 @@
 
         #shortcuts {
             margin-right: 15px;
+            max-width: 450px;
         }
 
         .center {
@@ -185,12 +186,23 @@
         }
 
         .output-col {
-            width: 50%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .output-info {
+            margin-left: 15px;
+            margin-right: 5px;
         }
 
         .output-col > div {
             padding-top: 10px;
             padding-bottom: 10px;
+        }
+
+        #scene_name_div {
+            margin-top: 1em;
+            padding-top: 0px;
         }
     </style>
 </head>
@@ -216,10 +228,10 @@
             </select>
         </div>
         <div id="scene-demo" class="section">
-            <p>
+            <div id="scene_name_div">
                 <span><strong>Scene Name: </strong></span>
                 <span id="scene_filename">None</span>
-            </p>
+            </div>
             <div id="goal_cat_div">
                 <span><strong>Goal Category: </strong></span>
                 <span id="goal_cat">N/A</span>
@@ -228,45 +240,47 @@
                 <span><strong>Goal Description: </strong></span>
                 <span id="goal_desc">N/A</span>
             </div>
-            <div id="outputs">
-                <div class="output-col">
-                    <div id="step_number_div">
-                        <span><strong>Step: </strong></span>
-                        <span id="step_number">N/A</span>
-                    </div>
-                    <div id="goal_last_step_div">
-                        <span><strong>Max Steps:</strong></span>
-                        <span id="goal_last_step">N/A</span>
-                    </div>
-                    <div id="last_action_div">
-                        <span><strong>Last Action Attempted: </strong></span>
-                        <span id="last_action">N/A</span>
-                    </div>
-                </div>
-                <div class="output-col">
-                    <div id="return_status_div">
-                        <span><strong>Return Status: </strong></span>
-                        <span id="return_status">N/A</span>
-                    </div>
-                    <div id="error_div">
-                        <span><strong>Error: </strong></span>
-                        <span id="error">N/A</span>
-                    </div>
-                    <div id="reward_div">
-                        <span><strong>Reward: </strong></span>
-                        <span id="reward">N/A</span>
-                    </div>
-                    <div id="steps_on_lava_div">
-                        <span><strong>Steps On Lava: </strong></span>
-                        <span id="steps_on_lava">N/A</span>
-                    </div>
-                </div>
-            </div>
+
             <div id="action_list_div">
                 <span><strong>Actions Available: </strong></span>
                 <span id="action_list">N/A</span>
             </div>
-            <img id="unityimg" width="600" height="400" src="{{ unityimg }}" alt="my image"/>
+            <div id="outputs">
+                <div class="output-col">
+                    <img id="unityimg" width="600" height="400" src="{{ unityimg }}" alt="current step image"/>
+                </div>
+                <div class="output-col output-info">
+                    <p><strong>Outputs</strong></p>
+                    <div id="step_number_div">
+                        <span>Step: </span>
+                        <span id="step_number">N/A</span>
+                    </div>
+                    <div id="goal_last_step_div">
+                        <span>Max Steps:</span>
+                        <span id="goal_last_step">N/A</span>
+                    </div>
+                    <div id="last_action_div">
+                        <span>Last Action Attempted: </span>
+                        <span id="last_action">N/A</span>
+                    </div>
+                    <div id="return_status_div">
+                        <span>Return Status: </span>
+                        <span id="return_status">N/A</span>
+                    </div>
+                    <div id="error_div">
+                        <span>Error: </span>
+                        <span id="error">N/A</span>
+                    </div>
+                    <div id="reward_div">
+                        <span>Reward: </span>
+                        <span id="reward">N/A</span>
+                    </div>
+                    <div id="steps_on_lava_div">
+                        <span>Steps On Lava: </span>
+                        <span id="steps_on_lava">N/A</span>
+                    </div>
+                </div>
+            </div>
 
             <div>
                 <strong>Action Parameter Input Fields:</strong>
