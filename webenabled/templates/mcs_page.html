@@ -39,7 +39,6 @@
 
         div#scene-nav-info {
             flex: 1;
-            min-width: 400px;
             margin-bottom: 10px
         }
 
@@ -76,7 +75,6 @@
 
         #shortcuts {
             margin-right: 15px;
-            max-width: 450px;
         }
 
         .center {
@@ -193,6 +191,11 @@
             flex-direction: column;
         }
 
+        .left-panel {
+            min-width: 400px;
+            max-width: 550px;
+        }
+
         .output-info {
             margin-left: 15px;
             margin-right: 5px;
@@ -226,7 +229,7 @@
         <h1>Machine Common Sense</h1>
     </div>
     <div id="content-wrapper">
-        <div class="column">
+        <div class="left-panel column">
             <div id="scene-nav-info" class="section">
                 <p><strong>Scenes</strong>
                 <p>Pick from one of the following scenes:</p>
