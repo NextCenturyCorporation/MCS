@@ -39,7 +39,7 @@
 
         div#scene-nav-info {
             flex: 1;
-            min-width: 350px;
+            min-width: 400px;
         }
 
         .section {
@@ -66,7 +66,6 @@
         }
 
         #scenes-dropdown {
-            max-width: 300px;
             margin: 5px 5px 10px 10px;
         }
 
@@ -143,6 +142,26 @@
             }
         }
 
+        select {
+            width: 90%;
+            font-family: inherit;
+            font-size: inherit;
+            line-height: inherit;
+            padding: 3px;
+        }
+
+        input {
+            font-family: inherit;
+            font-size: inherit;
+            margin-left: 4px;
+            margin-right: 4px;
+        }
+
+        input.checkbox {
+            width: 16px;
+            height: 16px;
+        }
+
         .input_fields {
             display: flex;
             justify-content: space-between;
@@ -176,11 +195,17 @@
         <div id="scene-nav-info" class="section">
             <p><strong>Scenes</strong></p>
             <p>Pick from one of the following scenes:</p>
-            <select id="scenes-dropdown">
+            <select id="scenes-dropdown" size="40">
                 {% for scene in scene_list %}
                     <option>{{ scene }}</option>
                 {% endfor %}
             </select>
+        </div>
+        <div id="scene-demo" class="section">
+            <div id="scene_filename_div">
+                <span><strong>Scene Name: </strong></span>
+                <span id="scene_filename">None</span>
+            </div>
             <div id="goal_cat_div">
                 <span><strong>Goal Category: </strong></span>
                 <span id="goal_cat">N/A</span>
@@ -188,12 +213,6 @@
             <div id="goal_desc_div">
                 <span><strong>Goal Description: </strong></span>
                 <span id="goal_desc">N/A</span>
-            </div>
-        </div>
-        <div id="scene-demo" class="section">
-            <div id="scene_filename_div">
-                <span><strong>Scene Name: </strong></span>
-                <span id="scene_filename">None</span>
             </div>
             <div id="step_number_div">
                 <span><strong>Step: </strong></span>
@@ -256,7 +275,7 @@
                     <input type="number" min="-1" max="1" step="0.1" value="0.5" id="force"/>
                 </div>
                 <div>Clockwise: 
-                    <input type="checkbox" id="clockwise" checked>
+                    <input type="checkbox" id="clockwise" class="checkbox" checked>
                 </div>
                 <div>Lateral: 
                     <input type="number" min="-1" max="1" step="1" value="0" id="lateral"/>
