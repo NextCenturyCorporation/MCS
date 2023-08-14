@@ -180,7 +180,7 @@
             color: red;
         }
 
-        #outputs {
+        #img-and-outputs {
             display: flex;
             flex-direction: row;
         }
@@ -203,6 +203,11 @@
         #scene_name_div {
             margin-top: 1em;
             padding-top: 0px;
+        }
+
+        /* override needed for Firefox */
+        strong {
+            font-weight: 700;
         }
     </style>
 </head>
@@ -245,12 +250,12 @@
                 <span><strong>Actions Available: </strong></span>
                 <span id="action_list">N/A</span>
             </div>
-            <div id="outputs">
+            <div id="img-and-outputs">
                 <div class="output-col">
                     <img id="unityimg" width="600" height="400" src="{{ unityimg }}" alt="current step image"/>
                 </div>
                 <div class="output-col output-info">
-                    <p><strong>Outputs</strong></p>
+                    <div><strong>Outputs</strong></div>
                     <div id="step_number_div">
                         <span>Step: </span>
                         <span id="step_number">N/A</span>
