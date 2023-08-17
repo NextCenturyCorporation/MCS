@@ -65,6 +65,10 @@
             padding: 0 10px 0;
         }
 
+        #keyboard {
+            max-width: 95%;
+        }
+
         #scenes-dropdown {
             margin: 5px 5px 10px 10px;
         }
@@ -254,15 +258,11 @@
         <div id="scene-demo" class="section">
             <div id="scene-name-div">
                 <span><strong>Scene Name: </strong></span>
-                <span id="scene-filename">None</span>
+                <span id="scene-filename">None - Please select a scene.</span>
             </div>
-            <div id="goal-cat-div">
-                <span><strong>Goal Category: </strong></span>
-                <span id="goal-cat">N/A</span>
-            </div>
-            <div id="goal-desc-div">
-                <span><strong>Goal Description: </strong></span>
-                <span id="goal-desc">N/A</span>
+            <div id="goal-div">
+                <span><strong>Goal: </strong></span>
+                <span id="goal-cat"></span><span id="goal-desc">N/A</span>
             </div>
 
             <div id="action-list-div">
@@ -309,17 +309,6 @@
             <div>
                 <strong>Action Parameter Input Fields:</strong>
             </div>
-
-            <div>
-                Parameter(s) will be used if applicable for chosen keyboard shortcut, 
-                see <a href="https://nextcenturycorporation.github.io/MCS/api.html#machine_common_sense.Action">Action API</a>
-                for more information on parameters. If any of the inputs are not valid, an error message will be displayed,
-                and your chosen action will not be processed until error(s) are resolved.
-            </div>
-            <div>
-                For image coordinates, the default is the center of the scene image. 
-                Click a point on the Unity image to populate with a different coordinate.
-            </div>
             <div id="image_coords_div">
                 <span>Image Coordinates: (
                     x: <span id="image-coord-x">300</span>,
@@ -341,6 +330,16 @@
                 <div>Straight: 
                     <input type="number" min="-1" max="1" step="1" value="1" id="straight"/>
                 </div>
+            </div>
+            <div>
+                Parameter(s) will be used if applicable for chosen keyboard shortcut, 
+                see <a href="https://nextcenturycorporation.github.io/MCS/api.html#machine_common_sense.Action">Action API</a>
+                for more information on parameters. If any of the inputs are not valid, an error message will be displayed,
+                and your chosen action will not be processed until error(s) are resolved.
+            </div>
+            <div>
+                For image coordinates, the default is the center of the scene image. 
+                Click a point on the Unity image to populate with a different coordinate.
             </div>
             <span id="validation-errors"></span>
 
@@ -423,20 +422,28 @@
         console.log("goalInfo is: ")
         console.log(data.goal);
 
+        let hasNoDesc = ["intuitive physics", "passive", "agents"].includes(data.goal.category)
+
+        let goalCat = data.goal.category.split(" ").map((word) => { 
+            return word[0].toUpperCase() + word.substring(1); 
+        }).join(" ");
+
         if("category" in data.goal) {
             let goalCategory = document.getElementById('goal-cat');
-            goalCategory.innerHTML = data.goal.category;
+            if(hasNoDesc) {
+                goalCategory.innerHTML = goalCat;
+            } else {
+                goalCategory.innerHTML = "(" + goalCat + ") ";
+            }
         } else {
             console.warn("category not in goalInfo");
         }
 
         if("description" in data.goal) {
-            let hasNoDesc = ["intuitive physics", "passive"].includes(data.goal.category)
-
             if(hasNoDesc) {
-                document.getElementById("goal-desc-div").style.display = "none"
+                document.getElementById("goal-desc").style.display = "none"
             } else {
-                document.getElementById("goal-desc-div").style.display = "block"
+                document.getElementById("goal-desc").style.display = "inline"
 
                 let goalDesc = document.getElementById('goal-desc');
                 goalDesc.innerHTML = data.goal.description;
