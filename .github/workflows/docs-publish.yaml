@@ -13,16 +13,18 @@ jobs:
       pull-requests: write
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
       with:
         fetch-depth: 0
     - name: Build and Commit
+      id: sphinxbuild
       uses: sphinx-notes/pages@v3
       with:
         documentation_path: docs/source
-    - name: Push changes
-      uses: ad-m/github-push-action@master
+        publish: false
+        requirements_path: ./requirements.txt
+    - uses: peaceiris/actions-gh-pages@v3
       with:
-        github_token: ${{ secrets.PLE_PAT_ACTIONS }}
-        branch: gh-pages
-        force: true
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ${{ steps.sphinxbuild.outputs.artifact }}
+        force_orphan: true
