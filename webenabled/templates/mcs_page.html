@@ -7,45 +7,17 @@
         html, body {
             margin: 0;
             padding: 0;
+            background-color: #e3e7ea;
+        }
+        #container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
-        body {
-            color: #292929;
-            font: 90% Verdana, Arial, sans-serif;
-            font-weight: 300;
-        }
-
-        p {
-            padding: 0 10px;
-            line-height: 1.8;
-        }
-
-        ul {
-            list-style-type: none;
-            margin: 10px;
-            padding: 10px;
-            height: 200px;
-            width: 90%;
-            overflow: hidden;
-            overflow-y: scroll;
-        }
-
-        ul li a {
-            display: block;
-            width: 100%;
-            text-decoration: none;
-            padding: 5px;
-            color: #072c3e;
-            background-color: #98b8b9;
-        }
-
-        ul li a:hover {
-            background-color: #ccc;
-        }
-
-        h3 {
-            padding: 5px 20px;
-            margin: 0;
+        #content-wrapper {
+            display: flex;
+            flex-direction: row;
         }
 
         div#header h1 {
@@ -53,62 +25,77 @@
             line-height: 80px;
             margin: 0;
             padding-left: 10px;
-            background: #e0e0e0;
+            color: #F8F8F8;
+            background: #5F6871;
+        }
+        
+        body {
             color: #292929;
+            font-family: Arial, Helvetica, Verdana, sans-serif;
+            font-size: 14pt;
+            font-weight: 300;
+            min-height: 100vh;
         }
 
-        div#navigation {
-            background: #7fa0a9;
+        div#scene-nav-info {
+            flex: 1;
+            margin-bottom: 10px
         }
 
-        div#navigation li {
-            list-style: none;
+        .section {
+            margin: 0.75em;
+            background-color: #FFFFFF;
+            padding-left: 5px;
+            padding-right: 5px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
         }
 
-        div#extra {
-            background: #7fa0a9;
+        .section > div {
+            padding: 10px;
         }
 
-        div#footer {
-            background: #42444e;
-            color: #fff;
+        .section > p {
+            padding: 0 10px 0;
         }
 
-        div#footer p {
-            padding: 20px 10px;
+        .section > img {
+            padding: 0 10px 0;
         }
 
-        div#wrapper {
-            float: left;
-            width: 100%;
+        #keyboard {
+            max-width: 95%;
         }
 
-        div#content {
-            margin: 0 25%;
-            padding-right: 25px;
+        #scenes-dropdown {
+            margin: 5px 5px 10px 10px;
         }
 
-        div#navigation {
-            float: left;
-            width: 20%;
-            margin-left: -100%;
+        #scenes-dropdown:hover {
+            cursor: pointer;
         }
 
-        div#extra {
-            float: left;
-            width: 25%;
-            margin-left: -25%;
-        }
-
-        div#footer {
-            clear: left;
-            width: 100%;
+        #shortcuts {
+            margin-right: 15px;
         }
 
         .center {
             display: block;
             margin-left: auto;
             margin-right: auto;
+        }
+
+        #footer {
+            margin-top: auto;
+            z-index: 2;
+        }
+
+        #footer p {
+            padding: 10px 10px;
+            text-align: center;
+            font-size: 12pt;
         }
 
         .overlay {
@@ -142,7 +129,7 @@
             display: inline-block;
             animation: spin 2s infinite linear;
             border: 16px solid #f3f3f3;
-            border-top: 16px solid #7fa0a9;
+            border-top: 16px solid #07BEB8;
             border-radius: 50%;
         }
 
@@ -159,21 +146,78 @@
             }
         }
 
-        .input_fields {
+        select {
+            width: 90%;
+            font-family: inherit;
+            font-size: inherit;
+            line-height: inherit;
+            padding: 3px;
+        }
+
+        input {
+            font-family: inherit;
+            font-size: inherit;
+            margin-left: 4px;
+            margin-right: 4px;
+        }
+
+        input.checkbox {
+            width: 16px;
+            height: 16px;
+        }
+
+        .input-fields {
             display: flex;
             justify-content: space-between;
         }
 
-        #validation_errors {
+        #validation-errors {
             display: block;
             color: red;
             font-size: 80%;
             min-height: 18px;
+            margin-left: 10px;
+            margin-right: 10px;
         }
 
-        #error_div {
+        #error-div {
             display: none;
             color: red;
+        }
+
+        .row {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .left-panel {
+            min-width: 400px;
+            max-width: 550px;
+        }
+
+        .output-info {
+            margin-left: 15px;
+            margin-right: 5px;
+        }
+
+        .output-info > div {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        #scene-name-div {
+            margin-top: 1em;
+            padding-top: 0px;
+        }
+
+        /* override needed for Firefox */
+        strong {
+            font-weight: 700;
         }
     </style>
 </head>
@@ -186,137 +230,133 @@
         </div>
     </div>
     <div id="header">
-        <h1>MCS Demo</h1>
+        <h1>Machine Common Sense</h1>
     </div>
-    <div id="wrapper">
-        <div id="content">
-            <p><div id="scene_filename_div">
-                <span>Scene: </span>
-                <span id="scene_filename">None</span>
-            </div></p>
-            <p><div id="action_list_div">
-                <span>Actions Available: </span>
-                <span id="action_list">N/A</span>
-            </div></p>
-            <p><div id="goal_cat_div">
-                <span>Goal Category: </span>
-                <span id="goal_cat">N/A</span>
-            </div></p>
-            <p><div id="goal_desc_div">
-                <span>Goal Description: </span>
-                <span id="goal_desc">N/A</span>
-            </div></p>
-            <hr/>
-            <p>
-                <div>
-                    Action Parameter Input Fields:
-                </div>
-            </p>
-            <p>
-                <div>
-            Parameter(s) will be used if applicable for chosen keyboard shortcut, 
-            see <a href="https://nextcenturycorporation.github.io/MCS/api.html#machine_common_sense.Action">Action API</a>
-            for more information on parameters. If any of the inputs are not valid, an error message will be displayed,
-            and your chosen action will not be processed until error(s) are resolved.</div>
-            </p>
-            <p>
-                <div>
-                    For image coordinates, the default is the center of the scene image. 
-                    Click a point on the Unity image to populate with a different coordinate.
-                </div>
-            </p>
-            <p><div id="image_coords_div">
-                <span>Image Coordinates: (
-                    x: <span id="image_coord_x">300</span>,
-                    y: <span id="image_coord_y">200</span>
-                )</span></div>
-            </p>
-            <p>
-                <div class="input_fields">
-                    <div>Amount: 
-                        <input type="number" min="0" max="1" step="0.1" value="1" id="amount"/>
-                    </div>
-                    <div>Force: 
-                        <input type="number" min="-1" max="1" step="0.1" value="0.5" id="force"/>
-                    </div>
-                    <div>Clockwise: 
-                        <input type="checkbox" id="clockwise" checked>
-                    </div>
-                    <div>Lateral: 
-                        <input type="number" min="-1" max="1" step="1" value="0" id="lateral"/>
-                    </div>
-                    <div>Straight: 
-                        <input type="number" min="-1" max="1" step="1" value="1" id="straight"/>
-                    </div>
-                </div>
-            </p>
-            <span id="validation_errors"></span>
-            <p></p>
-            <img id="unityimg" width="600" height="400" src="{{ unityimg }}" alt="my image" class="center"/>
+    <div id="content-wrapper">
+        <div class="left-panel column">
+            <div id="scene-nav-info" class="section">
+                <p><strong>Scenes</strong>
+                <p>Pick from one of the following scenes:</p>
+                <select id="scenes-dropdown" size="15">
+                    {% for scene in scene_list %}
+                        <option>{{ scene }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div id="shortcuts" class="section">
+                <p><strong>Keyboard Shortcuts</strong></p>
+                <p>Below are the keyboard shortcuts. Make sure your mouse is somewhere in the
+                    browser window and key strokes will be sent to the environment.</p>
+        
+                <img id="keyboard" width="400" src="static/keyboard.jpg" alt="keyboard" class="center"/>
+        
+                <p>The left part of the keyboard is for <strong>motion</strong>
+                    so that 'a' and 'd' make the agent move left or right without rotating.
+                    To <strong>rotate</strong> left and right, use 'j' and 'l' (lower case 'L') </p>
+            </div>
+        </div>
+        <div id="scene-demo" class="section">
+            <div id="scene-name-div">
+                <span><strong>Scene Name: </strong></span>
+                <span id="scene-filename">None - Please select a scene.</span>
+            </div>
+            <div id="goal-div">
+                <span><strong>Goal: </strong></span>
+                <span id="goal-cat"></span><span id="goal-desc">N/A</span>
+            </div>
 
-            <p><div id="step_number_div">
-                <span>Step: </span>
-                <span id="step_number">N/A</span>
-            </div></p>
-            <p><div id="goal_last_step_div">
-                <span>Max Steps: </span>
-                <span id="goal_last_step">N/A</span>
-            </div></p>
-            <p><div id="last_action_div">
-                <span>Last Action Attempted: </span>
-                <span id="last_action">N/A</span>
-            </div></p>
-            <p><div id="return_status_div">
-                <span>Return Status: </span>
-                <span id="return_status">N/A</span>
-            </div></p>
-            <p><div id="error_div">
-                <span>Error: </span>
-                <span id="error">N/A</span>
-            </div></p>
-            <p><div id="reward_div">
-                <span>Reward: </span>
-                <span id="reward">N/A</span>
-            </div></p>
-            <p><div id="steps_on_lava_div">
-                <span>Steps On Lava: </span>
-                <span id="steps_on_lava">N/A</span>
-            </div></p>
+            <div id="action-list-div">
+                <span><strong>Actions Available: </strong></span>
+                <span id="action-list">N/A</span>
+            </div>
+            <div class="row">
+                <div class="column">
+                    <img id="unityimg" width="600" height="400" src="{{ unityimg }}" alt="current step image"/>
+                </div>
+                <div class="column output-info">
+                    <div><strong>Outputs</strong></div>
+                    <div id="step-number-div">
+                        <span>Step: </span>
+                        <span id="step-number">N/A</span>
+                    </div>
+                    <div id="goal-last-step-div">
+                        <span>Max Steps:</span>
+                        <span id="goal-last-step">N/A</span>
+                    </div>
+                    <div id="last-action-div">
+                        <span>Last Action Attempted: </span>
+                        <span id="last-action">N/A</span>
+                    </div>
+                    <div id="return-status-div">
+                        <span>Return Status: </span>
+                        <span id="return-status">N/A</span>
+                    </div>
+                    <div id="error-div">
+                        <span>Error: </span>
+                        <span id="error">N/A</span>
+                    </div>
+                    <div id="reward-div">
+                        <span>Reward: </span>
+                        <span id="reward">N/A</span>
+                    </div>
+                    <div id="steps-on-lava-div">
+                        <span>Steps On Lava: </span>
+                        <span id="steps-on-lava">N/A</span>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <strong>Action Parameter Input Fields:</strong>
+            </div>
+            <div id="image_coords_div">
+                <span>Image Coordinates: (
+                    x: <span id="image-coord-x">300</span>,
+                    y: <span id="image-coord-y">200</span>
+                )</span></div>
+            <div class="input-fields">
+                <div>Amount: 
+                    <input type="number" min="0" max="1" step="0.1" value="1" id="amount"/>
+                </div>
+                <div>Force: 
+                    <input type="number" min="-1" max="1" step="0.1" value="0.5" id="force"/>
+                </div>
+                <div>Clockwise: 
+                    <input type="checkbox" id="clockwise" class="checkbox" checked>
+                </div>
+                <div>Lateral: 
+                    <input type="number" min="-1" max="1" step="1" value="0" id="lateral"/>
+                </div>
+                <div>Straight: 
+                    <input type="number" min="-1" max="1" step="1" value="1" id="straight"/>
+                </div>
+            </div>
+            <div>
+                Parameter(s) will be used if applicable for chosen keyboard shortcut, 
+                see <a href="https://nextcenturycorporation.github.io/MCS/api.html#machine_common_sense.Action">Action API</a>
+                for more information on parameters. If any of the inputs are not valid, an error message will be displayed,
+                and your chosen action will not be processed until error(s) are resolved.
+            </div>
+            <div>
+                For image coordinates, the default is the center of the scene image. 
+                Click a point on the Unity image to populate with a different coordinate.
+            </div>
+            <span id="validation-errors"></span>
 
             <br/>
-            <p></p>
 
-        </div>
-    </div>
-    <div id="navigation">
-        <p><strong>Scenes</strong></p>
-        <p>Pick from one of the following scenes:</p>
-        <ul id="scenes_unordered_list">
-            {% for scene in scene_list %}
-                <li>{{ scene }}</li>
-            {% endfor %}
-        </ul>
+        </div>  
 
     </div>
-    <div id="extra">
-        <p><strong>Keyboard Shortcuts</strong></p>
-        <p>Below are the keyboard shortcuts. Make sure your mouse is somewhere in the
-            browser window and key strokes will be sent to the environment.</p>
 
-        <img id="keyboard" width="400" src="static/keyboard.jpg" alt="keyboard" class="center"/>
-
-        <p>The left part of the keyboard is for <strong>motion</strong>
-            so that 'a' and 'd' make the agent move left or right without rotating.
-            To <strong>rotate</strong> left and right, use 'j' and 'l' (lower case 'L') </p>
-    </div>
-    <div id="footer"><p>Footer</p>
+    <div id="footer">
+        <p>This research was developed with funding from the Defense Advanced Research Projects Agency (DARPA). The views, opinions and/or findings expressed are those of the author and should not be interpreted as representing the official views or policies of the Department of Defense or the U.S. Government.<br/> <a href="https://www.darpa.mil/program/machine-common-sense" target="_blank">DARPA's Machine Common Sense (MCS) Program Page</a></p>
     </div>
 </div>
-<script type="text/javascript">AddFillerLink("content", "navigation", "extra")</script>
 <script>
     // ---------------------------------------------------------
     // Handle clicking on one of the scene file names
-    var lis = document.getElementById("scenes_unordered_list").getElementsByTagName('li');
+    var sceneSelect = document.getElementById("scenes-dropdown");
     let actionKeysWithParams = ['1', '3', '4', '5', '6', '7', '8', '9', 'm', 'M', 't', 'T']
     let arrowKeys = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"]
     var processingKeypress = false
@@ -329,16 +369,11 @@
     loadingSpinner(false)
     loadController()
 
-    for (var i = 0; i < lis.length; i++) {
-        lis[i].addEventListener('click', select_scene, false);
-    }
+    sceneSelect.addEventListener('change', select_scene, false);
 
     function eventHandleScenes() {
-        lis = document.getElementById("scenes_unordered_list").getElementsByTagName('li');
-        for (var i = 0; i < lis.length; i++) {
-            lis[i].addEventListener('click', select_scene, false);
-        }
-
+        sceneSelect = document.getElementById("scenes-dropdown");
+        sceneSelect.addEventListener('change', select_scene, false);
     }
 
     function loadController() {
@@ -354,14 +389,9 @@
     }
 
     function select_scene() {
-        if(this.innerHTML == document.getElementById('scene_filename').innerHTML &&
-            document.getElementById('step_number').innerHTML == "0") {
-            console.log("Clicked scene is already selected and initialized. Returning...")
-            return;
-        }
         loadingSpinner(true)
         resp = fetch("{{url_for('handle_scene_selection')}}",
-            {method: 'POST', body: JSON.stringify(this.innerHTML)})
+            {method: 'POST', body: JSON.stringify(sceneSelect.value)})
             .then(parseJsonResponse)
             .then(updateSceneFilename)
             .then(updateStepNumber)
@@ -382,7 +412,7 @@
 
     function updateActionList(data) {
         console.log("actionList is " + data.action_list);
-        var actionList = document.getElementById('action_list');
+        var actionList = document.getElementById('action-list');
         actionList.innerHTML = data.action_list;
         return data;
     }
@@ -391,22 +421,30 @@
         console.log("goalInfo is: ")
         console.log(data.goal);
 
+        let hasNoDesc = ["intuitive physics", "passive", "agents"].includes(data.goal.category)
+
+        let goalCat = data.goal.category.split(" ").map((word) => { 
+            return word[0].toUpperCase() + word.substring(1); 
+        }).join(" ");
+
         if("category" in data.goal) {
-            let goalCategory = document.getElementById('goal_cat');
-            goalCategory.innerHTML = data.goal.category;
+            let goalCategory = document.getElementById('goal-cat');
+            if(hasNoDesc) {
+                goalCategory.innerHTML = goalCat;
+            } else {
+                goalCategory.innerHTML = "(" + goalCat + ") ";
+            }
         } else {
             console.warn("category not in goalInfo");
         }
 
         if("description" in data.goal) {
-            let hasNoDesc = ["intuitive physics", "passive"].includes(data.goal.category)
-
             if(hasNoDesc) {
-                document.getElementById("goal_desc_div").style.display = "none"
+                document.getElementById("goal-desc").style.display = "none"
             } else {
-                document.getElementById("goal_desc_div").style.display = "block"
+                document.getElementById("goal-desc").style.display = "inline"
 
-                let goalDesc = document.getElementById('goal_desc');
+                let goalDesc = document.getElementById('goal-desc');
                 goalDesc.innerHTML = data.goal.description;
             }
         } else {
@@ -414,7 +452,7 @@
         }
 
         if("last_step" in data.goal) {
-            let lastStep = document.getElementById('goal_last_step');
+            let lastStep = document.getElementById('goal-last-step');
             lastStep.innerHTML = data.goal['last_step'];
         } else {
             console.warn("last_step not in goalInfo");
@@ -428,19 +466,19 @@
         console.log(data.step_output);
 
         let passiveCategories = ["intuitive physics", "passive", "agents"]
-        let isPassive = passiveCategories.includes(document.getElementById('goal_cat').innerHTML)
+        let isPassive = passiveCategories.includes(document.getElementById('goal-cat').innerHTML)
 
         let errorOutput = document.getElementById('error');
 
         if("return_status" in data.step_output) {
-            let returnStatus = document.getElementById('return_status');
+            let returnStatus = document.getElementById('return-status');
             returnStatus.innerHTML = data.step_output.return_status;
         } else {
             console.warn("return_status not in step_output");
         }
 
         if("last_action" in data) {
-            let lastAction = document.getElementById('last_action');
+            let lastAction = document.getElementById('last-action');
             lastAction.innerHTML = data.last_action;
         } else {
             console.warn("last_action not in step_output");
@@ -448,26 +486,26 @@
 
         if("error_output" in data.step_output) {
             console.warn("last attempted step resulted in an error");
-            document.getElementById("error_div").style.display = "block"
+            document.getElementById("error-div").style.display = "block"
             errorOutput.innerHTML = data.step_output.error_output.error;
 
             if(data.step_output.error_output.error.includes("[Errno 32] Broken pipe")) {
                 errorOutput.innerHTML += " - the Unity app is likely not running. Restart the Flask app and try again. "
             }
 
-            document.getElementById("return_status_div").style.display = "none"
+            document.getElementById("return-status-div").style.display = "none"
         } else {
             errorOutput.innerHTML = "N/A"
-            document.getElementById("error_div").style.display = "none"
-            document.getElementById("return_status_div").style.display = "block"
+            document.getElementById("error-div").style.display = "none"
+            document.getElementById("return-status-div").style.display = "block"
         }
 
         if(isPassive) {
-            document.getElementById("reward_div").style.display = "none"
-            document.getElementById("steps_on_lava_div").style.display = "none"
+            document.getElementById("reward-div").style.display = "none"
+            document.getElementById("steps-on-lava-div").style.display = "none"
         } else {
-            document.getElementById("reward_div").style.display = "block"
-            document.getElementById("steps_on_lava_div").style.display = "block"
+            document.getElementById("reward-div").style.display = "block"
+            document.getElementById("steps-on-lava-div").style.display = "block"
 
             if("reward" in data.step_output) {
                 let reward = document.getElementById('reward');
@@ -477,7 +515,7 @@
             }
 
             if("steps_on_lava" in data.step_output) {
-                let stepsOnLava = document.getElementById('steps_on_lava');
+                let stepsOnLava = document.getElementById('steps-on-lava');
                 stepsOnLava.innerHTML = data.step_output.steps_on_lava;
             } else {
                 console.warn("steps_on_lava not in step_output");
@@ -489,14 +527,14 @@
 
     function updateSceneFilename(data) {
         console.log("sceneFilename is " + data.scene);
-        var sceneFilename = document.getElementById('scene_filename');
+        var sceneFilename = document.getElementById('scene-filename');
         sceneFilename.innerHTML = data.scene;
         return data;
     }
 
     function updateStepNumber(data) {
         console.log("stepNumber is " + data.step);
-        var stepNumber = document.getElementById('step_number');
+        var stepNumber = document.getElementById('step-number');
         stepNumber.innerHTML = data.step;
         return data;
     }
@@ -505,10 +543,10 @@
         var scenesString = ''
 
         data.scene_list.forEach(scene => {
-            scenesString = scenesString.concat('<li>' + scene + '</li>')
+            scenesString = scenesString.concat('<option value=\"' + scene + '\">' + scene + '</option>')
         });
 
-        var scenesList = document.getElementById('scenes_unordered_list');
+        var scenesList = document.getElementById('scenes-dropdown');
         scenesList.innerHTML = scenesString;
         eventHandleScenes()
 
@@ -540,9 +578,9 @@
             "objectImageCoordsY": yValue
         }
         console.log("Image coords are: (x: " + xValue + ", y: " + yValue+ ")");
-        var imageCoordX = document.getElementById('image_coord_x');
+        var imageCoordX = document.getElementById('image-coord-x');
         imageCoordX.innerHTML = xValue;
-        var imageCoordY = document.getElementById('image_coord_y');
+        var imageCoordY = document.getElementById('image-coord-y');
         imageCoordY.innerHTML = yValue;
         return params;
     }
@@ -553,8 +591,8 @@
             "objectImageCoordsX": 300,
             "objectImageCoordsY": 200
         }
-        document.getElementById('image_coord_x').innerHTML = 300
-        document.getElementById('image_coord_y').innerHTML = 200
+        document.getElementById('image-coord-x').innerHTML = 300
+        document.getElementById('image-coord-y').innerHTML = 200
 
         return data;
     }
@@ -562,7 +600,7 @@
     // If the applicable action is triggered, checks any related input
     // fields to ensure the values make sense.
     function passesValidation(actionKey) {
-        let errorMsg = document.getElementById("validation_errors")
+        let errorMsg = document.getElementById("validation-errors")
 
         let amountVal = document.getElementById("amount").value
         if(['1', '2'].includes(actionKey) && (amountVal > 1 || amountVal < 0)) {
@@ -693,7 +731,6 @@
         imgref.src = data.image;
         return data;
     }
-
 
 </script>
 </body>
