@@ -359,7 +359,7 @@
     // Handle clicking on one of the scene file names
     var sceneSelect = document.getElementById("scenes-dropdown");
     let actionKeysWithParams = ['1', '3', '4', '5', '6', '7', '8', '9', 'm', 'M', 't', 'T']
-    let arrowKeys = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"]
+    let allOtherActionKeys = ['2', 'W', 'A', 'S', 'D', 'H', 'I', 'J', 'K', 'L', ' ', 'Q']
     var processingKeypress = false
     // default screen coordinates are in the center of image
     var params = {
@@ -657,11 +657,22 @@
     window.addEventListener('keydown', this.process_key, false);
 
     function process_key(e) {
-        if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || (arrowKeys.includes(e.key))) {
+        // avoid scrolling with spacebar/Pass action
+        if(e.keyCode == 32) {
+            e.preventDefault();
+        }
+
+        if((!actionKeysWithParams.includes(e.key)) && (!allOtherActionKeys.includes(e.key.toUpperCase()))) {
             return;
         }
+
         if (processingKeypress) {
             console.log('Currently processing keypress, ignoring new input.')
+            return;
+        }
+
+        if (document.getElementById('scene-filename').innerHTML == "None") {
+            alert("Please select a scene before attempting an action.");
             return;
         }
 
