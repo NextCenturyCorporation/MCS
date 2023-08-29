@@ -5,13 +5,13 @@ import os
 import time
 from os.path import exists
 
+import machine_common_sense as mcs
 from flask import current_app
+from machine_common_sense import GoalMetadata
 from PIL import Image
+
 from subprocess_runner import (is_file_open, is_process_running,
                                start_subprocess)
-
-import machine_common_sense as mcs
-from machine_common_sense import GoalMetadata
 
 IMG_WIDTH = 600
 IMG_HEIGHT = 400
