@@ -8,6 +8,7 @@ from flask import (Flask, jsonify, make_response, render_template, request,
 from flask_session import Session
 from mcs_interface import MCSInterface
 from webenabled_common import LOG_CONFIG
+import psutil
 
 # Configure logging _before_ creating the app oject
 # https://flask.palletsprojects.com/en/2.0.x/logging/
@@ -128,6 +129,47 @@ def handle_keypress():
         image=img,
         step=step_number,
         step_output=step_output)
+    return resp
+
+
+@app.route("/exit_unity", methods=["POST"])
+def exit_unity():
+    app.logger.info("=" * 30)
+    mcs_interface, unique_id = get_mcs_interface(request, "exit unity")
+    if mcs_interface is None:
+        app.logger.warn("Cannot load MCS interface")
+        return
+
+    controller_pid = mcs_interface.get_controller_pid()
+    unity_proc_name = 'MCS-AI2-THOR'
+
+    app.logger.info(
+        "Attempting to clean up processes after browser has been closed.")
+
+    for p in psutil.process_iter(['name']):
+        if p.info['name'] == unity_proc_name:
+            app.logger.info(f"Found Unity process: {p}, will attempt to end.")
+            p.kill()
+
+    for p in psutil.process_iter(['pid']):
+        if p.info['pid'] == controller_pid:
+            app.logger.info(
+                f"Found controller process: {p}, will attempt to end.")
+            p.kill()
+
+    if (unique_id is None):
+        unique_id = request.cookies.get("uniq_id")
+
+    app.logger.info(
+        f"Clear user session {unique_id}")
+    del session[unique_id]
+
+    resp = jsonify(
+        ended_controller_process=controller_pid,
+        ended_session=unique_id
+    )
+    resp.delete_cookie('uniq_id')
+
     return resp
 
 

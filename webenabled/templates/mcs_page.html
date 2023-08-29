@@ -652,6 +652,15 @@
         updateImageCoords(e)
     }
 
+
+    function cleanup(e) {
+        resp = fetch("{{url_for('exit_unity')}}",
+            {method: 'POST', body: JSON.stringify(this.innerHTML)})
+            .then(parseJsonResponse)
+    }
+
+    window.addEventListener('beforeunload', this.cleanup, false);
+
     // ---------------------------------------------------------
     // Handle Key strokes (navigation)
     window.addEventListener('keydown', this.process_key, false);
