@@ -19,12 +19,12 @@ import os
 import time
 from os.path import exists
 
-import machine_common_sense as mcs
-from machine_common_sense import StepMetadata
 from watchdog.events import PatternMatchingEventHandler
 from watchdog.observers import Observer
-
 from webenabled_common import LOG_CONFIG
+
+import machine_common_sense as mcs
+from machine_common_sense import StepMetadata
 
 logging.config.dictConfig(LOG_CONFIG)
 logger = logging.getLogger('run_scene_with_dir')
