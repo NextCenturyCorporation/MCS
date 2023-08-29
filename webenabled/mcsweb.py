@@ -135,24 +135,25 @@ def handle_keypress():
 @app.route("/exit_unity", methods=["POST"])
 def exit_unity():
     app.logger.info("=" * 30)
-    mcs_interface, unique_id = get_mcs_interface(request, "exit unity")
+    mcs_interface, unique_id = get_mcs_interface(request, "Exit Unity")
     if mcs_interface is None:
         app.logger.warn("Cannot load MCS interface")
         return
 
     controller_pid = mcs_interface.get_controller_pid()
-    unity_proc_name = 'MCS-AI2-THOR'
 
     app.logger.info(
         "Attempting to clean up processes after browser has been closed.")
 
-    for p in psutil.process_iter(['name']):
-        if p.info['name'] == unity_proc_name:
-            app.logger.info(f"Found Unity process: {p}, will attempt to end.")
-            p.kill()
-
     for p in psutil.process_iter(['pid']):
         if p.info['pid'] == controller_pid:
+            children = p.children(recursive=True)
+            for c_process in children:
+                app.logger.info(
+                    f"Found child process of controller: {c_process}, "
+                    f"will attempt to end.")
+                c_process.kill()
+
             app.logger.info(
                 f"Found controller process: {p}, will attempt to end.")
             p.kill()
@@ -161,7 +162,7 @@ def exit_unity():
         unique_id = request.cookies.get("uniq_id")
 
     app.logger.info(
-        f"Clear user session {unique_id}")
+        f"Clear user session for: {unique_id}")
     del session[unique_id]
 
     resp = jsonify(
