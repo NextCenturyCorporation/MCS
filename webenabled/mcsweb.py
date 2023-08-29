@@ -1,4 +1,5 @@
 import logging
+import psutil
 import random
 import string
 
@@ -8,7 +9,6 @@ from flask import (Flask, jsonify, make_response, render_template, request,
 from flask_session import Session
 from mcs_interface import MCSInterface
 from webenabled_common import LOG_CONFIG
-import psutil
 
 # Configure logging _before_ creating the app oject
 # https://flask.palletsprojects.com/en/2.0.x/logging/
