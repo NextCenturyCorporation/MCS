@@ -321,6 +321,9 @@ class MCSInterface:
             self.logger.exception("Exception in reading goal from json file")
             return {}
 
+    def get_controller_pid(self):
+        return self.pid
+
     def simplify_action_list(self, default_action_list):
         """The action list looks something like:
         [('CloseObject', {}), ('DropObject', {}), ('MoveAhead', {}), ...

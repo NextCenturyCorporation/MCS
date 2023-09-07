@@ -2,6 +2,7 @@ import logging
 import random
 import string
 
+import psutil
 from flask import (Flask, jsonify, make_response, render_template, request,
                    session)
 # See: https://www.geeksforgeeks.org/how-to-use-flask-session-in-python-flask/
@@ -128,6 +129,48 @@ def handle_keypress():
         image=img,
         step=step_number,
         step_output=step_output)
+    return resp
+
+
+@app.route("/exit_unity", methods=["POST"])
+def exit_unity():
+    app.logger.info("=" * 30)
+    mcs_interface, unique_id = get_mcs_interface(request, "Exit Unity")
+    if mcs_interface is None:
+        app.logger.warn("Cannot load MCS interface")
+        return
+
+    controller_pid = mcs_interface.get_controller_pid()
+
+    app.logger.info(
+        "Attempting to clean up processes after browser has been closed.")
+
+    for p in psutil.process_iter(['pid']):
+        if p.info['pid'] == controller_pid:
+            children = p.children(recursive=True)
+            for c_process in children:
+                app.logger.info(
+                    f"Found child process of controller: {c_process}, "
+                    f"will attempt to end.")
+                c_process.kill()
+
+            app.logger.info(
+                f"Found controller process: {p}, will attempt to end.")
+            p.kill()
+
+    if (unique_id is None):
+        unique_id = request.cookies.get("uniq_id")
+
+    app.logger.info(
+        f"Clear user session for: {unique_id}")
+    del session[unique_id]
+
+    resp = jsonify(
+        ended_controller_process=controller_pid,
+        ended_session=unique_id
+    )
+    resp.delete_cookie('uniq_id')
+
     return resp
 
 
