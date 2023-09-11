@@ -158,9 +158,9 @@ def exit_unity():
     app.logger.info("=" * 30)
     mcs_interface, unique_id = get_mcs_interface_on_exit(request, "Exit Unity")
     if mcs_interface is None:
-        error_msg = ("Cannot find MCS interface to exit. If you attempted " +
-                     "to quit on startup/initial page load, you will " +
-                     "likely have to kill the MCS controller process " +
+        error_msg = ("Cannot find MCS interface to exit. If you attempted "
+                     "to quit on startup/initial page load, you will "
+                     "likely have to kill the MCS controller process "
                      "manually.")
         app.logger.warn(error_msg)
         resp = jsonify(
