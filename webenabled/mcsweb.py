@@ -47,9 +47,7 @@ def clean_request_data(request, is_json=False):
     return data
 
 
-# Split out from get_mcs_interface(), because on exit, we don't need
-# to start a new interface/controller if one isn't found
-def get_mcs_interface_on_exit(request, label):
+def get_mcs_interface(request, label, on_exit=False):
     # Do we know who this is?
     uniq_id_str = request.cookies.get("uniq_id")
 
@@ -65,33 +63,17 @@ def get_mcs_interface_on_exit(request, label):
         else:
             app.logger.info("MCS interface is unavailable")
 
-    return mcs_interface, uniq_id_str
+    # skip for exit_unity route, since in that case, we don't
+    # need to start a new interface/controller if one isn't found
+    if (on_exit is False):
+        letters = string.ascii_lowercase
+        uniq_id_str = ''.join(random.choice(letters) for i in range(10))
+        app.logger.info(f"{label}: new user: {uniq_id_str}")
 
-
-def get_mcs_interface(request, label):
-    # Do we know who this is?
-    uniq_id_str = request.cookies.get("uniq_id")
-
-    # If old user, get stored mcs interface
-    if uniq_id_str is not None:
-        app.logger.info(f"{label}: existing user: {uniq_id_str}")
-        mcs_interface = session.get(uniq_id_str)
-        if mcs_interface is not None:
-            controller_alive = mcs_interface.is_controller_alive()
-            if controller_alive:
-                return mcs_interface, uniq_id_str
-            app.logger.info("MCS controller is unavailable")
-        else:
-            app.logger.info("MCS interface is unavailable")
-
-    letters = string.ascii_lowercase
-    uniq_id_str = ''.join(random.choice(letters) for i in range(10))
-    app.logger.info(f"{label}: new user: {uniq_id_str}")
-
-    # Don't recognize, create new mcs interface
-    mcs_interface = MCSInterface(uniq_id_str)
-    mcs_interface.start_mcs()
-    session[uniq_id_str] = mcs_interface
+        # Don't recognize, create new mcs interface
+        mcs_interface = MCSInterface(uniq_id_str)
+        mcs_interface.start_mcs()
+        session[uniq_id_str] = mcs_interface
 
     return mcs_interface, uniq_id_str
 
@@ -156,7 +138,8 @@ def handle_keypress():
 @app.route("/exit_unity", methods=["POST"])
 def exit_unity():
     app.logger.info("=" * 30)
-    mcs_interface, unique_id = get_mcs_interface_on_exit(request, "Exit Unity")
+    mcs_interface, unique_id = get_mcs_interface(
+        request, "Exit Unity", on_exit=True)
     if mcs_interface is None:
         error_msg = ("Cannot find MCS interface to exit. If you attempted "
                      "to quit on startup/initial page load, you will "
