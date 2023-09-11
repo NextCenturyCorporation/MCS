@@ -641,6 +641,7 @@ class SceneConfiguration(BaseModel):
     holes: List[Vector2dInt] = []
     intuitive_physics: bool = False
     isometric: bool = False
+    isometric_front_right: bool = False
     lava: List[Vector2dInt] = []
     name: Optional[str]
     objects: List[SceneObject] = []
