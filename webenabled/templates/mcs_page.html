@@ -271,6 +271,12 @@
                 <span><strong>Scene Name: </strong></span>
                 <span id="scene-filename">None - Please select a scene.</span>
             </div>
+
+            <div id="task-desc-div">
+                <span><strong>Task Description: </strong></span>
+                <span id="task-desc">N/A</span>
+            </div>
+
             <div id="goal-div">
                 <span><strong>Goal: </strong></span>
                 <span id="goal-cat"></span><span id="goal-desc">N/A</span>
@@ -421,6 +427,7 @@
             {method: 'POST', body: JSON.stringify(sceneSelect.value)})
             .then(parseJsonResponse)
             .then(updateSceneFilename)
+            .then(updateTaskDesc)
             .then(updateStepNumber)
             .then(updateActionList)
             .then(updateGoalInfo)
@@ -549,6 +556,13 @@
             }
         }
 
+        return data;
+    }
+
+    function updateTaskDesc(data) {
+        console.log("taskDescription is " + data.task_desc);
+        let taskDesc = document.getElementById('task-desc');
+        taskDesc.innerHTML = data.task_desc;
         return data;
     }
 
