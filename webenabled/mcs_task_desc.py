@@ -92,7 +92,7 @@ class TaskDescription(Enum):
         "watch (using only Pass actions) as an agent (blob shape) moves in a "
         "grid world over 8 \"familiarization\" trials and a \"test\" trial "
         "(the world \"resets\" between each trial using the EndHabituation "
-        "action). The familizarization trials depict the agent approaching a "
+        "action). The familiarization trials depict the agent approaching a "
         "specific object (the same object in all 8 familiarization trials). "
         "You must then determine whether the test trial is \"expected\" "
         "(unsurprising) or \"unexpected\" (surprising) based on whether or "
