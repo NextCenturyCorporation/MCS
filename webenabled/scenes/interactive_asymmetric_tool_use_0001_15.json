@@ -562,7 +562,7 @@
       "z": 12
     }
   ],
-  "name": "interactive_tool_use_0001_13",
+  "name": "interactive_asymmetric_tool_use_0001_15",
   "objects": [
     {
       "id": "bd91a6bc-0b25-4c22-a276-cce2bdec6faf",
@@ -613,6 +613,62 @@
             "x": 1,
             "y": 1,
             "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "guide_rail_2f0c2d5b-0691-4f7d-8de1-e0ef02dc2d2b",
+      "type": "cube",
+      "mass": 71,
+      "materials": ["Custom/Materials/GreenDrywallMCS"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0.95,
+            "y": 0.15,
+            "z": 7.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.2,
+            "y": 0.3,
+            "z": 9.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "guide_rail_20cff1da-7900-426d-8c53-dc7f70ffa6df",
+      "type": "cube",
+      "mass": 71,
+      "materials": ["Custom/Materials/GreenDrywallMCS"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -0.95,
+            "y": 0.15,
+            "z": 7.25
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.2,
+            "y": 0.3,
+            "z": 9.5
           }
         }
       ]

@@ -142,7 +142,7 @@
       "z": 7
     }
   ],
-  "name": "interactive_tool_use_0001_01",
+  "name": "interactive_symmetric_tool_use_0001_03",
   "objects": [
     {
       "id": "4bc60ef7-4b55-4905-89b9-95545e3bfa06",
@@ -186,7 +186,7 @@
           },
           "rotation": {
             "x": 0,
-            "y": 0,
+            "y": 45,
             "z": 0
           },
           "scale": {

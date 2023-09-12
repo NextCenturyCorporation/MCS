@@ -510,7 +510,7 @@
       "z": 12
     }
   ],
-  "name": "interactive_tool_use_0001_14",
+  "name": "interactive_asymmetric_tool_use_0001_10",
   "objects": [
     {
       "id": "bd91a6bc-0b25-4c22-a276-cce2bdec6faf",
@@ -554,7 +554,7 @@
           },
           "rotation": {
             "x": 0,
-            "y": 0,
+            "y": 90,
             "z": 0
           },
           "scale": {
