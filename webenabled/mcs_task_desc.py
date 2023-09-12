@@ -27,6 +27,44 @@ class TaskDescription(Enum):
         "balls were added to or subtracted from each side."
     )
 
+    INTERACTIVE_ASYMMETRIC_TOOL_USE = (
+        "Asymmetric Tool Use tasks require a common-sense understanding of "
+        "affordances. You must use an asymmetric \"tool\" (a large L-shaped "
+        "object with wheels and a unique texture) to extract the soccer ball "
+        "from the middle of a pool of lava (using PullObject or MoveObject to "
+        "pull the tool so it collides with the ball causing it to roll out "
+        "from the lava), and then use PickupObject on the ball, which "
+        "completes the scenario. Sometimes the tool must be rotated (using "
+        "RotateObject or TorqueObject) before it is pulled."
+    )
+
+    INTERACTIVE_SYMMETRIC_TOOL_USE = (
+        "Symmetric Tool Use tasks require a common-sense understanding of "
+        "affordances. You must use a symmetric \"tool\" (a large rectangular "
+        "object with wheels and a unique texture) to extract the soccer ball "
+        "from the middle of a pool of lava (using PushObject or MoveObject "
+        "to push the tool so it collides with the ball causing it to roll "
+        "out from the lava), and then use PickupObject on the ball, which "
+        "completes the scenario."
+    )
+
+    INTERACTIVE_TOOL_CHOICE = (
+        "Tool Choice tasks require a common-sense understanding of "
+        "affordances. Like the Symmetric Tool Use task, you must use a "
+        "symmetric \"tool\" (a large rectangular object with wheels and a "
+        "unique texture) to extract the soccer ball from the middle of a "
+        "pool of lava (using PushObject or MoveObject to push the tool so "
+        "it collides with the ball causing it to roll out from the lava), "
+        "and then use PickupObject on the ball and complete the scenario. "
+        "Sometimes the tool must be rotated (using RotateObject or "
+        "TorqueObject) before it is pushed. This is a \"forced choice\" "
+        "task: once you walk off the platform onto one side of the room, "
+        "you are unable to move to the other side of the room. One side of "
+        "the room contains a tool that can be used successfully to retrieve "
+        "the soccer ball, while the other side contains a tool that is "
+        "broken, inaccessible, or not a useful size."
+    )
+
     # NYU Passive Agency Tasks (in alphabetical order)
     PASSIVE_AGENT_AGENT_NON_AGENT = (
         "Passive Agent: Agent/Non-Agent tasks require a common-sense "
