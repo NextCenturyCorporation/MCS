@@ -38,6 +38,128 @@ class TaskDescription(Enum):
         "RotateObject or TorqueObject) before it is pulled."
     )
 
+    INTERACTIVE_COLLISIONS = (
+        "Interactive Collision tasks require a common-sense understanding "
+        "of trajectory and collision. You must watch (using the Pass action) "
+        "as a green \"shooter ball\" is launched across the floor toward a "
+        "stationary soccer ball, but you do not see the entire trajectory "
+        "(and, sometimes, even the collision itself), due to a large "
+        "occluding wall which descends in front of you; you must then "
+        "determine which side of the room contains the soccer ball, "
+        "find it, and use PickupObject on it to pick it up, which completes "
+        "the scenario. To access a side of the room, you must open one of "
+        "the doors (using the OpenObject action) in the occluding wall. "
+        "This is a \"forced choice\" task: once you open the door to one "
+        "side of the room, you are unable to access the other side of the "
+        "room (because it is blocked by lava)."
+    )
+
+    INTERACTIVE_CONTAINERS = (
+        "Container Retrieval tasks require a common-sense understanding "
+        "of containment. You must find the soccer ball, which may or may "
+        "not be hidden inside a container (use OpenObject to open a "
+        "closed container), and then use PickupObject on the ball to pick "
+        "it up."
+    )
+
+    INTERACTIVE_HOLES = (
+        "Hole Navigation tasks require a common-sense understanding of "
+        "navigation in a dangerous environment. You must walk through a "
+        "room full of holes in order to find the soccer ball, and then use "
+        "PickupObject on the ball to pick it up, which completes the "
+        "scenario. Walking into a hole will make it impossible to reach "
+        "the ball (you fall in and cannot escape). Sometimes the ball "
+        "is on the floor, and sometimes an agent is holding the ball "
+        "instead (use InteractWithAgent on the agent to request the "
+        "soccer ball)."
+    )
+
+    INTERACTIVE_IMITATION = (
+        "Interactive Imitation tasks require a common-sense understanding "
+        "of agency. You must watch (using the Pass action) as an agent "
+        "performs a series of actions (opening one or more chests in a "
+        "specific order) in order to access a soccer ball; then the room "
+        "is \"reset\" (using the EndHabituation action) and you must perform "
+        "the same actions in the same order (using the OpenObject action on "
+        "the correct chests). Then you will be able to reach the soccer "
+        "ball, and you can use PickupObject on it to pick it up, which "
+        "completes the scenario. Performing the wrong actions (opening the "
+        "wrong chests, or opening them in the wrong order) automatically "
+        "fails the scenario. Sometimes you or the chests are repositioned "
+        "when the room is reset."
+    )
+
+    INTERACTIVE_LAVA = (
+        "Lava Navigation tasks require a common-sense understanding of "
+        "navigation in a dangerous environment. You must walk through a room "
+        "full of lava in order to find the soccer ball, and then use "
+        "PickupObject on the ball to pick it up, which completes the "
+        "scenario. Walking into the lava immediately ends the scene "
+        "(therefore failing the scenario). Sometimes the ball is on the "
+        "floor, and sometimes an agent is holding the ball instead "
+        "(use InteractWithAgent on the agent to request the soccer ball)."
+    )
+
+    INTERACTIVE_MOVING_TARGET_PREDICTION = (
+        "Moving Target Prediction tasks require a common-sense understanding"
+        " of trajectory. You are in a room with lava on both sides and a"
+        " \"safe zone\" in the center. After spinning around to see the "
+        "entire room (using the RotateRight action), you watch (using "
+        "the Pass action) as a soccer ball is launched across the floor, "
+        "toward the \"safe zone\". You must move to intercept the ball and "
+        "use PickupObject on it before it rolls into the lava and out of "
+        "your reach. Walking into the lava immediately ends the scene "
+        "(therefore failing the scenario)."
+    )
+
+    INTERACTIVE_NUMBER_COMPARISON = (
+        "Number Comparison tasks require a common-sense understanding of "
+        "numbers. This is a \"forced choice\" task: once you walk off the "
+        "platform onto one side of the room, you are unable to move to the "
+        "other side of the room. You must identify which side of the room "
+        "has the most soccer balls and use PickupObject on each of them to "
+        "pick them up which completes the scenario. Sometimes the balls "
+        "become occluded so you have to remember how many were originally "
+        "present on each side."
+    )
+
+    INTERACTIVE_OBJECT_PERMANENCE = (
+        "Interactive Object Permanence tasks require a common-sense "
+        "understanding of object permanence. You must watch (using the Pass "
+        "action) as a soccer ball is tossed through the air and lands hidden "
+        "behind an occluder; you must then determine which side of the room "
+        "contains the ball, find it, and use PickupObject on it, which "
+        "completes the scenario. This is a \"forced choice\" task: once you "
+        "walk off the platform onto one side of the room, you are unable "
+        "to move to the other side of the room."
+    )
+
+    INTERACTIVE_OBSTACLES = (
+        "Obstacle Retrieval tasks require a common-sense understanding of "
+        "occlusion. You must find the soccer ball, which may or may not be "
+        "hidden behind \"obstacle\" furniture (furniture which you can see "
+        "through, but cannot walk through), and then use PickupObject on "
+        "the ball to pick it up, which completes the scenario."
+    )
+
+    INTERACTIVE_OCCLUDERS = (
+        "Occluder Retrieval tasks require a common-sense understanding of "
+        "occlusion. You must find the soccer ball, which may or may not be "
+        "hidden behind occluding furniture (furniture which you can neither "
+        "see through nor walk through), and then use PickupObject on the "
+        "ball to pick it up, which completes the scenario."
+    )
+
+    INTERACTIVE_RAMPS = (
+        "Ramp Navigation tasks require a common-sense understanding of "
+        "navigation in an environment with multiple stories. You must walk "
+        "up and/or down one or more ramps in order to find the soccer ball, "
+        "and then use PickupObject on the ball to pick it up, which "
+        "completes the scenario. Sometimes the ball is on the floor, and "
+        "sometimes an agent is holding the ball instead (use "
+        "InteractWithAgent on the agent to request the soccer ball)."
+    )
+
     INTERACTIVE_SYMMETRIC_TOOL_USE = (
         "Symmetric Tool Use tasks require a common-sense understanding of "
         "affordances. You must use a symmetric \"tool\" (a large rectangular "
