@@ -329,6 +329,43 @@ class TaskDescription(Enum):
         " by the paddle, so it's just as likely to approach either object."
     )
 
+    PASSIVE_AGENT_EFFICIENT_ACTION_IRRATIONAL = (
+        "Passive Agent: Efficient action (irrational) tasks require a "
+        "common-sense understanding of agency. This is a \"passive agents\" "
+        "task: you must watch (using only Pass actions) as an agent (blob "
+        "shape) moves in a grid world over 8 \"familiarization\" "
+        "trials and a \"test\" trial (the world \"resets\" between each trial "
+        "using the EndHabituation action). During familiarization, there are "
+        "two types of trials: the first shows the agent navigating towards a "
+        "goal, taking a longer route even though there may not be obstacles "
+        "in the way (hence the agent is inefficient); the second features "
+        "the agent moving towards the goal more directly, sometimes having "
+        "to maneuver around obstacles (hence, the agent is efficient). "
+        "We only show the inefficient action in the test trial. "
+        "You must determine whether the test trial is \"expected\" "
+        "(unsurprising) or “unexpected” (surprising) based on whether or not "
+        "the agent exhibits the same level of efficiency shown in the "
+        "familiarization trials."
+    )
+
+    PASSIVE_AGENT_MULTIPLE_AGENTS = (
+        "Passive Agent: Multiple agents tasks require a common-sense "
+        "understanding of agency. This is a \"passive agents\" task: you "
+        "must watch (using only Pass actions) as an agent (blob shape) "
+        "moves in a grid world over 8 \"familiarization\" trials and a "
+        "\"test\" trial (the world \"resets\" between each trial using the "
+        "EndHabituation action). The familiarization trials feature an "
+        "agent repeatedly approaching one of the two objects. You must "
+        "then determine whether the test trial is \"more expected\" "
+        "(unsurprising) or \"more unexpected\" (surprising) based on how "
+        "the agent acts: if the agent is the same agent from familiarization,"
+        " it should continue to act with the same preferences it showed in "
+        "previous trials (approaching the same object); the "
+        "\"more unexpected\" case here would feature a new agent going "
+        "to the same object, or the same agent approaching the previously "
+        "non-approached object. "
+    )
+
     PASSIVE_AGENT_OBJECT_PREFERENCE = (
         "Passive Agent: Object Preference tasks require a common-sense "
         "understanding of agency. This is a \"passive agents\" task: you must "
