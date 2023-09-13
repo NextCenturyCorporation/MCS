@@ -160,6 +160,113 @@ class TaskDescription(Enum):
         "InteractWithAgent on the agent to request the soccer ball)."
     )
 
+    INTERACTIVE_SET_ROTATION = (
+        "Set Rotation tasks require a common-sense understanding of tracking "
+        "objects as they move. You must watch (using the Pass action) as a "
+        "soccer ball is deposited into one of the containers in the room, "
+        "and lids are placed on all of the containers. Then either you will "
+        "continue watching as the \"turntable\" (the large grey cog) rotates,"
+        " or you will be forced to partially (or fully) circumnavigate the "
+        "turntable using a series of Move and Rotate actions. You must "
+        "identify which container holds the soccer ball, approach it, use "
+        "OpenObject on it to open it, and then use PickupObject on the "
+        "ball to pick it up, which completes the scenario. This is a "
+        "\"forced choice\" task: once you open one container, you are "
+        "unable to open other containers."
+    )
+
+    INTERACTIVE_SHELL_GAME = (
+        "Shell Game tasks require a common-sense understanding of tracking "
+        "objects as they move. You must watch (using the Pass action) as a "
+        "soccer ball is deposited into one of the containers in the room, "
+        "and lids are placed on all of the containers, then poles will "
+        "descend from the ceiling and move one or more of the containers "
+        "to new locations. You must identify which container holds the soccer"
+        " ball, approach it, use OpenObject on it to open it, and then use "
+        "PickupObject on the ball to pick it up, which completes the "
+        "scenario. This is a \"forced choice\" task: once you open one "
+        "container, you are unable to open other containers. Please note "
+        "that sometimes the containers are moved before the soccer ball is "
+        "deposited."
+    )
+
+    INTERACTIVE_SOLIDITY = (
+        "Solidity tasks require a common-sense understanding of objects and"
+        " gravity. You must watch (using the Pass action) as a soccer ball "
+        "is lowered by a pole, but the ball is hidden as it goes behind a "
+        "large occluding wall before you see the pole release it; you must "
+        "then determine which side of the room contains the ball, find it, "
+        "and use PickupObject on it to pick it up, which completes the "
+        "scenario. To access a part of the room, you must open one of the "
+        "doors (using the OpenObject action) in the occluding wall: the "
+        "left side of the room can be accessed using the left door; the "
+        "right side of the room can be accessed using the right door; and "
+        "the platform can be accessed using the middle door. This is a "
+        "\"forced choice\" task: once you open the door to one part of "
+        "the room, you are unable to access the other parts of the room."
+    )
+
+    INTERACTIVE_SPATIAL_ELIMINATION = (
+        "Spatial Elimination tasks require a common-sense understanding of"
+        " spatial elimination. This is a \"forced choice\" task: once you "
+        "walk off the platform onto one side of the room, you are unable to "
+        "move to the other side of the room. You must identify which side of "
+        "the room has the soccer ball, find it, and then use PickupObject on "
+        "the ball to pick it up, which completes the scenario."
+    )
+
+    INTERACTIVE_SPATIAL_REFERENCE = (
+        "Spatial Reference tasks require a common-sense understanding of "
+        "agency. You must watch (using the Pass action) as both an agent "
+        "and a \"blob\" move and \"point\" to a container on one side of the "
+        "room. You must use the agent's point (and ignore the blob) to "
+        "determine which container holds the soccer ball, approach it, use "
+        "OpenObject to open it, and then use PickupObject on the ball to "
+        "pick it up, which completes the scenario. This is a "
+        "\"forced choice\" task: once you walk off the platform onto one "
+        "side of the room, you are unable to move to the other side of "
+        "the room. Agents can be identified by their facial features "
+        "(blobs don't have faces) and their autonomous movement (blobs "
+        "\"move\" by rotating on turntables)."
+    )
+
+    INTERACTIVE_SPATIAL_REORIENTATION = (
+        "Spatial Reorientation tasks require a common-sense understanding "
+        "of spatial landmarks. After spinning around to see the entire room "
+        "(using the RotateRight action), you must watch (using the Pass "
+        "action) as a soccer ball is deposited into a container on one "
+        "side of the room; then you are \"kidnapped\" (using the "
+        "EndHabituation action) and either kept on the same side of the "
+        "room or moved to the opposite side. You must use landmarks "
+        "(sometimes the room has a trapezoidal shape, a "
+        "differently-colored wall, or a piece of furniture) to identify "
+        "which side of the room has the soccer ball, find it, and then "
+        "use PickupObject on the ball to pick it up, which completes "
+        "the scenario. This is a \"forced choice\" task: once you walk "
+        "off the platform onto one side of the room, you are unable to "
+        "move to the other side of the room."
+    )
+
+    INTERACTIVE_SUPPORT_RELATIONS = (
+        "Interactive Gravity Support Relations tasks require a common-sense"
+        " understanding of gravity. You must watch (using the Pass action) "
+        "as a \"container\" holding a soccer ball is lowered by poles, but "
+        "the container and the ball are hidden as they go behind a large "
+        "occluding wall before you see the poles release them; you must "
+        "then determine which side of the room contains the ball, find it,"
+        " and use PickupObject on it to pick it up, which completes the "
+        "scenario. The container is sometimes released fully onto the "
+        "platform, fully onto the floor, or partially onto the platform, "
+        "and possibly falling onto the floor. To access a part of the room, "
+        "you must open one of the doors (using the OpenObject action) in "
+        "the occluding wall: the left side of the room can be accessed "
+        "using the left door; the right side of the room can be accessed "
+        "using the right door; and the platform can be accessed using the "
+        "middle door. This is a \"forced choice\" task: once you open the "
+        "door to one part of the room, you are unable to access the other "
+        "parts of the room."
+    )
+
     INTERACTIVE_SYMMETRIC_TOOL_USE = (
         "Symmetric Tool Use tasks require a common-sense understanding of "
         "affordances. You must use a symmetric \"tool\" (a large rectangular "
@@ -185,6 +292,20 @@ class TaskDescription(Enum):
         "the room contains a tool that can be used successfully to retrieve "
         "the soccer ball, while the other side contains a tool that is "
         "broken, inaccessible, or not a useful size."
+    )
+
+    INTERACTIVE_TRAJECTORY = (
+        "Occluded Trajectory tasks require a common-sense understanding of"
+        " trajectory. You must watch (using the Pass action) as a soccer "
+        "ball is launched across the floor, but you do not see its entire "
+        "trajectory, due to a large occluding wall which descends in front "
+        "of you; you must then determine which side of the room contains "
+        "the soccer ball, find it, and use PickupObject on it to pick it "
+        "up, which completes the scenario. To access a side of the room, "
+        "you must open one of the doors (using the OpenObject action) in "
+        "the occluding wall. This is a \"forced choice\" task: once you "
+        "open the door to one side of the room, you are unable to access "
+        "the other side of the room (because it is blocked by lava)."
     )
 
     # NYU Passive Agency Tasks (in alphabetical order)
