@@ -44,6 +44,8 @@
 
         div#scene-nav-info {
             flex: 1;
+            display: flex;
+            flex-direction: column;
             margin-bottom: 10px
         }
 
@@ -84,6 +86,8 @@
 
         #shortcuts {
             margin-right: 15px;
+            display: flex;
+            flex-direction: column;
         }
 
         .center {
@@ -152,7 +156,6 @@
         }
 
         select {
-            width: 90%;
             font-family: inherit;
             font-size: inherit;
             line-height: inherit;
@@ -200,8 +203,13 @@
             flex-direction: column;
         }
 
+        #scene-demo {
+            display: flex;
+            flex-direction: column;
+        }
+
         .left-panel {
-            min-width: 400px;
+            display: flex;
             max-width: 550px;
         }
 
