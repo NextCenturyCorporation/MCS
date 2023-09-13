@@ -351,8 +351,8 @@ class TaskDescription(Enum):
         "to maneuver around obstacles (hence, the agent is efficient). "
         "We only show the inefficient action in the test trial. "
         "You must determine whether the test trial is \"expected\" "
-        "(unsurprising) or “unexpected” (surprising) based on whether or not "
-        "the agent exhibits the same level of efficiency shown in the "
+        "(unsurprising) or \"unexpected\" (surprising) based on whether or "
+        "not the agent exhibits the same level of efficiency shown in the "
         "familiarization trials."
     )
 
