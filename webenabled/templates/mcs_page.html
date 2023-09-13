@@ -473,16 +473,15 @@
         }
 
         if("description" in data.goal) {
-            if(hasNoDesc) {
-                document.getElementById("goal-desc").style.display = "none"
-            } else {
-                document.getElementById("goal-desc").style.display = "inline"
+            document.getElementById("goal-desc").style.display = "inline"
 
-                let goalDesc = document.getElementById('goal-desc');
-                goalDesc.innerHTML = data.goal.description;
-            }
+            let goalDesc = document.getElementById('goal-desc');
+            goalDesc.innerHTML = data.goal.description;
         } else {
             console.warn("description not in goalInfo");
+            if(hasNoDesc) {
+                document.getElementById("goal-desc").style.display = "none"
+            }
         }
 
         if("last_step" in data.goal) {
