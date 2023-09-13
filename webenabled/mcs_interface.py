@@ -6,13 +6,13 @@ import time
 from os.path import exists
 
 from flask import current_app
+from mcs_task_desc import TaskDescription
 from PIL import Image
 from subprocess_runner import (is_file_open, is_process_running,
                                start_subprocess)
 
 import machine_common_sense as mcs
 from machine_common_sense import GoalMetadata
-from mcs_task_desc import TaskDescription
 
 IMG_WIDTH = 600
 IMG_HEIGHT = 400
