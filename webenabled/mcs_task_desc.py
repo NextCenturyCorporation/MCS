@@ -3,6 +3,14 @@ from enum import Enum, unique
 
 @unique
 class TaskDescription(Enum):
+    """
+    The names for each enum correspond to the naming conventions currently
+    followed by all scenes checked into the webenabled/scenes directory.
+    Please note that any scenes not matching the naming conventions in this
+    file will likely not have their task description found to display in the
+    UI.
+    """
+
     # Interactive Tasks (in alphabetical order)
     INTERACTIVE_AGENT_IDENTIFICATION = (
         "Agent Identification tasks require a common-sense understanding of "
