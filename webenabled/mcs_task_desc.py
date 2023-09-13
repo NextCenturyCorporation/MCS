@@ -373,3 +373,63 @@ class TaskDescription(Enum):
         "familiarization trials (approaching the other agent who had the "
         "same movement pattern)."
     )
+
+    # Passive Physics Tasks (in alphabetical order)
+    PASSIVE_PHYSICS_COLLISION = (
+        "Passive Collision tasks require a common-sense understanding of "
+        "collision physics. This is a \"passive physics\" task: you must "
+        "watch objects moving in a scene (using only Pass actions) and "
+        "determine whether the simulation was \"plausible\" (realistic) "
+        "or \"implausible\" (unrealistic) based on whether or not objects "
+        "properly collide with one another."
+    )
+
+    PASSIVE_PHYSICS_GRAVITY_SUPPORT = (
+        "Passive Gravity Support tasks require a common-sense understanding"
+        " of gravity. This is a \"passive physics\" task: you must watch "
+        "objects moving in a scene (using only Pass actions) and determine "
+        "whether the simulation was \"plausible\" (realistic) or "
+        "\"implausible\" (unrealistic) based on whether or not objects are "
+        "properly supported."
+    )
+
+    PASSIVE_PHYSICS_OBJECT_PERMANENCE = (
+        "Object Permanence tasks require a common-sense understanding of "
+        "object permanence. This is a \"passive physics\" task: you must "
+        "watch objects moving in a scene (using only Pass actions) and "
+        "determine whether the simulation was \"plausible\" (realistic) "
+        "or \"implausible\" (unrealistic) based on whether or not objects "
+        "spontaneously appear and/or disappear."
+    )
+
+    PASSIVE_PHYSICS_SHAPE_CONSTANCY = (
+        "Shape Constancy tasks require a common-sense understanding of "
+        "shape constancy. This is a \"passive physics\" task: you must "
+        "watch objects moving in a scene (using only Pass actions) and "
+        "determine whether the simulation was \"plausible\" (realistic) "
+        "or \"implausible\" (unrealistic) based on whether or not objects "
+        "spontaneously transform into different shapes."
+    )
+
+    PASSIVE_PHYSICS_SPATIO_TEMPORAL_CONTINUITY = (
+        "Spatio-Temporal Continuity tasks require a common-sense "
+        "understanding of spatial and temporal continuity. This is "
+        "a \"passive physics\" task: you must watch objects moving a scene "
+        "(using only Pass actions) and determine whether the simulation was "
+        "\"plausible\" (realistic) or \"implausible\" (unrealistic) based "
+        "on whether or not objects spontaneously teleport across the room."
+    )
+
+    # Remaining Passive Agency Task
+    PASSIVE_SEEING_LEADS_TO_KNOWING = (
+        "Seeing Leads to Knowing tasks require a common-sense understanding "
+        "of agency. This is a \"passive\" task: you must watch (using only "
+        "Pass actions) as a soccer ball is deposited into a container and "
+        "an agent approaches a container, and then determine whether the "
+        "simulation was \"plausible\" (realistic) or \"implausible\" "
+        "(unrealistic) based on whether or not the agent acted with "
+        "common-sense reasoning (if the agent saw the ball being deposited, "
+        "it should approach the container holding the ball; otherwise it "
+        "should approach one of the containers behind it, because one of "
+        "those containers holds the ball)."
+    )
