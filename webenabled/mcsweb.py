@@ -47,7 +47,7 @@ def clean_request_data(request, is_json=False):
     return data
 
 
-def get_mcs_interface(request, label):
+def get_mcs_interface(request, label, on_exit=False):
     # Do we know who this is?
     uniq_id_str = request.cookies.get("uniq_id")
 
@@ -63,14 +63,17 @@ def get_mcs_interface(request, label):
         else:
             app.logger.info("MCS interface is unavailable")
 
-    letters = string.ascii_lowercase
-    uniq_id_str = ''.join(random.choice(letters) for i in range(10))
-    app.logger.info(f"{label}: new user: {uniq_id_str}")
+    # skip for exit_unity route, since in that case, we don't
+    # need to start a new interface/controller if one isn't found
+    if (on_exit is False):
+        letters = string.ascii_lowercase
+        uniq_id_str = ''.join(random.choice(letters) for i in range(10))
+        app.logger.info(f"{label}: new user: {uniq_id_str}")
 
-    # Don't recognize, create new mcs interface
-    mcs_interface = MCSInterface(uniq_id_str)
-    mcs_interface.start_mcs()
-    session[uniq_id_str] = mcs_interface
+        # Don't recognize, create new mcs interface
+        mcs_interface = MCSInterface(uniq_id_str)
+        mcs_interface.start_mcs()
+        session[uniq_id_str] = mcs_interface
 
     return mcs_interface, uniq_id_str
 
@@ -135,10 +138,18 @@ def handle_keypress():
 @app.route("/exit_unity", methods=["POST"])
 def exit_unity():
     app.logger.info("=" * 30)
-    mcs_interface, unique_id = get_mcs_interface(request, "Exit Unity")
+    mcs_interface, unique_id = get_mcs_interface(
+        request, "Exit Unity", on_exit=True)
     if mcs_interface is None:
-        app.logger.warn("Cannot load MCS interface")
-        return
+        error_msg = ("Cannot find MCS interface to exit. If you attempted "
+                     "to quit on startup/initial page load, you will "
+                     "likely have to kill the MCS controller process "
+                     "manually.")
+        app.logger.warn(error_msg)
+        resp = jsonify(
+            error_msg=error_msg
+        )
+        return resp
 
     controller_pid = mcs_interface.get_controller_pid()
 

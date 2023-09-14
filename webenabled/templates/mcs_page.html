@@ -20,6 +20,11 @@
             flex-direction: row;
         }
 
+        #another-tab-err {
+            display: none;
+            flex-direction: column;
+        }
+
         div#header h1 {
             height: 80px;
             line-height: 80px;
@@ -232,7 +237,13 @@
     <div id="header">
         <h1>Machine Common Sense</h1>
     </div>
+    <div id="another-tab-err">
+        <div class="section">
+            <p>Error: It looks like MCS is already running in a separate tab. Please close this tab.</p>
+        </div>
+    </div>
     <div id="content-wrapper">
+
         <div class="left-panel column">
             <div id="scene-nav-info" class="section">
                 <p><strong>Scenes</strong>
@@ -367,10 +378,25 @@
         "objectImageCoordsY": 200
     }
     var hasValidInput = true
+    var isMainWindow = true;
     loadingSpinner(false)
-    loadController()
+    checkForExistingTab()
 
-    sceneSelect.addEventListener('change', select_scene, false);
+    function checkForExistingTab() {
+        let doesTabExist = localStorage.getItem("mainMcsTabIsOpen")
+
+        if(doesTabExist === null) {
+            localStorage.setItem("mainMcsTabIsOpen", true)
+
+            loadController()
+
+            sceneSelect.addEventListener('change', select_scene, false);
+        } else {
+            isMainWindow = false;
+            document.getElementById("another-tab-err").style.display = "flex"
+            document.getElementById("content-wrapper").style.display = "none"
+        }
+    }
 
     function eventHandleScenes() {
         sceneSelect = document.getElementById("scenes-dropdown");
@@ -654,9 +680,13 @@
 
 
     function cleanup(e) {
-        resp = fetch("{{url_for('exit_unity')}}",
+        let mainTabOpened = localStorage.getItem("mainMcsTabIsOpen")
+        if(mainTabOpened && isMainWindow) {
+            localStorage.clear()
+            resp = fetch("{{url_for('exit_unity')}}",
             {method: 'POST', body: JSON.stringify(this.innerHTML)})
             .then(parseJsonResponse)
+        }
     }
 
     window.addEventListener('beforeunload', this.cleanup, false);
