@@ -3,7 +3,7 @@
     "category": "retrieval",
     "metadata": {
       "target": {
-        "id": "54365d9d-f6d8-41b9-8030-cbeafcd1faa9"
+        "id": "f3c6b0cb-06bd-44a2-bfa8-113cd3a1adb8"
       }
     },
     "description": "Find and pick up the small light black white rubber ball.",
@@ -15,10 +15,6 @@
   "lava": [
     {
       "x": 2,
-      "z": 1
-    },
-    {
-      "x": 2,
       "z": 2
     },
     {
@@ -48,10 +44,6 @@
     {
       "x": 2,
       "z": 9
-    },
-    {
-      "x": 3,
-      "z": 1
     },
     {
       "x": 3,
@@ -87,10 +79,6 @@
     },
     {
       "x": 4,
-      "z": 1
-    },
-    {
-      "x": 4,
       "z": 2
     },
     {
@@ -108,10 +96,6 @@
     {
       "x": 4,
       "z": 9
-    },
-    {
-      "x": 5,
-      "z": 1
     },
     {
       "x": 5,
@@ -135,10 +119,6 @@
     },
     {
       "x": 6,
-      "z": 1
-    },
-    {
-      "x": 6,
       "z": 2
     },
     {
@@ -156,10 +136,6 @@
     {
       "x": 6,
       "z": 9
-    },
-    {
-      "x": 7,
-      "z": 1
     },
     {
       "x": 7,
@@ -195,10 +171,6 @@
     },
     {
       "x": 8,
-      "z": 1
-    },
-    {
-      "x": 8,
       "z": 2
     },
     {
@@ -228,10 +200,6 @@
     {
       "x": 8,
       "z": 9
-    },
-    {
-      "x": -8,
-      "z": 1
     },
     {
       "x": -8,
@@ -267,10 +235,6 @@
     },
     {
       "x": -7,
-      "z": 1
-    },
-    {
-      "x": -7,
       "z": 2
     },
     {
@@ -303,10 +267,6 @@
     },
     {
       "x": -6,
-      "z": 1
-    },
-    {
-      "x": -6,
       "z": 2
     },
     {
@@ -324,10 +284,6 @@
     {
       "x": -6,
       "z": 9
-    },
-    {
-      "x": -5,
-      "z": 1
     },
     {
       "x": -5,
@@ -351,10 +307,6 @@
     },
     {
       "x": -4,
-      "z": 1
-    },
-    {
-      "x": -4,
       "z": 2
     },
     {
@@ -372,10 +324,6 @@
     {
       "x": -4,
       "z": 9
-    },
-    {
-      "x": -3,
-      "z": 1
     },
     {
       "x": -3,
@@ -408,10 +356,6 @@
     {
       "x": -3,
       "z": 9
-    },
-    {
-      "x": -2,
-      "z": 1
     },
     {
       "x": -2,
@@ -446,10 +390,10 @@
       "z": 9
     }
   ],
-  "name": "interactive_tool_use_0001_19",
+  "name": "interactive_tool_choice_0001_18",
   "objects": [
     {
-      "id": "54365d9d-f6d8-41b9-8030-cbeafcd1faa9",
+      "id": "f3c6b0cb-06bd-44a2-bfa8-113cd3a1adb8",
       "type": "soccer_ball",
       "mass": 2.0,
       "salientMaterials": ["rubber"],
@@ -464,7 +408,7 @@
           },
           "rotation": {
             "x": 0.0,
-            "y": 180.0,
+            "y": 225.0,
             "z": 0.0
           },
           "stepBegin": 0,
@@ -478,15 +422,15 @@
       "materials": []
     },
     {
-      "id": "tool_6b50b467-f5c9-4a74-ab21-c6f3b4993e50",
-      "type": "tool_rect_0_50_x_9_00",
+      "id": "tool_7c733e9e-34af-4638-8d9c-f54ba0d6be3d",
+      "type": "tool_rect_0_50_x_8_00",
       "shows": [
         {
           "stepBegin": 0,
           "position": {
             "x": -5.0,
             "y": 0.15,
-            "z": -4.0
+            "z": -2.5
           },
           "rotation": {
             "x": 0,
@@ -502,19 +446,187 @@
       ]
     },
     {
-      "id": "tool_c198ce70-d391-4e7e-83b6-4bd96b52e215",
-      "type": "tool_rect_0_75_x_1_00",
+      "id": "tool_98a7bb1b-3785-47d5-8394-6fc663b49722",
+      "type": "tool_rect_1_00_x_1_00",
       "shows": [
         {
           "stepBegin": 0,
           "position": {
-            "x": 5.0,
+            "x": 5.76,
             "y": 0.15,
-            "z": 0.0
+            "z": 1.0
           },
           "rotation": {
             "x": 0,
-            "y": 0,
+            "y": 90,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "tool_0f58d127-1e08-4b57-a1e8-5a6200665198",
+      "type": "tool_rect_1_00_x_1_00",
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 3.54,
+            "y": 0.15,
+            "z": -0.35
+          },
+          "rotation": {
+            "x": 0,
+            "y": 36,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "tool_9b835f2a-5633-4791-ac52-4a0e5494a2a6",
+      "type": "tool_rect_1_00_x_1_00",
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 6.24,
+            "y": 0.15,
+            "z": -1.7
+          },
+          "rotation": {
+            "x": 0,
+            "y": 26,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "tool_f8c2279a-1dea-49ba-84a1-8db0c5b5b4d8",
+      "type": "tool_rect_1_00_x_1_00",
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 3.98,
+            "y": 0.15,
+            "z": -3.05
+          },
+          "rotation": {
+            "x": 0,
+            "y": 183,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "tool_00c91909-09f5-4678-9cdf-a01fdd1bbda5",
+      "type": "tool_rect_1_00_x_1_00",
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 6.47,
+            "y": 0.15,
+            "z": -4.4
+          },
+          "rotation": {
+            "x": 0,
+            "y": 335,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "tool_30d50209-b745-4dd9-84ff-f6af14a7d47d",
+      "type": "tool_rect_1_00_x_1_00",
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 6.11,
+            "y": 0.15,
+            "z": -5.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 320,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "tool_5845d3ae-1519-4594-b6c5-e7b68cad5053",
+      "type": "tool_rect_1_00_x_1_00",
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 4.07,
+            "y": 0.15,
+            "z": -7.1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 140,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "tool_50f09757-dfad-49bd-82a5-9d11b342ebe3",
+      "type": "tool_rect_1_00_x_1_00",
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 3.58,
+            "y": 0.15,
+            "z": -8.45
+          },
+          "rotation": {
+            "x": 0,
+            "y": 37,
             "z": 0
           },
           "scale": {
@@ -560,7 +672,7 @@
       ]
     },
     {
-      "id": "9689a78e-d380-4560-8122-c1cc8043e36e",
+      "id": "e9a1eb69-f96a-4853-93e7-1a1b27a5d795",
       "type": "soccer_ball",
       "mass": 2.0,
       "salientMaterials": ["rubber"],
@@ -575,7 +687,7 @@
           },
           "rotation": {
             "x": 0.0,
-            "y": 225.0,
+            "y": 270.0,
             "z": 0.0
           },
           "stepBegin": 0,

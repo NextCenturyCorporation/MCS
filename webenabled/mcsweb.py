@@ -195,7 +195,7 @@ def handle_scene_selection():
 
     # Get the scene filename and tell interface to load it.
     scene_filename = clean_request_data(request)
-    img, step_output, action_list, goal_info = mcs_interface.load_scene(
+    img, step_output, action_list, goal_info, task_desc = mcs_interface.load_scene(  # noqa: E501
         "scenes/" + scene_filename)
     app.logger.info(f"Start scene: {scene_filename}, output: {img}")
     resp = jsonify(
@@ -204,6 +204,7 @@ def handle_scene_selection():
         image=img,
         scene=scene_filename,
         goal=goal_info,
+        task_desc=task_desc,
         step=0,
         step_output=step_output
     )

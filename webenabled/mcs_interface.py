@@ -6,6 +6,7 @@ import time
 from os.path import exists
 
 from flask import current_app
+from mcs_task_desc import TaskDescription
 from PIL import Image
 from subprocess_runner import (is_file_open, is_process_running,
                                start_subprocess)
@@ -97,12 +98,13 @@ class MCSInterface:
         self.scene_filename = scene_filename
         action_list_str = self.get_action_list()
         goal_info = self.get_goal_info(scene_filename)
+        task_desc = self.get_task_desc(scene_filename)
         self.step_number = 0
         self.scene_id = scene_filename[
             (scene_filename.rfind('/') + 1):(scene_filename.rfind('.'))
         ]
         _, img, step_output = self._post_step_and_get_output(scene_filename)
-        return img, step_output, action_list_str, goal_info
+        return img, step_output, action_list_str, goal_info, task_desc
 
     def perform_action(self, params: object):
         key = params["keypress"]
@@ -320,6 +322,22 @@ class MCSInterface:
         except Exception:
             self.logger.exception("Exception in reading goal from json file")
             return {}
+
+    def get_task_desc(self, scene_filename):
+        """Get task description based on filename from mcs_task_desc.py"""
+        self.logger.info(
+            f"Attempt to get task description based"
+            f"on scene_filename: {scene_filename}")
+        scene_type = scene_filename.split('/')[-1].split('0')[0][:-1].upper()
+
+        for description in TaskDescription:
+            if (description.name == scene_type):
+                self.logger.info(
+                    f"Scene type identified: {description.name}")
+                return description.value
+
+        self.logger.info("Scene type not found, returning 'N/A'")
+        return "N/A"
 
     def get_controller_pid(self):
         return self.pid

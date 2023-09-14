@@ -44,6 +44,8 @@
 
         div#scene-nav-info {
             flex: 1;
+            display: flex;
+            flex-direction: column;
             margin-bottom: 10px
         }
 
@@ -84,6 +86,8 @@
 
         #shortcuts {
             margin-right: 15px;
+            display: flex;
+            flex-direction: column;
         }
 
         .center {
@@ -152,7 +156,6 @@
         }
 
         select {
-            width: 90%;
             font-family: inherit;
             font-size: inherit;
             line-height: inherit;
@@ -200,8 +203,13 @@
             flex-direction: column;
         }
 
+        #scene-demo {
+            display: flex;
+            flex-direction: column;
+        }
+
         .left-panel {
-            min-width: 400px;
+            display: flex;
             max-width: 550px;
         }
 
@@ -271,6 +279,12 @@
                 <span><strong>Scene Name: </strong></span>
                 <span id="scene-filename">None - Please select a scene.</span>
             </div>
+
+            <div id="task-desc-div">
+                <span><strong>Task Description: </strong></span>
+                <span id="task-desc">N/A</span>
+            </div>
+
             <div id="goal-div">
                 <span><strong>Goal: </strong></span>
                 <span id="goal-cat"></span><span id="goal-desc">N/A</span>
@@ -421,6 +435,7 @@
             {method: 'POST', body: JSON.stringify(sceneSelect.value)})
             .then(parseJsonResponse)
             .then(updateSceneFilename)
+            .then(updateTaskDesc)
             .then(updateStepNumber)
             .then(updateActionList)
             .then(updateGoalInfo)
@@ -466,16 +481,15 @@
         }
 
         if("description" in data.goal) {
-            if(hasNoDesc) {
-                document.getElementById("goal-desc").style.display = "none"
-            } else {
-                document.getElementById("goal-desc").style.display = "inline"
+            document.getElementById("goal-desc").style.display = "inline"
 
-                let goalDesc = document.getElementById('goal-desc');
-                goalDesc.innerHTML = data.goal.description;
-            }
+            let goalDesc = document.getElementById('goal-desc');
+            goalDesc.innerHTML = data.goal.description;
         } else {
             console.warn("description not in goalInfo");
+            if(hasNoDesc) {
+                document.getElementById("goal-desc").style.display = "none"
+            }
         }
 
         if("last_step" in data.goal) {
@@ -549,6 +563,13 @@
             }
         }
 
+        return data;
+    }
+
+    function updateTaskDesc(data) {
+        console.log("taskDescription is " + data.task_desc);
+        let taskDesc = document.getElementById('task-desc');
+        taskDesc.innerHTML = data.task_desc;
         return data;
     }
 
