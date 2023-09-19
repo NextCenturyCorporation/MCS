@@ -22,7 +22,7 @@ pep8-naming==0.13.3
 pre-commit==2.21.0; python_version<"3.8"
 pre-commit==3.2.2; python_version>="3.8"
 pydantic==1.10.7
-recommonmark==0.7.2
+recommonmark==0.7.1
 requests==2.31.0
 scikit-image==0.19.3
 Shapely==1.7.1; python_version<"3.10"
