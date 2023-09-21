@@ -62,3 +62,7 @@ test-results.xml
 webenabled/flask_session/
 webenabled/scenes/*.json
 webenabled/static/mcsinterface/
+
+# webenabled pyinstaller
+mcsweb.spec
+pyinstaller.out

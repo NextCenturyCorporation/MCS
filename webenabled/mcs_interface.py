@@ -2,8 +2,9 @@ import datetime
 import glob
 import json
 import os
+import sys
 import time
-from os.path import exists
+from os.path import exists, getctime, relpath
 
 from flask import current_app
 from mcs_task_desc import TaskDescription
@@ -16,7 +17,15 @@ from machine_common_sense import GoalMetadata
 
 IMG_WIDTH = 600
 IMG_HEIGHT = 400
-MCS_INTERFACE_TMP_DIR = "static/mcsinterface/"
+# Use _MEIPASS in the pyinstaller package (frozen=True).
+ROOT_PATH = f'{sys._MEIPASS}/' if getattr(sys, 'frozen', False) else ''
+RELATIVE_PATH = (
+    f'{relpath(ROOT_PATH, os.getcwd())}/'
+    # Convert the absolute path used within the pyinstaller package.
+    if ROOT_PATH.startswith('/') else ROOT_PATH
+)
+MCS_INTERFACE_TMP_DIR = 'static/mcsinterface/'
+TMP_DIR_FULL_PATH = f'{RELATIVE_PATH}{MCS_INTERFACE_TMP_DIR}'
 BLANK_IMAGE_NAME = 'blank_600x400.png'
 IMAGE_WAIT_TIMEOUT = 20.0
 UNITY_STARTUP_WAIT_TIMEOUT = 10.0
@@ -42,26 +51,26 @@ class MCSInterface:
 
     def __init__(self, user: str):
         self.logger = current_app.logger
-        # TODO FIXME Use the step number from the output metadata.
+        self.logger.info(f'MCS interface directory: {TMP_DIR_FULL_PATH}')
         self.step_number = 0
         self.scene_id = None
         self.scene_filename = None
         self.step_output = None
 
-        if not exists(MCS_INTERFACE_TMP_DIR):
-            os.mkdir(MCS_INTERFACE_TMP_DIR)
+        if not exists(TMP_DIR_FULL_PATH):
+            os.mkdir(TMP_DIR_FULL_PATH)
 
         time_str = datetime.datetime.now().strftime("%y%m%d_%H%M%S")
         suffix = f"{time_str}_{user}"
-        self.command_out_dir = f"{MCS_INTERFACE_TMP_DIR}cmd_{suffix}"
-        self.step_output_dir = f"{MCS_INTERFACE_TMP_DIR}output_{suffix}"
+        self.command_out_dir = f"{TMP_DIR_FULL_PATH}cmd_{suffix}"
+        self.step_output_dir = f"{TMP_DIR_FULL_PATH}output_{suffix}"
         if not exists(self.command_out_dir):
             os.mkdir(self.command_out_dir)
         if not exists(self.step_output_dir):
             os.mkdir(self.step_output_dir)
 
         # Make sure that there is a blank image (in case something goes wrong)
-        self.blank_path = MCS_INTERFACE_TMP_DIR + BLANK_IMAGE_NAME
+        self.blank_path = TMP_DIR_FULL_PATH + BLANK_IMAGE_NAME
         if not exists(self.blank_path):
             img = Image.new('RGB', (IMG_WIDTH, IMG_HEIGHT))
             img.save(self.blank_path)
@@ -84,7 +93,7 @@ class MCSInterface:
         self.pid = start_subprocess(self.command_out_dir, self.step_output_dir)
 
         # Read in the image
-        self.img_name = self.get_image_name_and_step_output(startup=True)
+        self.img_name, _ = self.get_image_name_and_step_output(startup=True)
         return self.img_name
 
     def is_controller_alive(self):
@@ -203,7 +212,7 @@ class MCSInterface:
 
                 if len(list_of_error_files) > 0:
                     latest_error_file = max(
-                        list_of_error_files, key=os.path.getctime
+                        list_of_error_files, key=getctime
                     )
                     if latest_error_file.endswith(
                             f"step_{self.step_number}.json") or init_scene:
@@ -230,14 +239,14 @@ class MCSInterface:
             if len(list_of_img_files) > 0 and len(
                     list_of_output_files) > 0:  # noqa: E501
                 latest_json_file = max(
-                    list_of_output_files, key=os.path.getctime)
+                    list_of_output_files, key=getctime)
 
                 for file in list_of_output_files:
                     if file != latest_json_file:
                         os.unlink(file)
 
                 latest_image_file = max(
-                    list_of_img_files, key=os.path.getctime)
+                    list_of_img_files, key=getctime)
 
                 # Remove old files
                 for file in list_of_img_files:

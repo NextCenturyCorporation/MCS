@@ -29,17 +29,7 @@ scene files will appear on the web page
 
 First, run `cache_addressables` to cache all addressable assets and prevent possible timeout issues. You should do this each time you reboot your machine.
 
-For development, run the server directly:
-
-_(Note that we're calling `venv/bin/flask` to ensure it's the correct version of flask, which is especially important on Mac)_
-
-```FLASK_APP=mcsweb FLASK_DEBUG=1 venv/bin/flask run --port=8080 --host=0.0.0.0```
-
-Where:
-- FLASK_APP is the name of the python file to run.
-- FLASK_DEBUG=1 means that flask will auto-reload files when they change on disk
-- port 8080 makes the port flask runs on be 8080, rather than default of 5000
-- host=0.0.0.0 means that the page will be accessible from any machine, defaults to localhost
+For development, run `python mcsweb.py` to start the flask server with host `0.0.0.0` (so the page will be accessable from any machine on the network) and port `8080`.
 
 For production, use a WSGI server (not sure what to put here....)
 
@@ -58,3 +48,41 @@ http://<machine.ip.address>:8080/mcs
 3. The `run_scene_with_dir` script creates the MCS Controller and starts a watchdog Observer to watch for changes to the `cmd_<time>/` directory. Whenever a new "command" text file is created or modified, it triggers the Observer, which reads the command (either a scene filename ending in ".json" or an MCS action like Pass or MoveAhead), gives it to the MCS Controller via either its `start_scene` or `step` function, and saves step output and the output image in the `output_<time>` directory.
 4. When the user selects a scene in the UI, the `handle_scene_selection` function in `mcsweb` calls `load_scene` in `MCSInterface` which saves a "command" text file containing the scene filename.
 5. When the user presses a key in the UI, the `handle_keypress` function in `mcsweb` calls `perform_action` in `MCSInterface` which saves a "command" text file containing the action string.
+
+## Pyinstaller
+
+### Linux and Mac
+
+Setup:
+
+```
+pip install -U pyinstaller
+```
+
+Build:
+
+```
+pyinstaller --add-data 'templates:templates' --add-data 'static:static' --add-data 'scenes:scenes' --console mcsweb.py --log-level=DEBUG &> pyinstaller.out
+```
+
+Run:
+
+```
+./dist/mcsweb/mcsweb
+```
+
+Cleanup (do before you need to rebuild):
+
+```
+rm -rf build/ dist/
+```
+
+### Windows
+
+Same as the Linux/Mac instructions, except as noted below.
+
+Build:
+
+```
+pyinstaller --add-data "templates;templates" --add-data "static;static" --add-data "scenes;scenes" --console mcsweb.py --log-level=DEBUG -y *>&1 | Tee-Object -Append -FilePath pyinstaller.out
+```
