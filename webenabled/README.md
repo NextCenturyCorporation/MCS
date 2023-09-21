@@ -51,6 +51,8 @@ http://<machine.ip.address>:8080/mcs
 
 ## Pyinstaller
 
+### Linux and Mac
+
 Setup:
 
 ```
@@ -73,4 +75,14 @@ Cleanup (do before you need to rebuild):
 
 ```
 rm -rf build/ dist/
+```
+
+### Windows
+
+Same as the Linux/Mac instructions, except as noted below.
+
+Build:
+
+```
+pyinstaller --add-data "templates;templates" --add-data "static;static" --add-data "scenes;scenes" --console mcsweb.py --log-level=DEBUG -y *>&1 | Tee-Object -Append -FilePath pyinstaller.out
 ```
