@@ -20,6 +20,11 @@
             flex-direction: row;
         }
 
+        #another-tab-err {
+            display: none;
+            flex-direction: column;
+        }
+
         div#header h1 {
             height: 80px;
             line-height: 80px;
@@ -39,6 +44,8 @@
 
         div#scene-nav-info {
             flex: 1;
+            display: flex;
+            flex-direction: column;
             margin-bottom: 10px
         }
 
@@ -79,6 +86,8 @@
 
         #shortcuts {
             margin-right: 15px;
+            display: flex;
+            flex-direction: column;
         }
 
         .center {
@@ -147,7 +156,6 @@
         }
 
         select {
-            width: 90%;
             font-family: inherit;
             font-size: inherit;
             line-height: inherit;
@@ -195,8 +203,13 @@
             flex-direction: column;
         }
 
+        #scene-demo {
+            display: flex;
+            flex-direction: column;
+        }
+
         .left-panel {
-            min-width: 400px;
+            display: flex;
             max-width: 550px;
         }
 
@@ -232,7 +245,13 @@
     <div id="header">
         <h1>Machine Common Sense</h1>
     </div>
+    <div id="another-tab-err">
+        <div class="section">
+            <p>Error: It looks like MCS is already running in a separate tab. Please close this tab.</p>
+        </div>
+    </div>
     <div id="content-wrapper">
+
         <div class="left-panel column">
             <div id="scene-nav-info" class="section">
                 <p><strong>Scenes</strong>
@@ -260,6 +279,12 @@
                 <span><strong>Scene Name: </strong></span>
                 <span id="scene-filename">None - Please select a scene.</span>
             </div>
+
+            <div id="task-desc-div">
+                <span><strong>Task Description: </strong></span>
+                <span id="task-desc">N/A</span>
+            </div>
+
             <div id="goal-div">
                 <span><strong>Goal: </strong></span>
                 <span id="goal-cat"></span><span id="goal-desc">N/A</span>
@@ -358,7 +383,7 @@
     // Handle clicking on one of the scene file names
     var sceneSelect = document.getElementById("scenes-dropdown");
     let actionKeysWithParams = ['1', '3', '4', '5', '6', '7', '8', '9', 'm', 'M', 't', 'T']
-    let arrowKeys = ["ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight"]
+    let allOtherActionKeys = ['2', 'W', 'A', 'S', 'D', 'H', 'I', 'J', 'K', 'L', ' ', 'Q']
     var processingKeypress = false
     // default screen coordinates are in the center of image
     var params = {
@@ -366,10 +391,25 @@
         "objectImageCoordsY": 200
     }
     var hasValidInput = true
+    var isMainWindow = true;
     loadingSpinner(false)
-    loadController()
+    checkForExistingTab()
 
-    sceneSelect.addEventListener('change', select_scene, false);
+    function checkForExistingTab() {
+        let doesTabExist = localStorage.getItem("mainMcsTabIsOpen")
+
+        if(doesTabExist === null) {
+            localStorage.setItem("mainMcsTabIsOpen", true)
+
+            loadController()
+
+            sceneSelect.addEventListener('change', select_scene, false);
+        } else {
+            isMainWindow = false;
+            document.getElementById("another-tab-err").style.display = "flex"
+            document.getElementById("content-wrapper").style.display = "none"
+        }
+    }
 
     function eventHandleScenes() {
         sceneSelect = document.getElementById("scenes-dropdown");
@@ -394,6 +434,7 @@
             {method: 'POST', body: JSON.stringify(sceneSelect.value)})
             .then(parseJsonResponse)
             .then(updateSceneFilename)
+            .then(updateTaskDesc)
             .then(updateStepNumber)
             .then(updateActionList)
             .then(updateGoalInfo)
@@ -439,16 +480,15 @@
         }
 
         if("description" in data.goal) {
-            if(hasNoDesc) {
-                document.getElementById("goal-desc").style.display = "none"
-            } else {
-                document.getElementById("goal-desc").style.display = "inline"
+            document.getElementById("goal-desc").style.display = "inline"
 
-                let goalDesc = document.getElementById('goal-desc');
-                goalDesc.innerHTML = data.goal.description;
-            }
+            let goalDesc = document.getElementById('goal-desc');
+            goalDesc.innerHTML = data.goal.description;
         } else {
             console.warn("description not in goalInfo");
+            if(hasNoDesc) {
+                document.getElementById("goal-desc").style.display = "none"
+            }
         }
 
         if("last_step" in data.goal) {
@@ -522,6 +562,13 @@
             }
         }
 
+        return data;
+    }
+
+    function updateTaskDesc(data) {
+        console.log("taskDescription is " + data.task_desc);
+        let taskDesc = document.getElementById('task-desc');
+        taskDesc.innerHTML = data.task_desc;
         return data;
     }
 
@@ -651,16 +698,40 @@
         updateImageCoords(e)
     }
 
+
+    function cleanup(e) {
+        let mainTabOpened = localStorage.getItem("mainMcsTabIsOpen")
+        if(mainTabOpened && isMainWindow) {
+            localStorage.clear()
+            resp = fetch("{{url_for('exit_unity')}}",
+            {method: 'POST', body: JSON.stringify(this.innerHTML)})
+            .then(parseJsonResponse)
+        }
+    }
+
+    window.addEventListener('beforeunload', this.cleanup, false);
+
     // ---------------------------------------------------------
     // Handle Key strokes (navigation)
     window.addEventListener('keydown', this.process_key, false);
 
     function process_key(e) {
-        if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || (arrowKeys.includes(e.key))) {
+        // avoid scrolling with spacebar/Pass action
+        if(e.keyCode == 32) {
+            e.preventDefault();
+        }
+
+        if((!actionKeysWithParams.includes(e.key)) && (!allOtherActionKeys.includes(e.key.toUpperCase()))) {
             return;
         }
+
         if (processingKeypress) {
             console.log('Currently processing keypress, ignoring new input.')
+            return;
+        }
+
+        if (document.getElementById('scene-filename').innerHTML == "None") {
+            alert("Please select a scene before attempting an action.");
             return;
         }
 

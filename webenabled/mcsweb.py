@@ -2,6 +2,7 @@ import logging
 import random
 import string
 
+import psutil
 import typeguard
 
 
@@ -67,7 +68,7 @@ def convert_image_path(img: str) -> str:
     return img
 
 
-def get_mcs_interface(request, label):
+def get_mcs_interface(request, label, on_exit=False):
     # Do we know who this is?
     uniq_id_str = request.cookies.get("uniq_id")
 
@@ -83,14 +84,17 @@ def get_mcs_interface(request, label):
         else:
             app.logger.info("MCS interface is unavailable")
 
-    letters = string.ascii_lowercase
-    uniq_id_str = ''.join(random.choice(letters) for i in range(10))
-    app.logger.info(f"{label}: new user: {uniq_id_str}")
+    # skip for exit_unity route, since in that case, we don't
+    # need to start a new interface/controller if one isn't found
+    if (on_exit is False):
+        letters = string.ascii_lowercase
+        uniq_id_str = ''.join(random.choice(letters) for i in range(10))
+        app.logger.info(f"{label}: new user: {uniq_id_str}")
 
-    # Don't recognize, create new mcs interface
-    mcs_interface = MCSInterface(uniq_id_str)
-    mcs_interface.start_mcs()
-    session[uniq_id_str] = mcs_interface
+        # Don't recognize, create new mcs interface
+        mcs_interface = MCSInterface(uniq_id_str)
+        mcs_interface.start_mcs()
+        session[uniq_id_str] = mcs_interface
 
     return mcs_interface, uniq_id_str
 
@@ -154,6 +158,56 @@ def handle_keypress():
     return resp
 
 
+@app.route("/exit_unity", methods=["POST"])
+def exit_unity():
+    app.logger.info("=" * 30)
+    mcs_interface, unique_id = get_mcs_interface(
+        request, "Exit Unity", on_exit=True)
+    if mcs_interface is None:
+        error_msg = ("Cannot find MCS interface to exit. If you attempted "
+                     "to quit on startup/initial page load, you will "
+                     "likely have to kill the MCS controller process "
+                     "manually.")
+        app.logger.warn(error_msg)
+        resp = jsonify(
+            error_msg=error_msg
+        )
+        return resp
+
+    controller_pid = mcs_interface.get_controller_pid()
+
+    app.logger.info(
+        "Attempting to clean up processes after browser has been closed.")
+
+    for p in psutil.process_iter(['pid']):
+        if p.info['pid'] == controller_pid:
+            children = p.children(recursive=True)
+            for c_process in children:
+                app.logger.info(
+                    f"Found child process of controller: {c_process}, "
+                    f"will attempt to end.")
+                c_process.kill()
+
+            app.logger.info(
+                f"Found controller process: {p}, will attempt to end.")
+            p.kill()
+
+    if (unique_id is None):
+        unique_id = request.cookies.get("uniq_id")
+
+    app.logger.info(
+        f"Clear user session for: {unique_id}")
+    del session[unique_id]
+
+    resp = jsonify(
+        ended_controller_process=controller_pid,
+        ended_session=unique_id
+    )
+    resp.delete_cookie('uniq_id')
+
+    return resp
+
+
 @app.route("/scene_selection", methods=["POST"])
 def handle_scene_selection():
     app.logger.info("=" * 30)
@@ -164,7 +218,7 @@ def handle_scene_selection():
 
     # Get the scene filename and tell interface to load it.
     scene_filename = clean_request_data(request)
-    img, step_output, action_list, goal_info = mcs_interface.load_scene(
+    img, step_output, action_list, goal_info, task_desc = mcs_interface.load_scene(  # noqa: E501
         "scenes/" + scene_filename)
     img = convert_image_path(img)
     app.logger.info(f"Start scene: {scene_filename}, output: {img}")
@@ -174,6 +228,7 @@ def handle_scene_selection():
         image=img,
         scene=scene_filename,
         goal=goal_info,
+        task_desc=task_desc,
         step=0,
         step_output=step_output
     )
