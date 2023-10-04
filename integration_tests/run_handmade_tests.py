@@ -392,7 +392,7 @@ def start_handmade_tests(
             else:
                 failed_test_list.append((test_name, metadata_tier, status))
 
-    controller.stop_simulation()
+        controller.stop_simulation()
 
     successful_test_list.sort(key=lambda x: x[0])
     failed_test_list.sort(key=lambda x: x[0])
