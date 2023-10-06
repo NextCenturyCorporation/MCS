@@ -36,7 +36,7 @@ def mock_import(name, *args, **kwargs):
     try:
         real_module = real_import(name, *args, **kwargs)
         return real_module
-    except ImportError as e:
+    except (ImportError, NameError) as e:
         # Return mocks for all modules required by the ai2thor python library
         # but not available on Windows.
         if name == 'fcntl':
