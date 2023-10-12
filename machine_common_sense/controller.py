@@ -238,10 +238,11 @@ class Controller():
 
         ai2thor_step = self.parameter_converter.wrap_step(
             output_folder=self.__output_folder,
-            action='Initialize',
             sceneConfig=sc,
             goal_object_ids=self.__goal_object_ids)
-        step_output = self._controller.step(ai2thor_step)
+        # Must call reset first, which automatically initializes the new scene.
+        self._controller.initialization_parameters = ai2thor_step
+        step_output = self._controller.reset(scene='MCS')
 
         self._output_handler.set_scene_config(scene_config)
         (pre_restrict_output, output) = self._output_handler.handle_output(

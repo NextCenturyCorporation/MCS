@@ -323,7 +323,7 @@
             {
                 "direction_x": 0.0,
                 "direction_y": -0.734,
-                "direction_z": 0.69,
+                "direction_z": 0.68,
                 "distance": 0.697,
                 "held": false,
                 "id": "testBall",
@@ -353,7 +353,7 @@
         "objects": [
             {
                 "direction_x": 0.0,
-                "direction_y": -0.72,
+                "direction_y": -0.73,
                 "direction_z": 0.69,
                 "distance": 0.71,
                 "held": false,

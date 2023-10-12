@@ -86,13 +86,12 @@ def run_depth_and_segmentation_test(controller, metadata_tier):
     for row_idx, pixel_row in enumerate(
             output_depth_data[0]["depth_map_list"][0]):
         for col_idx, pixel_col in enumerate(pixel_row):
-
             # Need to account for hardware differences
             if (not math.isclose(
                 pixel_col,
                 step_metadata_0.depth_map_list[0][row_idx][col_idx],
-                rel_tol=0.00009,
-                abs_tol=0.00009
+                rel_tol=0.0009,
+                abs_tol=0.0009
             )):
                 return (
                     False,
@@ -150,8 +149,8 @@ def run_depth_and_segmentation_test(controller, metadata_tier):
             if (not math.isclose(
                 pixel_col,
                 step_metadata_1.depth_map_list[0][row_idx][col_idx],
-                rel_tol=0.00009,
-                abs_tol=0.00009
+                rel_tol=0.0009,
+                abs_tol=0.0009
             )):
                 return (
                     False,
