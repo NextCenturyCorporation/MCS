@@ -37,7 +37,8 @@
                 "rotation_y": 0.0,
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey"
+                    "grey",
+                    "black"
                 ],
                 "visible": true
             }
@@ -87,7 +88,8 @@
                 "rotation_y": 0.0,
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey"
+                    "grey",
+                    "black"
                 ],
                 "visible": true
             }
@@ -137,7 +139,8 @@
                 "rotation_y": 0.0,
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey"
+                    "grey",
+                    "black"
                 ],
                 "visible": true
             }
@@ -187,7 +190,8 @@
                 "rotation_y": 0.0,
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey"
+                    "grey",
+                    "black"
                 ],
                 "visible": true
             }
@@ -237,7 +241,8 @@
                 "rotation_y": 0.0,
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey"
+                    "grey",
+                    "black"
                 ],
                 "visible": true
             }
@@ -287,7 +292,8 @@
                 "rotation_y": 0.0,
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey"
+                    "grey",
+                    "black"
                 ],
                 "visible": true
             }
@@ -337,7 +343,8 @@
                 "rotation_y": 0.0,
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey"
+                    "grey",
+                    "black"
                 ],
                 "visible": true
             }
@@ -387,7 +394,8 @@
                 "rotation_y": 0.0,
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey"
+                    "grey",
+                    "black"
                 ],
                 "visible": true
             }
@@ -437,7 +445,8 @@
                 "rotation_y": 0,
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey"
+                    "grey",
+                    "black"
                 ],
                 "visible": true
             }
@@ -487,7 +496,8 @@
                 "rotation_y": 0,
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey"
+                    "grey",
+                    "black"
                 ],
                 "visible": true
             }
@@ -537,7 +547,8 @@
                 "rotation_y": 0,
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey"
+                    "grey",
+                    "black"
                 ],
                 "visible": true
             }
@@ -587,7 +598,8 @@
                 "rotation_y": 0,
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey"
+                    "grey",
+                    "black"
                 ],
                 "visible": true
             }
@@ -637,7 +649,8 @@
                 "rotation_y": 0,
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey"
+                    "grey",
+                    "black"
                 ],
                 "visible": true
             }
@@ -687,7 +700,8 @@
                 "rotation_y": 0,
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey"
+                    "grey",
+                    "black"
                 ],
                 "visible": true
             }
@@ -737,7 +751,8 @@
                 "rotation_y": 0,
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey"
+                    "grey",
+                    "black"
                 ],
                 "visible": true
             }
@@ -787,7 +802,8 @@
                 "rotation_y": 0,
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey"
+                    "grey",
+                    "black"
                 ],
                 "visible": true
             }
@@ -837,7 +853,8 @@
                 "rotation_y": 0,
                 "shape": "tool",
                 "texture_color_list": [
-                    "grey"
+                    "grey",
+                    "black"
                 ],
                 "visible": true
             }

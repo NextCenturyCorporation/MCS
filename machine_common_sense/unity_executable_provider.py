@@ -17,8 +17,15 @@ logger = logging.getLogger(__name__)
 
 LINUX_URL = "https://github.com/NextCenturyCorporation/MCS/releases/download/{ver}/MCS-AI2-THOR-Unity-App-v{ver}-linux.zip"  # noqa
 MAC_URL = "https://github.com/NextCenturyCorporation/MCS/releases/download/{ver}/MCS-AI2-THOR-Unity-App-v{ver}-mac.zip"  # noqa
+WIN64_URL = "https://github.com/NextCenturyCorporation/MCS/releases/download/{ver}/MCS-AI2-THOR-Unity-App-v{ver}-win64.zip"  # noqa
 LINUX_DEV_URL = "https://ai2thor-unity-releases.s3.amazonaws.com/MCS-AI2-THOR-Unity-App-vdevelop-linux.zip"  # noqa
 MAC_DEV_URL = "https://ai2thor-unity-releases.s3.amazonaws.com/MCS-AI2-THOR-Unity-App-vdevelop-mac.zip"  # noqa
+WIN64_DEV_URL = "https://ai2thor-unity-releases.s3.amazonaws.com/MCS-AI2-THOR-Unity-App-vdevelop-win64.zip"  # noqa
+
+PLATFORM_MAC = "Darwin"
+PLATFORM_LINUX = "Linux"
+PLATFORM_OTHER = "other"
+PLATFORM_WINDOWS64 = "Windows"
 
 
 class UnityExecutableProvider():
@@ -26,9 +33,6 @@ class UnityExecutableProvider():
     package. Will check a cache and download if necessary'''
 
     DOWNLOAD_FILE = "MCS-AI2-THOR-Unity-App-v{}.zip"
-    PLATFORM_MAC = "Darwin"
-    PLATFORM_LINUX = "Linux"
-    PLATFORM_OTHER = "other"
 
     def __init__(self):
         self._downloader = Downloader()
@@ -36,12 +40,13 @@ class UnityExecutableProvider():
 
     def _platform_init(self):
         self._switcher = {
-            self.PLATFORM_LINUX: self._linux_init,
-            self.PLATFORM_MAC: self._mac_init,
-            self.PLATFORM_OTHER: self._other_init
+            PLATFORM_LINUX: self._linux_init,
+            PLATFORM_MAC: self._mac_init,
+            PLATFORM_OTHER: self._other_init,
+            PLATFORM_WINDOWS64: self._windows64_init
         }
         sys = platform.system()
-        self._switcher.get(sys, self.PLATFORM_OTHER)()
+        self._switcher.get(sys, PLATFORM_OTHER)()
 
     def _mac_init(self):
         self._cache = MacExecutionCache()
@@ -49,9 +54,12 @@ class UnityExecutableProvider():
     def _linux_init(self):
         self._cache = LinuxExecutionCache()
 
+    def _windows64_init(self):
+        self._cache = Windows64ExecutionCache()
+
     def _other_init(self):
         raise Exception(
-            "Ai2thorProvider only supports Linux and Mac. "
+            "Ai2thorProvider only supports Linux, Windows and Mac. "
             f"Platform={platform.system()}"
         )
 
@@ -151,10 +159,12 @@ class AbstractExecutionCache(ABC):
             f"Unzipping {zip_file.name} to {ver_dir.as_posix()}")
         zip.extractall(ver_dir)
         logger.info(f"Deleting {zip_file.name}.")
-        zip_file.unlink()
+        if platform.system() in [PLATFORM_LINUX, PLATFORM_MAC]:
+            zip_file.unlink()
         ver_dir = self._get_version_dir(version)
         file = self._get_executable_file().format(version=version)
-        (ver_dir / file).chmod(755)
+        if platform.system() in [PLATFORM_LINUX, PLATFORM_MAC]:
+            (ver_dir / file).chmod(755)
 
         for file in self._get_gz_files():
             file = file.format(version=version)
@@ -246,13 +256,36 @@ class LinuxExecutionCache(AbstractExecutionCache):
         return self.REQUIRED_FILES
 
 
+class Windows64ExecutionCache(AbstractExecutionCache):
+    '''Handles Windows64 specific code for running a cache for MCS Unity
+    executables.'''
+    REQUIRED_FILES = [
+        "MonoBleedingEdge",
+        "UnityPlayer.dll",
+        "UnityCrashHandler64.exe",
+        "MCS-AI2-THOR-Unity-App-v{version}-win64_Data",
+        "MCS-AI2-THOR-Unity-App-v{version}-win64.exe"]
+    EXECUTABLE_FILE = "MCS-AI2-THOR-Unity-App-v{version}-win64.exe"
+    GZ_FILES = ["MCS-AI2-THOR-Unity-App-v{version}-win64_Data.tar.gz"]
+
+    def _get_executable_file(self):
+        return self.EXECUTABLE_FILE
+
+    def _get_gz_files(self):
+        return self.GZ_FILES
+
+    def _get_required_files(self):
+        return self.REQUIRED_FILES
+
+
 class Downloader():
     '''Handles downloading MCS AI2THOR package'''
 
     def get_url(self, ver):
         sys = platform.system()
         if (sys == "Windows"):
-            raise Exception("Windows is not supported")
+            return WIN64_URL.format(
+                ver=ver) if ver != "develop" else WIN64_DEV_URL
         elif sys == "Linux":
             return LINUX_URL.format(
                 ver=ver) if ver != "develop" else LINUX_DEV_URL
