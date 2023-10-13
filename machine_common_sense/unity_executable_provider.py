@@ -22,16 +22,17 @@ LINUX_DEV_URL = "https://ai2thor-unity-releases.s3.amazonaws.com/MCS-AI2-THOR-Un
 MAC_DEV_URL = "https://ai2thor-unity-releases.s3.amazonaws.com/MCS-AI2-THOR-Unity-App-vdevelop-mac.zip"  # noqa
 WIN64_DEV_URL = "https://ai2thor-unity-releases.s3.amazonaws.com/MCS-AI2-THOR-Unity-App-vdevelop-win64.zip"  # noqa
 
+PLATFORM_MAC = "Darwin"
+PLATFORM_LINUX = "Linux"
+PLATFORM_OTHER = "other"
+PLATFORM_WINDOWS64 = "Windows"
+
 
 class UnityExecutableProvider():
     '''Automatically provides MCS AI2-THOR Unity executable for the MCS
     package. Will check a cache and download if necessary'''
 
     DOWNLOAD_FILE = "MCS-AI2-THOR-Unity-App-v{}.zip"
-    PLATFORM_MAC = "Darwin"
-    PLATFORM_LINUX = "Linux"
-    PLATFORM_OTHER = "other"
-    PLATFORM_WINDOWS64 = "Windows64"
 
     def __init__(self):
         self._downloader = Downloader()
@@ -39,13 +40,13 @@ class UnityExecutableProvider():
 
     def _platform_init(self):
         self._switcher = {
-            self.PLATFORM_LINUX: self._linux_init,
-            self.PLATFORM_MAC: self._mac_init,
-            self.PLATFORM_OTHER: self._other_init,
-            self.PLATFORM_WINDOWS64: self._windows64_init
+            PLATFORM_LINUX: self._linux_init,
+            PLATFORM_MAC: self._mac_init,
+            PLATFORM_OTHER: self._other_init,
+            PLATFORM_WINDOWS64: self._windows64_init
         }
         sys = platform.system()
-        self._switcher.get(sys, self.PLATFORM_OTHER)()
+        self._switcher.get(sys, PLATFORM_OTHER)()
 
     def _mac_init(self):
         self._cache = MacExecutionCache()
@@ -158,10 +159,12 @@ class AbstractExecutionCache(ABC):
             f"Unzipping {zip_file.name} to {ver_dir.as_posix()}")
         zip.extractall(ver_dir)
         logger.info(f"Deleting {zip_file.name}.")
-        zip_file.unlink()
+        if platform.system() in [PLATFORM_LINUX, PLATFORM_MAC]:
+            zip_file.unlink()
         ver_dir = self._get_version_dir(version)
         file = self._get_executable_file().format(version=version)
-        (ver_dir / file).chmod(755)
+        if platform.system() in [PLATFORM_LINUX, PLATFORM_MAC]:
+            (ver_dir / file).chmod(755)
 
         for file in self._get_gz_files():
             file = file.format(version=version)
@@ -260,10 +263,10 @@ class Windows64ExecutionCache(AbstractExecutionCache):
         "MonoBleedingEdge",
         "UnityPlayer.dll",
         "UnityCrashHandler64.exe",
-        "MCS-AI2-THOR-Unity-App-Win64-v{version}_Data",
-        "MCS-AI2-THOR-Unity-App-Win64-v{version}.exe"]
+        "MCS-AI2-THOR-Unity-App-v{version}-win64_Data",
+        "MCS-AI2-THOR-Unity-App-v{version}-win64.exe"]
     EXECUTABLE_FILE = "MCS-AI2-THOR-Unity-App-v{version}-win64.exe"
-    GZ_FILES = ["MCS-AI2-THOR-Unity-App-Win64-v{version}_Data.tar.gz"]
+    GZ_FILES = ["MCS-AI2-THOR-Unity-App-v{version}-win64_Data.tar.gz"]
 
     def _get_executable_file(self):
         return self.EXECUTABLE_FILE
