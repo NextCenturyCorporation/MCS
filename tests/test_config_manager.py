@@ -191,9 +191,9 @@ class TestConfigManager(unittest.TestCase):
             'oracle')
 
     def test_controller_timeout(self):
-        self.assertEquals(self.config_mngr.get_controller_timeout(), 180)
+        self.assertEqual(self.config_mngr.get_controller_timeout(), 600)
         self.config_mngr.set_controller_timeout(str(90))
-        self.assertEquals(self.config_mngr.get_controller_timeout(), 90)
+        self.assertEqual(self.config_mngr.get_controller_timeout(), 90)
 
     def test_get_size(self):
         self.assertEqual(self.config_mngr.get_size(), 600)

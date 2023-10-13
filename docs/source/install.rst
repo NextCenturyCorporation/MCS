@@ -240,7 +240,7 @@ controller_timeout
 
 (int, optional)
 
-Sets the time (in seconds) to allow on controller initialization before timing out. Default 180
+Sets the time (in seconds) to allow on controller initialization before timing out. Default 600
 
 terminal_output
 ^^^^^^^^^^^^^^^
