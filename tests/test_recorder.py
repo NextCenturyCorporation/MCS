@@ -249,7 +249,10 @@ class TestVideoRecorder(unittest.TestCase):
 
     def tearDown(self):
         if self.test_video_file.exists():
-            self.test_video_file.unlink()
+            try:
+                self.test_video_file.unlink()
+            except Exception:
+                pass
 
     def test_video_path(self):
         self.assertEqual(self.recorder.path, self.test_video_file)

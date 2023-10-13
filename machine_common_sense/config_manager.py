@@ -356,7 +356,7 @@ class ConfigManager:
     TIMEOUT_DEFAULT = 3600
 
     # Default time for initalizing a controller.
-    CONTROLLER_TIMEOUT_DEFAULT = 180
+    CONTROLLER_TIMEOUT_DEFAULT = 600
 
     def __init__(self, config_file_or_dict=None):
         '''
