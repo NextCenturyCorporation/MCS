@@ -262,7 +262,7 @@ class Windows64ExecutionCache(AbstractExecutionCache):
         "UnityCrashHandler64.exe",
         "MCS-AI2-THOR-Unity-App-Win64-v{version}_Data",
         "MCS-AI2-THOR-Unity-App-Win64-v{version}.exe"]
-    EXECUTABLE_FILE = "MCS-AI2-THOR-Unity-App-Win64-v{version}.exe"
+    EXECUTABLE_FILE = "MCS-AI2-THOR-Unity-App-v{version}-win64.exe"
     GZ_FILES = ["MCS-AI2-THOR-Unity-App-Win64-v{version}_Data.tar.gz"]
 
     def _get_executable_file(self):
