@@ -17,7 +17,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": false
             }
         ],
@@ -49,7 +51,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": false
             }
         ],
@@ -81,7 +85,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": false
             }
         ],
@@ -113,7 +119,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": false
             }
         ],
@@ -145,7 +153,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": false
             }
         ],
@@ -177,7 +187,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": false
             }
         ],
@@ -209,7 +221,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": false
             }
         ],
@@ -241,7 +255,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": false
             }
         ],
@@ -273,7 +289,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": false
             }
         ],
@@ -305,7 +323,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": false
             }
         ],
@@ -337,7 +357,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": false
             }
         ],
@@ -369,7 +391,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": false
             }
         ],
@@ -401,7 +425,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": false
             }
         ],
@@ -433,7 +459,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": false
             }
         ],
@@ -465,7 +493,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             }
         ],
@@ -497,7 +527,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             }
         ],
@@ -529,7 +561,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             }
         ],
@@ -561,7 +595,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             }
         ],
@@ -593,7 +629,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             }
         ],
@@ -625,7 +663,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             }
         ],
@@ -657,7 +697,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             }
         ],
@@ -689,7 +731,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             }
         ],
@@ -721,7 +765,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             }
         ],
@@ -753,7 +799,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             }
         ],
@@ -785,7 +833,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             }
         ],
@@ -817,7 +867,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             }
         ],
@@ -849,7 +901,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             }
         ],
@@ -881,7 +935,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             }
         ],
@@ -913,7 +969,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             }
         ],
@@ -945,7 +1003,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             }
         ],
@@ -977,7 +1037,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             }
         ],
@@ -1009,7 +1071,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             }
         ],
@@ -1041,7 +1105,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             }
         ],
@@ -1073,7 +1139,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             }
         ],
@@ -1105,7 +1173,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             }
         ],
@@ -1137,7 +1207,9 @@
                 "position_z": 0.5,
                 "rotation_y": 180,
                 "shape": "agent",
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             }
         ],

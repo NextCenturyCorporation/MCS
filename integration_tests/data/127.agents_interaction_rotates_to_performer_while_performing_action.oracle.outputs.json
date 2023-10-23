@@ -18,7 +18,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -38,8 +40,7 @@
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": true,
                 "texture_color_list": [
-                    "white",
-                    "black"
+                    "skin_tone_medium"
                 ],
                 "visible": true
             },
@@ -92,7 +93,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -112,8 +115,7 @@
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": true,
                 "texture_color_list": [
-                    "white",
-                    "black"
+                    "skin_tone_medium"
                 ],
                 "visible": true
             },
@@ -166,7 +168,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -186,8 +190,7 @@
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": true,
                 "texture_color_list": [
-                    "white",
-                    "black"
+                    "skin_tone_medium"
                 ],
                 "visible": true
             },
@@ -240,7 +243,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -260,8 +265,7 @@
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": true,
                 "texture_color_list": [
-                    "white",
-                    "black"
+                    "skin_tone_medium"
                 ],
                 "visible": true
             },
@@ -314,7 +318,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -334,8 +340,7 @@
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": true,
                 "texture_color_list": [
-                    "white",
-                    "black"
+                    "skin_tone_medium"
                 ],
                 "visible": true
             },
@@ -388,7 +393,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -408,8 +415,7 @@
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": true,
                 "texture_color_list": [
-                    "white",
-                    "black"
+                    "skin_tone_medium"
                 ],
                 "visible": true
             },
@@ -462,7 +468,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -482,8 +490,7 @@
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": true,
                 "texture_color_list": [
-                    "white",
-                    "black"
+                    "skin_tone_medium"
                 ],
                 "visible": true
             },
@@ -536,7 +543,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -556,8 +565,7 @@
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": true,
                 "texture_color_list": [
-                    "white",
-                    "black"
+                    "skin_tone_medium"
                 ],
                 "visible": true
             },
@@ -610,7 +618,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -630,8 +640,7 @@
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": true,
                 "texture_color_list": [
-                    "white",
-                    "black"
+                    "skin_tone_medium"
                 ],
                 "visible": true
             },
@@ -684,7 +693,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": false
             },
             {
@@ -704,8 +715,7 @@
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": true,
                 "texture_color_list": [
-                    "white",
-                    "black"
+                    "skin_tone_medium"
                 ],
                 "visible": true
             },
@@ -758,7 +768,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": false
             },
             {
@@ -778,8 +790,7 @@
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": true,
                 "texture_color_list": [
-                    "white",
-                    "black"
+                    "skin_tone_medium"
                 ],
                 "visible": true
             },
@@ -832,7 +843,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": false
             },
             {
@@ -852,8 +865,7 @@
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": true,
                 "texture_color_list": [
-                    "white",
-                    "black"
+                    "skin_tone_medium"
                 ],
                 "visible": true
             },
@@ -906,7 +918,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -926,8 +940,7 @@
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": true,
                 "texture_color_list": [
-                    "white",
-                    "black"
+                    "skin_tone_medium"
                 ],
                 "visible": true
             },
@@ -980,7 +993,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -999,7 +1014,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1051,7 +1068,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1070,7 +1089,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1122,7 +1143,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1141,7 +1164,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1193,7 +1218,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1212,7 +1239,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1264,7 +1293,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1283,7 +1314,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1335,7 +1368,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1354,7 +1389,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1406,7 +1443,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1425,7 +1464,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1477,7 +1518,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1496,7 +1539,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1548,7 +1593,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1567,7 +1614,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1619,7 +1668,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1638,7 +1689,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1690,7 +1743,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1709,7 +1764,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1761,7 +1818,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1780,7 +1839,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1832,7 +1893,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1851,7 +1914,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1903,7 +1968,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1922,7 +1989,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1974,7 +2043,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -1993,7 +2064,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -2045,7 +2118,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {
@@ -2064,7 +2139,9 @@
                 "shape": "agent",
                 "simulation_agent_held_object": "soccer_ball",
                 "simulation_agent_is_holding_held_object": false,
-                "texture_color_list": [],
+                "texture_color_list": [
+                    "skin_tone_medium"
+                ],
                 "visible": true
             },
             {

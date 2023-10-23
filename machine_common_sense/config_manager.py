@@ -356,7 +356,7 @@ class ConfigManager:
     TIMEOUT_DEFAULT = 3600
 
     # Default time for initalizing a controller.
-    CONTROLLER_TIMEOUT_DEFAULT = 180
+    CONTROLLER_TIMEOUT_DEFAULT = 600
 
     def __init__(self, config_file_or_dict=None):
         '''
@@ -641,6 +641,7 @@ class SceneConfiguration(BaseModel):
     holes: List[Vector2dInt] = []
     intuitive_physics: bool = False
     isometric: bool = False
+    isometric_front_right: bool = False
     lava: List[Vector2dInt] = []
     name: Optional[str]
     objects: List[SceneObject] = []
