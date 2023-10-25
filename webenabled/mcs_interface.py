@@ -27,8 +27,9 @@ RELATIVE_PATH = (
 MCS_INTERFACE_TMP_DIR = 'static/mcsinterface/'
 TMP_DIR_FULL_PATH = f'{RELATIVE_PATH}{MCS_INTERFACE_TMP_DIR}'
 BLANK_IMAGE_NAME = 'blank_600x400.png'
-IMAGE_WAIT_TIMEOUT = 20.0
+IMAGE_WAIT_TIMEOUT = 60.0
 UNITY_STARTUP_WAIT_TIMEOUT = 10.0
+IMAGE_COUNT = 500
 
 
 def convert_key_to_action(key: str, logger):
@@ -93,8 +94,8 @@ class MCSInterface:
         self.pid = start_subprocess(self.command_out_dir, self.step_output_dir)
 
         # Read in the image
-        self.img_name, _ = self.get_image_name_and_step_output(startup=True)
-        return self.img_name
+        images, _ = self.get_images_and_step_output(startup=True)
+        return images
 
     def is_controller_alive(self):
         # When we re-attach, we need to make sure that the controller
@@ -112,32 +113,40 @@ class MCSInterface:
         self.scene_id = scene_filename[
             (scene_filename.rfind('/') + 1):(scene_filename.rfind('.'))
         ]
-        _, img, step_output = self._post_step_and_get_output(scene_filename)
-        return img, step_output, action_list_str, goal_info, task_desc
+        _, images, step_output = self._post_step_and_get_output(scene_filename)
+        return images, step_output, action_list_str, goal_info, task_desc
 
     def perform_action(self, params: object):
-        key = params["keypress"]
-        del params["keypress"]
-        action = convert_key_to_action(key, self.logger)
-        full_action, img, step_output = self._post_step_and_get_output(
+        action = None
+        if "keypress" in params:
+            key = params["keypress"]
+            del params["keypress"]
+            action = convert_key_to_action(key, self.logger)
+        if "action" in params:
+            action = params["action"]
+            del params["action"]
+        full_action, images, step_output = self._post_step_and_get_output(
             action, params)
         if (step_output):
             self.step_number = step_output.get('step_number', self.step_number)
             action_list_str = self.get_action_list(
                 step_number=self.step_number)
-        return full_action, img, step_output, action_list_str
+        return full_action, images, step_output, action_list_str
 
     def _post_step_and_get_output(self, action: str, params=None):
         full_action_str = action
+
         image_coord_actions = ["CloseObject", "OpenObject", "PickupObject",
                                "PullObject", "PushObject", "PutObject",
                                "TorqueObject", "RotateObject", "MoveObject",
                                "InteractWithAgent"]
+
         command_file_name = (
             f'{self.command_out_dir}/command_{self.scene_id}_step_'
             f'{self.step_number}.txt'
         )
         f = open(command_file_name, "a")
+
         if (action in image_coord_actions and params is not None):
             x_coord = params["objectImageCoordsX"]
             y_coord = params["objectImageCoordsY"]
@@ -185,14 +194,15 @@ class MCSInterface:
         if is_initialize:
             action_to_return = self.scene_id
 
-        img, step_output = self.get_image_name_and_step_output(
+        images, step_output = self.get_images_and_step_output(
             init_scene=is_initialize)
 
-        return action_to_return, img, step_output
+        return action_to_return, images, step_output
 
-    def get_image_name_and_step_output(self, startup=False, init_scene=False):
-        """Watch the output directory, get image that appears.  If it does
-        not appear in timeout seconds, give up and return blank."""
+    def get_images_and_step_output(self, startup=False, init_scene=False):
+        """Watch the output directory and return the latest images and step
+        output that appears. If it does not appear in <timeout> seconds, then
+        give up and return a blank image."""
         timestart = time.time()
 
         while True:
@@ -202,7 +212,7 @@ class MCSInterface:
                 self.logger.info(
                     "Display blank image on default when starting up.")
                 self.img_name = self.blank_path
-                return self.img_name, self.step_output
+                return [self.img_name], self.step_output
 
             if elapsed > IMAGE_WAIT_TIMEOUT:
                 self.logger.info("Timeout waiting for image")
@@ -229,29 +239,33 @@ class MCSInterface:
                             'error': new_error_output["error"]
                         }
 
-                return self.img_name, self.step_output
+                return [self.img_name], self.step_output
 
-            list_of_output_files = glob.glob(
-                self.step_output_dir + "/step_output_*.json")
-            list_of_img_files = glob.glob(self.step_output_dir + "/rgb_*.png")
+            # Sort descending by date/time modified (newest first)
+            list_of_output_files = list(reversed(sorted(
+                glob.glob(self.step_output_dir + "/step_output_*.json"),
+                key=getctime
+            )))
+            list_of_img_files = list(reversed(sorted(
+                glob.glob(self.step_output_dir + "/rgb_*.png"),
+                key=getctime
+            )))
 
             # Image file logic
-            if len(list_of_img_files) > 0 and len(
-                    list_of_output_files) > 0:  # noqa: E501
-                latest_json_file = max(
-                    list_of_output_files, key=getctime)
+            if len(list_of_img_files) > 0 and len(list_of_output_files) > 0:
+                latest_json_file = list_of_output_files[0]
 
-                for file in list_of_output_files:
-                    if file != latest_json_file:
-                        os.unlink(file)
+                # Keep only the latest output file.
+                for file in list_of_output_files[1:]:
+                    os.unlink(file)
 
-                latest_image_file = max(
-                    list_of_img_files, key=getctime)
+                latest_image_file = list_of_img_files[0]
 
-                # Remove old files
-                for file in list_of_img_files:
-                    if file != latest_image_file:
-                        os.unlink(file)
+                # Keep only the latest image files. Use step_number if less
+                # than IMAGE_COUNT to remove images from previous scenes.
+                image_count = min(IMAGE_COUNT, self.step_number + 2)
+                for file in list_of_img_files[image_count:]:
+                    os.unlink(file)
 
                 # wait to make sure we've finished loading the new image
                 # (not sure why the is_file_open check below didn't
@@ -280,7 +294,7 @@ class MCSInterface:
                 if latest_image_file != self.img_name and has_new_step_output:
                     self.step_output = new_step_output
                     self.img_name = latest_image_file
-                    return self.img_name, self.step_output
+                    return list_of_img_files[:image_count], self.step_output
 
             time.sleep(0.05)
 
@@ -313,7 +327,7 @@ class MCSInterface:
                         ]
                     if is_passive:
                         actions = GoalMetadata.DEFAULT_PASSIVE_SCENE_ACTIONS
-                    if goal.get('action_list'):
+                    if len(goal.get('action_list', [])) > step_number:
                         actions = goal['action_list'][step_number]
                     return self.simplify_action_list(actions)
         except Exception:

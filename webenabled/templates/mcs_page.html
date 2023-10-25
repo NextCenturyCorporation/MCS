@@ -9,15 +9,18 @@
             padding: 0;
             background-color: #e3e7ea;
         }
+
         #container {
             display: flex;
             flex-direction: column;
             height: 100%;
+            min-width: 1400px;
         }
 
         #content-wrapper {
             display: flex;
             flex-direction: row;
+            margin-right: 20px;
         }
 
         #another-tab-err {
@@ -29,7 +32,7 @@
             height: 80px;
             line-height: 80px;
             margin: 0;
-            padding-left: 10px;
+            padding-left: 20px;
             color: #F8F8F8;
             background: #5F6871;
         }
@@ -46,14 +49,13 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            margin-bottom: 10px
         }
 
         .section {
-            margin: 0.75em;
+            margin-left: 20px;
+            margin-top: 20px;
             background-color: #FFFFFF;
-            padding-left: 5px;
-            padding-right: 5px;
+            padding: 10px;
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
             border-bottom-left-radius: 10px;
@@ -66,10 +68,11 @@
 
         .section > p {
             padding: 0 10px 0;
+            margin: 5px 0;
         }
 
         .section > img {
-            padding: 0 10px 0;
+            padding: 10px;
         }
 
         #keyboard {
@@ -85,7 +88,6 @@
         }
 
         #shortcuts {
-            margin-right: 15px;
             display: flex;
             flex-direction: column;
         }
@@ -97,12 +99,10 @@
         }
 
         #footer {
-            margin-top: auto;
             z-index: 2;
         }
 
         #footer p {
-            padding: 10px 10px;
             text-align: center;
             font-size: 12pt;
         }
@@ -166,7 +166,8 @@
             font-family: inherit;
             font-size: inherit;
             margin-left: 4px;
-            margin-right: 4px;
+            margin-right: 24px;
+            width: 100px;
         }
 
         input.checkbox {
@@ -176,7 +177,7 @@
 
         .input-fields {
             display: flex;
-            justify-content: space-between;
+            justify-content: left;
         }
 
         #validation-errors {
@@ -206,6 +207,9 @@
         #scene-demo {
             display: flex;
             flex-direction: column;
+            width: -webkit-calc(100% - 580px);
+            width:    -moz-calc(100% - 580px);
+            width:         calc(100% - 580px);
         }
 
         .left-panel {
@@ -226,6 +230,31 @@
         #scene-name-div {
             margin-top: 1em;
             padding-top: 0px;
+        }
+
+        #previousImages {
+            overflow-x: auto;
+        }
+
+        #previousImages > div {
+            padding-right: 10px;
+        }
+
+        #buttonsDiv {
+            padding-bottom: 0;
+        }
+
+        button {
+            cursor: pointer;
+            font-size: 14px;
+            margin: 0 5px 10px 0;
+            padding: 5px;
+        }
+
+        #keyboardInfo {
+            height: 450px;
+            margin: 10px 10px 10px 0;
+            overflow-y: auto;
         }
 
         /* override needed for Firefox */
@@ -255,7 +284,7 @@
         <div class="left-panel column">
             <div id="scene-nav-info" class="section">
                 <p><strong>Scenes</strong>
-                <p>Pick from one of the following scenes:</p>
+                <p>Pick one of the following scenes:</p>
                 <select id="scenes-dropdown" size="15">
                     {% for scene in scene_list %}
                         <option>{{ scene }}</option>
@@ -263,15 +292,32 @@
                 </select>
             </div>
             <div id="shortcuts" class="section">
-                <p><strong>Keyboard Shortcuts</strong></p>
-                <p>Below are the keyboard shortcuts. Make sure your mouse is somewhere in the
-                    browser window and key strokes will be sent to the environment.</p>
+                <p><strong>Usage</strong></p>
+                <p>Press a key to run the corresponding action:</p>
         
-                <img id="keyboard" width="400" src="static/keyboard.jpg" alt="keyboard" class="center"/>
-        
-                <p>The left part of the keyboard is for <strong>motion</strong>
-                    so that 'a' and 'd' make the agent move left or right without rotating.
-                    To <strong>rotate</strong> left and right, use 'j' and 'l' (lower case 'L') </p>
+                <img id="keyboard" width="480" src="static/keyboard.jpg" alt="keyboard" class="center"/>
+
+                <p>Notes:</p>
+                <ul id="keyboardInfo">
+                    <li>If an action is not successful, you will see the reason in the "Return Status" output.</li>
+                    <li>The W, A, S, and D keys let you move 0.1 meter in a specific direction, but do not change your facing.</li>
+                    <li>The I, J, K, and L keys let you look up/down or rotate left/right 10 degrees, but do not make you move.</li>
+                    <li>The 1-9 keys and the M key let you interact with objects in the world. Before pressing a key, click on the object in the current image to update the image coordinate parameters used for the action (the default is the center of the image).
+                        <ul>
+                            <li>The PullObject action applies physical force at the center of the object going directly toward you. Set the "force" parameter between 0 and 1.</li>
+                            <li>The PushObject action applies physical force at the center of the object going directly away from you. Set the "force" parameter between 0 and 1.</li>
+                            <li>The TorqueObject action applies physical force at the center of the object going clockwise (if positive) or counter-clockwise (if negative). Set the "force" parameter between -1 and 1.</li>
+                            <li>The MoveObject action moves the object a distance of 0.1 meter in up to two directions based on your current facing. Set the "straight" parameter to either -1, 1, or 0 to move the object toward you (-1), away from you (1), or neither (0). Set the "lateral" parameter to either -1, 1, or 0 to move the object left (-1), right (1), or neither direction (0).</li>
+                            <li>The RotateObject action rotates the object exactly 5 degrees. Uncheck the "clockwise" parameter to adjust the direction.</li>
+                        </ul>
+                    </li>
+                    <li>The T key lets you "interact" with another agent in the environment. Some tasks require you to interact with an agent before it will produce the soccer ball.</li>
+                    <li>The H key lets you end the current stage of this trial. Only use when required. You will see a black image on this step. Sometimes you are teleported to another area of the room during this step.</li>
+                    <li>The Spacebar lets you pass for one step, taking no action but advancing the physics simulation.</li>
+                    <li>Some scenes start with "required actions", meaning that for one or more steps there is only one available action you can take. Trying to use a different action will cause an error.</li>
+                    <li>Using Shift or Caps Lock is not necessary.</li>
+                    <li>Having trouble? Click on the current image in your web browser to restore focus, and keep your cursor within the browser window.</li>
+                </ul>
             </div>
         </div>
         <div id="scene-demo" class="section">
@@ -294,6 +340,7 @@
                 <span><strong>Actions Available: </strong></span>
                 <span id="action-list">N/A</span>
             </div>
+
             <div class="row">
                 <div class="column">
                     <img id="unityimg" width="600" height="400" src="{{ unityimg }}" alt="current step image"/>
@@ -331,8 +378,24 @@
                 </div>
             </div>
 
+            <div class="row" id="previousImages"></div>
+
             <div>
-                <strong>Action Parameter Input Fields:</strong>
+                <strong>Quick Actions</strong>
+            </div>
+            <div class="buttonsDiv">
+                <button id="runRequiredActions">Run Required Actions</button>
+                <button onclick="runMultipleActions('MoveAhead', 10)">Move Ahead 10</button>
+                <button onclick="runMultipleActions('MoveBack', 10)">Move Back 10</button>
+                <button onclick="runMultipleActions('MoveLeft', 10)">Move Left 10</button>
+                <button onclick="runMultipleActions('MoveRight', 10)">Move Right 10</button>
+                <button onclick="runMultipleActions('RotateLeft', 36)">Rotate Left 36</button>
+                <button onclick="runMultipleActions('RotateRight', 36)">Rotate Right 36</button>
+                <button onclick="runMultipleActions('Pass', 10)">Pass 10</button>
+            </div>
+
+            <div>
+                <strong>Action Parameters</strong>
             </div>
             <div id="image_coords_div">
                 <span>Image Coordinates: (
@@ -340,8 +403,11 @@
                     y: <span id="image-coord-y">200</span>
                 )</span></div>
             <div class="input-fields">
-                <div>Amount: 
-                    <input type="number" min="0" max="1" step="0.1" value="1" id="amount"/>
+                <div>Lateral: 
+                    <input type="number" min="-1" max="1" step="1" value="0" id="lateral"/>
+                </div>
+                <div>Straight: 
+                    <input type="number" min="-1" max="1" step="1" value="1" id="straight"/>
                 </div>
                 <div>Force: 
                     <input type="number" min="-1" max="1" step="0.1" value="0.5" id="force"/>
@@ -349,23 +415,8 @@
                 <div>Clockwise: 
                     <input type="checkbox" id="clockwise" class="checkbox" checked>
                 </div>
-                <div>Lateral: 
-                    <input type="number" min="-1" max="1" step="1" value="0" id="lateral"/>
-                </div>
-                <div>Straight: 
-                    <input type="number" min="-1" max="1" step="1" value="1" id="straight"/>
-                </div>
             </div>
-            <div>
-                Parameter(s) will be used if applicable for chosen keyboard shortcut, 
-                see <a href="https://nextcenturycorporation.github.io/MCS/api.html#machine_common_sense.Action">Action API</a>
-                for more information on parameters. If any of the inputs are not valid, an error message will be displayed,
-                and your chosen action will not be processed until error(s) are resolved.
-            </div>
-            <div>
-                For image coordinates, the default is the center of the scene image. 
-                Click a point on the Unity image to populate with a different coordinate.
-            </div>
+
             <span id="validation-errors"></span>
 
             <br/>
@@ -395,6 +446,64 @@
     loadingSpinner(false)
     checkForExistingTab()
 
+    function runActionsHelper(actionList, autofill) {
+        const response = fetch("{{url_for('handle_keypress')}}",
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "action": actionList[0],
+                    "objectImageCoordsX": params.objectImageCoordsX,
+                    "objectImageCoordsY": params.objectImageCoordsY,
+                    "force": document.getElementById("force").value,
+                    "clockwise": document.getElementById("clockwise").checked,
+                    "lateral": document.getElementById("lateral").value,
+                    "straight": document.getElementById("straight").value
+                })
+            })
+            .then(parseJsonResponse)
+            .then(updateStepNumber)
+            .then(updateActionList)
+            .then(updateOutputInfo)
+            .then(updateImages)
+            .then(function(data) {
+                if (autofill) {
+                    var requiredActionList = data.action_list.split(", ");
+                    if (requiredActionList.length == 1) {
+                        actionList.push(requiredActionList[0]);
+                    }
+                }
+                if (actionList.length == 1) {
+                    processingKeypress = false
+                    loadingSpinner(false)
+                } else {
+                    runActionsHelper(actionList.slice(1), autofill);
+                }
+            });
+    }
+
+    function runMultipleActions(action, totalCount) {
+        console.log('run multiple actions: ' + action + ' x ' + totalCount);
+        processingKeypress = true;
+        loadingSpinner(true);
+
+        var actionList = [];
+        for (let i = 0; i < totalCount; i++) {
+            actionList.push(action);
+        }
+        runActionsHelper(actionList, false);
+    }
+
+    function runRequiredActions(startingAction) {
+        console.log('run required actions');
+        processingKeypress = true;
+        loadingSpinner(true);
+
+        runActionsHelper([startingAction], true);
+    }
+
     function checkForExistingTab() {
         let doesTabExist = localStorage.getItem("mainMcsTabIsOpen")
 
@@ -422,7 +531,7 @@
             {method: 'POST', body: JSON.stringify(this.innerHTML)})
             .then(parseJsonResponse)
             .then(updateSceneList)
-            .then(updateImage)
+            .then(updateImages)
             .then(function() {
                 loadingSpinner(false)
             });
@@ -440,7 +549,7 @@
             .then(updateGoalInfo)
             .then(updateOutputInfo)
             .then(clearImageCoordinates)
-            .then(updateImage)
+            .then(updateImages)
             .then(function() {
                 loadingSpinner(false)
             });
@@ -453,8 +562,21 @@
 
     function updateActionList(data) {
         console.log("actionList is " + data.action_list);
-        var actionList = document.getElementById('action-list');
-        actionList.innerHTML = data.action_list;
+        var actionSpan = document.getElementById('action-list');
+        actionSpan.innerHTML = data.action_list;
+
+        var actionButton = document.getElementById('runRequiredActions');
+        var requiredActionList = data.action_list.split(", ");
+        if (requiredActionList.length == 1) {
+            actionButton.onclick = function(event) {
+                runRequiredActions(requiredActionList[0]);
+            }
+            actionButton.removeAttribute('disabled');
+        } else {
+            actionButton.onclick = function(event) { /* no-op */ }
+            actionButton.setAttribute('disabled', '');
+        }
+
         return data;
     }
 
@@ -649,13 +771,6 @@
     function passesValidation(actionKey) {
         let errorMsg = document.getElementById("validation-errors")
 
-        let amountVal = document.getElementById("amount").value
-        if(['1', '2'].includes(actionKey) && (amountVal > 1 || amountVal < 0)) {
-            errorMsg.innerHTML = "For OpenObject/CloseObject, the value " +
-            "for 'amount' must be between 0 and 1."
-            return false;
-        }
-
         // if Push/PullObject, make sure force value is
         // between 0 and 1, for Torque, make sure its -1 to 1
         let forceVal = document.getElementById("force").value
@@ -769,7 +884,6 @@
                 "keypress": JSON.stringify(e.key),
                 "objectImageCoordsX": params.objectImageCoordsX,
                 "objectImageCoordsY": params.objectImageCoordsY,
-                "amount": document.getElementById("amount").value,
                 "force": document.getElementById("force").value,
                 "clockwise": document.getElementById("clockwise").checked,
                 "lateral": document.getElementById("lateral").value,
@@ -780,7 +894,7 @@
             .then(updateStepNumber)
             .then(updateActionList)
             .then(updateOutputInfo)
-            .then(updateImage)
+            .then(updateImages)
             .then(function() {
                 processingKeypress = false
                 loadingSpinner(false)
@@ -796,10 +910,26 @@
         }
     }
 
-    function updateImage(data) {
-        console.log("image is " + data.image);
+    function updateImages(data) {
+        console.log("current image is " + data.image);
         var imgref = document.getElementById('unityimg');
         imgref.src = data.image;
+
+        imagesHtml = '';
+        previousStep = data.step - 1;
+        for (let previousImage of data.previous_images) {
+            imagesHtml = imagesHtml + (
+                '<div class="column">' +
+                '<div>Step ' + previousStep + '</div>' +
+                '<img width="300" height="200" src="' + previousImage +
+                '" alt="step ' + previousStep + '"/>' +
+                '</div>'
+            );
+            previousStep--;
+        }
+        var previousImages = document.getElementById('previousImages');
+        previousImages.innerHTML = imagesHtml;
+
         return data;
     }
 

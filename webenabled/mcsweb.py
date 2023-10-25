@@ -126,7 +126,7 @@ def handle_load_controller():
     img = convert_image_path(img)
     scene_list = mcs_interface.get_scene_list()
 
-    resp = jsonify(image=img, scene_list=scene_list)
+    resp = jsonify(image=img, previous_images=[], scene_list=scene_list)
 
     resp.set_cookie("uniq_id", uniq_id_str)
 
@@ -142,17 +142,29 @@ def handle_keypress():
         return
 
     params = clean_request_data(request, is_json=True)
-    key = params["keypress"]
-    action_string, img, step_output, action_list = mcs_interface.perform_action(params)  # noqa: E501
-    img = convert_image_path(img)
+    key = params["keypress"] if "keypress" in params else None
+    action = params["action"] if "action" in params else None
+    action_output = mcs_interface.perform_action(params)
+    action_string, images, step_output, action_list = action_output
+    for index in range(len(images)):
+        images[index] = convert_image_path(images[index])
+    img = images[0]
     step_number = mcs_interface.step_number
-    app.logger.info(
-        f"Key press: '{key}', action string: {action_string}, "
-        f"step {step_number}, img: {img}, output: {step_output}")
+    if key:
+        app.logger.info(
+            f"Key press: '{key}', action string: {action_string}, "
+            f"step: {step_number}, img: {img}, output: {step_output}"
+        )
+    else:
+        app.logger.info(
+            f"Action: '{action}', "
+            f"step: {step_number}, img: {img}, output: {step_output}"
+        )
     resp = jsonify(
         last_action=action_string,
         action_list=action_list,
         image=img,
+        previous_images=images[1:],
         step=step_number,
         step_output=step_output)
     return resp
@@ -218,14 +230,15 @@ def handle_scene_selection():
 
     # Get the scene filename and tell interface to load it.
     scene_filename = clean_request_data(request)
-    img, step_output, action_list, goal_info, task_desc = mcs_interface.load_scene(  # noqa: E501
-        "scenes/" + scene_filename)
-    img = convert_image_path(img)
+    load_output = mcs_interface.load_scene("scenes/" + scene_filename)
+    images, step_output, action_list, goal_info, task_desc = load_output
+    img = convert_image_path(images[0])
     app.logger.info(f"Start scene: {scene_filename}, output: {img}")
     resp = jsonify(
         last_action="Initialize",
         action_list=action_list,
         image=img,
+        previous_images=[],
         scene=scene_filename,
         goal=goal_info,
         task_desc=task_desc,

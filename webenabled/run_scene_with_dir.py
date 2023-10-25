@@ -174,7 +174,7 @@ class RunSceneWithDir:
         output_to_save_dict = {
             'step_number': output.step_number,
             'return_status': output.return_status,
-            'reward': output.reward,
+            'reward': round(output.reward, 3),
             'steps_on_lava': output.steps_on_lava
         }
 
