@@ -66,11 +66,6 @@
             padding: 10px;
         }
 
-        .section > p {
-            padding: 0 10px 0;
-            margin: 5px 0;
-        }
-
         .section > img {
             padding: 10px;
         }
@@ -80,7 +75,7 @@
         }
 
         #scenes-dropdown {
-            margin: 5px 5px 10px 10px;
+            margin: 10px;
         }
 
         #scenes-dropdown:hover {
@@ -227,11 +222,6 @@
             padding-bottom: 10px;
         }
 
-        #scene-name-div {
-            margin-top: 1em;
-            padding-top: 0px;
-        }
-
         #previousImages {
             overflow-x: auto;
         }
@@ -253,7 +243,7 @@
 
         #keyboardInfo {
             height: 450px;
-            margin: 10px 10px 10px 0;
+            margin: 0 10px 10px 0;
             overflow-y: auto;
         }
 
@@ -276,15 +266,15 @@
     </div>
     <div id="another-tab-err">
         <div class="section">
-            <p>Error: It looks like MCS is already running in a separate tab. Please close this tab.</p>
+            <div>Error: It looks like MCS is already running in a separate tab. Please close this tab.</div>
         </div>
     </div>
     <div id="content-wrapper">
 
         <div class="left-panel column">
             <div id="scene-nav-info" class="section">
-                <p><strong>Scenes</strong>
-                <p>Pick one of the following scenes:</p>
+                <div><strong>Scenes</strong></div>
+                <div>Pick one of the following scenes:</div>
                 <select id="scenes-dropdown" size="15">
                     {% for scene in scene_list %}
                         <option>{{ scene }}</option>
@@ -292,12 +282,12 @@
                 </select>
             </div>
             <div id="shortcuts" class="section">
-                <p><strong>Usage</strong></p>
-                <p>Press a key to run the corresponding action:</p>
+                <div><strong>Usage</strong></div>
+                <div>Press a key to run the corresponding action:</div>
         
                 <img id="keyboard" width="480" src="static/keyboard.jpg" alt="keyboard" class="center"/>
 
-                <p>Notes:</p>
+                <div>Notes:</div>
                 <ul id="keyboardInfo">
                     <li>If an action is not successful, you will see the reason in the "Return Status" output.</li>
                     <li>The W, A, S, and D keys let you move 0.1 meter in a specific direction, but do not change your facing.</li>
