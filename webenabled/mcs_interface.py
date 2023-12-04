@@ -199,6 +199,15 @@ class MCSInterface:
 
         return action_to_return, images, step_output
 
+    def check_for_error(self, elapsed):
+        # Shouldn't need to wait very long for errors like "invalid action"
+        secs_to_check = 1.0
+        if (elapsed > secs_to_check):
+            error_file_list = glob.glob(
+                self.step_output_dir + "/error_*.json")
+
+            return len(error_file_list) > 0
+
     def get_images_and_step_output(self, startup=False, init_scene=False):
         """Watch the output directory and return the latest images and step
         output that appears. If it does not appear in <timeout> seconds, then
@@ -214,8 +223,14 @@ class MCSInterface:
                 self.img_name = self.blank_path
                 return [self.img_name], self.step_output
 
-            if elapsed > IMAGE_WAIT_TIMEOUT:
-                self.logger.info("Timeout waiting for image")
+            quick_error_check = self.check_for_error(elapsed)
+
+            if elapsed > IMAGE_WAIT_TIMEOUT or quick_error_check:
+                log_message = "Timeout waiting for image"
+                if (quick_error_check):
+                    log_message = "Error returned from MCS controller."
+
+                self.logger.info(log_message)
 
                 list_of_error_files = glob.glob(
                     self.step_output_dir + "/error_*.json")
