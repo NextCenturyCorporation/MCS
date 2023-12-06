@@ -4,6 +4,7 @@ import string
 
 import psutil
 import typeguard
+import os
 
 
 # Override the typechecked decorator used in machine_common_sense to do nothing
@@ -216,6 +217,13 @@ def exit_unity():
         ended_session=unique_id
     )
     resp.delete_cookie('uniq_id')
+
+    # delete static/mcsinterface/ folders
+    app.logger.info(
+        f"Deleting static/mcsinterface/ folders")
+    os.system("find ./static/mcsinterface -name 'cmd_*' | xargs rm -r")
+    os.system("find ./static/mcsinterface -name 'output_*' | xargs rm -r")
+    # os.system("find ./static/mcsinterface -name 'img_*' | xargs rm -r")
 
     return resp
 
