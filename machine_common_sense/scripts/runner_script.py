@@ -68,7 +68,7 @@ class AbstractRunnerScript():
             )
             if args.save_videos:
                 subprocess.call([
-                    'ffmpeg', '-y', '-r', '20', '-i',
+                    'ffmpeg', '-y', '-r', '20', '-i', '-q:v', '1',
                     scene_name + '/frame_image_%d.png',
                     '-vcodec', 'h264', '-vf', 'format=yuv420p',
                     scene_name + '.mp4'
