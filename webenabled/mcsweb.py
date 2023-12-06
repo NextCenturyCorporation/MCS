@@ -223,7 +223,7 @@ def exit_unity():
         f"Deleting static/mcsinterface/ folders")
     os.system("find ./static/mcsinterface -name 'cmd_*' | xargs rm -r")
     os.system("find ./static/mcsinterface -name 'output_*' | xargs rm -r")
-    # os.system("find ./static/mcsinterface -name 'img_*' | xargs rm -r")
+    # TODO: os.system("find ./static/mcsinterface -name 'img_*' | xargs rm -r")
 
     return resp
 
