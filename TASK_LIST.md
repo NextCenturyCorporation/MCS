@@ -1,6 +1,9 @@
 # Task List
 
-TODO
+Table of Content:
+- [Interactive Tasks](#interactive-tasks)
+  - [Introduced in Evaluation 3](#introduced-in-evaluation-3)
+    - [Retrieval - Containers](#retrieval---containers)
 
 ## Interactive Tasks
 
@@ -405,7 +408,9 @@ Notes:
 
 #### Tools - Secondary Tool Use
 
-TODO
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/a0a00f40-e9f7-4cbd-9521-c8c7e47e129d
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/292e188a-0429-42a8-b499-1df11013b14f
 
 Details:
 
@@ -418,3 +423,103 @@ Notes:
 
 - Like in previous Evals, you can use the PushObject, PullObject, and MoveObject actions to move tools, and the TorqueObject and RotateObject actions to rotate tools. Pushing, Pulling, and Moving one tool into a second tool will cause that second tool to move along with it as you would expect (please note that some bugs for this were fixed in MCS release version 0.7.0).
 - Tools may have novel colors/textures applied to them (including, but not limited to, the colors/textures used in Eval 6), but the general shape of the tools will remain the same.
+
+## Passive Agent Tasks
+
+TODO DOWNLOAD
+
+### Introduced in Evaluation 3
+
+#### Efficient Action (Passive Agent)
+
+TODO
+
+#### Object Preference (Passive Agent)
+
+TODO
+
+### Introduced in Evaluation 4
+
+#### Inaccessible Goal (Passive Agent)
+
+TODO
+
+#### Instrumental Action (Passive Agent)
+
+TODO
+
+#### Multiple Agents (Passive Agent)
+
+### Introduced in Evaluation 6
+
+#### Agent / Non-Agent (Passive Agent)
+
+TODO
+
+#### Social Approach (Passive Agent)
+
+TODO
+
+#### Social Imitation (Passive Agent)
+
+TODO
+
+### Introduced in Evaluation 7
+
+#### Helper / Hinderer (Passive Agent)
+
+TODO
+
+#### True / False Belief (Passive Agent)
+
+TODO
+
+## Passive Physics Tasks
+
+TODO DOWNLOAD
+
+### Introduced in Evaluation 3
+
+#### Object Permanence (Passive Physics)
+
+TODO
+
+#### Shape Constancy (Passive Physics)
+
+TODO
+
+#### Spatio-Temporal Continuity (Passive Physics)
+
+TODO
+
+### Introduced in Evaluation 3.5
+
+#### Gravity Support (Passive Physics)
+
+TODO
+
+### Introduced in Evaluation 4
+
+#### Collisions (Passive Physics)
+
+TODO
+
+## Other Tasks
+
+TODO DOWNLOAD
+
+### Introduced in Evaluation 6
+
+#### Seeing Leads to Knowing (Passive)
+
+TODO
+
+## Acknowledgements
+
+This material is based upon work supported by the Defense Advanced Research Projects Agency (DARPA) and Naval Information Warfare Center, Pacific (NIWC Pacific) under Contract No. N6600119C4030. Any opinions, findings and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the DARPA or NIWC Pacific.
+
+## Apache 2 Open Source License
+
+Code in this repository is made available by CACI (formerly Next Century Corporation) under the Apache 2 Open Source License. You may freely download, use, and modify, in whole or in part, the source code or release packages. Any restrictions or attribution requirements are spelled out in the license file. For more information about the Apache license, please visit the The Apache Software Foundation’s License FAQ.
+
+Copyright 2023 CACI (formerly Next Century Corporation)
