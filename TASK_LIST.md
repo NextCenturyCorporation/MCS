@@ -2,34 +2,111 @@
 
 Table of Content:
 - [Interactive Tasks](#interactive-tasks)
-  - [Introduced in Evaluation 3](#introduced-in-evaluation-3)
+  - [Data](#interactive-data)
+  - [Introduced in Evaluation 3](#interactive-tasks-introduced-in-evaluation-3)
     - [Retrieval - Containers](#retrieval---containers)
+    - [Retrieval - Obstacles](#retrieval---obstacles)
+    - [Retrieval - Occluders](#retrieval---occluders)
+  - [Introduced in Evaluation 4](#interactive-tasks-introduced-in-evaluation-4)
+    - [Object Permanence (Interactive)](#object-permanence-interactive)
+  - [Introduced in Evaluation 5](#interactive-tasks-introduced-in-evaluation-5)
+    - [Agent Identification](#agent-identification)
+    - [Moving Target Prediction](#moving-target-prediction)
+    - [Navigation - Holes](#navigation---holes)
+    - [Navigation - Lava](#navigation---lava)
+    - [Navigation - Ramps](#navigation---ramps)
+    - [Solidity](#solidity)
+    - [Spatial Elimination](#spatial-elimination)
+    - [Support Relations (Interactive Gravity Support)](#support-relations-interactive-gravity-support)
+    - [Tools - Symmetric](#tools---symmetric)
+  - [Introduced in Evaluation 6](#interactive-tasks-introduced-in-evaluation-6)
+  - [Introduced in Evaluation 7](#interactive-tasks-introduced-in-evaluation-7)
+- [Passive Agent Tasks](#passive-agent-tasks)
+  - [Data](#passive-agent-data)
+  - [Introduced in Evaluation 3](#passive-agent-tasks-introduced-in-evaluation-3)
+    - [Efficient Action](#efficient-action-passive-agent)
+    - [Object Preference](#object-preference-passive-agent)
+  - [Introduced in Evaluation 4](#passive-agent-tasks-introduced-in-evaluation-4)
+    - [Inaccessible Goal](#inaccessible-goal-passive-agent)
+    - [Instrumental Action](#instrumental-action-passive-agent)
+    - [Multiple Agents](#multiple-agents-passive-agent)
+  - [Introduced in Evaluation 6](#passive-agent-tasks-introduced-in-evaluation-6)
+    - [Agent / Non-Agent](#agent--non-agent-passive-agent)
+    - [Social Approach](#social-approach-passive-agent)
+    - [Social Imitation](#social-imitation-passive-agent)
+  - [Introduced in Evaluation 7](#passive-agent-tasks-introduced-in-evaluation-7)
+    - [Helper / Hinderer](#helper--hinderer-passive-agent)
+    - [True / False Belief](#true--false-belief-passive-agent)
+- [Passive Physics Tasks](#passive-physics-tasks)
+  - [Data](#passive-physics-data)
+  - [Introduced in Evaluation 3](#passive-physics-tasks-introduced-in-evaluation-3)
+    - [Object Permanence (Passive)](#object-permanence-passive-physics)
+    - [Shape Constancy](#shape-constancy-passive-physics)
+    - [Spatio-Temporal Continuity](#spatio-temporal-continuity-passive-physics)
+  - [Introduced in Evaluation 3.5](#passive-physics-tasks-introduced-in-evaluation-35)
+    - [Gravity Support (Passive)](#gravity-support-passive-physics)
+  - [Introduced in Evaluation 4](#passive-physics-tasks-introduced-in-evaluation-4)
+    - [Collisions (Passive)](#collisions-passive-physics)
+- [Other Tasks](#other-tasks)
+  - [Data](#other-data)
+  - [Introduced in Evaluation 6](#other-tasks-introduced-in-evaluation-6)
+    - [Seeing Leads to Knowing (Passive)](#seeing-leads-to-knowing-passive)
+- [Evaluation](#evaluation)
+- [Scoring](#scoring)
+- [Acknowledgements](#acknowledgements)
+- [License](#license)
 
 ## Interactive Tasks
 
+### Interactive Data
+
 TODO DOWNLOAD
 
-### Introduced in Evaluation 3
+### Interactive Tasks Introduced in Evaluation 3
 
 #### Retrieval - Containers
 
-TODO
+Details:
+
+- You start in a room containing many objects, including furniture and toys. Your goal is to find and pick up the soccer ball, located somewhere in the room.
+- Sometimes the soccer ball will be located on the floor; other times it will be located inside a closed container.
+- You can use the PickupObject action on the soccer ball to pick it up.
+- You can use the OpenObject action on a closed container to open it.
+- You can also try to use the OpenObject action on non-container objects, though it will fail.
+- The evaluation data will have some "novel" containers which did not appear in your training data.
 
 #### Retrieval - Obstacles
 
-TODO
+Details:
+
+- You start in a room containing many objects, including furniture and toys. Your goal is to find and pick up the soccer ball, located somewhere in the room.
+- The soccer ball will always be located on the floor, but sometimes it will be behind obstacle furniture: large pieces of furniture which you can see through/under but cannot navigate through (like tables and chairs).
+- You can use the PickupObject action on the soccer ball to pick it up.
+- The evaluation data will have some "novel" obstacle furniture which did not appear in your training data.
 
 #### Retrieval - Occluders
 
-TODO
+Details:
 
-### Introduced in Evaluation 4
+- You start in a room containing many objects, including furniture and toys. Your goal is to find and pick up the soccer ball, located somewhere in the room.
+- The soccer ball will always be located on the floor, but sometimes it will be hidden from your starting position's view behind occluding furniture: large pieces of furniture which you can neither see nor navigate through (like sofas and bookcases).
+- You can use the PickupObject action on the soccer ball to pick it up.
+- The evaluation data will have some "novel" occluding furniture which did not appear in your training data.
+
+### Interactive Tasks Introduced in Evaluation 4
 
 #### Object Permanence (Interactive)
 
-TODO
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/ce9a0b76-b565-46ef-8197-ce196395f356
 
-### Introduced in Evaluation 5
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/774e9b0b-4dc5-4558-bb07-83be0d8eaad8
+
+Details:
+
+- You start on a tall platform bisecting the entire room (this is a "forced choice" task). Each side of the room contains an occluder (on the floor) and throwing device (on the wall). After the scene begins, one of the throwing devices will launch a soccer ball. The soccer ball will land behind one of the occluders, hidden from your view. You will have to understand which side of the room contains the soccer ball after it is hidden from view, jump off of the platform onto that side, navigate around the occluder, and pick up the soccer ball. As a "forced choice" task, once you leave the platform, you will not be able to navigate to the other side of the room (if you've chosen incorrectly).
+- After the scene begins, you will be "frozen" (forced to only use Pass actions) until the soccer ball is launched and then lands behind an occluder.
+
+### Interactive Tasks Introduced in Evaluation 5
 
 #### Agent Identification
 
@@ -116,8 +193,8 @@ Details:
 
 |||
 |---|---|
-![spatial_elimination_eval_5_ex_1](https://github.com/NextCenturyCorporation/MCS/assets/10994382/9152594e-ca9f-43eb-a499-7b107d7fe406) |![spatial_elimination_eval_5_ex_2](https://github.com/NextCenturyCorporation/MCS/assets/10994382/63df3f27-98df-46c0-888a-fc0887ae0708)
-![spatial_elimination_eval_5_ex_3](https://github.com/NextCenturyCorporation/MCS/assets/10994382/83fa96da-fc7a-41c1-aa6a-42a4376443d8) |![spatial_elimination_eval_5_ex_4](https://github.com/NextCenturyCorporation/MCS/assets/10994382/d3897fdc-3fdf-408a-97ee-a0f6784f23eb)
+![spatial_elimination_eval_5_ex_1](https://github.com/NextCenturyCorporation/MCS/assets/10994382/9152594e-ca9f-43eb-a499-7b107d7fe406) | ![spatial_elimination_eval_5_ex_2](https://github.com/NextCenturyCorporation/MCS/assets/10994382/63df3f27-98df-46c0-888a-fc0887ae0708)
+![spatial_elimination_eval_5_ex_3](https://github.com/NextCenturyCorporation/MCS/assets/10994382/83fa96da-fc7a-41c1-aa6a-42a4376443d8) | ![spatial_elimination_eval_5_ex_4](https://github.com/NextCenturyCorporation/MCS/assets/10994382/d3897fdc-3fdf-408a-97ee-a0f6784f23eb)
 
 Details:
 
@@ -156,7 +233,7 @@ Details:
 - See the section on the new lava task for more information about using lava.
 - Please note: while only Pushing tools (or Moving them forward) will be necessary in Eval 5, future evals might require Pulling tools (or Moving them backward).
 
-### Introduced in Evaluation 6
+### Interactive Tasks Introduced in Evaluation 6
 
 #### Arithmetic and Number Comparison
 
@@ -369,7 +446,7 @@ Notes:
    - For scoring purposes, only the soccer ball on the side of the room containing the “useful tool” is considered the “target object”.
    - In Eval 6, the “useful tool” in Tool Choice scenes will always be a symmetric (rectangular-shaped) tool (not an asymmetric tool).
 
-### Introduced in Evaluation 7
+### Interactive Tasks Introduced in Evaluation 7
 
 #### Hidden Set Rotation
 
@@ -428,7 +505,11 @@ Notes:
 
 TODO DOWNLOAD
 
-### Introduced in Evaluation 3
+### Passive Agent Tasks Introduced in Evaluation 3
+
+### Passive Agent Data
+
+TODO DOWNLOAD
 
 #### Efficient Action (Passive Agent)
 
@@ -438,7 +519,7 @@ TODO
 
 TODO
 
-### Introduced in Evaluation 4
+### Passive Agent Tasks Introduced in Evaluation 4
 
 #### Inaccessible Goal (Passive Agent)
 
@@ -450,7 +531,7 @@ TODO
 
 #### Multiple Agents (Passive Agent)
 
-### Introduced in Evaluation 6
+### Passive Agent Tasks Introduced in Evaluation 6
 
 #### Agent / Non-Agent (Passive Agent)
 
@@ -464,7 +545,7 @@ TODO
 
 TODO
 
-### Introduced in Evaluation 7
+### Passive Agent Tasks Introduced in Evaluation 7
 
 #### Helper / Hinderer (Passive Agent)
 
@@ -476,9 +557,11 @@ TODO
 
 ## Passive Physics Tasks
 
+### Passive Physics Data
+
 TODO DOWNLOAD
 
-### Introduced in Evaluation 3
+### Passive Physics Tasks Introduced in Evaluation 3
 
 #### Object Permanence (Passive Physics)
 
@@ -492,13 +575,19 @@ TODO
 
 TODO
 
-### Introduced in Evaluation 3.5
+### Passive Physics Tasks Introduced in Evaluation 3.5
 
 #### Gravity Support (Passive Physics)
 
+|||||
+|---|---|---|---|
+![gravity_support_ex_01](https://github.com/NextCenturyCorporation/MCS/assets/10994382/568c3ba3-f357-44af-b740-1811d3fc9d99) | ![gravity_support_ex_02](https://github.com/NextCenturyCorporation/MCS/assets/10994382/2254e21c-7e19-4076-812f-c1a4f26cb24c) | ![gravity_support_ex_03](https://github.com/NextCenturyCorporation/MCS/assets/10994382/8eef0960-6cce-4976-a819-b3e2a807668a) | ![gravity_support_ex_04](https://github.com/NextCenturyCorporation/MCS/assets/10994382/5fad4cc8-65cf-47fa-806c-64f2cada4f24)
+![gravity_support_ex_05](https://github.com/NextCenturyCorporation/MCS/assets/10994382/f6b3cc0a-8368-4613-ac1d-675fcca03d42) | ![gravity_support_ex_06](https://github.com/NextCenturyCorporation/MCS/assets/10994382/6b81d66a-3b2f-473c-9afc-4e9960055be4) | ![gravity_support_ex_07](https://github.com/NextCenturyCorporation/MCS/assets/10994382/8ad20113-d922-4acb-b062-6ac360300d55) | ![gravity_support_ex_08](https://github.com/NextCenturyCorporation/MCS/assets/10994382/7336d2f3-6e1e-4b45-abfe-17fbb72d740a)
+![gravity_support_ex_09](https://github.com/NextCenturyCorporation/MCS/assets/10994382/6e80e487-8c0e-4fe1-adba-c8e0d13651e5) | ![gravity_support_ex_10](https://github.com/NextCenturyCorporation/MCS/assets/10994382/3b0d6c27-71f1-4f67-b26e-64640920228f) | ![gravity_support_ex_11](https://github.com/NextCenturyCorporation/MCS/assets/10994382/135e8da0-1c23-43fd-9b8e-4e4b9e25fa5f) | ![gravity_support_ex_12](https://github.com/NextCenturyCorporation/MCS/assets/10994382/26284069-4582-4448-ba12-8a7184f10a92)
+
 TODO
 
-### Introduced in Evaluation 4
+### Passive Physics Tasks Introduced in Evaluation 4
 
 #### Collisions (Passive Physics)
 
@@ -506,11 +595,21 @@ TODO
 
 ## Other Tasks
 
+### Other Data
+
 TODO DOWNLOAD
 
-### Introduced in Evaluation 6
+### Other Tasks Introduced in Evaluation 6
 
 #### Seeing Leads to Knowing (Passive)
+
+TODO
+
+## Evaluation
+
+TODO
+
+## Scoring
 
 TODO
 
@@ -518,7 +617,7 @@ TODO
 
 This material is based upon work supported by the Defense Advanced Research Projects Agency (DARPA) and Naval Information Warfare Center, Pacific (NIWC Pacific) under Contract No. N6600119C4030. Any opinions, findings and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the DARPA or NIWC Pacific.
 
-## Apache 2 Open Source License
+## License
 
 Code in this repository is made available by CACI (formerly Next Century Corporation) under the Apache 2 Open Source License. You may freely download, use, and modify, in whole or in part, the source code or release packages. Any restrictions or attribution requirements are spelled out in the license file. For more information about the Apache license, please visit the The Apache Software Foundation’s License FAQ.
 
