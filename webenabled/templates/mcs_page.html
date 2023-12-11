@@ -475,6 +475,11 @@
     }
 
     function runMultipleActions(action, totalCount) {
+        if (document.getElementById('scene-filename').innerHTML == "None - Please select a scene.") {
+            alert("Please select a scene before attempting an action.");
+            return;
+        }
+
         console.log('run multiple actions: ' + action + ' x ' + totalCount);
         processingKeypress = true;
         loadingSpinner(true);
@@ -835,7 +840,7 @@
             return;
         }
 
-        if (document.getElementById('scene-filename').innerHTML == "None") {
+        if (document.getElementById('scene-filename').innerHTML == "None - Please select a scene.") {
             alert("Please select a scene before attempting an action.");
             return;
         }
