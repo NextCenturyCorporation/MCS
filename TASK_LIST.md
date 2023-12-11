@@ -20,9 +20,22 @@ Table of Content:
     - [Support Relations (Interactive Gravity Support)](#support-relations-interactive-gravity-support)
     - [Tools - Symmetric](#tools---symmetric)
   - [Introduced in Evaluation 6](#interactive-tasks-introduced-in-evaluation-6)
+    - [Arithmetic and Number Comparison](#arithmetic-and-number-comparison)
+    - [Imitation (Interactive)](#imitation-interactive)
+    - [Occluded Trajectory and Collisions (Interactive)](#occluded-trajectory-and-collisions-interactive)
+    - [Set Rotation](#set-rotation)
+    - [Shell Game](#shell-game)
+    - [Spatial Reference](#spatial-reference)
+    - [Spatial Reorientation](#spatial-reorientation)
+    - [Tools - Asymmetric and Tool Choice](#tools---asymmetric-and-tool-choice)
   - [Introduced in Evaluation 7](#interactive-tasks-introduced-in-evaluation-7)
+    - [Hidden Set Rotation](#hidden-set-rotation)
+    - [Knowledgeable Agents](#knowledgeable-agents)
+    - [Tools - Secondary Tool Use](#tools---secondary-tool-use)
 - [Passive Agent Tasks](#passive-agent-tasks)
   - [Data](#passive-agent-data)
+  -   [Evaluation Datasets](#passive-agent-evaluation-datasets)
+  -   [Training Datasets](#passive-agent-training-datasets)
   - [Introduced in Evaluation 3](#passive-agent-tasks-introduced-in-evaluation-3)
     - [Efficient Action](#efficient-action-passive-agent)
     - [Object Preference](#object-preference-passive-agent)
@@ -32,8 +45,7 @@ Table of Content:
     - [Multiple Agents](#multiple-agents-passive-agent)
   - [Introduced in Evaluation 6](#passive-agent-tasks-introduced-in-evaluation-6)
     - [Agent / Non-Agent](#agent--non-agent-passive-agent)
-    - [Social Approach](#social-approach-passive-agent)
-    - [Social Imitation](#social-imitation-passive-agent)
+    - [Social and Instrumental Approach and Imitation](#social-and-instrumental-approach-and-imitation-passive-agent)
   - [Introduced in Evaluation 7](#passive-agent-tasks-introduced-in-evaluation-7)
     - [Helper / Hinderer](#helper--hinderer-passive-agent)
     - [True / False Belief](#true--false-belief-passive-agent)
@@ -264,7 +276,7 @@ Notes:
 - You will not receive a reward until all of the targets are picked up.
 - In Arithmetic scenes, you will be restricted to only using Pass actions until the placers (and occluders) are finished moving.
 
-#### Imitation
+#### Imitation (Interactive)
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/1536702f-b2b6-4323-9da6-fc7af4bff486
 
@@ -503,47 +515,239 @@ Notes:
 
 ## Passive Agent Tasks
 
-TODO DOWNLOAD
+### Passive Agent Overview
 
-### Passive Agent Tasks Introduced in Evaluation 3
+- The Passive Agent tasks were designed by CACI's partners at NYU. For more information about these tasks, please see their website: https://www.kanishkgandhi.com/bib
+- These are passive/VoE agent tasks. During the evaluation, your system is **required** to call `controller.end_scene()` at the end of each scene with a **continuous** plausibility `rating`, from `0.0` (completely unexpected/surprising) to `1.0` (completely expected/unsurprising). Your system should use the full range of values between `0.0` and `1.0`. Ratings between `0.0` and `1.0` indicate intermediate levels of expectedness/surprise. Your system is not required to also pass a `score`. For more information, please see the documentation here: https://nextcenturycorporation.github.io/MCS/api.html#machine_common_sense.Controller.end_scene
+- You begin standing on a platform in the corner of the room, looking down at the room with a three-quarter perspective, and observe a set of eight familiarization (a.k.a. habituation) trials and one test trial. Your VoE (plausibility rating) should be based on the “expectedness” (or “unexpectedness”) of the test trial, based on your system’s prior training and the familiarization trials.
+- Goal objects share a common set of colors (azure, brown, chartreuse, cyan, grey, indigo, navy, olive, orange, rose, springgreen, teal, violet, yellow) and shapes (spheres, cylinders, cubes, cones, pyramids, frustums). Agent and non-agent entities share a common set of colors (blue, goldenrod, green, purple) and shapes (blobs).
+- All training scenes are either "plausible/expected" or "no expectation". Training scenes also have nine trials, but they aren’t always conceptually separated into “familiarization trials” and “test trials”. Please note that some evaluation tasks have multiple different types of scenes, all of which are described below and labelled appropriately in the datasets.
+- Unknown to your systems, all Passive Agent scenes are generated in pairs: an "expected" scene and an "unexpected" scene; an "expected" and a "no-expectation" scene; or an "unexpected" scene and a "no-expectation" scene. After all evaluation scenes are run, our [scoring software](#scoring) compares the ratings returned by the your systems for each pair of scenes; the pair is marked as "correct" in our performance assessment if the correct scene has a higher rating than the other scene.
+    - For expected/unexpected pairs, the expected scene should have a higher rating than the unexpected scene.
+    - For expected/no-expectation pairs, the expected scene should have a higher rating than the no-expectation scene.
+    - For unexpected/no-expectation pairs, the no-expectation scene should have a higher rating than the unexpected scene.
 
 ### Passive Agent Data
 
-TODO DOWNLOAD
+#### Passive Agent Evaluation Datasets
+
+- Eval 7 dataset (1,000 pairs of each Eval 6 and Eval 7 task): https://eval-7.s3.amazonaws.com/eval_7_passive_agents.zip
+- Eval 7 extra data: https://eval-7.s3.amazonaws.com/eval_7_passive_agents_extra.zip
+- Eval 6 dataset (includes some older tasks): https://eval-6.s3.amazonaws.com/eval_6_passive_agent.zip
+- Eval 5 dataset (includes all tasks designed up to this point): https://eval-5.s3.amazonaws.com/eval_5_passive_agent.zip
+- Debug scene files for the MCS UI:
+    - Eval 7: https://eval-7.s3.amazonaws.com/eval_7_passive_agents_debug.zip
+    - Eval 6: https://eval-6.s3.amazonaws.com/eval_6_passive_agent_debug.zip
+    - Eval 5: https://eval-5.s3.amazonaws.com/eval_5_passive_agent_debug.zip
+ 
+#### Passive Agent Training Datasets
+
+The "Single Object" training data is relevant to all Passive Agent tasks. Please see the tasks listed below to find the links to one or more training datasets specific to each task.
+
+##### Single Object Training Data
+
+https://eval-6.s3.amazonaws.com/eval_6_passive_agent_training_single_object.zip
+
+- Each trial shows an agent (A1) approaching a goal object (O1).
+- When an agent contacts a goal object, all goal objects are highlighted (color changes to red), as a secondary indication of the successful contact.
+
+TODO VIDEOS
+
+### Passive Agent Tasks Introduced in Evaluation 3
 
 #### Efficient Action (Passive Agent)
 
-TODO
+Summary:
+
+Passive Agent: Efficient Action tasks require a common-sense understanding of agency. This is a “passive agents” task: you must watch (using only Pass actions) as an agent (blob shape) moves in a grid world over 8 “familiarization” trials and a “test” trial (the world “resets” between each trial using the EndHabituation action). The trials depict the agent approaching an object; in the test trial, some of the obstacles are removed. You must then determine whether the test trial is “expected” (unsurprising) or “unexpected” (surprising) based on whether or not the agent moves in an efficient path (agents should move efficiently).
+
+TODO VIDEOS
+
+##### Efficient Action Training Data
+
+- Time Control: https://eval-5.s3.amazonaws.com/eval_5_passive_agent_efficient_action_time_training_scenes_v2.zip
+- Path Control: https://eval-5.s3.amazonaws.com/eval_5_passive_agent_efficient_action_path_training_scenes_v2.zip
+- Irrational: https://eval-5.s3.amazonaws.com/eval_5_passive_agent_efficient_action_irrational_training_scenes_v2.zip
 
 #### Object Preference (Passive Agent)
 
-TODO
+Summary:
+
+Passive Agent: Object Preference tasks require a common-sense understanding of agency. This is a “passive agents” task: you must watch (using only Pass actions) as an agent (blob shape) moves in a grid world over 8 “familiarization” trials and a “test” trial (the world “resets” between each trial using the EndHabituation action). The familizarization trials depict the agent approaching a specific object (the same object in all 8 familiarization trials). You must then determine whether the test trial is “expected” (unsurprising) or “unexpected” (surprising) based on whether or not the agent continued to act with the same preferences it showed during the familiarization trials (approaching the same object).
+
+TODO VIDEOS
+
+##### Object Preference Training Data
+
+https://eval-6.s3.amazonaws.com/eval_6_passive_agent_training_object_preference.zip
+
+- Each trial shows an agent (A1) approaching a goal object (O1), ignoring a second goal object (O2).
+- When an agent contacts a goal object, all goal objects are highlighted (color changes to red), as a secondary indication of the successful contact.
 
 ### Passive Agent Tasks Introduced in Evaluation 4
 
 #### Inaccessible Goal (Passive Agent)
 
-TODO
+Summary:
+
+Passive Agent: Inaccessible Goal tasks require a common-sense understanding of agency. This is a “passive agents” task: you must watch (using only Pass actions) as an agent (blob shape) moves in a grid world over 8 “familiarization” trials and a “test” trial (the world “resets” between each trial using the EndHabituation action). The familizarization trials depict the agent retrieving a red triangular "key" object; inserting that key into a "lock" in the green wall, causing the green wall to disappear; and then approaching an "goal" object that was previously blocked by the green wall, but is now accessible. You must then determine whether the test trial is “expected” (unsurprising) or “unexpected” (surprising) based on whether or not the agent used the "key" object when it was necessary to approach the "goal" object (if the "goal" object is not blocked by the green wall, then using the "key" object is unnecessary).
+
+TODO VIDEOS
+
+##### Inaccessible Goal Training Data
+
+https://eval-5.s3.amazonaws.com/eval_5_passive_agent_inaccessible_goal_training_scenes_v2.zip
 
 #### Instrumental Action (Passive Agent)
 
-TODO
+Summary:
+
+Passive Agent: Instrumental Action tasks require a common-sense understanding of agency. This is a “passive agents” task: you must watch (using only Pass actions) as an agent (blob shape) moves in a grid world over 8 “familiarization” trials and a “test” trial (the world “resets” between each trial using the EndHabituation action). The familizarization trials depict the agent approaching a specific object (the same object in all 8 familiarization trials); in the test trial, obstacles may be moved to block a path to the preferred object. You must then determine whether the test trial is “expected” (unsurprising) or “unexpected” (surprising) based on whether or not the agent can successfully navigate to its preferred object (approaching a different object is unsurprising if the preferred object is blocked).
+
+TODO VIDEOS
+
+##### Instrumental Action Training Data
+
+- Blocking Barriers: https://eval-5.s3.amazonaws.com/eval_5_passive_agent_instrumental_action_blocking_barriers_training_scenes_v2.zip
+- Inconsequential Barriers: https://eval-5.s3.amazonaws.com/eval_5_passive_agent_instrumental_action_inconsequential_barriers_training_scenes_v2.zip
+- No Barriers: https://eval-5.s3.amazonaws.com/eval_5_passive_agent_instrumental_action_no_barriers_training_scenes_v2.zip
 
 #### Multiple Agents (Passive Agent)
+
+Summary:
+
+Passive Agent: Multiple Agents tasks require a common-sense understanding of agency. This is a “passive agents” task: you must watch (using only Pass actions) as an agent (blob shape) moves in a grid world over 8 “familiarization” trials and a “test” trial (the world “resets” between each trial using the EndHabituation action). The familizarization trials depict the agent approaching a specific object (the same object in all 8 familiarization trials); in the test trial, either the same agent or a new agent will approach a different object. You must then determine whether the test trial is “more expected” (unsurprising) or “more unexpected” (surprising) based on whether or not the agent with a known preference approached a different object (it is unsurprising for a new agent to have a different preference).
+
+TODO VIDEOS
+
+##### Multiple Agents Training Data
+
+https://eval-6.s3.amazonaws.com/eval_6_passive_agent_training_multiple_agents.zip
+
+- Each trial shows an agent (either A1 or A2) approaching a goal object (O1).
+- The same object (O1) appears in each trial, but only one of the two agents (A1, A2).
+- When an agent contacts a goal object, all goal objects are highlighted (color changes to red), as a secondary indication of the successful contact.
+- In the evaluation data, multiple goal objects will appear in each trial, and the different agents may have different preferences.
 
 ### Passive Agent Tasks Introduced in Evaluation 6
 
 #### Agent / Non-Agent (Passive Agent)
 
-TODO
+Summary:
 
-#### Social Approach (Passive Agent)
+Passive Agent: Agent/Non-Agent tasks require a common-sense understanding of agency. This is a “passive agents” task: you must watch (using only Pass actions) as an ambiguous agent-like entity (blob shape) moves in a grid world over 8 “familiarization” trials and a “test” trial (the world “resets” between each trial using the EndHabituation action). The familiarization trials depict the entity approaching a specific object (the same object in all 8 familiarization trials). The entity is either an agent or a non-agent: agents move autonomously, while non-agents are moved because they are hit by the spinning “paddle”. You must then determine whether the test trial is “more expected” (unsurprising) or “more unexpected” (surprising) based on how the entity acts: if the entity is an agent, it should continue to act with the same preferences it showed during the familiarization trials (approaching the same object); if the entity is a non-agent, then it doesn’t have preferences, because its movement is controlled by the paddle, so it’s just as likely to approach either object.
 
-TODO
+Details:
 
-#### Social Imitation (Passive Agent)
+- All of these scenes (except "Collect" training scenes) have a “paddle” (black wall, consistent height) and an “occluder” (white wall, differing height). The paddle is a mechanism that is constantly spinning and does not have agency. The occluder can be seen “out-of-the-way” for the first eight trials, but then is randomly positioned “in-the-way” for the ninth trial, partially blocking your view of what is happening.
+- All of these scenes have either an “agent” or a “non-agent”. Since the agent and the non-agent share the same set of colors and “blob” models, your system must observe their behavior to differentiate them during the evaluation: specifically, agents have agency and preferences.
+- If an agent shows a preference for a specific goal object during the familiarization trials (by approaching the goal object), it is expected/plausible for the agent to show the same preference (for the same goal object) during the test trial, and unexpected/implausible for the agent to show a different preference (for a different goal object). As in previous evaluations, your system should return a plausibility / expectedness rating that’s very high for “expected” scenes (1.0 = definitely expected) and very low for “unexpected” scenes (0.0 = definitely unexpected).
+- If a non-agent shows a “preference” for a specific goal object during the familiarization trials (by “approaching” the goal object, after being hit by the paddle), then there is no expectation for the non-agent to show either the same preference or a different preference, because it does not have agency. For “no expectation” scenes, your system should return a plausibility / expectedness rating that’s lower than for “expected” scenes but higher than for “unexpected” scenes.
 
-TODO
+Example Evaluation Scenes:
+
+TODO VIDEOS
+
+##### Agent / Non-Agent Training Data
+
+https://eval-6.s3.amazonaws.com/eval_6_passive_agent_training_agent_nonagent_tasks.zip
+
+Agent One Goal Training Data:
+
+- Each trial shows an agent (A1) approaching a goal object (O1).
+- When an agent contacts a goal object, all goal objects are highlighted (color changes to red), as a secondary indication of the successful contact.
+- The agent and the paddle do not come into contact. (The agent has agency and can move itself.)
+
+TODO VIDEOS
+
+Agent Preference Training Data:
+
+- Each trial shows an agent (A1) approaching a goal object (O1), ignoring a second goal object (O2).
+- When an agent contacts a goal object, all goal objects are highlighted (color changes to red), as a secondary indication of the successful contact.
+- The agent and the paddle do not come into contact. (The agent has agency and can move itself.)
+
+TODO VIDEOS
+
+Collect Training Data:
+
+- Each trial shows an agent (A1) approaching a goal object (O1). Similar to the Single Object dataset (see above).
+- When an agent contacts a goal object, all goal objects are highlighted (color changes to red), as a secondary indication of the successful contact.
+- No paddle or occluder.
+
+TODO VIDEOS
+
+Non-Agent One Goal Training Data:
+
+- Each trial shows a non-agent (N1) being hit by the paddle in a realistic direction and stopping when it contacts a goal object (O1) or a wall.
+- When a non-agent contacts a goal object, all goal objects are highlighted (color changes to red), as a secondary indication of the successful contact.
+- While the non-agent (N1) sometimes contacts the goal object (O1) in these trials, it cannot control its own movement, because it does not have agency.
+
+TODO VIDEOS
+
+Non-Agent "Preference" Training Data:
+
+- Each trial shows a non-agent (N1) being hit by the paddle in a realistic direction and stopping when it contacts a goal object (O1), ignore a second goal object (O2).
+- When a non-agent contacts a goal object, all goal objects are highlighted (color changes to red), as a secondary indication of the successful contact.
+- While the non-agent (N1) always contacts the goal object (O1) in these trials, it cannot control its own movement, because it does not have agency.
+
+TODO VIDEOS
+
+#### Social and Instrumental Approach and Imitation (Passive Agent)
+
+Summary:
+
+Passive Agent: Appraoch and Imitation tasks require a common-sense understanding of agency. This is a “passive agents” task: you must watch (using only Pass actions) as three agents (blob shapes) move in a grid world over 8 “familiarization” trials and a “test” trial (the world “resets” between each trial using the EndHabituation action). 
+
+In the Approach tasks, the familiarization trials depict an agent approaching another specific agent (the same agent in all 8 familiarization trials). You must then determine whether the test trial is “expected” (unsurprising) or “unexpected” (surprising) based on whether or not the agent continued to act with the same preferences it showed during the familiarization trials (imitating the movement pattern of the other agent it approached).
+
+In the Imitation tasks, the familiarization trials depict the three agents moving in specific patterns, which are consistent across all 8 trials; two of the agents always have the same movement pattern. You must then determine whether the test trial is “expected” (unsurprising) or “unexpected” (surprising) based on whether or not the agent continued to act with the same preferences it showed during the familiarization trials (approaching the other agent who had the same movement pattern).
+
+Details:
+
+- All of these scenes have three agents with different shapes and colors: two agents move in different patterns (like an L-shape and a C-shape), and a third agent imitates one of the first two agents by moving in the same pattern as that agent.
+- The “Social Approach” category shows an agent approaching another agent, and then imitating it. The “Social Imitation” category shows an agent imitating another agent, and then approaching it. If an agent shows a preference for another agent during the familiarization trials (by approaching or imitating that agent), it is expected/plausible for the agent to show the same preference (by approaching or imitating the same agent) during the test trial, and unexpected/implausible for the agent to show a different preference (by approaching or imitating a different agent). As in previous evaluations, your system should return a plausibility / expectedness rating that’s very high for “expected” scenes (1.0 = definitely expected) and very low for “unexpected” scenes (0.0 = definitely unexpected).
+- The “Instrumental Approach” and “Instrumental Imitation” categories introduce a goal object that the agent contacts while imitating a movement pattern. If an agent appears to show a preference for another agent (by approaching or imitating that agent), but simultaneously contacts a goal object, then there is no expectation for that agent to show either the same preference or a different preference, because it is impossible to know whether the agent is trying to imitate another agent or contact the goal object. For “no expectation” scenes, your system should return a plausibility / expectedness rating that’s lower than for “expected” scenes but higher than for “unexpected” scenes.
+
+Example Evaluation Scenes:
+
+TODO VIDEOS
+
+##### Social and Instrumental Approach and Imitation Training Data
+
+https://eval-6.s3.amazonaws.com/eval_6_passive_agent_training_approach_imitation_tasks.zip
+
+Social Approach:
+
+- Each trial shows three agents (A1, A2, A3).
+- Each familiarization trial shows agent A1 approaching agent A2, ignoring agent A3.
+- The test trial shows agent A2 and agent A3 moving in a different pattern, and then agent A1 moving in the same pattern as agent A2.
+
+TODO VIDEOS
+
+Instrumental Approach:
+
+- Like Social Approach (see above), but when agent A1 moves during the test trial, it contacts a goal object (O1) while moving in its pattern.
+- When an agent contacts a goal object, all goal objects are highlighted (color changes to red), as a secondary indication of the successful contact.
+
+TODO VIDEOS
+
+Social Imitation:
+
+- Each trial shows three agents (A1, A2, A3).
+- Each familiarization trial shows either agent A1 or agent A2 moving in a different pattern, and then agent A3 moving in the same pattern as either agent A1 or agent A2.
+- Agent A1’s movement pattern never changes across trials (assuming it moves during that trial). The same is true for agent A2’s and agent A3’s movement patterns.
+- The test trial shows agent A3 approaching the other agent (either A1 or A2) who has the same movement pattern.
+
+TODO VIDEOS
+
+Instrumental Imitation:
+
+- Like Social Imitation (see above), but when agent A3 moves, it contacts a goal object (O1) while moving in its pattern.
+- Unlike Social Imitation, the test trial shows agent A3 approach goal object O1 rather than another agent.
+- When an agent contacts a goal object, all goal objects are highlighted (color changes to red), as a secondary indication of the successful contact.
+- Some trials show agent A3 contacting goal object O1 multiple times. When an agent contacts a goal object a second time, its highlight is deactivated (color changes back to original color).
+
+TODO VIDEOS
 
 ### Passive Agent Tasks Introduced in Evaluation 7
 
@@ -565,19 +769,35 @@ TODO DOWNLOAD
 
 #### Object Permanence (Passive Physics)
 
-TODO
+Summary:
+
+Object Permanence tasks require a common-sense understanding of object permanence. This is a “passive physics” task: you must watch objects moving in a scene (using only Pass actions) and determine whether the simulation was “plausible” (realistic) or “implausible” (unrealistic) based on whether or not objects spontaneously appear and/or disappear.
+
+TODO VIDEOS
 
 #### Shape Constancy (Passive Physics)
 
-TODO
+Summary:
+
+Shape Constancy tasks require a common-sense understanding of shape constancy. This is a “passive physics” task: you must watch objects moving in a scene (using only Pass actions) and determine whether the simulation was “plausible” (realistic) or “implausible” (unrealistic) based on whether or not objects spontaneously transform into different shapes.
+
+TODO VIDEOS
 
 #### Spatio-Temporal Continuity (Passive Physics)
 
-TODO
+Summary:
+
+Spatio-Temporal Continuity tasks require a common-sense understanding of spatial and temporal continuity. This is a “passive physics” task: you must watch objects moving a scene (using only Pass actions) and determine whether the simulation was “plausible” (realistic) or “implausible” (unrealistic) based on whether or not objects spontaneously teleport across the room.
+
+TODO VIDEOS
 
 ### Passive Physics Tasks Introduced in Evaluation 3.5
 
 #### Gravity Support (Passive Physics)
+
+Summary:
+
+Passive Gravity Support tasks require a common-sense understanding of gravity. This is a “passive physics” task: you must watch objects moving in a scene (using only Pass actions) and determine whether the simulation was “plausible” (realistic) or “implausible” (unrealistic) based on whether or not objects are properly supported.
 
 |||||
 |---|---|---|---|
@@ -585,13 +805,15 @@ TODO
 ![gravity_support_ex_05](https://github.com/NextCenturyCorporation/MCS/assets/10994382/f6b3cc0a-8368-4613-ac1d-675fcca03d42) | ![gravity_support_ex_06](https://github.com/NextCenturyCorporation/MCS/assets/10994382/6b81d66a-3b2f-473c-9afc-4e9960055be4) | ![gravity_support_ex_07](https://github.com/NextCenturyCorporation/MCS/assets/10994382/8ad20113-d922-4acb-b062-6ac360300d55) | ![gravity_support_ex_08](https://github.com/NextCenturyCorporation/MCS/assets/10994382/7336d2f3-6e1e-4b45-abfe-17fbb72d740a)
 ![gravity_support_ex_09](https://github.com/NextCenturyCorporation/MCS/assets/10994382/6e80e487-8c0e-4fe1-adba-c8e0d13651e5) | ![gravity_support_ex_10](https://github.com/NextCenturyCorporation/MCS/assets/10994382/3b0d6c27-71f1-4f67-b26e-64640920228f) | ![gravity_support_ex_11](https://github.com/NextCenturyCorporation/MCS/assets/10994382/135e8da0-1c23-43fd-9b8e-4e4b9e25fa5f) | ![gravity_support_ex_12](https://github.com/NextCenturyCorporation/MCS/assets/10994382/26284069-4582-4448-ba12-8a7184f10a92)
 
-TODO
-
 ### Passive Physics Tasks Introduced in Evaluation 4
 
 #### Collisions (Passive Physics)
 
-TODO
+Summary:
+
+Passive Collision tasks require a common-sense understanding of collision physics. This is a “passive physics” task: you must watch objects moving in a scene (using only Pass actions) and determine whether the simulation was “plausible” (realistic) or “implausible” (unrealistic) based on whether or not objects properly collide with one another.
+
+TODO VIDEOS
 
 ## Other Tasks
 
@@ -603,15 +825,21 @@ TODO DOWNLOAD
 
 #### Seeing Leads to Knowing (Passive)
 
+Summary:
+
+Seeing Leads to Knowing tasks require a common-sense understanding of agency. This is a “passive” task: you must watch (using only Pass actions) as a soccer ball is deposited into a container and an agent approaches a container, and then determine whether the simulation was “plausible” (realistic) or “implausible” (unrealistic) based on whether or not the agent acted with common-sense reasoning (if the agent saw the ball being deposited, it should approach the container holding the ball; otherwise it should approach one of the containers behind it, because one of those containers holds the ball).
+
+Details:
+
 TODO
 
 ## Evaluation
 
-TODO
+Running of evaluation scenes is done by our `mcs-pipeline` software: https://github.com/NextCenturyCorporation/mcs-pipeline
 
 ## Scoring
 
-TODO
+Scoring of evaluation scenes is done by our `mcs-ingest` software: https://github.com/NextCenturyCorporation/mcs-ingest
 
 ## Acknowledgements
 
