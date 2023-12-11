@@ -1,0 +1,260 @@
+﻿[
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "id": "tool",
+                "mass": 4.25,
+                "position_x": -5.0,
+                "position_z": -0.0,
+                "rotation_y": 285,
+                "shape": "tool"
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -5.0,
+        "position_z": -1.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 40,
+        "step_number": 0,
+        "structural_objects": [
+            {
+                "id": "platform",
+                "mass": 2875.0,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 0.0,
+                "shape": "structural"
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "id": "target_soccer_ball",
+                "mass": 2.0,
+                "position_x": 0.0,
+                "position_z": 10.0,
+                "rotation_y": 0.0,
+                "shape": "ball"
+            },
+            {
+                "id": "tool",
+                "mass": 4.25,
+                "position_x": -5.0,
+                "position_z": -0.0,
+                "rotation_y": 280,
+                "shape": "tool"
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -5.0,
+        "position_z": -1.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 40,
+        "step_number": 1,
+        "structural_objects": [
+            {
+                "id": "platform",
+                "mass": 2875.0,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 0.0,
+                "shape": "structural"
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "id": "target_soccer_ball",
+                "mass": 2.0,
+                "position_x": 0.0,
+                "position_z": 10.0,
+                "rotation_y": 0.0,
+                "shape": "ball"
+            },
+            {
+                "id": "tool",
+                "mass": 4.25,
+                "position_x": -5.0,
+                "position_z": -0.0,
+                "rotation_y": 280,
+                "shape": "tool"
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -5.0,
+        "position_z": -1.0,
+        "return_status": "OBSTRUCTED",
+        "rotation_y": 40,
+        "step_number": 2,
+        "structural_objects": [
+            {
+                "id": "platform",
+                "mass": 2875.0,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 0.0,
+                "shape": "structural"
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "id": "target_soccer_ball",
+                "mass": 2.0,
+                "position_x": 0.0,
+                "position_z": 10.0,
+                "rotation_y": 0.0,
+                "shape": "ball"
+            },
+            {
+                "id": "tool",
+                "mass": 4.25,
+                "position_x": -5.0,
+                "position_z": -0.0,
+                "rotation_y": 280,
+                "shape": "tool"
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -5.0,
+        "position_z": -1.0,
+        "return_status": "OBSTRUCTED",
+        "rotation_y": 40,
+        "step_number": 3,
+        "structural_objects": [
+            {
+                "id": "platform",
+                "mass": 2875.0,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 0.0,
+                "shape": "structural"
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "id": "target_soccer_ball",
+                "mass": 2.0,
+                "position_x": 0.0,
+                "position_z": 10.0,
+                "rotation_y": 0.0,
+                "shape": "ball"
+            },
+            {
+                "id": "tool",
+                "mass": 4.25,
+                "position_x": -5.0,
+                "position_z": -0.0,
+                "rotation_y": 285,
+                "shape": "tool"
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -5.0,
+        "position_z": -1.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 40,
+        "step_number": 4,
+        "structural_objects": [
+            {
+                "id": "platform",
+                "mass": 2875.0,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 0.0,
+                "shape": "structural"
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "id": "target_soccer_ball",
+                "mass": 2.0,
+                "position_x": 0.0,
+                "position_z": 10.0,
+                "rotation_y": 0.0,
+                "shape": "ball"
+            },
+            {
+                "id": "tool",
+                "mass": 4.25,
+                "position_x": -5.0,
+                "position_z": -0.0,
+                "rotation_y": 280,
+                "shape": "tool"
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -5.0,
+        "position_z": -1.0,
+        "return_status": "SUCCESSFUL",
+        "rotation_y": 40,
+        "step_number": 5,
+        "structural_objects": [
+            {
+                "id": "platform",
+                "mass": 2875.0,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 0.0,
+                "shape": "structural"
+            }
+        ],
+        "structural_objects_count": 6
+    },
+    {
+        "head_tilt": 10,
+        "objects": [
+            {
+                "id": "target_soccer_ball",
+                "mass": 2.0,
+                "position_x": 0.0,
+                "position_z": 10.0,
+                "rotation_y": 0.0,
+                "shape": "ball"
+            },
+            {
+                "id": "tool",
+                "mass": 4.25,
+                "position_x": -5.0,
+                "position_z": -0.0,
+                "rotation_y": 280,
+                "shape": "tool"
+            }
+        ],
+        "objects_count": 1,
+        "position_x": -5.0,
+        "position_z": -1.0,
+        "return_status": "OBSTRUCTED",
+        "rotation_y": 40,
+        "step_number": 6,
+        "structural_objects": [
+            {
+                "id": "platform",
+                "mass": 2875.0,
+                "position_x": 0.0,
+                "position_z": 0.0,
+                "rotation_y": 0.0,
+                "shape": "structural"
+            }
+        ],
+        "structural_objects_count": 6
+    }
+]
