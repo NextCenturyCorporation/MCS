@@ -1,0 +1,85 @@
+{
+  "name": "platform should obstruct RotateObject on tool",
+  "objects": [
+    {
+      "id": "tool",
+      "type": "tool_rect_0_50_x_9_00",
+      "materials": ["UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_36"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -5.0,
+            "y": 0.15,
+            "z": 0.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": -75,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "platform",
+      "type": "cube",
+      "mass": 2875,
+      "materials": ["AI2-THOR/Materials/Walls/RedDrywall"],
+      "kinematic": true,
+      "structure": true,
+      "lips": {
+        "front": false,
+        "back": false,
+        "left": false,
+        "right": false
+      },
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0,
+            "y": 0.5,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 20.0
+          }
+        }
+      ]
+    }
+  ],
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall4Tiled",
+  "floorMaterial": "AI2-THOR/Materials/Fabrics/Carpet3",
+  "performerStart": {
+    "position": {
+      "x": -5.0,
+      "y": 0.0,
+      "z": -1.0
+    },
+    "rotation": {
+      "x": 10.0,
+      "y": 40.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 20.0,
+    "y": 3.0,
+    "z": 20.0
+  },
+  "wallMaterial": "AI2-THOR/Materials/Walls/DrywallGreen"
+}

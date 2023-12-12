@@ -1,0 +1,6 @@
+RotateObject,clockwise=False,objectId=tool
+RotateObject,clockwise=False,objectId=tool
+RotateObject,clockwise=False,objectId=tool
+RotateObject,clockwise=True,objectId=tool
+RotateObject,clockwise=False,objectId=tool
+RotateObject,clockwise=False,objectId=tool
