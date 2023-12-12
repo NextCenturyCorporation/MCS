@@ -12,13 +12,12 @@ Table of Content:
   - [Introduced in Evaluation 5](#interactive-tasks-introduced-in-evaluation-5)
     - [Agent Identification](#agent-identification)
     - [Moving Target Prediction](#moving-target-prediction)
-    - [Navigation - Holes](#navigation---holes)
-    - [Navigation - Lava](#navigation---lava)
+    - [Navigation - Holes and Lava](#navigation---holes-and-lava)
     - [Navigation - Ramps](#navigation---ramps)
     - [Solidity](#solidity)
     - [Spatial Elimination](#spatial-elimination)
     - [Support Relations (Interactive Gravity Support)](#support-relations-interactive-gravity-support)
-    - [Tools - Symmetric](#tools---symmetric)
+    - [Tools - Symmetric Tool Use](#tools---symmetric-tool-use)
   - [Introduced in Evaluation 6](#interactive-tasks-introduced-in-evaluation-6)
     - [Arithmetic and Number Comparison](#arithmetic-and-number-comparison)
     - [Imitation (Interactive)](#imitation-interactive)
@@ -27,15 +26,15 @@ Table of Content:
     - [Shell Game](#shell-game)
     - [Spatial Reference](#spatial-reference)
     - [Spatial Reorientation](#spatial-reorientation)
-    - [Tools - Asymmetric and Tool Choice](#tools---asymmetric-and-tool-choice)
+    - [Tools - Asymmetric Tool Use and Tool Choice](#tools---asymmetric-tool-use-and-tool-choice)
   - [Introduced in Evaluation 7](#interactive-tasks-introduced-in-evaluation-7)
     - [Hidden Set Rotation](#hidden-set-rotation)
     - [Knowledgeable Agents](#knowledgeable-agents)
     - [Tools - Secondary Tool Use](#tools---secondary-tool-use)
 - [Passive Agent Tasks](#passive-agent-tasks)
   - [Data](#passive-agent-data)
-  -   [Evaluation Datasets](#passive-agent-evaluation-datasets)
-  -   [Training Datasets](#passive-agent-training-datasets)
+    - [Evaluation Datasets](#passive-agent-evaluation-datasets)
+    - [Training Datasets](#passive-agent-training-datasets)
   - [Introduced in Evaluation 3](#passive-agent-tasks-introduced-in-evaluation-3)
     - [Efficient Action](#efficient-action-passive-agent)
     - [Object Preference](#object-preference-passive-agent)
@@ -65,6 +64,7 @@ Table of Content:
     - [Seeing Leads to Knowing (Passive)](#seeing-leads-to-knowing-passive)
 - [Evaluation](#evaluation)
 - [Scoring](#scoring)
+  - [Ambiguous and Control Trials](#ambiguous-and-control-trials)
 - [Acknowledgements](#acknowledgements)
 - [License](#license)
 
@@ -78,6 +78,10 @@ TODO DOWNLOAD
 
 #### Retrieval - Containers
 
+Summary:
+
+Container Retrieval tasks require a common-sense understanding of containment. You must find the soccer ball, which may or may not be hidden inside a container (use OpenObject to open a closed container), and then use PickupObject on the ball to pick it up.
+
 Details:
 
 - You start in a room containing many objects, including furniture and toys. Your goal is to find and pick up the soccer ball, located somewhere in the room.
@@ -89,6 +93,10 @@ Details:
 
 #### Retrieval - Obstacles
 
+Summary:
+
+Obstacle Retrieval tasks require a common-sense understanding of occlusion. You must find the soccer ball, which may or may not be hidden behind “obstacle” furniture (furniture which you can see through, but cannot walk through), and then use PickupObject on the ball to pick it up, which completes the scenario.
+
 Details:
 
 - You start in a room containing many objects, including furniture and toys. Your goal is to find and pick up the soccer ball, located somewhere in the room.
@@ -97,6 +105,10 @@ Details:
 - The evaluation data will have some "novel" obstacle furniture which did not appear in your training data.
 
 #### Retrieval - Occluders
+
+Summary:
+
+Occluder Retrieval tasks require a common-sense understanding of occlusion. You must find the soccer ball, which may or may not be hidden behind occluding furniture (furniture which you can neither see through nor walk through), and then use PickupObject on the ball to pick it up, which completes the scenario.
 
 Details:
 
@@ -108,6 +120,10 @@ Details:
 ### Interactive Tasks Introduced in Evaluation 4
 
 #### Object Permanence (Interactive)
+
+Summary:
+
+Interactive Object Permanence tasks require a common-sense understanding of object permanence. You must watch (using the Pass action) as a soccer ball is tossed through the air and lands hidden behind an occluder; you must then determine which side of the room contains the ball, find it, and use PickupObject on it, which completes the scenario. This is a “forced choice” task: once you walk off the platform onto one side of the room, you are unable to move to the other side of the room.
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/ce9a0b76-b565-46ef-8197-ce196395f356
 
@@ -121,6 +137,10 @@ Details:
 ### Interactive Tasks Introduced in Evaluation 5
 
 #### Agent Identification
+
+Summary:
+
+Agent Identification tasks require a common-sense understanding of agency. You must identify the agent, approach it, use InteractWithAgent on the agent to request the soccer ball, and then use PickupObject on the ball once the agent produces it which completes the scenario. This is a “forced choice” task: once you walk off the platform onto one side of the room, you are unable to move to the other side of the room.
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/d9f7e054-8d46-467a-8d16-dcf126af8a81
 
@@ -143,6 +163,10 @@ Details:
 
 #### Moving Target Prediction
 
+Summary:
+
+Moving Target Prediction tasks require a common-sense understanding of trajectory. You are in a room with lava on both sides and a “safe zone” in the center. After spinning around to see the entire room (using the RotateRight action), you watch (using the Pass action) as a soccer ball is launched across the floor, toward the “safe zone”. You must move to intercept the ball and use PickupObject on it before it rolls into the lava and out of your reach. Walking into the lava immediately ends the scene (therefore failing the scenario).
+
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/22b4c78f-7eef-44a4-8e75-82306f12dc09
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/8b13cb6d-7fdd-48d9-94d4-9ba95ae6b073
@@ -159,23 +183,28 @@ Details:
 - You will start on a platform so you can get a good view of the entire room, but can walk off the platform at any time as normal.
 - See “Navigation: Lava” for more information on adjusting our lava settings for training.
 
-#### Navigation - Holes
+#### Navigation - Holes and Lava
+
+Summary:
+
+Hole and Lava Navigation tasks require a common-sense understanding of navigation in a dangerous environment. You must walk through a room full of holes or lava in order to find the soccer ball, and then use PickupObject on the ball to pick it up, which completes the scenario. Walking into a hole will make it impossible to reach the ball (you fall in and cannot escape). Walking into the lava immediately ends the scene (therefore failing the scenario). Sometimes the ball is on the floor, and sometimes an agent is holding the ball instead (use InteractWithAgent on the agent to request the soccer ball).
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/a72a4686-f3b9-4667-972c-e1be53152c00
 
 Details:
 
-- If you move too close to a hole, you’ll fall in, and won’t be able to get out.
 - Your AI will begin on a platform so it has a good view of the entire room before moving.
-
-#### Navigation - Lava
-
-Details:
-
+- If you move too close to a hole, you’ll fall in, and won’t be able to get out.
 - Stepping too close to the lava will force you to immediately end the scene (you will only be allowed to use the “EndScene” action if you try to call the step function, or you can call end_scene yourself). This will be what happens during the evaluation. You can override the default setting using the steps_allowed_in_lava config property: https://nextcenturycorporation.github.io/MCS/install.html#steps-allowed-in-lava 
 - Stepping too close to the lava will give you an insurmountably large reward penalty. You will always receive this penalty, even if you must immediately end the scene due to the steps_allowed_in_lava setting (see above). You can override the default setting using the lava_penalty config property: https://nextcenturycorporation.github.io/MCS/install.html#lava-penalty 
-- Stepping too close to the lava will adjust the haptic_feedback and steps_in_lava properties of the StepMetadata output returned by that action step: haptic_feedback will be {"on_lava": true} and steps_in_lava will increase by one. https://nextcenturycorporation.github.io/MCS/api.html#machine_common_sense.StepMetadata 
-- Your AI will begin on a platform so it has a good view of the entire room before moving.
+- Stepping too close to the lava will adjust the haptic_feedback and steps_in_lava properties of the StepMetadata output returned by that action step: haptic_feedback will be {"on_lava": true} and steps_in_lava will increase by one. https://nextcenturycorporation.github.io/MCS/api.html#machine_common_sense.StepMetadata
+- Use the InteractWithAgent action to facilitates the request for the agent to produce the soccer ball. For more information about this action, please refer to the Details under the [Agent Identification](#agent-identification) task.
 
 #### Navigation - Ramps
+
+Summary:
+
+Ramp Navigation tasks require a common-sense understanding of navigation in an environment with multiple stories. You must walk up and/or down one or more ramps in order to find the soccer ball, and then use PickupObject on the ball to pick it up, which completes the scenario. Sometimes the ball is on the floor, and sometimes an agent is holding the ball instead (use InteractWithAgent on the agent to request the soccer ball).
 
 |||
 |---|---|
@@ -187,6 +216,10 @@ Details:
 - Platforms can have either one or two levels. Each platform level will always have a different color/texture. Platforms will have “lips” (or edges) that surround their perimeter to make it impossible to move off the platform without using one of its corresponding ramps.
 
 #### Solidity
+
+Summary:
+
+Solidity tasks require a common-sense understanding of objects and gravity. You must watch (using the Pass action) as a soccer ball is lowered by a pole, but the ball is hidden as it goes behind a large occluding wall before you see the pole release it; you must then determine which side of the room contains the ball, find it, and use PickupObject on it to pick it up, which completes the scenario. To access a part of the room, you must open one of the doors (using the OpenObject action) in the occluding wall: the left side of the room can be accessed using the left door; the right side of the room can be accessed using the right door; and the platform can be accessed using the middle door. This is a “forced choice” task: once you open the door to one part of the room, you are unable to access the other parts of the room.
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/392d5b5e-977f-4c75-a169-7a50f5752cf7
 
@@ -203,6 +236,10 @@ Details:
 
 #### Spatial Elimination
 
+Summary:
+
+Spatial Elimination tasks require a common-sense understanding of spatial elimination. This is a “forced choice” task: once you walk off the platform onto one side of the room, you are unable to move to the other side of the room. You must identify which side of the room has the soccer ball, find it, and then use PickupObject on the ball to pick it up, which completes the scenario.
+
 |||
 |---|---|
 ![spatial_elimination_eval_5_ex_1](https://github.com/NextCenturyCorporation/MCS/assets/10994382/9152594e-ca9f-43eb-a499-7b107d7fe406) | ![spatial_elimination_eval_5_ex_2](https://github.com/NextCenturyCorporation/MCS/assets/10994382/63df3f27-98df-46c0-888a-fc0887ae0708)
@@ -213,6 +250,10 @@ Details:
 - Like the Interactive Object Permanence tasks from Eval 4, these scenes contain a tall platform bisecting the entire room. You’re forced to move off the platform to either side, but, once you’ve made a choice, you can’t access the other side.
 
 #### Support Relations (Interactive Gravity Support)
+
+Summary:
+
+Interactive Gravity Support Relations tasks require a common-sense understanding of gravity. You must watch (using the Pass action) as a “container” holding a soccer ball is lowered by poles, but the container and the ball are hidden as they go behind a large occluding wall before you see the poles release them; you must then determine which side of the room contains the ball, find it, and use PickupObject on it to pick it up, which completes the scenario. The container is sometimes released fully onto the platform, fully onto the floor, or partially onto the platform, and possibly falling onto the floor. To access a part of the room, you must open one of the doors (using the OpenObject action) in the occluding wall: the left side of the room can be accessed using the left door; the right side of the room can be accessed using the right door; and the platform can be accessed using the middle door. This is a “forced choice” task: once you open the door to one part of the room, you are unable to access the other parts of the room.
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/436f1c93-8043-4599-adbc-e50dac0194ad
 
@@ -227,7 +268,11 @@ Details:
    - Third, you will see the placers turn blue, indicating that they have released the container, and ascend back into the ceiling. However, due to the occluder, you can’t see the final position of the container or the ball. You will then be unfrozen and must pickup the soccer ball to succeed in the trial. You will need to decide whether the container and the ball were properly supported by the platform (only accessible via the middle door) or were not supported by the platform and have therefore fallen to the ground on either the left side (only accessible via the left door) or the right side (only accessible via the right door).
 - A door can be opened using the OpenObject action. However, in these scenes, once you open one door, you will not be able to open another door.
 
-#### Tools - Symmetric
+#### Tools - Symmetric Tool Use
+
+Summary:
+
+Symmetric Tool Use tasks require a common-sense understanding of affordances. You must use a symmetric “tool” (a large rectangular object with wheels and a unique texture) to extract the soccer ball from the middle of a pool of lava (using PushObject or MoveObject to push the tool so it collides with the ball causing it to roll out from the lava), and then use PickupObject on the ball, which completes the scenario.
 
 |||
 |---|---|
@@ -248,6 +293,12 @@ Details:
 ### Interactive Tasks Introduced in Evaluation 6
 
 #### Arithmetic and Number Comparison
+
+Summary:
+
+Number Comparison tasks require a common-sense understanding of numbers. This is a “forced choice” task: once you walk off the platform onto one side of the room, you are unable to move to the other side of the room. You must identify which side of the room has the most soccer balls and use PickupObject on each of them to pick them up which completes the scenario. Sometimes the balls become occluded so you have to remember how many were originally present on each side.
+
+Arithmetic tasks require a common-sense understanding of addition and subtraction. This is a “forced choice” task: once you walk off the platform onto one side of the room, you are unable to move to the other side of the room. You must watch (using the Pass action) as zero or more soccer balls are added to or subtracted from each side of the room. Then you must identify which side of the room has the most reachable soccer balls and use PickupObject on each of them to pick them up which completes the scenario. Sometimes the addition/subtraction is occluded so you have to remember how many balls were added to or subtracted from each side.
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/57b6acc4-1cde-4e82-b56f-2aa23b8bced2
 
@@ -278,6 +329,10 @@ Notes:
 
 #### Imitation (Interactive)
 
+Summary:
+
+Interactive Imitation tasks require a common-sense understanding of agency. You must watch (using the Pass action) as an agent perform a series of actions (opening one or more chests in a specific order) in order to access a soccer ball; then the room is “reset” (using the EndHabituation action) and you must perform the same actions in the same order (using the OpenObject action on the correct chests). Then you will be able to reach the soccer ball, and you can use PickupObject on it to pick it up, which completes the scenario. Performing the wrong actions (opening the wrong chests, or opening them in the wrong order) automatically fails the scenario. Sometimes you or the chests are repositioned when the room is reset.
+
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/1536702f-b2b6-4323-9da6-fc7af4bff486
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/cde91660-af4d-4289-91e5-689c38a59290
@@ -303,6 +358,12 @@ Notes:
 - If you open an incorrect container, or you open the correct containers in an incorrect order, you will immediately be forced to end the scene without continuing further, thus failing the trial.
 
 #### Occluded Trajectory and Collisions (Interactive)
+
+Summary:
+
+Occluded Trajectory tasks require a common-sense understanding of trajectory. You must watch (using the Pass action) as a soccer ball is launched across the floor, but you do not see its entire trajectory, due to a large occluding wall which descends in front of you; you must then determine which side of the room contains the soccer ball, find it, and use PickupObject on it to pick it up, which completes the scenario. To access a side of the room, you must open one of the doors (using the OpenObject action) in the occluding wall. This is a “forced choice” task: once you open the door to one side of the room, you are unable to access the other side of the room (because it is blocked by lava).
+
+Interactive Collision tasks require a common-sense understanding of trajectory and collision. You must watch (using the Pass action) as a green “shooter ball” is launched across the floor toward a stationary soccer ball, but you do not see the entire trajectory (and, sometimes, even the collision itself), due to a large occluding wall which descends in front of you; you must then determine which side of the room contains the soccer ball, find it, and use PickupObject on it to pick it up, which completes the scenario. To access a side of the room, you must open one of the doors (using the OpenObject action) in the occluding wall. This is a “forced choice” task: once you open the door to one side of the room, you are unable to access the other side of the room (because it is blocked by lava).
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/898d48b4-0c26-4a4c-9cf2-4de22e765059
 
@@ -332,6 +393,10 @@ Notes:
 
 #### Set Rotation
 
+Summary:
+
+Set Rotation tasks require a common-sense understanding of tracking objects as they move. You must watch (using the Pass action) as a soccer ball is deposited into one of the containers in the room, and lids are placed on all of the containers. Then either you will continue watching as the “turntable” (the large grey cog) rotates, or you will be forced to partially (or fully) circumnavigate the turntable using a series of Move and Rotate actions. You must identify which container holds the soccer ball, approach it, use OpenObject on it to open it, and then use PickupObject on the ball to pick it up, which completes the scenario. This is a “forced choice” task: once you open one container, you are unable to open other containers.
+
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/b44fcc48-b7de-433a-b520-bf36371206ac
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/c293ea74-1f77-4985-8f23-8d73ec88e00d
@@ -360,6 +425,10 @@ Notes:
 
 #### Shell Game
 
+Summary:
+
+Shell Game tasks require a common-sense understanding of tracking objects as they move. You must watch (using the Pass action) as a soccer ball is deposited into one of the containers in the room, and lids are placed on all of the containers; then poles will descend from the ceiling and move one or more of the containers to new locations. You must identify which container holds the soccer ball, approach it, use OpenObject on it to open it, and then use PickupObject on the ball to pick it up, which completes the scenario. This is a “forced choice” task: once you open one container, you are unable to open other containers. Please note that sometimes the containers are moved before the soccer ball is deposited.
+
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/e0127554-36a6-4526-892c-bcc1341c2b7e
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/6a5ed2f0-b8b2-410f-a744-38cdab9b9a27
@@ -385,6 +454,10 @@ Notes:
    - Your teams are able to use the ILE Scene Generator to make scenes with these containers (either with the lid on them from the start of the scene, or with the lid placed on them by a placer during the course of the scene) – please see our ILE API documentation for details.
 
 #### Spatial Reference
+
+Summary:
+
+Spatial Reference tasks require a common-sense understanding of agency. You must watch (using the Pass action) as both an agent and a “blob” move and “point” to a container on one side of the room. You must use the agent’s point (and ignore the blob) to determine which container holds the soccer ball, approach it, use OpenObject to open it, and then use PickupObject on the ball to pick it up, which completes the scenario. This is a “forced choice” task: once you walk off the platform onto one side of the room, you are unable to move to the other side of the room. Agents can be identified by their facial features (blobs don’t have faces) and their autonomous movement (blobs “move” by rotating on turntables).
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/862044cd-7c33-4174-8677-f3aaacf691a6
 
@@ -412,6 +485,10 @@ Notes:
 
 #### Spatial Reorientation
 
+Summary:
+
+Spatial Reorientation tasks require a common-sense understanding of spatial landmarks. After spinning around to see the entire room (using the RotateRight action), you must watch (using the Pass action) as a soccer ball is deposited into a container on one side of the room; then you are “kidnapped” (using the EndHabituation action) and either kept on the same side of the room or moved to the opposite side. You must use landmarks (sometimes the room has a trapezoidal shape, a differently-colored wall, or a piece of furniture) to identify which side of the room has the soccer ball, find it, and then use PickupObject on the ball to pick it up, which completes the scenario. This is a “forced choice” task: once you walk off the platform onto one side of the room, you are unable to move to the other side of the room.
+
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/97fb77f4-9f35-41ee-9a7b-2efb649b8362
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/cf3e2b27-a4e0-4e1d-a165-425d9f1fc84b
@@ -435,7 +512,13 @@ Notes:
 - Kidnapping and teleporting are performed using the EndHabituation action. Like other uses of this action, you will receive a blank frame during the kidnapping step. Unlike how this action worked in Eval 4, you will not receive any information (position/rotation) about the teleport destination (this information is now tracked internally by the MCS environment).
 - Whenever you are kidnapped, you we be teleported a little “off-center”, regardless of whether you remain on the same side of the room (near the “back” wall) or the opposite side (near the “front” wall). For example, if your original position is (X=0, Z=-7.5), your new position may be (X=0.1, Z=-7.6)
 
-#### Tools - Asymmetric and Tool Choice
+#### Tools - Asymmetric Tool Use and Tool Choice
+
+Summary:
+
+Asymmetric Tool Use tasks require a common-sense understanding of affordances. You must use an asymmetric “tool” (a large L-shaped object with wheels and a unique texture) to extract the soccer ball from the middle of a pool of lava (using PullObject or MoveObject to pull the tool so it collides with the ball causing it to roll out from the lava), and then use PickupObject on the ball, which completes the scenario. Sometimes the tool must be rotated (using RotateObject or TorqueObject) before it is pulled.
+
+Tool Choice tasks require a common-sense understanding of affordances. Like the Symmetric Tool Use task, you must use a symmetric “tool” (a large rectangular object with wheels and a unique texture) to extract the soccer ball from the middle of a pool of lava (using PushObject or MoveObject to push the tool so it collides with the ball causing it to roll out from the lava), and then use PickupObject on the ball and complete the scenario. Sometimes the tool must be rotated (using RotateObject or TorqueObject) before it is pushed. This is a “forced choice” task: once you walk off the platform onto one side of the room, you are unable to move to the other side of the room. One side of the room contains a tool that can be used successfully to retrieve the soccer ball, while the other side contains a tool that is broken, inaccessible, or not a useful size.
 
 |||
 |---|---|
@@ -462,6 +545,10 @@ Notes:
 
 #### Hidden Set Rotation
 
+Summary:
+
+TODO
+
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/0b22f8c2-6774-4cc0-a4e6-9fc0b0b3201b
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/1868299b-f26a-4692-8cfd-63dafe25557a
@@ -475,6 +562,10 @@ Details:
 - When you open a container, the other containers will automatically become locked. So if the first container you open is not the correct container, you will never be able to retrieve the target object, and will therefore fail the trial.
 
 #### Knowledgeable Agents
+
+Summary:
+
+TODO
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/6fe0e811-b53b-4171-95dc-c0496440379b
 
@@ -496,6 +587,10 @@ Notes:
 - Using the InteractWithAgent action on an agent while it's pointing will not provide you with any additional information.
 
 #### Tools - Secondary Tool Use
+
+Summary:
+
+TODO
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/a0a00f40-e9f7-4cbd-9521-c8c7e47e129d
 
@@ -535,7 +630,7 @@ Notes:
 - Eval 7 extra data: https://eval-7.s3.amazonaws.com/eval_7_passive_agents_extra.zip
 - Eval 6 dataset (includes some older tasks): https://eval-6.s3.amazonaws.com/eval_6_passive_agent.zip
 - Eval 5 dataset (includes all tasks designed up to this point): https://eval-5.s3.amazonaws.com/eval_5_passive_agent.zip
-- Debug scene files for the MCS UI:
+- Debug scene files for the MCS scoring software and evaluation UI:
     - Eval 7: https://eval-7.s3.amazonaws.com/eval_7_passive_agents_debug.zip
     - Eval 6: https://eval-6.s3.amazonaws.com/eval_6_passive_agent_debug.zip
     - Eval 5: https://eval-5.s3.amazonaws.com/eval_5_passive_agent_debug.zip
@@ -821,6 +916,8 @@ TODO VIDEOS
 
 TODO DOWNLOAD
 
+Training scenes for the following tasks can be made using the ILE Scene Generator: https://github.com/NextCenturyCorporation/mcs-scene-generator/
+
 ### Other Tasks Introduced in Evaluation 6
 
 #### Seeing Leads to Knowing (Passive)
@@ -829,17 +926,57 @@ Summary:
 
 Seeing Leads to Knowing tasks require a common-sense understanding of agency. This is a “passive” task: you must watch (using only Pass actions) as a soccer ball is deposited into a container and an agent approaches a container, and then determine whether the simulation was “plausible” (realistic) or “implausible” (unrealistic) based on whether or not the agent acted with common-sense reasoning (if the agent saw the ball being deposited, it should approach the container holding the ball; otherwise it should approach one of the containers behind it, because one of those containers holds the ball).
 
+Plausible:
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/a3c4a8b0-9c3f-4580-a9a3-7ee26fec66ce
+
+Plausible:
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/fcdbc37f-c616-407d-b312-ff4f082d5a8c
+
+Implausible:
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/90f065bb-3776-4112-99f3-b060bd525a36
+
+Implausible:
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/8a7c0e7e-275b-42a3-b2c8-6ea43ab251da
+
 Details:
 
-TODO
+- This is a passive/VoE task. Similar to the passive physics tasks, your system is expected to return a binary plausibility rating of either "plausible" or "implausible" as well as a continuous plausibility score between 0.0 (completely implausible) and 1.0 (completely plausible).
+- You start in a room looking at four identical open-topped containers. An agent immediately walks into view and stands in the middle of the room, looking at two of the containers. Then four placers simultaneously descend from the ceiling, one over each container. One placer is holding the target (soccer ball) and drops it into a container; the other three placers are not holding anything, but change color/state like the first placer. The agent then approaches the container it believes is holding the target. You must determine whether the agent's choice is plausible or implausible based on what the agent is able to see.
+- If the target is dropped into one of the two containers in front of the agent (which it can see), then it is plausible for the agent to approach that specific container, and implausible for the agent to approach a different container.
+- If the target is dropped into one of the two containers behind the agent (which it cannot see), then it is plausible for the agent to approach either of the two containers behind it, and implausible for the agent to approach either of the two containers in front of it.
+- The containers are always in the same locations, but may vary slightly in shape, size, and color.
+- The agent can enter from either the left side or the right side of your view.
+
+Notes:
+
+- Seeing Leads to Knowing scenes use the new "passive" goal category to differentiate them from other passive scenes. For more information on "passive" goals, please see our API doc here: https://nextcenturycorporation.github.io/MCS/api.html#machine_common_sense.GoalCategory.PASSIVE
+- Your system's binary plausibility rating and continuous plausibility score must be included when calling the "end_scene" function. For more information on "end_scene", please see our API doc here: https://nextcenturycorporation.github.io/MCS/api.html#machine_common_sense.Controller.end_scene
+- Your starting position and viewing angle will remain consistent across all Seeing Leads to Knowing scenes.
+- As with our other passive tasks, we expect that you will train your systems using only plausible Seeing Leads to Knowing data, to mimic the "training" of human babies who only experience plausible scenarios. Because of this, the ILE Scene Generator is only designed to create plausible Seeing Leads to Knowing scenes for your training. We have provided a few example implausible scenes (see above) for you to see how they will look.
 
 ## Evaluation
 
 Running of evaluation scenes is done by our `mcs-pipeline` software: https://github.com/NextCenturyCorporation/mcs-pipeline
 
+Please note that all scenes are run during the evaluation using **metadata level 2**.
+
 ## Scoring
 
 Scoring of evaluation scenes is done by our `mcs-ingest` software: https://github.com/NextCenturyCorporation/mcs-ingest
+
+Please note that Interactive and Passive tasks are scored differently; see the Task sections above for more information.
+
+### Ambiguous and Control Trials
+
+Some scenes (particularly Interactive "forced choice" scenes) are intentionally ambiguous: the soccer ball can reasonably be hidden in multiple places.
+
+Some scenes (particularly Interactive scenes) are control trials: the trial is not actually testing the common sense concept for the task, and successfully retrieving the soccer ball requires little or no common sense reasoning.
+
+Your system's success in these scenes is not included in your final evaluation score.
 
 ## Acknowledgements
 
