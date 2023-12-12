@@ -2,6 +2,7 @@
 
 Table of Content:
 - [Interactive Tasks](#interactive-tasks)
+  - [Overview](#interactive-overview)
   - [Data](#interactive-data)
   - [Introduced in Evaluation 3](#interactive-tasks-introduced-in-evaluation-3)
     - [Retrieval - Containers](#retrieval---containers)
@@ -32,6 +33,7 @@ Table of Content:
     - [Knowledgeable Agents](#knowledgeable-agents)
     - [Tools - Secondary Tool Use](#tools---secondary-tool-use)
 - [Passive Agent Tasks](#passive-agent-tasks)
+  - [Overview](#passive-agent-overview)
   - [Data](#passive-agent-data)
     - [Evaluation Datasets](#passive-agent-evaluation-datasets)
     - [Training Datasets](#passive-agent-training-datasets)
@@ -49,6 +51,7 @@ Table of Content:
     - [Helper / Hinderer](#helper--hinderer-passive-agent)
     - [True / False Belief](#true--false-belief-passive-agent)
 - [Passive Physics Tasks](#passive-physics-tasks)
+  - [Overview](#passive-physics-overview)
   - [Data](#passive-physics-data)
   - [Introduced in Evaluation 3](#passive-physics-tasks-introduced-in-evaluation-3)
     - [Object Permanence (Passive)](#object-permanence-passive-physics)
@@ -65,14 +68,21 @@ Table of Content:
 - [Evaluation](#evaluation)
 - [Scoring](#scoring)
   - [Ambiguous and Control Trials](#ambiguous-and-control-trials)
+  - [Scorecard](#scorecard)
 - [Acknowledgements](#acknowledgements)
 - [License](#license)
 
 ## Interactive Tasks
 
+### Interactive Overview
+
+Each trial, or "scene", for an interactive task occurs within a procedurally generated room in our 3D environment. Each interactive task requires that you use common-sense reasoning to find and pick up a goal object (soccer ball) located in the room. As requested, your system's efficiency does not prevent it from succeeding at these tasks (except for a very generous action/step limit), or impact its quantitative evaluation score, in order to allow for exploration-based approaches. Please note that the MCS python library returns a "reward" after each action/step that can be used for training, but is ignored during the evaluation. 
+
 ### Interactive Data
 
 TODO DOWNLOAD
+
+Training scenes for the following tasks can be made using the ILE Scene Generator: https://github.com/NextCenturyCorporation/mcs-scene-generator/
 
 ### Interactive Tasks Introduced in Evaluation 3
 
@@ -81,6 +91,10 @@ TODO DOWNLOAD
 Summary:
 
 Container Retrieval tasks require a common-sense understanding of containment. You must find the soccer ball, which may or may not be hidden inside a container (use OpenObject to open a closed container), and then use PickupObject on the ball to pick it up.
+
+|||
+|---|---|
+![eval_7_interactive_containers_0001_02](https://github.com/NextCenturyCorporation/MCS/assets/10994382/c869ebb6-1017-4776-b8d6-e71ffcbaf434) | ![eval_7_interactive_containers_0001_05](https://github.com/NextCenturyCorporation/MCS/assets/10994382/df79d960-d24e-4cbc-9d86-82eff653b719)
 
 Details:
 
@@ -97,6 +111,10 @@ Summary:
 
 Obstacle Retrieval tasks require a common-sense understanding of occlusion. You must find the soccer ball, which may or may not be hidden behind “obstacle” furniture (furniture which you can see through, but cannot walk through), and then use PickupObject on the ball to pick it up, which completes the scenario.
 
+|||
+|---|---|
+![eval_7_interactive_obstacles_0001_06](https://github.com/NextCenturyCorporation/MCS/assets/10994382/ccd1a72d-075d-4667-a851-022a70379dc9) | ![eval_7_interactive_obstacles_0001_02](https://github.com/NextCenturyCorporation/MCS/assets/10994382/02a68b56-505b-4343-9a22-1de82f00cde6)
+
 Details:
 
 - You start in a room containing many objects, including furniture and toys. Your goal is to find and pick up the soccer ball, located somewhere in the room.
@@ -109,6 +127,10 @@ Details:
 Summary:
 
 Occluder Retrieval tasks require a common-sense understanding of occlusion. You must find the soccer ball, which may or may not be hidden behind occluding furniture (furniture which you can neither see through nor walk through), and then use PickupObject on the ball to pick it up, which completes the scenario.
+
+|||
+|---|---|
+![eval_7_interactive_occluders_0001_05](https://github.com/NextCenturyCorporation/MCS/assets/10994382/88a22883-ba64-439c-af1b-510222f41d8e) | ![eval_7_interactive_occluders_0001_06](https://github.com/NextCenturyCorporation/MCS/assets/10994382/337ec563-bf15-4b0e-a33f-dac10355e5d6)
 
 Details:
 
@@ -503,7 +525,7 @@ Details:
 - Most scenes provide cues so you can determine whether you have been teleported to the opposite side of the room:
    - Sometimes either the left or right wall is a significantly different color than the other walls.
    - Sometimes the room is shaped like a trapezoid: the left and right walls are angled inward, and either the front or back wall is shorter.
-   - Sometimes there is a large non-structural object, like a piece of furniture, on one side of the room; TA2 calls this an “unstable landmark.” In scenes containing both a stable landmark (differently colored room walls, or trapezoidal shaped rooms) and an unstable landmark (large objects like furniture that could theoretically be moved by an adult), your system should trust the location of the stable landmark more than the unstable landmark.
+   - Sometimes there is a large non-structural object, like a piece of furniture, on one side of the room; this is called an “unstable landmark.” In scenes containing both a stable landmark (differently colored room walls, or trapezoidal shaped rooms) and an unstable landmark (large objects like furniture that could theoretically be moved by an adult), your system should trust the location of the stable landmark more than the unstable landmark.
    - It should be impossible to see inside the containers from your position on top of the platform due to the position of the containers and a barrier on the platform that stops you from moving too far forward.
 
 Notes:
@@ -848,17 +870,52 @@ TODO VIDEOS
 
 #### Helper / Hinderer (Passive Agent)
 
-TODO
+Details:
+
+- All of these trials have one inanimate object and three agents (blobs): the primary agent tries to approach the inanimate object, and the other two agents either “help” or “hinder” the primary agent attain its goal.
+- Some trials include a blue occluder that is moved by the “helper” agent or “hinderer” agent: the “helper” agent moves the blue occluder to unobstruct the primary agent’s path to the object; the “hinderer” agent moves the blue occluder to obstruct the primary agent’s path to the object.
+- The test trial does not show the inanimate object or blue occluder; instead, it shows the primary agent approaching one of the other two agents (indicating a preference for that agent). It is expected / plausible for the primary agent to prefer the “helper” agent (the agent who unobstructed its path during the familiarization trials), and unexpected / implausible to prefer the “hinderer” agent (the agent who obstructed its path during the familiarization trials). As in previous evaluations, your system should return a plausibility / expectedness rating that’s very high for “expected” scenes (1.0 = definitely expected) and very low for “unexpected” scenes (0.0 = definitely unexpected).
+
+##### Helper / Hinderer Training Data
+
+https://eval-7.s3.amazonaws.com/passive_agent_training_helper_hinderer.zip
+
+Differences from evaluation tasks: In the training data, the primary agent starts in one of the two smaller areas, and the inanimate object starts in the bigger area; in the evaluation data, the primary agent starts in the bigger area, and the inanimate object starts in one of the two smaller areas.
+
+TODO VIDEOS
 
 #### True / False Belief (Passive Agent)
 
-TODO
+Details:
+
+All of these trials have one inanimate object and two agents (blobs): the primary agent tries to approach the inanimate object, and the secondary agent (which is only present during the test trial) moves the inanimate object. The inanimate object is always positioned behind one of the two white occluders during the test trial, and during some of the familiarization trials as well; the primary agent cannot see the inanimate object from its starting position while the object is positioned behind an occluder (though the TA1 agent may be able to see it).
+- In True Belief tasks, the primary agent is present (and can see everything happen) while the secondary agent moves the inanimate object from its position hidden behind one occluder to a new position behind a second occluder. It is expected / plausible for the primary agent to approach the new position of the object, behind the second occluder (since it saw the secondary agent move the object to that position), and unexpected / implausible for the primary agent to approach the old position of the object, behind the original occluder.
+- In False Belief tasks, the primary agent is NOT present (and does not see anything) while the secondary agent moves the inanimate object from its position hidden behind one occluder to a new position behind a second occluder. It is expected / plausible for the primary agent to approach the old position of the object, behind the original occluder (since it did not see the secondary agent move the object to a new position), and unexpected / implausible for the primary agent to approach the new position of the object, behind the second occluder.
+- As in previous evaluations, your system should return a plausibility / expectedness rating that’s very high for “expected” scenes (1.0 = definitely expected) and very low for “unexpected” scenes (0.0 = definitely unexpected).
+
+##### True / False Belief Training Data
+
+- True Belief training data: https://eval-7.s3.amazonaws.com/passive_agent_training_true_belief.zip
+- False Belief training data: https://eval-7.s3.amazonaws.com/passive_agent_training_false_belief.zip
+
+Differences from evaluation tasks: In the training data, the secondary agent moves the inanimate object to a new position behind the same occluder; in the evaluation data, the secondary agent moves the inanimate object to a new position behind the other occluder.
+
+TODO VIDEOS
 
 ## Passive Physics Tasks
+
+### Passive Physics Overview
+
+Each trial, or "scene", for a passive physics task occurs within a procedurally generated room in our 3D environment. Each passive physics task requires that you use common-sense reasoning of the laws of physics to categorize a scene as either "plausible" or "implausible". Your system will be forced to only use "Pass" actions during the entirety of the scene, and must then return a **binary plausibility rating** and a **continuous plausibility score** to the MCS python library (see below). Even though these tasks seem different from the interactive tasks, they are run within the same 3D environment as the interactive tasks, and objects behave (roll, fall, bounce, etc.) in the same way (except for implausible events).
+
+- Binary plausibility ratings evaluate the event as a whole after it has concluded (either “implausible” or “plausible”). We use these binary ratings to compute sensitivity scores such as d'. We will not attempt to derive binary scores from continuous scores, because we do not want to assume where each system places the threshold for concluding a scene is implausible.
+- Continuous plausibility scores evaluate the event as a whole after it has concluded, between 0 (completely implausible) and 1 (completely plausible). These scores can be used to compute ROC curves and AOCs to characterize performance on the scene. This is one of the ways that we can compare performance - not only across performers, but across conditions (e.g. scenes containing familiar objects vs. scenes containing novel objects). We anticipate that some events will not be clearly 100% plausible or implausible, even to a very high performing algorithm. The ideal outcome is for the AI system to recognize that one outcome was more expected than another. Continuous scores support that kind of comparison better than binary scores.
 
 ### Passive Physics Data
 
 TODO DOWNLOAD
+
+Training scenes for the following tasks can be made using the ILE Scene Generator: https://github.com/NextCenturyCorporation/mcs-scene-generator/
 
 ### Passive Physics Tasks Introduced in Evaluation 3
 
@@ -976,7 +1033,11 @@ Some scenes (particularly Interactive "forced choice" scenes) are intentionally 
 
 Some scenes (particularly Interactive scenes) are control trials: the trial is not actually testing the common sense concept for the task, and successfully retrieving the soccer ball requires little or no common sense reasoning.
 
-Your system's success in these scenes is not included in your final evaluation score.
+Your system's success in these scenes is not factored into your quantitative evaluation score, but will be reviewed as part of our qualitative analysis of your evaluation results.
+
+### Scorecard
+
+Some behaviors are not obviously wrong, but seem to lack common-sense, and are thus noteworthy. Examples include repeatedly trying failed actions and ignoring a goal object when it is easily accessible (in sight and unobstructed). These actions are recorded as part of our "scorecard" metrics. The scorecard is not factored into your quantitative evaluation score, but will be reviewed as part of our qualitative analysis of your evaluation results. For a full list of our scorecard metrics, please see this page: https://github.com/NextCenturyCorporation/mcs-ingest/blob/master/scorecard/README.md
 
 ## Acknowledgements
 
