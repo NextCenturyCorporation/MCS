@@ -668,6 +668,8 @@ https://eval-6.s3.amazonaws.com/eval_6_passive_agent_training_single_object.zip
 - Each trial shows an agent (A1) approaching a goal object (O1).
 - When an agent contacts a goal object, all goal objects are highlighted (color changes to red), as a secondary indication of the successful contact.
 
+Examples:
+
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/0ff74709-05db-4270-991a-cda74239cc9f
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/e6cd00e1-cfaa-44bc-9750-ecc2f7a0ad83
@@ -680,19 +682,19 @@ Summary:
 
 Passive Agent: Efficient Action tasks require a common-sense understanding of agency. This is a “passive agents” task: you must watch (using only Pass actions) as an agent (blob shape) moves in a grid world over 8 “familiarization” trials and a “test” trial (the world “resets” between each trial using the EndHabituation action). The trials depict the agent approaching an object; in the test trial, some of the obstacles are removed. You must then determine whether the test trial is “expected” (unsurprising) or “unexpected” (surprising) based on whether or not the agent moves in an efficient path (agents should move efficiently).
 
-Time Control:
+Time Control Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/c3cc5b01-d2b1-4c4c-ad4a-40b889c3cc97
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/6fa709be-4425-4621-a519-8c3741a51508
 
-Path Control:
+Path Control Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/9756f5f4-0d8e-423f-b9d7-2aab08e4a3cc
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/01429379-9649-4e35-a539-fb7d684d58d7
 
-Irrational:
+Irrational Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/c9646626-e1e1-405f-9f98-896cb7be57e8
 
@@ -709,6 +711,8 @@ https://github.com/NextCenturyCorporation/MCS/assets/10994382/404e23df-0d67-4e74
 Summary:
 
 Passive Agent: Object Preference tasks require a common-sense understanding of agency. This is a “passive agents” task: you must watch (using only Pass actions) as an agent (blob shape) moves in a grid world over 8 “familiarization” trials and a “test” trial (the world “resets” between each trial using the EndHabituation action). The familizarization trials depict the agent approaching a specific object (the same object in all 8 familiarization trials). You must then determine whether the test trial is “expected” (unsurprising) or “unexpected” (surprising) based on whether or not the agent continued to act with the same preferences it showed during the familiarization trials (approaching the same object).
+
+Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/078f0193-9645-4e9c-9a93-dbb7140d9815
 
@@ -729,6 +733,8 @@ Summary:
 
 Passive Agent: Inaccessible Goal tasks require a common-sense understanding of agency. This is a “passive agents” task: you must watch (using only Pass actions) as an agent (blob shape) moves in a grid world over 8 “familiarization” trials and a “test” trial (the world “resets” between each trial using the EndHabituation action). The familizarization trials depict the agent retrieving a red triangular "key" object; inserting that key into a "lock" in the green wall, causing the green wall to disappear; and then approaching an "goal" object that was previously blocked by the green wall, but is now accessible. You must then determine whether the test trial is “expected” (unsurprising) or “unexpected” (surprising) based on whether or not the agent used the "key" object when it was necessary to approach the "goal" object (if the "goal" object is not blocked by the green wall, then using the "key" object is unnecessary).
 
+Examples:
+
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/f8be701f-cd07-44e2-b149-b9dfbdd6cca3
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/af263afa-391e-49a5-b712-a0f59581dcb3
@@ -743,19 +749,19 @@ Summary:
 
 Passive Agent: Instrumental Action tasks require a common-sense understanding of agency. This is a “passive agents” task: you must watch (using only Pass actions) as an agent (blob shape) moves in a grid world over 8 “familiarization” trials and a “test” trial (the world “resets” between each trial using the EndHabituation action). The familizarization trials depict the agent approaching a specific object (the same object in all 8 familiarization trials); in the test trial, obstacles may be moved to block a path to the preferred object. You must then determine whether the test trial is “expected” (unsurprising) or “unexpected” (surprising) based on whether or not the agent can successfully navigate to its preferred object (approaching a different object is unsurprising if the preferred object is blocked).
 
-Blocking Barriers:
+Blocking Barriers Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/04f21ac7-fd54-4992-9317-dedb20485eba
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/21828816-85c6-4720-929e-347703e934b2
 
-Inconsequential Barriers:
+Inconsequential Barriers Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/f12e24c3-28ce-4d0b-b80c-c30c26a39117
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/b6a236a8-adfe-4bf1-a652-75a58f1db180
 
-No Barriers:
+No Barriers Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/3f9f1706-0e3f-4e3f-ba67-315ab3b1b372
 
@@ -772,6 +778,8 @@ https://github.com/NextCenturyCorporation/MCS/assets/10994382/e52f2e58-4f89-4c9c
 Summary:
 
 Passive Agent: Multiple Agents tasks require a common-sense understanding of agency. This is a “passive agents” task: you must watch (using only Pass actions) as an agent (blob shape) moves in a grid world over 8 “familiarization” trials and a “test” trial (the world “resets” between each trial using the EndHabituation action). The familizarization trials depict the agent approaching a specific object (the same object in all 8 familiarization trials); in the test trial, either the same agent or a new agent will approach a different object. You must then determine whether the test trial is “more expected” (unsurprising) or “more unexpected” (surprising) based on whether or not the agent with a known preference approached a different object (it is unsurprising for a new agent to have a different preference).
+
+Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/63d8bab5-5bcd-48ff-819a-bcc26f0b02f9
 
@@ -801,17 +809,15 @@ Details:
 - If an agent shows a preference for a specific goal object during the familiarization trials (by approaching the goal object), it is expected/plausible for the agent to show the same preference (for the same goal object) during the test trial, and unexpected/implausible for the agent to show a different preference (for a different goal object). As in previous evaluations, your system should return a plausibility / expectedness rating that’s very high for “expected” scenes (1.0 = definitely expected) and very low for “unexpected” scenes (0.0 = definitely unexpected).
 - If a non-agent shows a “preference” for a specific goal object during the familiarization trials (by “approaching” the goal object, after being hit by the paddle), then there is no expectation for the non-agent to show either the same preference or a different preference, because it does not have agency. For “no expectation” scenes, your system should return a plausibility / expectedness rating that’s lower than for “expected” scenes but higher than for “unexpected” scenes.
 
-Example Evaluation Scenes:
-
-Expected:
+Evaluation - Expected Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/710495e2-5877-4740-bc9f-1055c7173bfc
 
-Unexpected:
+Evaluation - Unexpected Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/51edeb74-3b05-48c2-833a-8c0d0362c73f
 
-No Expectation:
+Evaluation - No Expectation Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/8173b95e-8c29-4c3d-b2e8-36efdfbc4bfe
 
@@ -827,6 +833,8 @@ Agent One Goal Training Data:
 - When an agent contacts a goal object, all goal objects are highlighted (color changes to red), as a secondary indication of the successful contact.
 - The agent and the paddle do not come into contact. (The agent has agency and can move itself.)
 
+Examples:
+
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/882b2f5b-04a4-416c-afbb-01cf6f60a0ee
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/cb6ab7a5-f5b9-40f0-b82e-cb3b9a22e0d0
@@ -836,6 +844,8 @@ Agent Preference Training Data:
 - Each trial shows an agent (A1) approaching a goal object (O1), ignoring a second goal object (O2).
 - When an agent contacts a goal object, all goal objects are highlighted (color changes to red), as a secondary indication of the successful contact.
 - The agent and the paddle do not come into contact. (The agent has agency and can move itself.)
+
+Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/efd869ab-c826-45f2-9af3-2e4705b827cb
 
@@ -847,6 +857,8 @@ Collect Training Data:
 - When an agent contacts a goal object, all goal objects are highlighted (color changes to red), as a secondary indication of the successful contact.
 - No paddle or occluder.
 
+Examples:
+
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/4161deb0-8d66-4b40-805b-a809ffe782d6
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/f763ebe2-a004-4257-945d-c42e3a880e22
@@ -857,6 +869,8 @@ Non-Agent One Goal Training Data:
 - When a non-agent contacts a goal object, all goal objects are highlighted (color changes to red), as a secondary indication of the successful contact.
 - While the non-agent (N1) sometimes contacts the goal object (O1) in these trials, it cannot control its own movement, because it does not have agency.
 
+Examples:
+
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/72ce88d9-865f-4f65-9b96-4d570cfa0fda
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/149565af-1aad-4ff3-b443-da6ae2624910
@@ -866,6 +880,8 @@ Non-Agent "Preference" Training Data:
 - Each trial shows a non-agent (N1) being hit by the paddle in a realistic direction and stopping when it contacts a goal object (O1), ignore a second goal object (O2).
 - When a non-agent contacts a goal object, all goal objects are highlighted (color changes to red), as a secondary indication of the successful contact.
 - While the non-agent (N1) always contacts the goal object (O1) in these trials, it cannot control its own movement, because it does not have agency.
+
+Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/7ce7d892-89c8-4d0a-9dd5-3e67015e914f
 
@@ -887,31 +903,29 @@ Details:
 - The “Social Approach” category shows an agent approaching another agent, and then imitating it. The “Social Imitation” category shows an agent imitating another agent, and then approaching it. If an agent shows a preference for another agent during the familiarization trials (by approaching or imitating that agent), it is expected/plausible for the agent to show the same preference (by approaching or imitating the same agent) during the test trial, and unexpected/implausible for the agent to show a different preference (by approaching or imitating a different agent). As in previous evaluations, your system should return a plausibility / expectedness rating that’s very high for “expected” scenes (1.0 = definitely expected) and very low for “unexpected” scenes (0.0 = definitely unexpected).
 - The “Instrumental Approach” and “Instrumental Imitation” categories introduce a goal object that the agent contacts while imitating a movement pattern. If an agent appears to show a preference for another agent (by approaching or imitating that agent), but simultaneously contacts a goal object, then there is no expectation for that agent to show either the same preference or a different preference, because it is impossible to know whether the agent is trying to imitate another agent or contact the goal object. For “no expectation” scenes, your system should return a plausibility / expectedness rating that’s lower than for “expected” scenes but higher than for “unexpected” scenes.
 
-Example Evaluation Scenes:
-
-Approach Expected:
+Evaluation - Approach - Expected Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/872d0a21-6537-4ce1-ad01-a5c8d677a1c2
 
-Approach Unexpected:
+Evaluation - Approach - Unexpected Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/4dc81e36-dbb1-4526-8244-0a005aa67d35
 
-Approach No Expectation:
+Evaluation - Approach - No Expectation Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/af03624a-f0ca-4284-81fa-4fce15f8d9a0
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/48cdc381-c626-4186-8f16-8f3a7113a9d0
 
-Imitation Expected:
+Evaluation - Imitation - Expected Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/b3d95637-150d-42fc-9259-aee541d188a4
 
-Imitation Unexpected:
+Evaluation - Imitation - Unexpected Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/49741259-c543-491f-b8a6-58446fe9ec6c
 
-Imitation No Expectation:
+Evaluation - Imitation - No Expectation Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/54f6d65e-9a0b-4fd9-b8b0-1fc75ea12fba
 
@@ -927,6 +941,8 @@ Social Approach:
 - Each familiarization trial shows agent A1 approaching agent A2, ignoring agent A3.
 - The test trial shows agent A2 and agent A3 moving in a different pattern, and then agent A1 moving in the same pattern as agent A2.
 
+Examples:
+
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/f5ad3c89-3e8a-426f-93bc-9f29d043b82e
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/235b5ba0-e0df-4c80-a4e3-13a38a292e3e
@@ -935,6 +951,8 @@ Instrumental Approach:
 
 - Like Social Approach (see above), but when agent A1 moves during the test trial, it contacts a goal object (O1) while moving in its pattern.
 - When an agent contacts a goal object, all goal objects are highlighted (color changes to red), as a secondary indication of the successful contact.
+
+Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/a0dbf6db-3cdb-48f5-88e8-d874cfff3d32
 
@@ -947,6 +965,8 @@ Social Imitation:
 - Agent A1’s movement pattern never changes across trials (assuming it moves during that trial). The same is true for agent A2’s and agent A3’s movement patterns.
 - The test trial shows agent A3 approaching the other agent (either A1 or A2) who has the same movement pattern.
 
+Examples:
+
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/b312c121-1b68-4865-9e30-ce1025a74a3f
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/73026728-2fcf-4b83-83c0-ddc701b61e00
@@ -957,6 +977,8 @@ Instrumental Imitation:
 - Unlike Social Imitation, the test trial shows agent A3 approach goal object O1 rather than another agent.
 - When an agent contacts a goal object, all goal objects are highlighted (color changes to red), as a secondary indication of the successful contact.
 - Some trials show agent A3 contacting goal object O1 multiple times. When an agent contacts a goal object a second time, its highlight is deactivated (color changes back to original color).
+
+Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/44a99dee-93d5-450d-a4ea-13b62ba938ca
 
@@ -972,6 +994,8 @@ Details:
 - Some trials include a blue occluder that is moved by the “helper” agent or “hinderer” agent: the “helper” agent moves the blue occluder to unobstruct the primary agent’s path to the object; the “hinderer” agent moves the blue occluder to obstruct the primary agent’s path to the object.
 - The test trial does not show the inanimate object or blue occluder; instead, it shows the primary agent approaching one of the other two agents (indicating a preference for that agent). It is expected / plausible for the primary agent to prefer the “helper” agent (the agent who unobstructed its path during the familiarization trials), and unexpected / implausible to prefer the “hinderer” agent (the agent who obstructed its path during the familiarization trials). As in previous evaluations, your system should return a plausibility / expectedness rating that’s very high for “expected” scenes (1.0 = definitely expected) and very low for “unexpected” scenes (0.0 = definitely unexpected).
 
+Evaluation Examples:
+
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/782306b0-43b6-4ba2-a3a2-ef4bc9df8fd8
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/a792d78e-49d0-469d-9e08-23569822e81f
@@ -981,6 +1005,8 @@ https://github.com/NextCenturyCorporation/MCS/assets/10994382/a792d78e-49d0-469d
 https://eval-7.s3.amazonaws.com/passive_agent_training_helper_hinderer.zip
 
 Differences from evaluation tasks: In the training data, the primary agent starts in one of the two smaller areas, and the inanimate object starts in the bigger area; in the evaluation data, the primary agent starts in the bigger area, and the inanimate object starts in one of the two smaller areas.
+
+Training Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/5acc5d32-c114-450c-acec-f561e5559b1f
 
@@ -994,6 +1020,8 @@ All of these trials have one inanimate object and two agents (blobs): the primar
 - In True Belief tasks, the primary agent is present (and can see everything happen) while the secondary agent moves the inanimate object from its position hidden behind one occluder to a new position behind a second occluder. It is expected / plausible for the primary agent to approach the new position of the object, behind the second occluder (since it saw the secondary agent move the object to that position), and unexpected / implausible for the primary agent to approach the old position of the object, behind the original occluder.
 - In False Belief tasks, the primary agent is NOT present (and does not see anything) while the secondary agent moves the inanimate object from its position hidden behind one occluder to a new position behind a second occluder. It is expected / plausible for the primary agent to approach the old position of the object, behind the original occluder (since it did not see the secondary agent move the object to a new position), and unexpected / implausible for the primary agent to approach the new position of the object, behind the second occluder.
 - As in previous evaluations, your system should return a plausibility / expectedness rating that’s very high for “expected” scenes (1.0 = definitely expected) and very low for “unexpected” scenes (0.0 = definitely unexpected).
+
+Evaluation Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/a9fce7e9-dd57-42ba-ba84-131833edab4e
 
@@ -1010,13 +1038,13 @@ https://github.com/NextCenturyCorporation/MCS/assets/10994382/0ee10cb4-b4b3-42f7
 
 Differences from evaluation tasks: In the training data, the secondary agent moves the inanimate object to a new position behind the same occluder; in the evaluation data, the secondary agent moves the inanimate object to a new position behind the other occluder.
 
-True Belief:
+True Belief Training Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/1f2e9fe5-369a-458f-9ea9-1d4b64439137
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/f7bbd86d-6bf3-4765-8839-819bea328930
 
-False Belief:
+False Belief Training Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/b8d1a38a-0c9b-4ee9-9851-3e2f52108088
 
@@ -1045,7 +1073,29 @@ Summary:
 
 Object Permanence tasks require a common-sense understanding of object permanence. This is a “passive physics” task: you must watch objects moving in a scene (using only Pass actions) and determine whether the simulation was “plausible” (realistic) or “implausible” (unrealistic) based on whether or not objects spontaneously appear and/or disappear.
 
-TODO VIDEOS
+Plausible Examples:
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/7b036be5-3264-406f-a406-2be8642153d0
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/cde52399-3431-44a4-b923-b3d9df9655ea
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/fa5b36fb-e5d0-403e-a2be-2509f798a110
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/7c04fe8b-9b74-4f70-a702-6f1ba1c50ea6
+
+Implausible Examples:
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/1fef5760-9bb5-4191-ac3e-163a55d584e0
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/4e0aae11-41da-401b-b1a5-a9e273745af7
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/c7b61a51-37f0-4308-9bb9-475322833f1f
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/0b21d679-9ee4-4bd0-ad99-7c683a234433
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/dfd2f067-ea66-4008-abb4-164f72d09461
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/5f081f8d-9f89-4f7d-8cfc-f92c2a8367b3
 
 #### Shape Constancy (Passive Physics)
 
@@ -1053,7 +1103,13 @@ Summary:
 
 Shape Constancy tasks require a common-sense understanding of shape constancy. This is a “passive physics” task: you must watch objects moving in a scene (using only Pass actions) and determine whether the simulation was “plausible” (realistic) or “implausible” (unrealistic) based on whether or not objects spontaneously transform into different shapes.
 
-TODO VIDEOS
+Plausible Examples:
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/810ee604-c1c5-4dd1-96b3-aaf83f0d8e44
+
+Implausible Examples:
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/bda22698-261e-4963-b176-ec682b5deb33
 
 #### Spatio-Temporal Continuity (Passive Physics)
 
@@ -1061,7 +1117,21 @@ Summary:
 
 Spatio-Temporal Continuity tasks require a common-sense understanding of spatial and temporal continuity. This is a “passive physics” task: you must watch objects moving a scene (using only Pass actions) and determine whether the simulation was “plausible” (realistic) or “implausible” (unrealistic) based on whether or not objects spontaneously teleport across the room.
 
-TODO VIDEOS
+Plausible Examples:
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/4afe4927-168b-4b0f-95c6-b0ab7a1c8525
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/28f25cd5-d826-4c18-bb55-2550ce4658a5
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/adfe7aca-4eb0-441b-a053-fb67c453e6f3
+
+Implausible Examples:
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/56bd0b1b-e020-4f0b-95b6-a6edc9988f0d
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/db949773-3df1-4fa5-9be0-171db7e384de
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/37b1b68d-6476-4fd1-9578-88df88cada02
 
 ### Passive Physics Tasks Introduced in Evaluation 3.5
 
@@ -1070,6 +1140,8 @@ TODO VIDEOS
 Summary:
 
 Passive Gravity Support tasks require a common-sense understanding of gravity. This is a “passive physics” task: you must watch objects moving in a scene (using only Pass actions) and determine whether the simulation was “plausible” (realistic) or “implausible” (unrealistic) based on whether or not objects are properly supported.
+
+Plausible Examples:
 
 |||||
 |---|---|---|---|
@@ -1085,7 +1157,17 @@ Summary:
 
 Passive Collision tasks require a common-sense understanding of collision physics. This is a “passive physics” task: you must watch objects moving in a scene (using only Pass actions) and determine whether the simulation was “plausible” (realistic) or “implausible” (unrealistic) based on whether or not objects properly collide with one another.
 
-TODO VIDEOS
+Plausible Examples:
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/1539c889-e6b4-40a5-b5c6-12def9860b8d
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/9f471884-0adf-4fe7-b434-c5e88b03a626
+
+Implausible Examples:
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/f9d73f01-a9cb-4ad5-8c34-fcd661e1b1ac
+
+https://github.com/NextCenturyCorporation/MCS/assets/10994382/f310c0d4-bbc5-41f8-8e40-f480dcddc82e
 
 ## Other Tasks
 
@@ -1103,19 +1185,15 @@ Summary:
 
 Seeing Leads to Knowing tasks require a common-sense understanding of agency. This is a “passive” task: you must watch (using only Pass actions) as a soccer ball is deposited into a container and an agent approaches a container, and then determine whether the simulation was “plausible” (realistic) or “implausible” (unrealistic) based on whether or not the agent acted with common-sense reasoning (if the agent saw the ball being deposited, it should approach the container holding the ball; otherwise it should approach one of the containers behind it, because one of those containers holds the ball).
 
-Plausible:
+Plausible Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/a3c4a8b0-9c3f-4580-a9a3-7ee26fec66ce
 
-Plausible:
-
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/fcdbc37f-c616-407d-b312-ff4f082d5a8c
 
-Implausible:
+Implausible Examples:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/90f065bb-3776-4112-99f3-b060bd525a36
-
-Implausible:
 
 https://github.com/NextCenturyCorporation/MCS/assets/10994382/8a7c0e7e-275b-42a3-b2c8-6ea43ab251da
 
