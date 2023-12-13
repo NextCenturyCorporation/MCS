@@ -40,7 +40,7 @@ class RunSceneWithDir:
         self.step_number = 0
 
     def run_loop(self):
-        logger.info(
+        logger.debug(
             f"Starting controller: watching command directory "
             f"{self.command_in_dir[(self.command_in_dir.rfind('/') + 1):]}"
             f", writing to output directory "
@@ -109,7 +109,7 @@ class RunSceneWithDir:
                 self.step_and_save(command)
 
     def load_scene(self):
-        logger.info(f"Loading file {self.scene_file}")
+        logger.debug(f"Loading file {self.scene_file}")
 
         if not exists(self.scene_file):
             logger.warn(f"Missing file {self.scene_file}")
@@ -125,7 +125,7 @@ class RunSceneWithDir:
             logger.exception(f"Error loading file {self.scene_file}")
 
     def step_and_save(self, command):
-        logger.info(f"Executing command {command}")
+        logger.debug(f"Executing command {command}")
         try:
             output: StepMetadata = self.controller.step(command)
             if output is not None:
@@ -169,7 +169,7 @@ class RunSceneWithDir:
                 f"Error saving error output to file {error_output_file}")
 
     def save_output_info(self, output: StepMetadata):
-        logger.info(f"Saving output info at step {output.step_number}")
+        logger.debug(f"Saving output info at step {output.step_number}")
 
         output_to_save_dict = {
             'step_number': output.step_number,
@@ -188,7 +188,7 @@ class RunSceneWithDir:
                 f'{self.output_dir}/step_output_{scene_id}_step_'
                 f'{output.step_number}.json'
             )
-            logger.info(
+            logger.debug(
                 f"Saved json file on step {output.step_number} to "
                 f"{output_path}"
             )
@@ -200,7 +200,7 @@ class RunSceneWithDir:
                 f"Error saving output info on step {output.step_number}")
 
     def save_output_image(self, output: StepMetadata):
-        logger.info(f"Saving output image at step {output.step_number}")
+        logger.debug(f"Saving output image at step {output.step_number}")
         scene_id = self.scene_file[
             (self.scene_file.rfind('/') + 1):(self.scene_file.rfind('.'))
         ]
@@ -211,7 +211,7 @@ class RunSceneWithDir:
                     f'{self.output_dir}/rgb_{scene_id}_step_'
                     f'{output.step_number}.png'
                 )
-                logger.info(
+                logger.debug(
                     f"Saved RGB image on step {output.step_number} to "
                     f"{img_path}"
                 )
@@ -236,13 +236,13 @@ class RunSceneWithDir:
     # ----------------------------------
     def on_created(self, event):
         path = self.convert_file_path(event.src_path)
-        logger.info(f"File creation: {path}")
+        logger.debug(f"File creation: {path}")
         self.load_command_file(path)
         os.unlink(event.src_path)
 
     def on_modified(self, event):
         path = self.convert_file_path(event.src_path)
-        logger.info(f"File modified: {path}")
+        logger.debug(f"File modified: {path}")
         self.load_command_file(path)
         os.unlink(event.src_path)
 
@@ -264,6 +264,11 @@ def parse_args():
     parser.add_argument(
         '--mcs_output_dir',
         help='MCS directory that images will appear in')
+    parser.add_argument(
+        '--debug',
+        default=False,
+        action='store_true',
+        help='Debug logging')
     return parser.parse_args()
 
 
@@ -272,6 +277,7 @@ if __name__ == "__main__":
     # scene_file = args.mcs_scene_json_file
     command_in_dir = args.mcs_command_in_dir
     output_dir = args.mcs_output_dir
+    logger.setLevel(logging.DEBUG if args.debug else logging.INFO)
 
     run_scene = RunSceneWithDir(command_in_dir, output_dir)
     run_scene.run_loop()

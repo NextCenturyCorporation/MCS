@@ -1,6 +1,7 @@
 import datetime
 import glob
 import json
+import logging
 import os
 import sys
 import time
@@ -35,9 +36,9 @@ IMAGE_COUNT = 500
 def convert_key_to_action(key: str, logger):
     for action in mcs.Action:
         if key.lower() == action.key:
-            logger.info(f"Converting '{key}' into {action.value}")
+            logger.debug(f"Converting '{key}' into {action.value}")
             return action.value
-    logger.info(f"Unable to convert '{key}'. Returning Pass...")
+    logger.debug(f"Unable to convert '{key}'. Returning Pass...")
     return "Pass"
 
 
@@ -52,7 +53,7 @@ class MCSInterface:
 
     def __init__(self, user: str):
         self.logger = current_app.logger
-        self.logger.info(f'MCS interface directory: {TMP_DIR_FULL_PATH}')
+        self.logger.debug(f'MCS interface directory: {TMP_DIR_FULL_PATH}')
         self.step_number = 0
         self.scene_id = None
         self.scene_filename = None
@@ -91,7 +92,11 @@ class MCSInterface:
     def start_mcs(self):
         # Start the unity controller.  (the function is in a different
         # file so we can pickle / store MCSInterface in the session)
-        self.pid = start_subprocess(self.command_out_dir, self.step_output_dir)
+        self.pid = start_subprocess(
+            self.command_out_dir,
+            self.step_output_dir,
+            self.logger.isEnabledFor(logging.DEBUG)
+        )
 
         # Read in the image
         images, _ = self.get_images_and_step_output(startup=True)
@@ -218,7 +223,7 @@ class MCSInterface:
             timenow = time.time()
             elapsed = (timenow - timestart)
             if (startup and elapsed > UNITY_STARTUP_WAIT_TIMEOUT):
-                self.logger.info(
+                self.logger.debug(
                     "Display blank image on default when starting up.")
                 self.img_name = self.blank_path
                 return [self.img_name], self.step_output
@@ -230,7 +235,7 @@ class MCSInterface:
                 if (quick_error_check):
                     log_message = "Error returned from MCS controller."
 
-                self.logger.info(log_message)
+                self.logger.warn(log_message)
 
                 list_of_error_files = glob.glob(
                     self.step_output_dir + "/error_*.json")
@@ -363,18 +368,18 @@ class MCSInterface:
 
     def get_task_desc(self, scene_filename):
         """Get task description based on filename from mcs_task_desc.py"""
-        self.logger.info(
+        self.logger.debug(
             f"Attempt to get task description based"
             f"on scene_filename: {scene_filename}")
         scene_type = scene_filename.split('/')[-1].split('0')[0][:-1].upper()
 
         for description in TaskDescription:
             if (description.name == scene_type):
-                self.logger.info(
+                self.logger.debug(
                     f"Scene type identified: {description.name}")
                 return description.value
 
-        self.logger.info("Scene type not found, returning 'N/A'")
+        self.logger.warn("Scene type not found, returning 'N/A'")
         return "N/A"
 
     def get_controller_pid(self):

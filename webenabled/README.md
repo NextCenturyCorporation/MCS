@@ -4,13 +4,10 @@
 
 First, "git clone" this repository. Then run the following commands from this folder to setup your python environment:
 
-_(TODO: Remove the 4th line once 0.7.0 is released)_
-
 ```
 python3 -m venv --prompt webenabled venv
 source venv/bin/activate
 python -m pip install --upgrade pip setuptools wheel
-python -m pip install -e ../
 python -m pip install -r requirements.txt
 ```
 
@@ -29,9 +26,9 @@ scene files will appear on the web page
 
 First, run `cache_addressables` to cache all addressable assets and prevent possible timeout issues. You should do this each time you reboot your machine.
 
-For development, run `python mcsweb.py` to start the flask server with host `0.0.0.0` (so the page will be accessable from any machine on the network) and port `8080`.
+Then, run `python mcsweb.py` to start the flask server with host `0.0.0.0` (so the page will be accessable from any machine on the network) and port `8080`.
 
-For production, use a WSGI server (not sure what to put here....)
+Alternatively, run `python mcsweb.py` to see all of the available options. The `--debug` flag is very helpful for development.
 
 ## Use 
 

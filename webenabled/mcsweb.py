@@ -1,9 +1,11 @@
+import argparse
 import logging
 import random
 import string
 
 import psutil
 import typeguard
+import waitress
 
 
 # Override the typechecked decorator used in machine_common_sense to do nothing
@@ -74,22 +76,22 @@ def get_mcs_interface(request, label, on_exit=False):
 
     # If old user, get stored mcs interface
     if uniq_id_str is not None:
-        app.logger.info(f"{label}: existing user: {uniq_id_str}")
+        app.logger.debug(f"{label}: existing user: {uniq_id_str}")
         mcs_interface = session.get(uniq_id_str)
         if mcs_interface is not None:
             controller_alive = mcs_interface.is_controller_alive()
             if controller_alive:
                 return mcs_interface, uniq_id_str
-            app.logger.info("MCS controller is unavailable")
+            app.logger.debug("MCS controller is unavailable")
         else:
-            app.logger.info("MCS interface is unavailable")
+            app.logger.debug("MCS interface is unavailable")
 
     # skip for exit_unity route, since in that case, we don't
     # need to start a new interface/controller if one isn't found
     if (on_exit is False):
         letters = string.ascii_lowercase
         uniq_id_str = ''.join(random.choice(letters) for i in range(10))
-        app.logger.info(f"{label}: new user: {uniq_id_str}")
+        app.logger.debug(f"{label}: new user: {uniq_id_str}")
 
         # Don't recognize, create new mcs interface
         mcs_interface = MCSInterface(uniq_id_str)
@@ -101,8 +103,8 @@ def get_mcs_interface(request, label, on_exit=False):
 
 @app.route('/mcs')
 def show_mcs_page():
-    app.logger.info("=" * 30)
-    app.logger.info(
+    app.logger.debug("=" * 30)
+    app.logger.debug(
         "Initialize page before checking for "
         "controller and existing user session...")
     rendered_template = render_template(
@@ -116,7 +118,7 @@ def show_mcs_page():
 
 @app.route('/load_controller', methods=["POST"])
 def handle_load_controller():
-    app.logger.info("=" * 30)
+    app.logger.debug("=" * 30)
     mcs_interface, uniq_id_str = get_mcs_interface(request, "Load page")
     if mcs_interface is None:
         app.logger.warn("Cannot load MCS interface")
@@ -135,7 +137,7 @@ def handle_load_controller():
 
 @app.route("/keypress", methods=["POST"])
 def handle_keypress():
-    app.logger.info("=" * 30)
+    app.logger.debug("=" * 30)
     mcs_interface, _ = get_mcs_interface(request, "Key press")
     if mcs_interface is None:
         app.logger.warn("Cannot load MCS interface")
@@ -151,12 +153,12 @@ def handle_keypress():
     img = images[0]
     step_number = mcs_interface.step_number
     if key:
-        app.logger.info(
+        app.logger.debug(
             f"Key press: '{key}', action string: {action_string}, "
             f"step: {step_number}, img: {img}, output: {step_output}"
         )
     else:
-        app.logger.info(
+        app.logger.debug(
             f"Action: '{action}', "
             f"step: {step_number}, img: {img}, output: {step_output}"
         )
@@ -172,7 +174,7 @@ def handle_keypress():
 
 @app.route("/exit_unity", methods=["POST"])
 def exit_unity():
-    app.logger.info("=" * 30)
+    app.logger.debug("=" * 30)
     mcs_interface, unique_id = get_mcs_interface(
         request, "Exit Unity", on_exit=True)
     if mcs_interface is None:
@@ -188,26 +190,26 @@ def exit_unity():
 
     controller_pid = mcs_interface.get_controller_pid()
 
-    app.logger.info(
+    app.logger.debug(
         "Attempting to clean up processes after browser has been closed.")
 
     for p in psutil.process_iter(['pid']):
         if p.info['pid'] == controller_pid:
             children = p.children(recursive=True)
             for c_process in children:
-                app.logger.info(
+                app.logger.debug(
                     f"Found child process of controller: {c_process}, "
                     f"will attempt to end.")
                 c_process.kill()
 
-            app.logger.info(
+            app.logger.debug(
                 f"Found controller process: {p}, will attempt to end.")
             p.kill()
 
     if (unique_id is None):
         unique_id = request.cookies.get("uniq_id")
 
-    app.logger.info(
+    app.logger.debug(
         f"Clear user session for: {unique_id}")
     del session[unique_id]
 
@@ -222,7 +224,7 @@ def exit_unity():
 
 @app.route("/scene_selection", methods=["POST"])
 def handle_scene_selection():
-    app.logger.info("=" * 30)
+    app.logger.debug("=" * 30)
     mcs_interface, _ = get_mcs_interface(request, "Start scene")
     if mcs_interface is None:
         app.logger.warn("Cannot load MCS interface")
@@ -233,7 +235,7 @@ def handle_scene_selection():
     load_output = mcs_interface.load_scene("scenes/" + scene_filename)
     images, step_output, action_list, goal_info, task_desc = load_output
     img = convert_image_path(images[0])
-    app.logger.info(f"Start scene: {scene_filename}, output: {img}")
+    app.logger.debug(f"Start scene: {scene_filename}, output: {img}")
     resp = jsonify(
         last_action="Initialize",
         action_list=action_list,
@@ -249,4 +251,44 @@ def handle_scene_selection():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    parser = argparse.ArgumentParser(description=(
+        'Machine Common Sense Web Interface'
+    ))
+    parser.add_argument(
+        '--host',
+        type=str,
+        default='0.0.0.0',
+        help='Host'
+    )
+    parser.add_argument(
+        '--port',
+        type=int,
+        default=8080,
+        help='Port'
+    )
+    parser.add_argument(
+        '--dev',
+        default=False,
+        action='store_true',
+        help='Development server'
+    )
+    parser.add_argument(
+        '--debug',
+        default=False,
+        action='store_true',
+        help='Debug logging'
+    )
+    args = parser.parse_args()
+    app.logger.info(
+        f'Starting MCS web interface: host={args.host} port={args.port} '
+        f'dev={args.dev} debug={args.debug}'
+    )
+
+    if args.dev:
+        app.run(host=args.host, port=args.port, debug=True)
+    else:
+        waitress.serve(app, host=args.host, port=args.port)
+        waitress_logger = logging.getLogger('waitress')
+        waitress_logger.setLevel(logging.DEBUG if args.debug else logging.INFO)
+
+    app.logger.setLevel(logging.DEBUG if args.debug else logging.INFO)

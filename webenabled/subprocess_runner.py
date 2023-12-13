@@ -11,14 +11,15 @@ import subprocess
 from flask import current_app
 
 
-def start_subprocess(command_dir, output_dir):
+def start_subprocess(command_dir, output_dir, debug):
     logger = current_app.logger
-    proc = subprocess.Popen(
-        ["python3", "run_scene_with_dir.py",
-         "--mcs_command_in_dir", command_dir,
-         "--mcs_output_dir", output_dir])
+    proc = subprocess.Popen([
+        "python3", "run_scene_with_dir.py",
+        "--mcs_command_in_dir", command_dir,
+        "--mcs_output_dir", output_dir
+    ] + (["--debug"] if debug else []))
     pid_str = str(proc.pid)
-    logger.info(
+    logger.debug(
         f"Running script to start the MCS Controller with command directory "
         f"{command_dir[(command_dir.rfind('/') + 1):]}"
         f" and output directory "
