@@ -1,0 +1,318 @@
+{
+  "goal": {
+    "action_list": [],
+    "category": "retrieval",
+    "description": "Find and pick up the small light black white rubber ball.",
+    "last_step": 2100,
+    "metadata": {
+      "target": {
+        "id": "fbab2c25-ad06-4395-b940-1f1c739ebb15"
+      }
+    }
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [],
+  "name": "eval_7_interactive_object_permanence_0001_05",
+  "objects": [
+    {
+      "id": "fbab2c25-ad06-4395-b940-1f1c739ebb15",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 3.75,
+            "y": 3.475,
+            "z": 2.75
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 180.0,
+            "z": -5.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": [],
+      "forces": [
+        {
+          "impulse": true,
+          "relative": true,
+          "stepBegin": 1,
+          "stepEnd": 1,
+          "vector": {
+            "x": 4.0,
+            "y": 0,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "throwing_device_left_9c386caf-222a-4bc1-a0d1-41b02740aaa8",
+      "type": "tube_wide",
+      "mass": 21,
+      "materials": ["Custom/Materials/Grey"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -3.75,
+            "y": 3.5,
+            "z": 2.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 90
+          },
+          "scale": {
+            "x": 0.55,
+            "y": 0.55,
+            "z": 0.55
+          }
+        }
+      ],
+      "states": [["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"],["held"]]
+    },
+    {
+      "id": "throwing_device_right_0c48e521-6bc9-4d5a-8fad-6bbdfa79653f",
+      "type": "tube_wide",
+      "mass": 21,
+      "materials": ["Custom/Materials/Grey"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 3.75,
+            "y": 3.5,
+            "z": 2.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 180,
+            "z": 90
+          },
+          "scale": {
+            "x": 0.55,
+            "y": 0.55,
+            "z": 0.55
+          }
+        }
+      ],
+      "states": [["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"],["released"]]
+    },
+    {
+      "id": "occluder_front_460abf66-f141-421f-a1a2-2e40bb55a7c9",
+      "type": "cube",
+      "mass": 125,
+      "materials": ["Custom/Materials/White"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -2.375,
+            "y": 0.125,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.75,
+            "y": 0.25,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "occluder_side_460abf66-f141-421f-a1a2-2e40bb55a7c9",
+      "type": "cube",
+      "mass": 62,
+      "materials": ["Custom/Materials/White"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -1.625,
+            "y": 0.5,
+            "z": 3.125
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.25,
+            "y": 1,
+            "z": 3.75
+          }
+        }
+      ]
+    },
+    {
+      "id": "occluder_front_b4e67345-7c0e-405e-a690-511df3b88d27",
+      "type": "cube",
+      "mass": 125,
+      "materials": ["Custom/Materials/White"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 2.375,
+            "y": 0.125,
+            "z": 0.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.75,
+            "y": 0.25,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "occluder_side_b4e67345-7c0e-405e-a690-511df3b88d27",
+      "type": "cube",
+      "mass": 62,
+      "materials": ["Custom/Materials/White"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 1.625,
+            "y": 0.5,
+            "z": 3.125
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.25,
+            "y": 1,
+            "z": 3.75
+          }
+        }
+      ]
+    },
+    {
+      "id": "platform_1ec74ad6-6759-4f9c-a6d2-2345c2d413c7",
+      "type": "cube",
+      "mass": 750,
+      "materials": ["AI2-THOR/Materials/Metals/Metal"],
+      "kinematic": true,
+      "structure": true,
+      "lips": {
+        "front": false,
+        "back": false,
+        "left": false,
+        "right": false
+      },
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0,
+            "y": 0.5,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 1,
+            "z": 12
+          }
+        }
+      ]
+    },
+    {
+      "id": "wall_6dffc727-cade-42b7-8eba-1d5f43b55826c157b6f8-817e-4f83-9e9d-7f1b659e3774",
+      "type": "cube",
+      "mass": 4,
+      "materials": ["Custom/Materials/Black"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0,
+            "y": 1.125,
+            "z": -3
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.25,
+            "z": 0.25
+          }
+        }
+      ]
+    }
+  ],
+  "screenshot": false,
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
+  "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetDark",
+  "floorTextures": [],
+  "intuitivePhysics": false,
+  "isometricFrontRight": false,
+  "performerStart": {
+    "position": {
+      "x": 0.0,
+      "y": 2.25,
+      "z": -5.5
+    },
+    "rotation": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 8.0,
+    "y": 8.0,
+    "z": 12.0
+  },
+  "wallMaterial": "AI2-THOR/Materials/Metals/Metal"
+}

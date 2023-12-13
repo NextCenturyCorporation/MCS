@@ -1,0 +1,427 @@
+{
+  "goal": {
+    "category": "retrieval",
+    "description": "Find and pick up the tiny light black white rubber ball.",
+    "last_step": 2800,
+    "metadata": {
+      "target": {
+        "id": "5c460c3e-1885-417e-8e42-d6dfb79401ca"
+      }
+    }
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [],
+  "name": "eval_7_interactive_containers_0001_06",
+  "objects": [
+    {
+      "id": "5c460c3e-1885-417e-8e42-d6dfb79401ca",
+      "type": "soccer_ball",
+      "mass": 1.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 0.0,
+            "y": 0.138,
+            "z": 0.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": [],
+      "locationParent": "a3b0b4d2-8810-43ac-9f35-62504ec8c571"
+    },
+    {
+      "id": "a3b0b4d2-8810-43ac-9f35-62504ec8c571",
+      "type": "toolbox_8",
+      "mass": 105.0,
+      "salientMaterials": ["metal"],
+      "receptacle": true,
+      "openable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -3.18,
+            "y": 0,
+            "z": -0.6
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 225.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 7.0,
+            "y": 7.0,
+            "z": 7.0
+          }
+        }
+      ],
+      "materials": ["AI2-THOR/Materials/Metals/WhiteMetal"],
+      "canContainTarget": true
+    },
+    {
+      "id": "46f61c3a-b7ac-4db5-9adf-09edc0a8d970",
+      "type": "circular_container",
+      "mass": 8.75,
+      "salientMaterials": ["plastic"],
+      "receptacle": true,
+      "openable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -2.1,
+            "y": 0,
+            "z": 2.99
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 225.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.75,
+            "y": 1.75,
+            "z": 1.75
+          }
+        }
+      ],
+      "materials": ["AI2-THOR/Materials/Plastics/OrangePlastic"],
+      "canContainTarget": true
+    },
+    {
+      "id": "0279bd8a-a8e3-457c-baca-93223e40bc9a",
+      "type": "bowl_6",
+      "mass": 1.0,
+      "salientMaterials": ["wood"],
+      "receptacle": true,
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 225.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": -2.92,
+            "y": 0.005,
+            "z": 0.68
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/WhiteWoodMCS"]
+    },
+    {
+      "id": "ee4ffeb2-0c9f-4be3-a23a-09ae6db6d658",
+      "type": "cup_6",
+      "mass": 1.0,
+      "salientMaterials": ["wood"],
+      "receptacle": true,
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 225.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": -2.45,
+            "y": 0.005,
+            "z": -3.17
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/BlackWoodMCS"]
+    },
+    {
+      "id": "dce6eb54-9743-469b-93e7-9c9090f8d84a",
+      "type": "block_blank_wood_cylinder",
+      "mass": 1.11,
+      "salientMaterials": ["wood"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 225.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": -1.77,
+            "y": 0.05,
+            "z": 4.08
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 1.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": ["UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/gray_1x1"]
+    },
+    {
+      "id": "fa40dd74-622a-4291-972d-3da1f1fc80fc",
+      "type": "train_1",
+      "mass": 2.0,
+      "salientMaterials": ["wood"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 405.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": -1.47,
+            "y": 0.005,
+            "z": -1.75
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": ["UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/yellow_1x1"]
+    },
+    {
+      "id": "c4e9ce00-f2e5-484f-af1e-a1ae563a141b",
+      "type": "dog_on_wheels_2",
+      "mass": 4.8,
+      "salientMaterials": ["wood"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 405.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": -1.47,
+            "y": 0.003,
+            "z": 4.79
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 0.6,
+            "y": 0.6,
+            "z": 0.6
+          }
+        }
+      ],
+      "materials": ["UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/red_1x1"]
+    },
+    {
+      "id": "fa4b114c-62d6-48c9-af3b-e81e01f799f8",
+      "type": "truck_4",
+      "mass": 1.0,
+      "salientMaterials": ["wood"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 405.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": -3.89,
+            "y": 0.0025,
+            "z": 4.01
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/AzureWoodMCS"]
+    },
+    {
+      "id": "b71393dd-e639-499b-934c-05c026462968",
+      "type": "bowl_6",
+      "mass": 1.0,
+      "salientMaterials": ["wood"],
+      "receptacle": true,
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 225.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": -0.31,
+            "y": 0.005,
+            "z": 1.35
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": ["AI2-THOR/Materials/Wood/WoodGrain_Brown"]
+    },
+    {
+      "id": "3621e0ba-b166-4dd2-9d88-5f7285db10c3",
+      "type": "block_blank_wood_cylinder",
+      "mass": 0.666,
+      "salientMaterials": ["wood"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 225.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": -4.81,
+            "y": 0.05,
+            "z": -5.23
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": ["AI2-THOR/Materials/Wood/DarkWoodSmooth2"]
+    },
+    {
+      "id": "6574d471-80a5-45da-91d7-1e6fa43d6b46",
+      "type": "crayon_pink",
+      "mass": 0.125,
+      "salientMaterials": ["wax"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 225.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": 3.85,
+            "y": 0.005,
+            "z": -1.88
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": []
+    },
+    {
+      "id": "f75a4b2c-bbf4-4de7-b7e3-59b4b341dc87",
+      "type": "bowl_6",
+      "mass": 1.0,
+      "salientMaterials": ["wood"],
+      "receptacle": true,
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 225.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": -2.52,
+            "y": 0.005,
+            "z": -0.82
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/BlackWoodMCS"]
+    }
+  ],
+  "screenshot": false,
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall4Tiled",
+  "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetDarkGreen",
+  "floorTextures": [],
+  "intuitivePhysics": false,
+  "isometricFrontRight": false,
+  "performerStart": {
+    "position": {
+      "x": 2.47,
+      "y": 0.0,
+      "z": -0.13
+    },
+    "rotation": {
+      "x": 0.0,
+      "y": 225.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 12.0,
+    "y": 5.0,
+    "z": 11.0
+  },
+  "wallMaterial": "Custom/Materials/VioletWoodMCS"
+}

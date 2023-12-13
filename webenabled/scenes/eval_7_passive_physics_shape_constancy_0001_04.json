@@ -1,0 +1,452 @@
+{
+  "goal": {
+    "action_list": [["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"]],
+    "category": "intuitive physics",
+    "description": "",
+    "last_step": 160,
+    "metadata": {}
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [],
+  "name": "eval_7_passive_physics_shape_constancy_0001_04",
+  "objects": [
+    {
+      "id": "ae903bd3-d474-4894-ae6b-ad0bf3d54c14",
+      "type": "truck_2",
+      "mass": 10.15,
+      "salientMaterials": ["wood"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -1.95,
+            "y": 6.3502,
+            "z": 5.1
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 90.0,
+            "z": 0.0
+          },
+          "stepBegin": 81,
+          "scale": {
+            "x": 2.03,
+            "y": 2.03,
+            "z": 2.03
+          }
+        }
+      ],
+      "materials": ["UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/gray_1x1"],
+      "hides": [
+        {
+          "stepBegin": 117
+        }
+      ]
+    },
+    {
+      "id": "58d6b6b9-c0f3-40ee-9c12-287af21d0327",
+      "type": "racecar_red",
+      "mass": 14.95,
+      "salientMaterials": ["wood"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 1.55,
+            "y": 5.6699,
+            "z": 3.35
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 90.0,
+            "z": 0.0
+          },
+          "stepBegin": 81,
+          "scale": {
+            "x": 5.98,
+            "y": 5.98,
+            "z": 5.98
+          }
+        }
+      ],
+      "materials": ["UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/yellow_1x1"],
+      "hides": [
+        {
+          "stepBegin": 117
+        }
+      ]
+    },
+    {
+      "id": "occluder_wall_73c10d53-cc7f-40cd-9dab-e170273847e6",
+      "type": "cube",
+      "kinematic": true,
+      "structure": true,
+      "mass": 100,
+      "materials": ["Custom/Materials/PurpleDrywallMCS"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -1.1172,
+            "y": 0.9,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.937,
+            "y": 1.8,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 6,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 23,
+          "stepEnd": 28,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 145,
+          "stepEnd": 150,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "rotates": [
+        {
+          "stepBegin": 7,
+          "stepEnd": 12,
+          "vector": {
+            "x": 15,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 17,
+          "stepEnd": 22,
+          "vector": {
+            "x": -15,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 151,
+          "stepEnd": 156,
+          "vector": {
+            "x": 15,
+            "y": 0,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "occluder_pole_73c10d53-cc7f-40cd-9dab-e170273847e6",
+      "type": "cylinder",
+      "kinematic": true,
+      "structure": true,
+      "mass": 100,
+      "materials": ["AI2-THOR/Materials/Metals/Brass 1"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -4.543,
+            "y": 0.9,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 90
+          },
+          "scale": {
+            "x": 0.095,
+            "y": 2.957,
+            "z": 0.095
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 6,
+          "vector": {
+            "x": 0.25,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 23,
+          "stepEnd": 28,
+          "vector": {
+            "x": -0.25,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 145,
+          "stepEnd": 150,
+          "vector": {
+            "x": 0.25,
+            "y": 0,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "occluder_wall_b22406ac-5be9-49a2-9365-29d1aff4a2c2",
+      "type": "cube",
+      "kinematic": true,
+      "structure": true,
+      "mass": 100,
+      "materials": ["AI2-THOR/Materials/Walls/DrywallOrange"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 1.086,
+            "y": 0.9,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.1906,
+            "y": 1.8,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 6,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 23,
+          "stepEnd": 28,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 145,
+          "stepEnd": 150,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "rotates": [
+        {
+          "stepBegin": 7,
+          "stepEnd": 12,
+          "vector": {
+            "x": 15,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 17,
+          "stepEnd": 22,
+          "vector": {
+            "x": -15,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 151,
+          "stepEnd": 156,
+          "vector": {
+            "x": 15,
+            "y": 0,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "occluder_pole_b22406ac-5be9-49a2-9365-29d1aff4a2c2",
+      "type": "cylinder",
+      "kinematic": true,
+      "structure": true,
+      "mass": 100,
+      "materials": ["AI2-THOR/Materials/Metals/GenericStainlessSteel"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 4.591,
+            "y": 0.9,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 90
+          },
+          "scale": {
+            "x": 0.095,
+            "y": 2.909,
+            "z": 0.095
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 6,
+          "vector": {
+            "x": 0.25,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 23,
+          "stepEnd": 28,
+          "vector": {
+            "x": -0.25,
+            "y": 0,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 145,
+          "stepEnd": 150,
+          "vector": {
+            "x": 0.25,
+            "y": 0,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "ae903bd3-d474-4894-ae6b-ad0bf3d54c14",
+      "type": "trolley_1",
+      "mass": 11.35,
+      "salientMaterials": ["wood"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -1.95,
+            "y": 0.0114,
+            "z": 5.1
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 90.0,
+            "z": 0.0
+          },
+          "stepBegin": 117,
+          "scale": {
+            "x": 2.27,
+            "y": 2.27,
+            "z": 2.27
+          }
+        }
+      ],
+      "materials": ["UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/gray_1x1"]
+    },
+    {
+      "id": "58d6b6b9-c0f3-40ee-9c12-287af21d0327",
+      "type": "bobcat",
+      "mass": 18.275,
+      "salientMaterials": ["wood"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 1.55,
+            "y": 0.0366,
+            "z": 3.35
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 117,
+          "scale": {
+            "x": 7.31,
+            "y": 7.31,
+            "z": 7.31
+          }
+        }
+      ],
+      "materials": ["UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/yellow_1x1"]
+    }
+  ],
+  "screenshot": false,
+  "version": 3,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+  "floorMaterial": "AI2-THOR/Materials/Fabrics/Carpet4",
+  "floorTextures": [],
+  "intuitivePhysics": true,
+  "isometricFrontRight": false,
+  "performerStart": {
+    "position": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": -4.5
+    },
+    "rotation": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 10.0,
+    "y": 3.0,
+    "z": 10.0
+  },
+  "wallMaterial": "AI2-THOR/Materials/Walls/DrywallGreen"
+}

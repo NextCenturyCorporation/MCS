@@ -1,0 +1,372 @@
+{
+  "goal": {
+    "action_list": [["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"]],
+    "category": "intuitive physics",
+    "description": "",
+    "last_step": 200,
+    "metadata": {}
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [],
+  "name": "eval_7_passive_physics_spatio_temporal_continuity_0001_08",
+  "objects": [
+    {
+      "id": "fdf0a309-df92-439f-bd7d-cd64f82704b4",
+      "type": "car_4",
+      "mass": 19.65,
+      "salientMaterials": ["wood"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 4.91,
+            "y": 1.0393,
+            "z": 2.85
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 180.0,
+            "z": 0.0
+          },
+          "stepBegin": 83,
+          "scale": {
+            "x": 7.86,
+            "y": 7.86,
+            "z": 7.86
+          }
+        }
+      ],
+      "materials": ["AI2-THOR/Materials/Wood/WoodGrain_Tan"],
+      "forces": [
+        {
+          "stepBegin": 83,
+          "stepEnd": 83,
+          "vector": {
+            "x": -12379.5,
+            "y": 6877.5,
+            "z": 0
+          }
+        }
+      ],
+      "shrouds": [
+        {
+          "stepBegin": 92,
+          "stepEnd": 104
+        }
+      ]
+    },
+    {
+      "id": "occluder_wall_673669ac-4eba-4f3f-93dd-cafe8e86e640",
+      "type": "cube",
+      "kinematic": true,
+      "structure": true,
+      "mass": 100,
+      "materials": ["Custom/Materials/MaroonDrywallMCS"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -0.9536,
+            "y": 1.5,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.666,
+            "y": 3,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 6,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 29,
+          "stepEnd": 34,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 182,
+          "stepEnd": 187,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "rotates": [
+        {
+          "stepBegin": 7,
+          "stepEnd": 15,
+          "vector": {
+            "x": 0,
+            "y": 10,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 20,
+          "stepEnd": 28,
+          "vector": {
+            "x": 0,
+            "y": -10,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 188,
+          "stepEnd": 196,
+          "vector": {
+            "x": 0,
+            "y": 10,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "occluder_pole_673669ac-4eba-4f3f-93dd-cafe8e86e640",
+      "type": "cylinder",
+      "kinematic": true,
+      "structure": true,
+      "mass": 100,
+      "materials": ["AI2-THOR/Materials/Metals/GenericStainlessSteel"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -0.9536,
+            "y": 3.5,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.095,
+            "y": 0.5,
+            "z": 0.095
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 6,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 29,
+          "stepEnd": 34,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 182,
+          "stepEnd": 187,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "occluder_wall_c44955bd-5660-4f9d-b837-279551df569b",
+      "type": "cube",
+      "kinematic": true,
+      "structure": true,
+      "mass": 100,
+      "materials": ["Custom/Materials/BrownDrywallMCS"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 1.5173,
+            "y": 1.5,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.716,
+            "y": 3,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 6,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 29,
+          "stepEnd": 34,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 182,
+          "stepEnd": 187,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "rotates": [
+        {
+          "stepBegin": 7,
+          "stepEnd": 15,
+          "vector": {
+            "x": 0,
+            "y": -10,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 20,
+          "stepEnd": 28,
+          "vector": {
+            "x": 0,
+            "y": 10,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 188,
+          "stepEnd": 196,
+          "vector": {
+            "x": 0,
+            "y": -10,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "occluder_pole_c44955bd-5660-4f9d-b837-279551df569b",
+      "type": "cylinder",
+      "kinematic": true,
+      "structure": true,
+      "mass": 100,
+      "materials": ["AI2-THOR/Materials/Metals/Brass 1"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 1.5173,
+            "y": 3.5,
+            "z": 1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.095,
+            "y": 0.5,
+            "z": 0.095
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 6,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 29,
+          "stepEnd": 34,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 182,
+          "stepEnd": 187,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ]
+    }
+  ],
+  "screenshot": false,
+  "version": 3,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall4Tiled",
+  "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetGreen",
+  "floorTextures": [],
+  "intuitivePhysics": true,
+  "isometricFrontRight": false,
+  "performerStart": {
+    "position": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": -4.5
+    },
+    "rotation": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 10.0,
+    "y": 3.0,
+    "z": 10.0
+  },
+  "wallMaterial": "AI2-THOR/Materials/Ceramics/GREYGRANITE"
+}

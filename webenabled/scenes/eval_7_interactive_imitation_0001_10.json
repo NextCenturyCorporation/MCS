@@ -1,0 +1,354 @@
+{
+  "goal": {
+    "action_list": [["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["EndHabituation,xPosition=0.0,zPosition=-3.75,yRotation=0.0"]],
+    "category": "imitation",
+    "description": "Open the containers in the correct order for the tiny light black white rubber ball to be placed.",
+    "last_step": 3500,
+    "metadata": {
+      "target": {
+        "id": "44572e5f-6f07-4a35-b984-38bfc0d6dd16"
+      }
+    },
+    "triggeredByTargetSequence": [
+      "511bb0e1-1779-4696-921d-f97e1c9aadb6"
+    ]
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [],
+  "name": "eval_7_interactive_imitation_0001_10",
+  "objects": [
+    {
+      "id": "44572e5f-6f07-4a35-b984-38bfc0d6dd16",
+      "type": "soccer_ball",
+      "mass": 1.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 0.9,
+            "y": 2.44,
+            "z": -1.6
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        },
+        {
+          "stepBegin": 55,
+          "position": {
+            "x": 0.9,
+            "y": 2.44,
+            "z": -1.6
+          }
+        }
+      ],
+      "materials": [],
+      "triggeredBy": true,
+      "kinematic": true,
+      "moves": [
+        {
+          "stepBegin": 0,
+          "stepEnd": 8,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        }
+      ],
+      "togglePhysics": [
+        {
+          "stepBegin": 14
+        }
+      ]
+    },
+    {
+      "id": "agent_4270c4e3-86dc-42b3-8244-94fa2b940f27",
+      "type": "agent_female_06",
+      "mass": 75,
+      "agentSettings": {
+        "chest": 5,
+        "skin": 0,
+        "chestMaterial": 7,
+        "eyes": 1,
+        "feet": 3,
+        "feetMaterial": 6,
+        "hair": 3,
+        "hairMaterial": 3,
+        "hatMaterial": -1,
+        "hideHair": true,
+        "isElder": false,
+        "legs": 4,
+        "legsMaterial": 1,
+        "glasses": 0,
+        "jacket": 0,
+        "jacketMaterial": 0,
+        "tie": 0,
+        "tieMaterial": 0,
+        "showBeard": false,
+        "showGlasses": false,
+        "showJacket": false,
+        "showTie": false
+      },
+      "actions": [
+        {
+          "stepBegin": 18,
+          "stepEnd": 28,
+          "isLoopAnimation": false,
+          "id": "TPE_jump"
+        }
+      ],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -0.3,
+            "y": 0,
+            "z": -1.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 90,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        },
+        {
+          "stepBegin": 55,
+          "position": {
+            "x": 0.5174,
+            "y": 0,
+            "z": 2
+          },
+          "rotation": {
+            "y": 180
+          }
+        }
+      ],
+      "labels": "",
+      "agentMovement": {
+        "repeat": false,
+        "stepBegin": 1,
+        "sequence": [
+          {
+            "animation": "TPM_walk",
+            "endPoint": {
+              "x": 0.4,
+              "z": -1.0
+            }
+          },
+          {
+            "animation": "TPM_walk",
+            "endPoint": {
+              "x": 0.4,
+              "z": -1.15
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "903516ec-114b-4332-ba33-258dd0617480",
+      "type": "chest_1",
+      "mass": 5.0,
+      "salientMaterials": ["wood"],
+      "receptacle": true,
+      "openable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 0.9,
+            "y": 0.0,
+            "z": 1.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": -90.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/BlueWoodMCS"]
+    },
+    {
+      "id": "1fd75bcb-9f66-4a5d-8b5f-2c37a140bd02",
+      "type": "chest_1",
+      "mass": 5.0,
+      "salientMaterials": ["wood"],
+      "receptacle": true,
+      "openable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 0.9,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": -90.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/BlackWoodMCS"]
+    },
+    {
+      "id": "511bb0e1-1779-4696-921d-f97e1c9aadb6",
+      "type": "chest_1",
+      "mass": 5.0,
+      "salientMaterials": ["wood"],
+      "receptacle": true,
+      "openable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 0.9,
+            "y": 0.0,
+            "z": -1.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": -90.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/CreamWoodMCS"],
+      "openClose": [
+        {
+          "step": 22,
+          "open": true
+        },
+        {
+          "step": 55,
+          "open": false
+        }
+      ]
+    },
+    {
+      "id": "placer_05e5c06b-89e2-4dd6-9281-895e60453fec",
+      "type": "cylinder",
+      "mass": 1,
+      "materials": ["Custom/Materials/Magenta"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0.9,
+            "y": 3.55,
+            "z": -1.6
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.05,
+            "y": 1.0,
+            "z": 0.05
+          }
+        },
+        {
+          "stepBegin": 55,
+          "position": {
+            "x": 0.9,
+            "y": 3.55,
+            "z": -1.6
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 0,
+          "stepEnd": 8,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 19,
+          "stepEnd": 27,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "changeMaterials": [
+        {
+          "stepBegin": 14,
+          "materials": [
+            "Custom/Materials/Cyan"
+          ]
+        }
+      ],
+      "states": [["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["active"],["inactive"]],
+      "triggeredBy": true
+    }
+  ],
+  "screenshot": false,
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+  "floorMaterial": "UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 2",
+  "floorTextures": [],
+  "intuitivePhysics": false,
+  "isometricFrontRight": false,
+  "performerStart": {
+    "position": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": -3.75
+    },
+    "rotation": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 10.0,
+    "y": 3,
+    "z": 20.0
+  },
+  "wallMaterial": "Custom/Materials/AzureWoodMCS"
+}
