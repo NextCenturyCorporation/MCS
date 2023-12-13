@@ -4,7 +4,7 @@ Example Scenes
 Interactive Scenes
 ------------------
 
-For more interactive scenes, please see TODO
+For more example interactive scenes, please see our `task list <https://github.com/NextCenturyCorporation/MCS/blob/development/TASK_LIST.md>`_ page.
 
 Playroom
 ********
@@ -38,12 +38,12 @@ Soccer ball hidden inside hinged containers:
 Passive Agent Scenes
 --------------------
 
-For more passive agent scenes, please see TODO
+For more example passive agent scenes, please see our `task list <https://github.com/NextCenturyCorporation/MCS/blob/development/TASK_LIST.md>`_ page.
 
 Passive Physics Scenes
 ----------------------
 
-For more passive physics scenes, please see TODO
+For more example passive physics scenes, please see our `task list <https://github.com/NextCenturyCorporation/MCS/blob/development/TASK_LIST.md>`_ page.
 
 Simple Scenes
 -------------
