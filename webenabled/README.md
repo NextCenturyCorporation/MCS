@@ -4,7 +4,14 @@ This MCS web app lets you run scenes in your web browser, using your keyboard to
 
 ## Usage
 
-TODO
+1. Download the ZIP bundle for your operating system:
+    - Linux: TODO
+    - Mac: TODO
+    - Windows: TODO
+2. Unzip the ZIP bundle.
+3. In the `mcsweb/` folder, double-click the `mcsweb` file.
+4. In a web browser, go to: `http://127.0.0.1:8080/mcs`
+5. Select a scene from the list to load that scene. Follow the Usage instructions on the webpage to have your "robot" perform actions within the scene.
 
 ## Development
 
@@ -52,7 +59,9 @@ If on another machine in the same network, then instead go to: `http://<machine.
 
 ### Pyinstaller
 
-Please note: Your python virtual environment must be installed in this folder (`venv/` is inside `webenabled/`) and activated.
+Please note:
+- Your python virtual environment must be installed in this folder (`venv/` is inside `webenabled/`) and activated.
+- Packages for Windows must be built on Windows.
 
 #### Linux and Mac
 
@@ -81,6 +90,14 @@ Unfortunately, you need to copy a bunch of files into the `dist/mcsweb/` folder 
 ```
 cp *.py dist/mcsweb/ ; cp config_level1.ini dist/mcsweb/ ; cp -r scenes/ dist/mcsweb/ ; cp -r static/ dist/mcsweb/ ; cp -r venv/ dist/mcsweb/
 ```
+
+Then, ZIP up the `mcsweb/` folder:
+
+```
+cd dist/ ; zip -r machine_common_sense_demo.zip mcsweb/
+```
+
+Then upload the ZIP and update the corresponding link in this README.
 
 ##### Cleanup
 
