@@ -38,13 +38,9 @@ Then, run `python mcsweb.py` to start the flask server with host `0.0.0.0` (so t
 
 Alternatively, run `python mcsweb.py` to see all of the available options. The `--debug` flag is very helpful for development.
 
-Then, on your machine (or another machine on your network), in your web browser, go to:
+Then, on your machine, in your web browser, go to: `http://localhost:8080/mcs` (or, alternatively, `http://127.0.0.1:8080/mcs`).
 
-```
-http://<machine.ip.address>:8080/mcs
-```
-
-If accessing on your local machine, you can use `localhost` instead of an IP address.
+If on another machine in the same network, then instead go to: `http://<machine.ip.address>:8080/mcs`
 
 ### Overview
 
@@ -60,25 +56,35 @@ Please note: Your python virtual environment must be installed in this folder (`
 
 #### Linux and Mac
 
-Setup:
+##### Setup
 
 ```
 pip install -U pyinstaller
 ```
 
-Build:
+##### Build
 
 ```
 pyinstaller --add-data 'templates:templates' --add-data 'static:static' --add-data 'scenes:scenes' --console mcsweb.py --log-level=DEBUG &> pyinstaller.out
 ```
 
-Run:
+##### Run
 
 ```
 ./dist/mcsweb/mcsweb
 ```
 
-Cleanup (do before you need to rebuild):
+##### Package
+
+Unfortunately, you need to copy a bunch of files into the `dist/mcsweb/` folder before you begin packaging, in order for the application to run properly:
+
+```
+cp *.py dist/mcsweb/ ; cp config_level1.ini dist/mcsweb/ ; cp -r scenes/ dist/mcsweb/ ; cp -r static/ dist/mcsweb/ ; cp -r venv/ dist/mcsweb/
+```
+
+##### Cleanup
+
+Do before you rebuild:
 
 ```
 rm -rf build/ dist/

@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 import argparse
 import logging
 import os
@@ -289,6 +291,10 @@ if __name__ == "__main__":
     app.logger.info(
         f'Starting MCS web interface: host={args.host} port={args.port} '
         f'dev={args.dev} debug={args.debug}'
+    )
+    app.logger.info(
+        f'Please go to {"127.0.0.1" if args.host == "0.0.0.0" else args.host}:'
+        f'{args.port}/mcs in your web browser'
     )
 
     if args.dev:
