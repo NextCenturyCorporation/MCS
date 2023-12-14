@@ -373,10 +373,10 @@ class MCSInterface:
             f"on scene_filename: {scene_filename}")
         scene_type = scene_filename.split('/')[-1].split('0')[0][:-1].upper()
         # Remove "eval_7_" from the scene name if it's present.
-        scene_type = scene_type.replace('eval_7_', '')
+        scene_type = scene_type.replace('EVAL_7_', '')
         # Rename passive_agents to passive_agent for simplicity, because I'm
         # apparently inconsistent with our naming conventions (sorry).
-        scene_type = scene_type.replace('passive_agents_', 'passive_agent_')
+        scene_type = scene_type.replace('PASSIVE_AGENTS_', 'PASSIVE_AGENT_')
 
         for description in TaskDescription:
             if (description.name == scene_type):
