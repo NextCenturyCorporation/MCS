@@ -80,7 +80,11 @@ Each trial, or "scene", for an interactive task occurs within a procedurally gen
 
 ### Interactive Data
 
-TODO DOWNLOAD
+- Eval 7: https://eval-7.s3.amazonaws.com/eval_7_interactive.zip
+- Eval 6: https://eval-6.s3.amazonaws.com/eval_6_interactive_all.zip
+- Debug scene files for the MCS scoring software and evaluation UI:
+  - Eval 7: https://eval-7.s3.amazonaws.com/eval_7_interactive_debug.zip
+  - Eval 6: https://eval-6.s3.amazonaws.com/eval_6_interactive_debug_all.zip
 
 Training scenes for the following tasks can be made using the ILE Scene Generator: https://github.com/NextCenturyCorporation/mcs-scene-generator/
 
@@ -1061,7 +1065,11 @@ Each trial, or "scene", for a passive physics task occurs within a procedurally 
 
 ### Passive Physics Data
 
-TODO DOWNLOAD
+- Eval 7: https://eval-7.s3.amazonaws.com/eval_7_passive_physics.zip
+- Eval 6: https://eval-6.s3.amazonaws.com/eval_6_passive_physics.zip
+- Debug scene files for the MCS scoring software and evaluation UI:
+  - Eval 7: https://eval-7.s3.amazonaws.com/eval_7_passive_physics_debug.zip
+  - Eval 6: https://eval-6.s3.amazonaws.com/eval_6_passive_physics_debug.zip
 
 Training scenes for the following tasks can be made using the ILE Scene Generator: https://github.com/NextCenturyCorporation/mcs-scene-generator/
 
@@ -1173,7 +1181,11 @@ https://github.com/NextCenturyCorporation/MCS/assets/10994382/f310c0d4-bbc5-41f8
 
 ### Other Data
 
-TODO DOWNLOAD
+- Eval 7: https://eval-7.s3.amazonaws.com/eval_7_passive_other.zip
+- Eval 6: https://eval-6.s3.amazonaws.com/eval_6_passive_other.zip
+- Debug scene files for the MCS scoring software and evaluation UI:
+  - Eval 7: https://eval-7.s3.amazonaws.com/eval_7_passive_other_debug.zip
+  - Eval 6: https://eval-6.s3.amazonaws.com/eval_6_passive_other_debug.zip
 
 Training scenes for the following tasks can be made using the ILE Scene Generator: https://github.com/NextCenturyCorporation/mcs-scene-generator/
 
