@@ -1,7 +1,6 @@
-from enum import Enum, unique
+from enum import Enum
 
 
-@unique
 class TaskDescription(Enum):
     """
     The names for each enum correspond to the naming conventions currently
