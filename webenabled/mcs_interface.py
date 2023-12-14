@@ -372,8 +372,10 @@ class MCSInterface:
             f"Attempt to get task description based"
             f"on scene_filename: {scene_filename}")
         scene_type = scene_filename.split('/')[-1].split('0')[0][:-1].upper()
+        # Remove "eval_7_" from the scene name if it's present.
+        scene_type = scene_type.replace('eval_7_', '')
         # Rename passive_agents to passive_agent for simplicity, because I'm
-        # apparently inconsistent with our naming conventions (sorry)
+        # apparently inconsistent with our naming conventions (sorry).
         scene_type = scene_type.replace('passive_agents_', 'passive_agent_')
 
         for description in TaskDescription:
@@ -382,7 +384,7 @@ class MCSInterface:
                     f"Scene type identified: {description.name}")
                 return description.value
 
-        self.logger.warn("Scene type not found, returning 'N/A'")
+        self.logger.warn(f"Scene type {scene_type} not found, returning 'N/A'")
         return "N/A"
 
     def get_controller_pid(self):
