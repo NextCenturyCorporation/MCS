@@ -46,7 +46,7 @@ class TaskDescription(Enum):
         "completes the scenario. Sometimes the tool must be rotated (using "
         "RotateObject or TorqueObject) before it is pulled."
     )
-    INTERACTIVE_ASYMMETRIC_TOOL_USE = INTERACTIVE_ASYMMETRIC_TOOL
+    # INTERACTIVE_ASYMMETRIC_TOOL_USE = INTERACTIVE_ASYMMETRIC_TOOL
 
     INTERACTIVE_COLLISION = (
         "Interactive Collision tasks require a common-sense understanding "
@@ -63,7 +63,7 @@ class TaskDescription(Enum):
         "side of the room, you are unable to access the other side of the "
         "room (because it is blocked by lava)."
     )
-    INTERACTIVE_COLLISIONS = INTERACTIVE_COLLISION
+    # INTERACTIVE_COLLISIONS = INTERACTIVE_COLLISION
 
     INTERACTIVE_CONTAINERS = (
         "Container Retrieval tasks require a common-sense understanding "
@@ -203,7 +203,7 @@ class TaskDescription(Enum):
         "and finally use PickupObject on the ball, which completes the "
         "scenario."
     )
-    INTERACTIVE_SECONDARY_TOOL_USE = INTERACTIVE_SECONDARY_TOOL
+    # INTERACTIVE_SECONDARY_TOOL_USE = INTERACTIVE_SECONDARY_TOOL
 
     INTERACTIVE_SET_ROTATION = (
         "Set Rotation tasks require a common-sense understanding of tracking "
@@ -321,7 +321,7 @@ class TaskDescription(Enum):
         "out from the lava), and then use PickupObject on the ball, which "
         "completes the scenario."
     )
-    INTERACTIVE_SYMMETRIC_TOOL_USE = INTERACTIVE_SYMMETRIC_TOOL
+    # INTERACTIVE_SYMMETRIC_TOOL_USE = INTERACTIVE_SYMMETRIC_TOOL
 
     INTERACTIVE_TOOL_CHOICE = (
         "Tool Choice tasks require a common-sense understanding of "
@@ -353,7 +353,7 @@ class TaskDescription(Enum):
         "open the door to one side of the room, you are unable to access "
         "the other side of the room (because it is blocked by lava)."
     )
-    INTERACTIVE_OCCLUDED_TRAJECTORY = INTERACTIVE_TRAJECTORY
+    # INTERACTIVE_OCCLUDED_TRAJECTORY = INTERACTIVE_TRAJECTORY
 
     # NYU Passive Agency Tasks (in alphabetical order)
     PASSIVE_AGENT_AGENT_NON_AGENT = (
@@ -375,7 +375,7 @@ class TaskDescription(Enum):
         "then it doesn't have preferences, because its movement is controlled"
         " by the paddle, so it's just as likely to approach either object."
     )
-    PASSIVE_AGENT_NON_AGENT = PASSIVE_AGENT_AGENT_NON_AGENT
+    # PASSIVE_AGENT_NON_AGENT = PASSIVE_AGENT_AGENT_NON_AGENT
 
     PASSIVE_AGENT_EFFICIENT_ACTION = (
         "Passive Agent: Efficient Action tasks require a common-sense "
@@ -389,7 +389,7 @@ class TaskDescription(Enum):
         "\"unexpected\" (surprising) based on whether or not the agent moves "
         "in an efficient path (agents should move efficiently)."
     )
-    PASSIVE_AGENT_EFFICIENT_ACTION_IRRATIONAL = PASSIVE_AGENT_EFFICIENT_ACTION
+    # PASSIVE_AGENT_EFFICIENT_ACTION_IRRATIONAL = PASSIVE_AGENT_EFFICIENT_ACTION # NOQA
 
     PASSIVE_AGENT_HELPER_HINDERER = (
         "Passive Agent: Helper / Hinderer tasks require a common-sense "
@@ -489,8 +489,8 @@ class TaskDescription(Enum):
         "during the familiarization trials (imitating the movement pattern "
         "of the other agent it approached)."
     )
-    PASSIVE_AGENT_APPROACH = PASSIVE_AGENT_SOCIAL_APPROACH
-    PASSIVE_AGENT_INSTRUMENTAL_APPROACH = PASSIVE_AGENT_SOCIAL_APPROACH
+    # PASSIVE_AGENT_APPROACH = PASSIVE_AGENT_SOCIAL_APPROACH
+    # PASSIVE_AGENT_INSTRUMENTAL_APPROACH = PASSIVE_AGENT_SOCIAL_APPROACH
 
     PASSIVE_AGENT_SOCIAL_IMITATION = (
         "Passive Agent: Imitation tasks require a common-sense understanding "
@@ -507,8 +507,8 @@ class TaskDescription(Enum):
         "familiarization trials (approaching the other agent who had the "
         "same movement pattern)."
     )
-    PASSIVE_AGENT_IMITATION = PASSIVE_AGENT_SOCIAL_IMITATION
-    PASSIVE_AGENT_INSTRUMENTAL_IMITATION = PASSIVE_AGENT_SOCIAL_IMITATION
+    # PASSIVE_AGENT_IMITATION = PASSIVE_AGENT_SOCIAL_IMITATION
+    # PASSIVE_AGENT_INSTRUMENTAL_IMITATION = PASSIVE_AGENT_SOCIAL_IMITATION
 
     PASSIVE_AGENT_TRUE_FALSE_BELIEF = (
         "Passive Agent: True / False tasks require a common-sense "
