@@ -1,0 +1,777 @@
+{
+  "goal": {
+    "action_list": [["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"]],
+    "category": "multi retrieval",
+    "description": "Find and pick up as many objects as possible of type: small light black white rubber ball.",
+    "last_step": 2100,
+    "metadata": {
+      "targets": [
+        {
+          "id": "20fd3df1-5a55-4b18-b363-3c3a2fd3875e",
+          "info": [
+            "small",
+            "light",
+            "black",
+            "white",
+            "rubber",
+            "ball",
+            "black white",
+            "small light",
+            "small rubber",
+            "small black white",
+            "small ball",
+            "light rubber",
+            "light black white",
+            "light ball",
+            "rubber black white",
+            "rubber ball",
+            "black white ball",
+            "small light black white rubber ball"
+          ]
+        },
+        {
+          "id": "76f8b172-94ca-4a86-b50e-92b6fb637f4f",
+          "info": [
+            "small",
+            "light",
+            "black",
+            "white",
+            "rubber",
+            "ball",
+            "black white",
+            "small light",
+            "small rubber",
+            "small black white",
+            "small ball",
+            "light rubber",
+            "light black white",
+            "light ball",
+            "rubber black white",
+            "rubber ball",
+            "black white ball",
+            "small light black white rubber ball"
+          ]
+        }
+      ]
+    }
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [],
+  "name": "eval_7_interactive_arithmetic_0001_06",
+  "objects": [
+    {
+      "id": "platform_bdfad22f-1d62-41c9-95e5-c726ea3b7ab1",
+      "type": "cube",
+      "mass": 750,
+      "materials": ["AI2-THOR/Materials/Wood/WoodGrain_Tan"],
+      "kinematic": true,
+      "structure": true,
+      "lips": {
+        "front": false,
+        "back": false,
+        "left": false,
+        "right": false
+      },
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0,
+            "y": 0.5,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 1,
+            "z": 12
+          }
+        }
+      ]
+    },
+    {
+      "id": "wall_71ccfd74-3231-4751-aa77-059b8bf85bf89669363c-1538-4ee3-9bf9-0f5d8261e792",
+      "type": "cube",
+      "mass": 4,
+      "materials": ["Custom/Materials/Black"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0,
+            "y": 1.125,
+            "z": -4.5
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.25,
+            "z": 0.25
+          }
+        }
+      ]
+    },
+    {
+      "id": "occluder_wall_fa7db132-17fe-4fb9-8c08-02595723b3d5",
+      "type": "cube",
+      "kinematic": true,
+      "structure": true,
+      "mass": 100,
+      "materials": ["UnityAssetStore/Baby_Room/Models/Materials/cabinet metal"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -1.55,
+            "y": 7.25,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 2.5,
+            "y": 1.5,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 26,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "occluder_pole_fa7db132-17fe-4fb9-8c08-02595723b3d5",
+      "type": "cylinder",
+      "kinematic": true,
+      "structure": true,
+      "mass": 100,
+      "materials": ["AI2-THOR/Materials/Metals/WhiteMetal"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -3.4,
+            "y": 7.9,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 90
+          },
+          "scale": {
+            "x": 0.095,
+            "y": 0.6,
+            "z": 0.095
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 26,
+          "vector": {
+            "x": -0.25,
+            "y": 0,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "occluder_wall_89fc5a01-b4a5-48d5-85d7-afc2a8e14c69",
+      "type": "cube",
+      "kinematic": true,
+      "structure": true,
+      "mass": 100,
+      "materials": ["UnityAssetStore/Baby_Room/Models/Materials/cabinet metal"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 1.55,
+            "y": 7.25,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 2.5,
+            "y": 1.5,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 26,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "occluder_pole_89fc5a01-b4a5-48d5-85d7-afc2a8e14c69",
+      "type": "cylinder",
+      "kinematic": true,
+      "structure": true,
+      "mass": 100,
+      "materials": ["AI2-THOR/Materials/Metals/GenericStainlessSteel"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 3.4,
+            "y": 7.9,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 90
+          },
+          "scale": {
+            "x": 0.095,
+            "y": 0.6,
+            "z": 0.095
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 26,
+          "vector": {
+            "x": -0.25,
+            "y": 0,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "placer_0b2c6e4e-3221-4afc-90f2-3a726072f1f9",
+      "type": "cylinder",
+      "mass": 4,
+      "materials": ["Custom/Materials/Cyan"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 2.0,
+            "y": 11.94,
+            "z": 4.5
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.09,
+            "y": 4.0,
+            "z": 0.09
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 27,
+          "stepEnd": 56,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 67,
+          "stepEnd": 96,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "changeMaterials": [
+        {
+          "stepBegin": 62,
+          "materials": [
+            "Custom/Materials/Magenta"
+          ]
+        }
+      ],
+      "states": [["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["active"]]
+    },
+    {
+      "id": "placer_637a18f2-56f7-401e-877f-b997c0758fd7",
+      "type": "cylinder",
+      "mass": 4,
+      "materials": ["Custom/Materials/Cyan"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 3.0,
+            "y": 11.94,
+            "z": 2.5
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.09,
+            "y": 4.0,
+            "z": 0.09
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 27,
+          "stepEnd": 56,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 67,
+          "stepEnd": 96,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "changeMaterials": [
+        {
+          "stepBegin": 62,
+          "materials": [
+            "Custom/Materials/Magenta"
+          ]
+        }
+      ],
+      "states": [["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["active"]]
+    },
+    {
+      "id": "placer_46af0cf7-dc7d-4288-a18a-6eb3a8eeb5ed",
+      "type": "cylinder",
+      "mass": 4,
+      "materials": ["Custom/Materials/Cyan"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 3.0,
+            "y": 11.94,
+            "z": 4.5
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.09,
+            "y": 4.0,
+            "z": 0.09
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 27,
+          "stepEnd": 56,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 67,
+          "stepEnd": 96,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "changeMaterials": [
+        {
+          "stepBegin": 62,
+          "materials": [
+            "Custom/Materials/Magenta"
+          ]
+        }
+      ],
+      "states": [["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["active"]]
+    },
+    {
+      "id": "placer_3de1f2a3-95fe-4d9c-a086-edbe61255118",
+      "type": "cylinder",
+      "mass": 4,
+      "materials": ["Custom/Materials/Cyan"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 2.0,
+            "y": 11.94,
+            "z": 2.5
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.09,
+            "y": 4.0,
+            "z": 0.09
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 27,
+          "stepEnd": 56,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        },
+        {
+          "stepBegin": 67,
+          "stepEnd": 96,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "changeMaterials": [
+        {
+          "stepBegin": 62,
+          "materials": [
+            "Custom/Materials/Magenta"
+          ]
+        }
+      ],
+      "states": [["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["inactive"],["active"]]
+    },
+    {
+      "id": "20fd3df1-5a55-4b18-b363-3c3a2fd3875e",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -2.0,
+            "y": 0.22,
+            "z": 2.5
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": []
+    },
+    {
+      "id": "76f8b172-94ca-4a86-b50e-92b6fb637f4f",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -3.0,
+            "y": 0.22,
+            "z": 4.5
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": []
+    },
+    {
+      "id": "411bc9a2-f1e4-4480-bf81-4ce1b01eb60e",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 2.0,
+            "y": 0.22,
+            "z": 4.5
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": [],
+      "moves": [
+        {
+          "stepBegin": 67,
+          "stepEnd": 96,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "kinematic": false,
+      "togglePhysics": [
+        {
+          "stepBegin": 27
+        }
+      ]
+    },
+    {
+      "id": "549366a3-3793-433c-aa48-af41392522ad",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 3.0,
+            "y": 0.22,
+            "z": 2.5
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": [],
+      "moves": [
+        {
+          "stepBegin": 67,
+          "stepEnd": 96,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "kinematic": false,
+      "togglePhysics": [
+        {
+          "stepBegin": 27
+        }
+      ]
+    },
+    {
+      "id": "5c7438b4-e5b8-40f1-b705-4a8512cbb19b",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 3.0,
+            "y": 0.22,
+            "z": 4.5
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": [],
+      "moves": [
+        {
+          "stepBegin": 67,
+          "stepEnd": 96,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "kinematic": false,
+      "togglePhysics": [
+        {
+          "stepBegin": 27
+        }
+      ]
+    },
+    {
+      "id": "f8bece5e-b9ff-4792-8d39-34720a5ab4e0",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 2.0,
+            "y": 0.22,
+            "z": 2.5
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": [],
+      "moves": [
+        {
+          "stepBegin": 67,
+          "stepEnd": 96,
+          "vector": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          }
+        }
+      ],
+      "kinematic": false,
+      "togglePhysics": [
+        {
+          "stepBegin": 27
+        }
+      ]
+    }
+  ],
+  "screenshot": false,
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+  "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetDark 1",
+  "floorTextures": [],
+  "intuitivePhysics": false,
+  "isometricFrontRight": false,
+  "performerStart": {
+    "position": {
+      "x": 0.0,
+      "y": 2.25,
+      "z": -5.5
+    },
+    "rotation": {
+      "x": 10.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 8.0,
+    "y": 8.0,
+    "z": 12.0
+  },
+  "wallMaterial": "AI2-THOR/Materials/Wood/WoodGrain_Tan"
+}

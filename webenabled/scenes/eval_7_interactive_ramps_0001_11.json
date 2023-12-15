@@ -1,0 +1,229 @@
+{
+  "goal": {
+    "action_list": [],
+    "category": "retrieval",
+    "description": "Find and pick up the small light black white rubber ball.",
+    "last_step": 5300,
+    "metadata": {
+      "target": {
+        "id": "37c70653-685f-46aa-b7dd-4c93cd24c7c9"
+      }
+    }
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [],
+  "name": "eval_7_interactive_ramps_0001_11",
+  "objects": [
+    {
+      "id": "37c70653-685f-46aa-b7dd-4c93cd24c7c9",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ],
+      "materials": [],
+      "associatedWithAgent": "agent_4e2c679e-6a9c-4a0b-a9d8-b3777f140dcc"
+    },
+    {
+      "id": "agent_4e2c679e-6a9c-4a0b-a9d8-b3777f140dcc",
+      "type": "agent_female_01",
+      "mass": 75,
+      "agentSettings": {
+        "chest": 3,
+        "skin": 0,
+        "chestMaterial": 6,
+        "eyes": 1,
+        "feet": 1,
+        "feetMaterial": 9,
+        "hair": 7,
+        "hairMaterial": 0,
+        "hatMaterial": 7,
+        "hideHair": false,
+        "isElder": true,
+        "legs": 1,
+        "legsMaterial": 1,
+        "glasses": 0,
+        "jacket": 0,
+        "jacketMaterial": 0,
+        "tie": 0,
+        "tieMaterial": 0,
+        "showBeard": false,
+        "showGlasses": false,
+        "showJacket": false,
+        "showTie": false
+      },
+      "actions": [],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 7.4242,
+            "y": 0.0,
+            "z": -6.8686
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ],
+      "labels": ""
+    },
+    {
+      "id": "platform_84325bfd-e066-4251-a540-7f02fe9431d1",
+      "type": "cube",
+      "mass": 4923,
+      "materials": ["Custom/Materials/OliveWoodMCS"],
+      "kinematic": true,
+      "structure": true,
+      "lips": {
+        "front": true,
+        "back": true,
+        "left": false,
+        "right": false,
+        "gaps": {
+          "back": [
+            {
+              "low": 0.3818,
+              "high": 0.5501
+            }
+          ],
+          "front": [
+            {
+              "low": 0.3171,
+              "high": 0.4853
+            }
+          ]
+        }
+      },
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0,
+            "y": 0.5,
+            "z": 2.5461
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 23,
+            "y": 1,
+            "z": 1.7125
+          }
+        }
+      ]
+    },
+    {
+      "id": "ramp_ff72b2c4-0ecf-47bc-a4c6-d0eb05c342eb",
+      "type": "triangle",
+      "mass": 577,
+      "materials": ["Custom/Materials/OliveWoodMCS"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -0.7832,
+            "y": 0.5,
+            "z": 3.9982
+          },
+          "rotation": {
+            "x": 0,
+            "y": 180,
+            "z": 0
+          },
+          "scale": {
+            "x": 3.87,
+            "y": 1.0,
+            "z": 1.1918
+          }
+        }
+      ]
+    },
+    {
+      "id": "ramp_1bd01736-bb99-4f03-82c3-fae7853cbd4a",
+      "type": "triangle",
+      "mass": 577,
+      "materials": ["Custom/Materials/OliveWoodMCS"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -2.2726,
+            "y": 0.5,
+            "z": 1.094
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 3.87,
+            "y": 1.0,
+            "z": 1.1918
+          }
+        }
+      ]
+    }
+  ],
+  "screenshot": false,
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
+  "floorMaterial": "UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 2",
+  "floorTextures": [],
+  "intuitivePhysics": false,
+  "isometricFrontRight": false,
+  "performerStart": {
+    "position": {
+      "x": -7.9113,
+      "y": 0.0,
+      "z": -5.8838
+    },
+    "rotation": {
+      "x": 0.0,
+      "y": 270.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 23.0,
+    "y": 6.0,
+    "z": 25.0
+  },
+  "wallMaterial": "AI2-THOR/Materials/Metals/WhiteMetal"
+}

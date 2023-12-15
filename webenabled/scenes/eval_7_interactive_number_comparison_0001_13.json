@@ -1,0 +1,319 @@
+{
+  "goal": {
+    "action_list": [],
+    "category": "multi retrieval",
+    "description": "Find and pick up as many objects as possible of type: small light black white rubber ball.",
+    "last_step": 2100,
+    "metadata": {
+      "targets": [
+        {
+          "id": "d9613222-f698-45ee-950f-ba3ee97f3fe3",
+          "info": [
+            "small",
+            "light",
+            "black",
+            "white",
+            "rubber",
+            "ball",
+            "black white",
+            "small light",
+            "small rubber",
+            "small black white",
+            "small ball",
+            "light rubber",
+            "light black white",
+            "light ball",
+            "rubber black white",
+            "rubber ball",
+            "black white ball",
+            "small light black white rubber ball"
+          ]
+        },
+        {
+          "id": "b80b92cb-36d3-47a7-858c-c1bf3ff6e5d1",
+          "info": [
+            "small",
+            "light",
+            "black",
+            "white",
+            "rubber",
+            "ball",
+            "black white",
+            "small light",
+            "small rubber",
+            "small black white",
+            "small ball",
+            "light rubber",
+            "light black white",
+            "light ball",
+            "rubber black white",
+            "rubber ball",
+            "black white ball",
+            "small light black white rubber ball"
+          ]
+        },
+        {
+          "id": "4685c326-41a6-46c0-9abb-8436449ddedd",
+          "info": [
+            "small",
+            "light",
+            "black",
+            "white",
+            "rubber",
+            "ball",
+            "black white",
+            "small light",
+            "small rubber",
+            "small black white",
+            "small ball",
+            "light rubber",
+            "light black white",
+            "light ball",
+            "rubber black white",
+            "rubber ball",
+            "black white ball",
+            "small light black white rubber ball"
+          ]
+        }
+      ]
+    }
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [],
+  "name": "eval_7_interactive_number_comparison_0001_13",
+  "objects": [
+    {
+      "id": "platform_3a998aae-c61c-4257-b807-1d1df2907e5f",
+      "type": "cube",
+      "mass": 750,
+      "materials": ["Custom/Materials/RedDrywallMCS"],
+      "kinematic": true,
+      "structure": true,
+      "lips": {
+        "front": false,
+        "back": false,
+        "left": false,
+        "right": false
+      },
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0,
+            "y": 0.5,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 1,
+            "z": 12
+          }
+        }
+      ]
+    },
+    {
+      "id": "wall_0620aafa-3230-46ca-84c1-66ec5938ff6ab49a7c6f-f9ed-4640-b309-29a8fc6f42b7",
+      "type": "cube",
+      "mass": 4,
+      "materials": ["Custom/Materials/Black"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0,
+            "y": 1.125,
+            "z": -4.5
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.25,
+            "z": 0.25
+          }
+        }
+      ]
+    },
+    {
+      "id": "d9613222-f698-45ee-950f-ba3ee97f3fe3",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -2.0,
+            "y": 0.22,
+            "z": 2.75
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": []
+    },
+    {
+      "id": "b80b92cb-36d3-47a7-858c-c1bf3ff6e5d1",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -1.5,
+            "y": 0.22,
+            "z": 2.75
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": []
+    },
+    {
+      "id": "4685c326-41a6-46c0-9abb-8436449ddedd",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -2.5,
+            "y": 0.22,
+            "z": 2.75
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": []
+    },
+    {
+      "id": "48e727da-c9f3-4f81-b920-00acfc98adb7",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 2.0,
+            "y": 0.22,
+            "z": 2.75
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": []
+    },
+    {
+      "id": "87c357e5-2049-4b27-9a42-4606cb9640e9",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 1.5,
+            "y": 0.22,
+            "z": 2.75
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": []
+    }
+  ],
+  "screenshot": false,
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
+  "floorMaterial": "AI2-THOR/Materials/Wood/LightWoodCounters 1",
+  "floorTextures": [],
+  "intuitivePhysics": false,
+  "isometricFrontRight": false,
+  "performerStart": {
+    "position": {
+      "x": 0.0,
+      "y": 2.25,
+      "z": -5.5
+    },
+    "rotation": {
+      "x": 10.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 8.0,
+    "y": 8.0,
+    "z": 12.0
+  },
+  "wallMaterial": "Custom/Materials/RedDrywallMCS"
+}

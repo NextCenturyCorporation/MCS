@@ -1,0 +1,191 @@
+{
+  "goal": {
+    "action_list": [],
+    "category": "retrieval",
+    "description": "Find and pick up the small light black white rubber ball.",
+    "last_step": 2100,
+    "metadata": {
+      "target": {
+        "id": "8b5eed29-6688-4b28-9b15-d898f2cb9f51"
+      }
+    }
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [],
+  "name": "eval_7_interactive_spatial_elimination_0001_04",
+  "objects": [
+    {
+      "id": "8b5eed29-6688-4b28-9b15-d898f2cb9f51",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 1.8621,
+            "y": 0.22,
+            "z": 1.25
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": []
+    },
+    {
+      "id": "wall_eafd43a9-f7e3-43ff-97a2-af9d2a92e0a972f91984-dd7d-4673-9ef1-00af5739d1fd",
+      "type": "cube",
+      "mass": 9,
+      "materials": ["Custom/Materials/LimeWoodMCS"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -2.0,
+            "y": 0.3,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.6,
+            "y": 0.6,
+            "z": 0.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "wall_0a08638b-f290-4bf9-9112-6f9e48d2459f98593947-d63b-48ff-90f6-1d91685f615c",
+      "type": "cube",
+      "mass": 9,
+      "materials": ["Custom/Materials/LimeWoodMCS"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 2.0,
+            "y": 0.1,
+            "z": 1.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.8,
+            "y": 0.2,
+            "z": 0.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "platform_47737ea1-b549-4519-9d81-e028492f594e",
+      "type": "cube",
+      "mass": 750,
+      "materials": ["Custom/Materials/SpringGreenDrywallMCS"],
+      "kinematic": true,
+      "structure": true,
+      "lips": {
+        "front": false,
+        "back": false,
+        "left": false,
+        "right": false
+      },
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0,
+            "y": 0.5,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 1,
+            "z": 12
+          }
+        }
+      ]
+    },
+    {
+      "id": "wall_6a72a1db-1042-4aa1-8f5a-3efc4c80744104b0b06b-d047-41c6-b74e-af00d10fc521",
+      "type": "cube",
+      "mass": 4,
+      "materials": ["Custom/Materials/Black"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0,
+            "y": 1.125,
+            "z": -4
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.25,
+            "z": 0.25
+          }
+        }
+      ]
+    }
+  ],
+  "screenshot": false,
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall4Tiled",
+  "floorMaterial": "UnityAssetStore/Kindergarten_Interior/Models/Materials/color wood 3",
+  "floorTextures": [],
+  "intuitivePhysics": false,
+  "isometricFrontRight": false,
+  "performerStart": {
+    "position": {
+      "x": 0.0,
+      "y": 2.25,
+      "z": -5.5
+    },
+    "rotation": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 8.0,
+    "y": 8.0,
+    "z": 12.0
+  },
+  "wallMaterial": "Custom/Materials/SpringGreenDrywallMCS"
+}

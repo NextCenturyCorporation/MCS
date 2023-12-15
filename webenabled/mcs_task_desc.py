@@ -8,7 +8,8 @@ class TaskDescription(Enum):
     followed by all scenes checked into the webenabled/scenes directory.
     Please note that any scenes not matching the naming conventions in this
     file will likely not have their task description found to display in the
-    UI.
+    UI (except for "passive_agents_" files, which will automatically use
+    the "passive_agent_" descriptions instead).
     """
 
     # Interactive Tasks (in alphabetical order)
@@ -35,7 +36,7 @@ class TaskDescription(Enum):
         "balls were added to or subtracted from each side."
     )
 
-    INTERACTIVE_ASYMMETRIC_TOOL_USE = (
+    INTERACTIVE_ASYMMETRIC_TOOL = (
         "Asymmetric Tool Use tasks require a common-sense understanding of "
         "affordances. You must use an asymmetric \"tool\" (a large L-shaped "
         "object with wheels and a unique texture) to extract the soccer ball "
@@ -45,8 +46,9 @@ class TaskDescription(Enum):
         "completes the scenario. Sometimes the tool must be rotated (using "
         "RotateObject or TorqueObject) before it is pulled."
     )
+    # INTERACTIVE_ASYMMETRIC_TOOL_USE = INTERACTIVE_ASYMMETRIC_TOOL
 
-    INTERACTIVE_COLLISIONS = (
+    INTERACTIVE_COLLISION = (
         "Interactive Collision tasks require a common-sense understanding "
         "of trajectory and collision. You must watch (using the Pass action) "
         "as a green \"shooter ball\" is launched across the floor toward a "
@@ -61,6 +63,7 @@ class TaskDescription(Enum):
         "side of the room, you are unable to access the other side of the "
         "room (because it is blocked by lava)."
     )
+    # INTERACTIVE_COLLISIONS = INTERACTIVE_COLLISION
 
     INTERACTIVE_CONTAINERS = (
         "Container Retrieval tasks require a common-sense understanding "
@@ -95,6 +98,27 @@ class TaskDescription(Enum):
         "wrong chests, or opening them in the wrong order) automatically "
         "fails the scenario. Sometimes you or the chests are repositioned "
         "when the room is reset."
+    )
+
+    INTERACTIVE_KNOWLEDGEABLE_AGENTS = (
+        "Knowledgeable Agents tasks require a common-sense understanding of "
+        "agency. You must watch (using the Pass action) as a soccer ball is "
+        "secretly deposited into one of two containers in the room; you do "
+        "not know which container holds the soccer ball because your sight is "
+        "blocked by an occluding wall at the time. Two agents stand on the "
+        "other side of the room: you can see them, but they do not have their "
+        "sight blocked by the occluding wall. One agent faces the two "
+        "containers and thus knows which container holds the soccer ball; the "
+        "other agent faces the wall and thus does not know. Both agents then "
+        "turn to face and point at a different container. You must understand "
+        "which agent is \"knowledgeable\" based on whether or not they could "
+        "see the containers while the soccer ball was being deposited, "
+        "determine the container at which the knowledgeable agent is "
+        "pointing, approach it, use OpenObject to open it, and then use "
+        "PickupObject on the ball to pick it up, which completes the "
+        "scenario. This is a \"forced choice\" task: once you walk off the "
+        "platform onto one side of the room, you are unable to move to the "
+        "other side of the room."
     )
 
     INTERACTIVE_LAVA = (
@@ -167,6 +191,19 @@ class TaskDescription(Enum):
         "sometimes an agent is holding the ball instead (use "
         "InteractWithAgent on the agent to request the soccer ball)."
     )
+
+    INTERACTIVE_SECONDARY_TOOL = (
+        "Secondary Tool Use tasks require a common-sense understanding of "
+        "affordances. You must use a symmetric \"tool\" (a large rectangular "
+        "object with wheels and a unique texture) to extract an asymmetric "
+        "\"tool\" from the middle of a pool of lava (using PushObject or "
+        "MoveObject to push the first tool so it collides with the other tool "
+        "causing it to roll out from the lava), then use the asymmetric tool "
+        "to extract a soccer ball from the middle of another pool of lava, "
+        "and finally use PickupObject on the ball, which completes the "
+        "scenario."
+    )
+    # INTERACTIVE_SECONDARY_TOOL_USE = INTERACTIVE_SECONDARY_TOOL
 
     INTERACTIVE_SET_ROTATION = (
         "Set Rotation tasks require a common-sense understanding of tracking "
@@ -275,7 +312,7 @@ class TaskDescription(Enum):
         "parts of the room."
     )
 
-    INTERACTIVE_SYMMETRIC_TOOL_USE = (
+    INTERACTIVE_SYMMETRIC_TOOL = (
         "Symmetric Tool Use tasks require a common-sense understanding of "
         "affordances. You must use a symmetric \"tool\" (a large rectangular "
         "object with wheels and a unique texture) to extract the soccer ball "
@@ -284,6 +321,7 @@ class TaskDescription(Enum):
         "out from the lava), and then use PickupObject on the ball, which "
         "completes the scenario."
     )
+    # INTERACTIVE_SYMMETRIC_TOOL_USE = INTERACTIVE_SYMMETRIC_TOOL
 
     INTERACTIVE_TOOL_CHOICE = (
         "Tool Choice tasks require a common-sense understanding of "
@@ -315,6 +353,7 @@ class TaskDescription(Enum):
         "open the door to one side of the room, you are unable to access "
         "the other side of the room (because it is blocked by lava)."
     )
+    # INTERACTIVE_OCCLUDED_TRAJECTORY = INTERACTIVE_TRAJECTORY
 
     # NYU Passive Agency Tasks (in alphabetical order)
     PASSIVE_AGENT_AGENT_NON_AGENT = (
@@ -336,42 +375,90 @@ class TaskDescription(Enum):
         "then it doesn't have preferences, because its movement is controlled"
         " by the paddle, so it's just as likely to approach either object."
     )
+    # PASSIVE_AGENT_NON_AGENT = PASSIVE_AGENT_AGENT_NON_AGENT
 
-    PASSIVE_AGENT_EFFICIENT_ACTION_IRRATIONAL = (
-        "Passive Agent: Efficient action (irrational) tasks require a "
-        "common-sense understanding of agency. This is a \"passive agents\" "
-        "task: you must watch (using only Pass actions) as an agent (blob "
-        "shape) moves in a grid world over 8 \"familiarization\" "
-        "trials and a \"test\" trial (the world \"resets\" between each trial "
-        "using the EndHabituation action). During familiarization, there are "
-        "two types of trials: the first shows the agent navigating towards a "
-        "goal, taking a longer route even though there may not be obstacles "
-        "in the way (hence the agent is inefficient); the second features "
-        "the agent moving towards the goal more directly, sometimes having "
-        "to maneuver around obstacles (hence, the agent is efficient). "
-        "We only show the inefficient action in the test trial. "
-        "You must determine whether the test trial is \"expected\" "
-        "(unsurprising) or \"unexpected\" (surprising) based on whether or "
-        "not the agent exhibits the same level of efficiency shown in the "
-        "familiarization trials."
+    PASSIVE_AGENT_EFFICIENT_ACTION = (
+        "Passive Agent: Efficient Action tasks require a common-sense "
+        "understanding of agency. This is a \"passive agents\" task: you must "
+        "watch (using only Pass actions) as an agent (blob shape) moves in a "
+        "grid world over 8 \"familiarization\" trials and a \"test\" trial "
+        "(the world \"resets\" between each trial using the EndHabituation "
+        "action). The trials depict the agent approaching an object; in the "
+        "test trial, some of the obstacles are removed. You must then "
+        "determine whether the test trial is \"expected\" (unsurprising) or "
+        "\"unexpected\" (surprising) based on whether or not the agent moves "
+        "in an efficient path (agents should move efficiently)."
+    )
+    # PASSIVE_AGENT_EFFICIENT_ACTION_IRRATIONAL = PASSIVE_AGENT_EFFICIENT_ACTION # NOQA
+
+    PASSIVE_AGENT_HELPER_HINDERER = (
+        "Passive Agent: Helper / Hinderer tasks require a common-sense "
+        "understanding of agency. This is a \"passive agents\" task: you must "
+        "watch (using only Pass actions) as three agents (blob shapes) move "
+        "in a grid world over 8 \"familiarization\" trials and a \"test\" "
+        "trial (the world \"resets\" between each trial using the "
+        "EndHabituation action). The familiarization trials depict an agent "
+        "trying to approach an object. Sometimes the path to the object is "
+        "obstructed, and a \"helper\" agent moves the obstruction off the "
+        "path, allowing the first agent to approach the object; sometimes "
+        "the path to the object is unobstructed, and a \"hinderer\" agent "
+        "moves an obstruction onto the path, preventing the first agent from "
+        "approaching the object. The test trial depicts the first agent "
+        "approaching either the helper agent or the hinderer agent, "
+        "expressing a preference for that agent. You must then determine "
+        "whether the test trial is \"expected\" (unsurprising) or "
+        "\"unexpected\" (surprising) based on whether the first agent prefers "
+        "its helper or hinderer (the agent should prefer its helper)."
+    )
+
+    PASSIVE_AGENT_INACCESSIBLE_GOAL = (
+        "Passive Agent: Instrumental Action tasks require a common-sense "
+        "understanding of agency. This is a \"passive agents\" task: you must "
+        "watch (using only Pass actions) as an agent (blob shape) moves in a "
+        "grid world over 8 \"familiarization\" trials and a \"test\" trial "
+        "(the world \"resets\" between each trial using the EndHabituation "
+        "action). The familizarization trials depict the agent approaching a "
+        "specific object (the same object in all 8 familiarization trials); "
+        "in the test trial, obstacles may be moved to block a path to the "
+        "preferred object. You must then determine whether the test trial is "
+        "\"expected\" (unsurprising) or \"unexpected\" (surprising) based on "
+        "whether or not the agent can successfully navigate to its preferred "
+        "object (approaching a different object is unsurprising if the "
+        "preferred object is blocked)."
+    )
+
+    PASSIVE_AGENT_INSTRUMENTAL_ACTION = (
+        "Passive Agent: Inaccessible Goal tasks require a common-sense "
+        "understanding of agency. This is a \"passive agents\" task: you must "
+        "watch (using only Pass actions) as an agent (blob shape) moves in a "
+        "grid world over 8 \"familiarization\" trials and a \"test\" trial "
+        "(the world \"resets\" between each trial using the EndHabituation "
+        "action). The familizarization trials depict the agent retrieving a "
+        "red triangular \"key\" object; inserting that key into a \"lock\" in "
+        "a green wall, causing the green wall to disappear; and then "
+        "approaching a \"goal\" object that was previously blocked by the "
+        "green wall, but is now accessible. You must then determine whether "
+        "the test trial is \"expected\" (unsurprising) or \"unexpected\" "
+        "(surprising) based on whether or not the agent used the key object "
+        "when it was necessary to approach the goal object (if the goal "
+        "object is not blocked by the green wall, then using the key object "
+        "is unnecessary)."
     )
 
     PASSIVE_AGENT_MULTIPLE_AGENTS = (
-        "Passive Agent: Multiple agents tasks require a common-sense "
-        "understanding of agency. This is a \"passive agents\" task: you "
-        "must watch (using only Pass actions) as an agent (blob shape) "
-        "moves in a grid world over 8 \"familiarization\" trials and a "
-        "\"test\" trial (the world \"resets\" between each trial using the "
-        "EndHabituation action). The familiarization trials feature an "
-        "agent repeatedly approaching one of the two objects. You must "
-        "then determine whether the test trial is \"more expected\" "
-        "(unsurprising) or \"more unexpected\" (surprising) based on how "
-        "the agent acts: if the agent is the same agent from familiarization,"
-        " it should continue to act with the same preferences it showed in "
-        "previous trials (approaching the same object); the "
-        "\"more unexpected\" case here would feature a new agent going "
-        "to the same object, or the same agent approaching the previously "
-        "non-approached object. "
+        "Passive Agent: Multiple Agents tasks require a common-sense "
+        "understanding of agency. This is a \"passive agents\" task: you must "
+        "watch (using only Pass actions) as an agent (blob shape) moves in a "
+        "grid world over 8 \"familiarization\" trials and a \"test\" trial "
+        "(the world \"resets\" between each trial using the EndHabituation "
+        "action). The familizarization trials depict the agent approaching a "
+        "specific object (the same object in all 8 familiarization trials); "
+        "in the test trial, either the same agent or a new agent will "
+        "approach a different object. You must then determine whether the "
+        "test trial is \"more expected\" (unsurprising) or "
+        "\"more unexpected\" (surprising) based on whether or not the agent "
+        "with a known preference approached a different object (it is "
+        "unsurprising for a new agent to show a different preference)."
     )
 
     PASSIVE_AGENT_OBJECT_PREFERENCE = (
@@ -402,6 +489,8 @@ class TaskDescription(Enum):
         "during the familiarization trials (imitating the movement pattern "
         "of the other agent it approached)."
     )
+    # PASSIVE_AGENT_APPROACH = PASSIVE_AGENT_SOCIAL_APPROACH
+    # PASSIVE_AGENT_INSTRUMENTAL_APPROACH = PASSIVE_AGENT_SOCIAL_APPROACH
 
     PASSIVE_AGENT_SOCIAL_IMITATION = (
         "Passive Agent: Imitation tasks require a common-sense understanding "
@@ -417,6 +506,27 @@ class TaskDescription(Enum):
         "continued to act with the same preferences it showed during the "
         "familiarization trials (approaching the other agent who had the "
         "same movement pattern)."
+    )
+    # PASSIVE_AGENT_IMITATION = PASSIVE_AGENT_SOCIAL_IMITATION
+    # PASSIVE_AGENT_INSTRUMENTAL_IMITATION = PASSIVE_AGENT_SOCIAL_IMITATION
+
+    PASSIVE_AGENT_TRUE_FALSE_BELIEF = (
+        "Passive Agent: True / False tasks require a common-sense "
+        "understanding of agency. This is a \"passive agents\" task: you must "
+        "watch (using only Pass actions) as two agents (blob shapes) move in "
+        "a grid world over 8 \"familiarization\" trials and a \"test\" trial "
+        "(the world \"resets\" between each trial using the EndHabituation "
+        "action). The familiarization trials depict an agent approaching an "
+        "object that is always located on a specific side of world, though "
+        "sometimes the agent's sight is obstructed by grey occluders. The "
+        "test trial depicts a second agent moving the object from its normal "
+        "side to the other side, hiding it behind a grey occluder. "
+        "You must then determine whether the test trial is \"expected\" "
+        "(unsurprising) or \"unexpected\" (surprising) based on which side "
+        "the original agent approached in order to find the object (if the "
+        "first agent can see the second agent moving the object, then the "
+        "first agent should approach the object's new location; otherwise, "
+        "the first agent should approach the object's original location)."
     )
 
     # Passive Physics Tasks (in alphabetical order)

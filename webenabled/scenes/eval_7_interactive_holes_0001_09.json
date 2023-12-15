@@ -1,0 +1,415 @@
+{
+  "goal": {
+    "action_list": [],
+    "category": "retrieval",
+    "description": "Find and pick up the small light black white rubber ball.",
+    "last_step": 4400,
+    "metadata": {
+      "target": {
+        "id": "e549649d-bc08-4fe4-bd77-03d590cab172"
+      }
+    }
+  },
+  "holes": [
+    {
+      "x": -9,
+      "z": -1
+    },
+    {
+      "x": -8,
+      "z": -1
+    },
+    {
+      "x": -7,
+      "z": -1
+    },
+    {
+      "x": -6,
+      "z": -1
+    },
+    {
+      "x": -5,
+      "z": -1
+    },
+    {
+      "x": -3,
+      "z": -1
+    },
+    {
+      "x": -2,
+      "z": -1
+    },
+    {
+      "x": -1,
+      "z": -1
+    },
+    {
+      "x": -9,
+      "z": 1
+    },
+    {
+      "x": -8,
+      "z": 1
+    },
+    {
+      "x": -7,
+      "z": 1
+    },
+    {
+      "x": -6,
+      "z": 1
+    },
+    {
+      "x": -5,
+      "z": 1
+    },
+    {
+      "x": -4,
+      "z": 1
+    },
+    {
+      "x": -1,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "z": -5
+    },
+    {
+      "x": 4,
+      "z": -5
+    },
+    {
+      "x": 5,
+      "z": -5
+    },
+    {
+      "x": 6,
+      "z": -5
+    },
+    {
+      "x": 7,
+      "z": -5
+    },
+    {
+      "x": 8,
+      "z": -5
+    },
+    {
+      "x": 9,
+      "z": -5
+    },
+    {
+      "x": 1,
+      "z": -3
+    },
+    {
+      "x": 2,
+      "z": -3
+    },
+    {
+      "x": 3,
+      "z": -3
+    },
+    {
+      "x": 4,
+      "z": -3
+    },
+    {
+      "x": 5,
+      "z": -3
+    },
+    {
+      "x": 7,
+      "z": -3
+    },
+    {
+      "x": 8,
+      "z": -3
+    },
+    {
+      "x": 9,
+      "z": -3
+    },
+    {
+      "x": 1,
+      "z": -1
+    },
+    {
+      "x": 4,
+      "z": -1
+    },
+    {
+      "x": 5,
+      "z": -1
+    },
+    {
+      "x": 6,
+      "z": -1
+    },
+    {
+      "x": 7,
+      "z": -1
+    },
+    {
+      "x": 8,
+      "z": -1
+    },
+    {
+      "x": 9,
+      "z": -1
+    },
+    {
+      "x": 1,
+      "z": 1
+    },
+    {
+      "x": 2,
+      "z": 1
+    },
+    {
+      "x": 3,
+      "z": 1
+    },
+    {
+      "x": 4,
+      "z": 1
+    },
+    {
+      "x": 7,
+      "z": 1
+    },
+    {
+      "x": 8,
+      "z": 1
+    },
+    {
+      "x": 9,
+      "z": 1
+    },
+    {
+      "x": 1,
+      "z": 3
+    },
+    {
+      "x": 2,
+      "z": 3
+    },
+    {
+      "x": 4,
+      "z": 3
+    },
+    {
+      "x": 5,
+      "z": 3
+    },
+    {
+      "x": 6,
+      "z": 3
+    },
+    {
+      "x": 7,
+      "z": 3
+    },
+    {
+      "x": 8,
+      "z": 3
+    },
+    {
+      "x": 9,
+      "z": 3
+    },
+    {
+      "x": 3,
+      "z": 5
+    },
+    {
+      "x": 4,
+      "z": 5
+    },
+    {
+      "x": 5,
+      "z": 5
+    },
+    {
+      "x": 6,
+      "z": 5
+    },
+    {
+      "x": 7,
+      "z": 5
+    },
+    {
+      "x": 8,
+      "z": 5
+    },
+    {
+      "x": 9,
+      "z": 5
+    },
+    {
+      "x": 0,
+      "z": -5
+    },
+    {
+      "x": 0,
+      "z": -4
+    },
+    {
+      "x": 0,
+      "z": -3
+    },
+    {
+      "x": 0,
+      "z": -2
+    },
+    {
+      "x": 0,
+      "z": -1
+    },
+    {
+      "x": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "z": 1
+    },
+    {
+      "x": 0,
+      "z": 2
+    },
+    {
+      "x": 0,
+      "z": 3
+    },
+    {
+      "x": 0,
+      "z": 4
+    },
+    {
+      "x": 0,
+      "z": 5
+    }
+  ],
+  "isometric": false,
+  "lava": [],
+  "name": "eval_7_interactive_holes_0001_09",
+  "objects": [
+    {
+      "id": "e549649d-bc08-4fe4-bd77-03d590cab172",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -2.0959,
+            "y": 0.22,
+            "z": 9.0873
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": []
+    },
+    {
+      "id": "blob_1b4d2277-7759-408e-bc53-89041e813d68",
+      "type": "blob_20",
+      "mass": 75,
+      "materials": ["Custom/Materials/Violet"],
+      "physics": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -3.3431,
+            "y": 0.4505,
+            "z": 9.9207
+          },
+          "rotation": {
+            "x": 0,
+            "y": 270,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.7194,
+            "y": 1.7194,
+            "z": 1.7194
+          }
+        }
+      ]
+    },
+    {
+      "id": "platform_8fa06fb4-9f54-4708-9f81-6c2bc624952c",
+      "type": "cube",
+      "mass": 125,
+      "materials": ["Custom/Materials/GreenDrywallMCS"],
+      "kinematic": true,
+      "structure": true,
+      "lips": {
+        "front": false,
+        "back": false,
+        "left": false,
+        "right": false
+      },
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -1.6146,
+            "y": 0.5,
+            "z": -9.43
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1.0,
+            "z": 1
+          }
+        }
+      ]
+    }
+  ],
+  "screenshot": false,
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+  "floorMaterial": "AI2-THOR/Materials/Fabrics/Carpet2",
+  "floorTextures": [],
+  "intuitivePhysics": false,
+  "isometricFrontRight": false,
+  "performerStart": {
+    "position": {
+      "x": -1.6146,
+      "y": 1.0,
+      "z": -9.43
+    },
+    "rotation": {
+      "x": 0.0,
+      "y": 90.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 18.0,
+    "y": 4.0,
+    "z": 21.0
+  },
+  "wallMaterial": "Custom/Materials/LimeWoodMCS"
+}
