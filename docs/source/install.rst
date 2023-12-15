@@ -121,19 +121,12 @@ To use a specific configuration, you can either pass in a file path or dictionar
 Config File Properties
 **********************
 
-only_return_goal_object
-^^^^^^^^^^^^^^^
+controller_timeout
+^^^^^^^^^^^^^^^^^^
 
-(boolean, optional)
+(int, optional)
 
-If `true`, only returns the goal object from the object list output in the metadata. Metadata Tier will override `only_return_goal_object`. Default: false
-
-disable_position
-^^^^^^^^^^^^^^^
-
-(boolean, optional)
-
-If `true`, does not generate position information output in the metadata. Metadata Tier will override `disable_position`. Default: false
+Sets the time (in seconds) to allow on controller initialization before timing out. Default 600
 
 disable_depth_maps
 ^^^^^^^^^^^^^^^
@@ -148,6 +141,13 @@ disable_object_masks
 (boolean, optional)
 
 If `false`, will generate object masks. Metadata Tier will override `disable_depth_maps`. Will only generate object masks for Metadata tier [level2, oracle]. Default: false
+
+disable_position
+^^^^^^^^^^^^^^^
+
+(boolean, optional)
+
+If `true`, does not generate position information output in the metadata. Metadata Tier will override `disable_position`. Default: false
 
 goal_reward
 ^^^^^^^^^^^^^^^
@@ -184,7 +184,15 @@ The `metadata` property describes what metadata will be returned by the MCS Pyth
 - `none`: Only returns the images (but no depth maps or object masks), camera info, and properties corresponding to the player themself (like head tilt). No information about specific objects will be included.
 
 If no metadata level is set:
+
 - `default`: Fallback if no metadata level is specified. Only meant for use during development (evaluations will never be run this way). Includes metadata for visible and held objects in the scene, as well as camera info and properties corresponding to the player. Does not include depth maps or object masks.
+
+only_return_goal_object
+^^^^^^^^^^^^^^^
+
+(boolean, optional)
+
+If `true`, only returns the goal object from the object list output in the metadata. Metadata Tier will override `only_return_goal_object`. Default: false
 
 steps_allowed_in_lava
 ^^^^^^^^^^^^^^^
@@ -228,20 +236,6 @@ step_penalty
 
 Changes the negative penalty recieved for every step. Default: 0.001
 
-timeout
-^^^^^^^
-
-(int, optional)
-
-Sets the time (in seconds) to allow on a single step before timing out. Default 3600
-
-controller_timeout
-^^^^^^^^^^^^^^^^^^
-
-(int, optional)
-
-Sets the time (in seconds) to allow on controller initialization before timing out. Default 600
-
 terminal_output
 ^^^^^^^^^^^^^^^
 
@@ -256,6 +250,13 @@ The terminal output mode controls what output metadata is logged to the terminal
 - `performer`: Prints metadata for the performer agent, including camera and frame rate information.
 - `scene`: Prints metadata for the scene's room, including all structural objects.
 - `false` or `none`: Prints no terminal output, besides initialization, warning, and error messages.
+
+timeout
+^^^^^^^
+
+(int, optional)
+
+Sets the time (in seconds) to allow on a single step before timing out. Default 3600
 
 top_down_camera
 ^^^^^^^^^^^^^^^

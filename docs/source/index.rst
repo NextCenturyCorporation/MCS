@@ -12,7 +12,6 @@ Machine Common Sense Documentation
     api
     scenes
     schema
-    training
     models
     containerize
     remotely

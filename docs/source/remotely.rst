@@ -2,8 +2,9 @@ Running Remotely
 ================
 
 Requirements:
-* Make sure your system has Python 3.7 or greater.
-* Make sure MCS has been installed per the install instructions
+
+- Make sure your system has Python 3.7 or greater.
+- Make sure MCS has been installed per the install instructions
 
 To run MCS on a remote GPU server, use the following steps to launch an X11 server.
 
@@ -23,7 +24,8 @@ To run MCS on a remote GPU server, use the following steps to launch an X11 serv
     PCI BusID : PCI:0:30:0
 
     # Create the Xserver configuration using the BusID
-    $ sudo nvidia-xconfig --use-display-device=None --virtual=600x400 --output-xconfig=/etc/X11/xorg.conf --busid=PCI:0:30:0
+    # Your virtual display size should be much larger than the MCS Unity window size (default 600x400)
+    $ sudo nvidia-xconfig --use-display-device=None --virtual=1200x800 --output-xconfig=/etc/X11/xorg.conf --busid=PCI:0:30:0
 
     # Launch Xserver
     $ sudo /usr/bin/Xorg :0 &
@@ -53,7 +55,7 @@ The following code was run on an AWS p2-xlarge with the Ubuntu Deep Learning AMI
 .. code-block:: bash
 
     # Follow the instructions listed above to launch Xserver
-    $ sudo nvidia-xconfig --use-display-device=None --virtual=600x400 --output-xconfig=/etc/X11/xorg.conf --busid=PCI:0:30:0
+    $ sudo nvidia-xconfig --use-display-device=None --virtual=1200x800 --output-xconfig=/etc/X11/xorg.conf --busid=PCI:0:30:0
     $ sudo /usr/bin/Xorg :0 &
 
     # Download the MCS repository
