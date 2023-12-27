@@ -1,0 +1,234 @@
+{
+  "goal": {
+    "action_list": [],
+    "category": "retrieval",
+    "description": "Find and pick up the tiny light black white rubber ball.",
+    "last_step": 1700,
+    "metadata": {
+      "target": {
+        "id": "df10bf68-8957-43c5-a5d6-6c0eba0d0f87"
+      }
+    }
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [],
+  "name": "eval_7_interactive_agent_identification_0001_04",
+  "objects": [
+    {
+      "id": "platform_9985c93c-52ff-4a0a-b5bc-c9a71fc629db",
+      "type": "cube",
+      "mass": 250,
+      "materials": ["AI2-THOR/Materials/Walls/DrywallGreen"],
+      "kinematic": true,
+      "structure": true,
+      "lips": {
+        "front": false,
+        "back": false,
+        "left": false,
+        "right": false
+      },
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0,
+            "y": 0.25,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 8
+          }
+        }
+      ]
+    },
+    {
+      "id": "df10bf68-8957-43c5-a5d6-6c0eba0d0f87",
+      "type": "soccer_ball",
+      "mass": 1.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": [],
+      "associatedWithAgent": "agent_4a58fb5c-23fc-485a-a3bc-d9398503c13a"
+    },
+    {
+      "id": "agent_4a58fb5c-23fc-485a-a3bc-d9398503c13a",
+      "type": "agent_female_07",
+      "mass": 75,
+      "agentSettings": {
+        "chest": 9,
+        "skin": 4,
+        "chestMaterial": 4,
+        "eyes": 0,
+        "feet": 0,
+        "feetMaterial": 7,
+        "hair": 6,
+        "hairMaterial": 4,
+        "hatMaterial": 1,
+        "hideHair": false,
+        "isElder": false,
+        "legs": 8,
+        "legsMaterial": 22,
+        "glasses": 0,
+        "jacket": 0,
+        "jacketMaterial": 0,
+        "tie": 0,
+        "tieMaterial": 0,
+        "showBeard": false,
+        "showGlasses": false,
+        "showJacket": false,
+        "showTie": false
+      },
+      "actions": [],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 1.86,
+            "y": 0,
+            "z": -0.01
+          },
+          "rotation": {
+            "x": 0,
+            "y": 180,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ],
+      "labels": "",
+      "agentMovement": {
+        "repeat": true,
+        "stepBegin": 0,
+        "sequence": [
+          {
+            "animation": "TPM_walk",
+            "endPoint": {
+              "x": 2.16,
+              "z": -2.88
+            }
+          },
+          {
+            "animation": "TPM_run",
+            "endPoint": {
+              "x": 0.89,
+              "z": -2.59
+            }
+          },
+          {
+            "animation": "TPF_walk",
+            "endPoint": {
+              "x": 3.15,
+              "z": 2.97
+            }
+          },
+          {
+            "animation": "TPM_run",
+            "endPoint": {
+              "x": 2.6,
+              "z": 2.43
+            }
+          },
+          {
+            "animation": "TPF_walk",
+            "endPoint": {
+              "x": 2.61,
+              "z": -0.88
+            }
+          },
+          {
+            "animation": "TPF_run",
+            "endPoint": {
+              "x": 1.86,
+              "z": -0.01
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "blob_de87368a-7f62-4a3d-99a0-c2d21adfe533",
+      "type": "blob_18",
+      "mass": 75,
+      "materials": ["Custom/Materials/Grey"],
+      "physics": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -1.54,
+            "y": 0.3501,
+            "z": -0.32
+          },
+          "rotation": {
+            "x": 0,
+            "y": 239,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.9484,
+            "y": 0.9484,
+            "z": 0.9484
+          }
+        }
+      ]
+    }
+  ],
+  "screenshot": false,
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
+  "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetDark 1",
+  "floorTextures": [],
+  "intuitivePhysics": false,
+  "isometricFrontRight": false,
+  "performerStart": {
+    "position": {
+      "x": 0.0,
+      "y": 0.5,
+      "z": -3.75
+    },
+    "rotation": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 8.0,
+    "y": 3.0,
+    "z": 8.0
+  },
+  "wallMaterial": "AI2-THOR/Materials/Walls/DrywallGreen"
+}

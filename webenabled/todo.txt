@@ -1,0 +1,32 @@
+
+ToDo
+--------
+make it say 'loading' or something so you can see that a new
+   scene is being read in.
+
+make it respond immediately on browsing to page, rather than
+   waiting for unity to start up.  Some sort of async/await
+   or maybe use Quark
+
+timeout session and close unity controller
+
+figure out timing of step->image, one behind???
+
+count # users and don't go above a certain number
+   -- figure out max number on g4dn
+
+show step number, show when scene over, habituation, etc.
+
+show list of actions taken
+
+======================
+
+Done
+-----
+do sessions / user managment properly!
+
+load scene file when clicked (not hard coded)
+
+list actions available as a fn of scene
+
+log correctly

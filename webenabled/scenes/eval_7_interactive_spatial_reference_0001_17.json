@@ -1,0 +1,330 @@
+{
+  "goal": {
+    "action_list": [["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"]],
+    "category": "retrieval",
+    "description": "Find and pick up the tiny light black white rubber ball.",
+    "last_step": 1400,
+    "metadata": {
+      "target": {
+        "id": "b3c54e25-0bd8-40ad-aba8-bcd75a37bafc"
+      }
+    }
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [],
+  "name": "eval_7_interactive_spatial_reference_0001_17",
+  "objects": [
+    {
+      "id": "b3c54e25-0bd8-40ad-aba8-bcd75a37bafc",
+      "type": "soccer_ball",
+      "mass": 1.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 0.0,
+            "y": 0.137,
+            "z": 0.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": [],
+      "locationParent": "4607d04f-729a-451f-8858-a3a54dd17dc3"
+    },
+    {
+      "id": "67c9169f-6719-4f70-8cd2-6f87f7a8ce71",
+      "type": "chest_1",
+      "mass": 13.5,
+      "salientMaterials": ["metal"],
+      "receptacle": true,
+      "openable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -1.0,
+            "y": 0,
+            "z": 0.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 180.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 0.9,
+            "y": 0.9,
+            "z": 0.9
+          }
+        }
+      ],
+      "materials": ["AI2-THOR/Materials/Metals/BlackSmoothMeta"]
+    },
+    {
+      "id": "4607d04f-729a-451f-8858-a3a54dd17dc3",
+      "type": "chest_1",
+      "mass": 13.5,
+      "salientMaterials": ["metal"],
+      "receptacle": true,
+      "openable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 1.0,
+            "y": 0,
+            "z": 0.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 180.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 0.9,
+            "y": 0.9,
+            "z": 0.9
+          }
+        }
+      ],
+      "materials": ["AI2-THOR/Materials/Metals/BlackSmoothMeta"]
+    },
+    {
+      "id": "platform_dc346a8b-aa67-46b4-a97d-7f9f7864d943",
+      "type": "cube",
+      "mass": 750,
+      "materials": ["Custom/Materials/LimeWoodMCS"],
+      "kinematic": true,
+      "structure": true,
+      "lips": {
+        "front": false,
+        "back": false,
+        "left": false,
+        "right": false
+      },
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0,
+            "y": 0.25,
+            "z": 2
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 6.0,
+            "y": 0.5,
+            "z": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "platform_7ad7612f-0b23-4d71-87e7-6c7c70cbe266",
+      "type": "cube",
+      "mass": 125,
+      "materials": ["Custom/Materials/LimeWoodMCS"],
+      "kinematic": true,
+      "structure": true,
+      "lips": {
+        "front": false,
+        "back": false,
+        "left": false,
+        "right": false
+      },
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0,
+            "y": 0.25,
+            "z": -1.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 4.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "turntable_6cf59f95-0188-41ce-bc01-e988815818b9",
+      "type": "rotating_cog",
+      "mass": 1406,
+      "materials": ["Custom/Materials/Grey"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -1,
+            "y": 0.55,
+            "z": 2
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1.5,
+            "y": 5.0,
+            "z": 1.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "blocking_wall_f68ba569-ab88-4c81-a441-0ceffeb66528394d5310-f978-4049-9428-ff7f710dfcd6",
+      "type": "cube",
+      "mass": 4,
+      "materials": ["Custom/Materials/Black"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0,
+            "y": 0.625,
+            "z": -1.5
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 0.5,
+            "y": 0.25,
+            "z": 0.25
+          }
+        }
+      ]
+    },
+    {
+      "id": "agent_51dcfc86-7897-4972-a615-a33c5c0710e3",
+      "type": "agent_male_06",
+      "mass": 75,
+      "agentSettings": {
+        "chest": 5,
+        "skin": 3,
+        "eyes": 3,
+        "feet": 2,
+        "feetMaterial": 0,
+        "hair": 4,
+        "hairMaterial": 0,
+        "hatMaterial": -1,
+        "hideHair": false,
+        "isElder": false,
+        "legs": 1,
+        "legsMaterial": 22,
+        "glasses": 0,
+        "jacket": 0,
+        "jacketMaterial": 0,
+        "tie": 0,
+        "tieMaterial": 0,
+        "showBeard": false,
+        "showGlasses": false,
+        "showJacket": false,
+        "showTie": false
+      },
+      "actions": [
+        {
+          "id": "Point_start_index_finger",
+          "stepBegin": 37,
+          "stepEnd": 44
+        },
+        {
+          "id": "Point_hold_index_finger",
+          "stepBegin": 44,
+          "isLoopAnimation": true
+        }
+      ],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -1.42,
+            "y": 0.61,
+            "z": 2.42
+          },
+          "rotation": {
+            "x": 0,
+            "y": -45,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ],
+      "labels": "",
+      "agentMovement": {
+        "repeat": false,
+        "stepBegin": 1,
+        "sequence": [
+          {
+            "animation": "TPM_walk",
+            "endPoint": {
+              "x": -0.58,
+              "z": 1.58
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "screenshot": false,
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall4Tiled",
+  "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetDarkGreen",
+  "floorTextures": [],
+  "intuitivePhysics": false,
+  "isometricFrontRight": false,
+  "performerStart": {
+    "position": {
+      "x": 0.0,
+      "y": 0.5,
+      "z": -2.5
+    },
+    "rotation": {
+      "x": 10.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 6.0,
+    "y": 4.0,
+    "z": 6.0
+  },
+  "wallMaterial": "AI2-THOR/Materials/Walls/WallDrywallGrey"
+}
