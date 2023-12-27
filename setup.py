@@ -60,6 +60,7 @@ setuptools.setup(
         'numpyencoder==0.3.0',
         'opencv-python==4.4.0.46; python_version<="3.9"',
         'opencv-python==4.5.4.60; python_version>="3.10"',
+        'portalocker',
         'pydantic==1.10.7',
         'requests==2.31.0',
         'scikit-image==0.19.3',
