@@ -174,6 +174,21 @@ class TaskDescription(Enum):
         "the ball to pick it up, which completes the scenario."
     )
 
+    INTERACTIVE_OCCLUDED_TRAJECTORY = (
+        "Occluded Trajectory tasks require a common-sense understanding of"
+        " trajectory. You must watch (using the Pass action) as a soccer "
+        "ball is launched across the floor, but you do not see its entire "
+        "trajectory, due to a large occluding wall which descends in front "
+        "of you; you must then determine which side of the room contains "
+        "the soccer ball, find it, and use PickupObject on it to pick it "
+        "up, which completes the scenario. To access a side of the room, "
+        "you must open one of the doors (using the OpenObject action) in "
+        "the occluding wall. This is a \"forced choice\" task: once you "
+        "open the door to one side of the room, you are unable to access "
+        "the other side of the room (because it is blocked by lava)."
+    )
+    # INTERACTIVE_TRAJECTORY = INTERACTIVE_OCCLUDED_TRAJECTORY
+
     INTERACTIVE_OCCLUDERS = (
         "Occluder Retrieval tasks require a common-sense understanding of "
         "occlusion. You must find the soccer ball, which may or may not be "
@@ -340,42 +355,24 @@ class TaskDescription(Enum):
         "broken, inaccessible, or not a useful size."
     )
 
-    INTERACTIVE_TRAJECTORY = (
-        "Occluded Trajectory tasks require a common-sense understanding of"
-        " trajectory. You must watch (using the Pass action) as a soccer "
-        "ball is launched across the floor, but you do not see its entire "
-        "trajectory, due to a large occluding wall which descends in front "
-        "of you; you must then determine which side of the room contains "
-        "the soccer ball, find it, and use PickupObject on it to pick it "
-        "up, which completes the scenario. To access a side of the room, "
-        "you must open one of the doors (using the OpenObject action) in "
-        "the occluding wall. This is a \"forced choice\" task: once you "
-        "open the door to one side of the room, you are unable to access "
-        "the other side of the room (because it is blocked by lava)."
-    )
-    # INTERACTIVE_OCCLUDED_TRAJECTORY = INTERACTIVE_TRAJECTORY
-
     # NYU Passive Agency Tasks (in alphabetical order)
-    PASSIVE_AGENT_AGENT_NON_AGENT = (
-        "Passive Agent: Agent/Non-Agent tasks require a common-sense "
-        "understanding of agency. This is a \"passive agents\" task: you "
-        "must watch (using only Pass actions) as an ambiguous agent-like "
-        "entity (blob shape) moves in a grid world over 8 \"familiarization\""
-        " trials and a \"test\" trial (the world \"resets\" between each trial"
-        " using the EndHabituation action). The familiarization trials depict "
-        "the entity approaching a specific object (the same object in all 8 "
-        "familiarization trials). The entity is either an agent or a "
-        "non-agent: agents move autonomously, while non-agents are moved "
-        "because they are hit by the spinning \"paddle\". You must then "
-        "determine whether the test trial is \"more expected\" "
-        "(unsurprising) or \"more unexpected\" (surprising) based on how "
-        "the entity acts: if the entity is an agent, it should continue to "
-        "act with the same preferences it showed during the familiarization "
-        "trials (approaching the same object); if the entity is a non-agent, "
-        "then it doesn't have preferences, because its movement is controlled"
-        " by the paddle, so it's just as likely to approach either object."
+
+    PASSIVE_AGENT_APPROACH = (
+        "Passive Agent: Approach tasks require a common-sense understanding "
+        "of agency. This is a \"passive agents\" task: you must watch (using "
+        "only Pass actions) as three agents (blob shapes) move in a grid "
+        "world over 8 \"familiarization\" trials and a \"test\" trial (the "
+        "world \"resets\" between each trial using the EndHabituation action)."
+        " The familiarization trials depict an agent approaching another "
+        "specific agent (the same agent in all 8 familiarization trials). "
+        "You must then determine whether the test trial is \"expected\" "
+        "(unsurprising) or \"unexpected\" (surprising) based on whether or "
+        "not the agent continued to act with the same preferences it showed "
+        "during the familiarization trials (imitating the movement pattern "
+        "of the other agent it approached)."
     )
-    # PASSIVE_AGENT_NON_AGENT = PASSIVE_AGENT_AGENT_NON_AGENT
+    # PASSIVE_AGENT_SOCIAL_APPROACH = PASSIVE_AGENT_APPROACH
+    # PASSIVE_AGENT_INSTRUMENTAL_APPROACH = PASSIVE_AGENT_SOCIAL_APPROACH
 
     PASSIVE_AGENT_EFFICIENT_ACTION = (
         "Passive Agent: Efficient Action tasks require a common-sense "
@@ -410,6 +407,24 @@ class TaskDescription(Enum):
         "\"unexpected\" (surprising) based on whether the first agent prefers "
         "its helper or hinderer (the agent should prefer its helper)."
     )
+
+    PASSIVE_AGENT_IMITATION = (
+        "Passive Agent: Imitation tasks require a common-sense understanding "
+        "of agency. This is a \"passive agents\" task: you must watch (using "
+        "only Pass actions) as three agents (blob shapes) move in a grid "
+        "world over 8 \"familiarization\" trials and a \"test\" trial (the "
+        "world \"resets\" between each trial using the EndHabituation action)."
+        " The familiarization trials depict the three agents moving in "
+        "specific patterns, which are consistent across all 8 trials; two "
+        "of the agents always have the same movement pattern. You must then"
+        " determine whether the test trial is \"expected\" (unsurprising) or "
+        "\"unexpected\" (surprising) based on whether or not the agent "
+        "continued to act with the same preferences it showed during the "
+        "familiarization trials (approaching the other agent who had the "
+        "same movement pattern)."
+    )
+    # PASSIVE_AGENT_SOCIAL_IMITATION = PASSIVE_AGENT_IMITATION
+    # PASSIVE_AGENT_INSTRUMENTAL_IMITATION = PASSIVE_AGENT_SOCIAL_IMITATION
 
     PASSIVE_AGENT_INACCESSIBLE_GOAL = (
         "Passive Agent: Instrumental Action tasks require a common-sense "
@@ -461,6 +476,28 @@ class TaskDescription(Enum):
         "unsurprising for a new agent to show a different preference)."
     )
 
+    PASSIVE_AGENT_NON_AGENT = (
+        "Passive Agent: Agent/Non-Agent tasks require a common-sense "
+        "understanding of agency. This is a \"passive agents\" task: you "
+        "must watch (using only Pass actions) as an ambiguous agent-like "
+        "entity (blob shape) moves in a grid world over 8 \"familiarization\""
+        " trials and a \"test\" trial (the world \"resets\" between each trial"
+        " using the EndHabituation action). The familiarization trials depict "
+        "the entity approaching a specific object (the same object in all 8 "
+        "familiarization trials). The entity is either an agent or a "
+        "non-agent: agents move autonomously, while non-agents are moved "
+        "because they are hit by the spinning \"paddle\". You must then "
+        "determine whether the test trial is \"more expected\" "
+        "(unsurprising) or \"more unexpected\" (surprising) based on how "
+        "the entity acts: if the entity is an agent, it should continue to "
+        "act with the same preferences it showed during the familiarization "
+        "trials (approaching the same object); if the entity is a non-agent, "
+        "then it doesn't have preferences, because its movement is controlled"
+        " by the paddle, so it's just as likely to approach either object."
+    )
+
+    # PASSIVE_AGENT_AGENT_NON_AGENT = PASSIVE_AGENT_NON_AGENT
+
     PASSIVE_AGENT_OBJECT_PREFERENCE = (
         "Passive Agent: Object Preference tasks require a common-sense "
         "understanding of agency. This is a \"passive agents\" task: you must "
@@ -474,41 +511,6 @@ class TaskDescription(Enum):
         "not the agent continued to act with the same preferences it showed "
         "during the familiarization trials (approaching the same object)."
     )
-
-    PASSIVE_AGENT_SOCIAL_APPROACH = (
-        "Passive Agent: Approach tasks require a common-sense understanding "
-        "of agency. This is a \"passive agents\" task: you must watch (using "
-        "only Pass actions) as three agents (blob shapes) move in a grid "
-        "world over 8 \"familiarization\" trials and a \"test\" trial (the "
-        "world \"resets\" between each trial using the EndHabituation action)."
-        " The familiarization trials depict an agent approaching another "
-        "specific agent (the same agent in all 8 familiarization trials). "
-        "You must then determine whether the test trial is \"expected\" "
-        "(unsurprising) or \"unexpected\" (surprising) based on whether or "
-        "not the agent continued to act with the same preferences it showed "
-        "during the familiarization trials (imitating the movement pattern "
-        "of the other agent it approached)."
-    )
-    # PASSIVE_AGENT_APPROACH = PASSIVE_AGENT_SOCIAL_APPROACH
-    # PASSIVE_AGENT_INSTRUMENTAL_APPROACH = PASSIVE_AGENT_SOCIAL_APPROACH
-
-    PASSIVE_AGENT_SOCIAL_IMITATION = (
-        "Passive Agent: Imitation tasks require a common-sense understanding "
-        "of agency. This is a \"passive agents\" task: you must watch (using "
-        "only Pass actions) as three agents (blob shapes) move in a grid "
-        "world over 8 \"familiarization\" trials and a \"test\" trial (the "
-        "world \"resets\" between each trial using the EndHabituation action)."
-        " The familiarization trials depict the three agents moving in "
-        "specific patterns, which are consistent across all 8 trials; two "
-        "of the agents always have the same movement pattern. You must then"
-        " determine whether the test trial is \"expected\" (unsurprising) or "
-        "\"unexpected\" (surprising) based on whether or not the agent "
-        "continued to act with the same preferences it showed during the "
-        "familiarization trials (approaching the other agent who had the "
-        "same movement pattern)."
-    )
-    # PASSIVE_AGENT_IMITATION = PASSIVE_AGENT_SOCIAL_IMITATION
-    # PASSIVE_AGENT_INSTRUMENTAL_IMITATION = PASSIVE_AGENT_SOCIAL_IMITATION
 
     PASSIVE_AGENT_TRUE_FALSE_BELIEF = (
         "Passive Agent: True / False tasks require a common-sense "
