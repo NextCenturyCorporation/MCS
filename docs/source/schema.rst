@@ -784,6 +784,15 @@ All of the following object types have the `pickupable` attribute by default.
       - x=0.9,y=0.36,z=0.42
       - Right
       - Toy car
+    * - `"car_6"`
+      - car
+      - 0.5
+      - 
+      - 
+      - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
+      - x=1.06,y=0.58,z=0.54
+      - Right
+      - Toy old-fashioned car
     * - `"cart_2"`
       - cart
       - 0.5
@@ -856,6 +865,24 @@ All of the following object types have the `pickupable` attribute by default.
       - x=0.195,y=0.036,z=0.134
       - Forward
       - Suitcase
+    * - `"case_8"`
+      - case
+      - 5
+      - X
+      - X
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
+      - x=0.52,y=0.6,z=0.54
+      - Forward
+      - 
+    * - `"case_9"`
+      - case
+      - 5
+      - X
+      - X
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
+      - x=0.18,y=0.44,z=0.4
+      - Forward
+      - 
     * - `"crate_1"`
       - crate
       - 5
@@ -890,6 +917,24 @@ All of the following object types have the `pickupable` attribute by default.
       - X
       - :ref:`wood <Wood Materials>`
       - x=0.76,y=0.74,z=0.88
+      - Forward
+      - Cuboid wooden crate
+    * - `"crate_5"`
+      - crate
+      - 5
+      - X
+      - X
+      - :ref:`wood <Wood Materials>`
+      - x=0.82,y=1.44,z=0.82
+      - Forward
+      - Cuboid wooden crate
+    * - `"crate_6"`
+      - crate
+      - 5
+      - X
+      - X
+      - :ref:`wood <Wood Materials>`
+      - x=0.9,y=1.68,z=1.06
       - Forward
       - Cuboid wooden crate
     * - `"crayon_black"`
@@ -1009,6 +1054,15 @@ All of the following object types have the `pickupable` attribute by default.
       - x=0.224,y=0.176,z=0.06
       - Right
       - Toy duck on wheels
+    * - `"firetruck"`
+      - firetruck
+      - 0.5
+      - 
+      - 
+      - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
+      - x=1.2,y=0.4,z=0.54
+      - Right
+      - Toy firetruck
     * - `"jeep"`
       - jeep
       - 0.5
@@ -1017,7 +1071,7 @@ All of the following object types have the `pickupable` attribute by default.
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.06,y=0.057,z=0.098
       - Forward
-      - Toy car
+      - Toy jeep
     * - `"military_case_1"`
       - case
       - 5
@@ -1054,6 +1108,33 @@ All of the following object types have the `pickupable` attribute by default.
       - x=0.86,y=0.32,z=0.68
       - Forward
       - 
+    * - `"military_case_5"`
+      - case
+      - 5
+      - X
+      - X
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
+      - x=1.3,y=1.1,z=1.04
+      - Forward
+      - 
+    * - `"military_case_6"`
+      - case
+      - 5
+      - X
+      - X
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
+      - x=0.7,y=0.76,z=0.72
+      - Forward
+      - 
+    * - `"military_truck"`
+      - truck
+      - 0.5
+      - 
+      - 
+      - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
+      - x=1.36,y=0.6,z=0.58
+      - Forward
+      - Toy military truck
     * - `"pacifier"`
       - pacifier
       - 0.5
@@ -1106,6 +1187,24 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.07,y=0.06,z=0.15
+      - Forward
+      - Toy racecar
+    * - `"racecar_2"`
+      - car
+      - 0.5
+      - 
+      - 
+      - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
+      - x=1.3,y=0.5,z=0.58
+      - Forward
+      - Toy racecar
+    * - `"racecar_3"`
+      - car
+      - 0.5
+      - 
+      - 
+      - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
+      - x=1.0,y=0.52,z=0.5
       - Forward
       - Toy racecar
     * - `"road_scraper"`
@@ -1171,7 +1270,7 @@ All of the following object types have the `pickupable` attribute by default.
       - x=0.065,y=0.067,z=0.17
       - Forward
       - Toy tank
-    * - `"tank_2"`
+    * - `"tank_3"`
       - tank
       - 0.5
       - 
@@ -1180,6 +1279,24 @@ All of the following object types have the `pickupable` attribute by default.
       - x=0.21,y=0.12,z=0.094
       - Right
       - Toy tank
+    * - `"taxi"`
+      - taxi
+      - 0.5
+      - 
+      - 
+      - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
+      - x=1.2,y=0.8,z=0.5
+      - Right
+      - Toy three-wheeled taxi
+    * - `"toddler_ride_on_car"`
+      - car
+      - 0.5
+      - 
+      - 
+      - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
+      - x=1.14,y=1.24,z=0.66
+      - Right
+      - Toy toddler ride-on car
     * - `"toolbox_1"`
       - toolbox
       - 5
@@ -1234,6 +1351,24 @@ All of the following object types have the `pickupable` attribute by default.
       - x=0.22,y=0.108,z=0.192
       - Forward
       - Toolbox
+    * - `"toolbox_7"`
+      - toolbox
+      - 5
+      - X
+      - X
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
+      - x=0.21,y=0.14,z=0.154
+      - Forward
+      - Toolbox
+    * - `"toolbox_8"`
+      - toolbox
+      - 5
+      - X
+      - X
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
+      - x=0.134,y=0.14,z=0.12
+      - Forward
+      - Toolbox
     * - `"train_1"`
       - train
       - 0.5
@@ -1259,6 +1394,33 @@ All of the following object types have the `pickupable` attribute by default.
       - 
       - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
       - x=0.4,y=0.26,z=0.22
+      - Right
+      - Toy train
+    * - `"train_4"`
+      - train
+      - 0.5
+      - 
+      - 
+      - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
+      - x=1.54,y=0.94,z=0.86
+      - Right
+      - Toy train
+    * - `"train_5"`
+      - train
+      - 0.5
+      - 
+      - 
+      - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
+      - x=1.2,y=1.04,z=0.7
+      - Right
+      - Toy train
+    * - `"train_6"`
+      - train
+      - 0.5
+      - 
+      - 
+      - :ref:`block_blank <Block Materials (Blank)>`, :ref:`flat <Flat Materials>`, :ref:`wood <Wood Materials>`
+      - x=1.8,y=1.16,z=0.74
       - Right
       - Toy train
     * - `"trike"`
@@ -1502,6 +1664,42 @@ Furniture Objects
       - :ref:`wood <Wood Materials>`
       - x=2,y=2.2,z=3.2
       - 
+    * - `"bed_13"`
+      - bed
+      - 50
+      - 
+      - X
+      - 
+      - :ref:`wood <Wood Materials>`
+      - x=2,y=2.2,z=3.5
+      - 
+    * - `"bed_14"`
+      - bed
+      - 50
+      - 
+      - X
+      - 
+      - :ref:`wood <Wood Materials>`
+      - x=2,y=2.2,z=3.5
+      - 
+    * - `"bed_15"`
+      - bed
+      - 50
+      - 
+      - X
+      - 
+      - :ref:`wood <Wood Materials>`
+      - x=1.4,y=3,z=2.4
+      - Bunk bed
+    * - `"bed_16"`
+      - bed
+      - 50
+      - 
+      - X
+      - 
+      - :ref:`wood <Wood Materials>`
+      - x=1.4,y=3,z=2.4
+      - Elevated bed with desk underneath
     * - `"bookcase_1_shelf"`
       - bookcase
       - 10
@@ -1574,6 +1772,24 @@ Furniture Objects
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
       - x=1,y=2.5,z=0.5
       - 
+    * - `"bookcase_duplex_2_4"`
+      - bookcase
+      - 30
+      - 
+      - X
+      - 
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
+      - x=2,y=2,z=0.5
+      - 2 shelves on left, 4 shelves on right
+    * - `"bookcase_duplex_4_2"`
+      - bookcase
+      - 30
+      - 
+      - X
+      - 
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
+      - x=2,y=2,z=0.5
+      - 4 shelves on left, 2 shelves on right
     * - `"cart_1"`
       - cart
       - 4
@@ -1727,6 +1943,24 @@ Furniture Objects
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
       - x=0.5,y=0.92,z=0.5
       - 
+    * - `"chair_17"`
+      - chair
+      - 5
+      - X
+      - X
+      - 
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
+      - x=0.45,y=0.85,z=0.45
+      - 
+    * - `"chair_18"`
+      - chair
+      - 5
+      - X
+      - X
+      - 
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
+      - x=0.45,y=1.1,z=0.5
+      - 
     * - `"changing_table"`
       - changing table
       - 100
@@ -1817,6 +2051,33 @@ Furniture Objects
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
       - x=0.84,y=0.41,z=0.68
       - Chest with trapezoidal lid
+    * - `"chest_10"`
+      - chest
+      - 15
+      - 
+      - X
+      - X
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
+      - x=0.37,y=0.39,z=0.38
+      - Chest with curved lid
+    * - `"chest_11"`
+      - chest
+      - 15
+      - 
+      - X
+      - X
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
+      - x=0.74,y=0.76,z=0.66
+      - Chest with flat lid
+    * - `"circular_container"`
+      - container
+      - 5
+      - 
+      - X
+      - X
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
+      - x=0.25,y=0.42,z=0.36
+      - 
     * - `"crib"`
       - crib
       - 25
@@ -1862,6 +2123,87 @@ Furniture Objects
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
       - x=1,y=2,z=1
       - Square desk with 3 sides on bottom and top
+    * - `"desk_5"`
+      - desk
+      - 30
+      - 
+      - X
+      - 
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
+      - x=2,y=1,z=0.5
+      - Rectangular desk with 2 shelves on the left
+    * - `"desk_6"`
+      - desk
+      - 30
+      - 
+      - X
+      - 
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
+      - x=2,y=1,z=0.5
+      - Rectangular desk with 2 shelves on the right
+    * - `"desk_7"`
+      - desk
+      - 20
+      - 
+      - X
+      - 
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
+      - x=1.17,y=0.93,z=0.56
+      - Can see through underneath the desk
+    * - `"desk_8"`
+      - desk
+      - 20
+      - 
+      - X
+      - 
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
+      - x=1.15,y=0.82,z=0.55
+      - Can see through underneath the desk
+    * - `"desk_9"`
+      - desk
+      - 20
+      - 
+      - X
+      - 
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
+      - x=0.85,y=0.95,z=0.58
+      - Can see through underneath the desk
+    * - `"desk_10"`
+      - desk
+      - 20
+      - 
+      - X
+      - 
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
+      - x=1.7,y=1,z=0.93
+      - Can see through underneath the desk
+    * - `"folding_chair"`
+      - chair
+      - 5
+      - X
+      - X
+      - 
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`
+      - x=0.48,y=0.86,z=0.56
+      - 
+    * - `"hamper"`
+      - hamper
+      - 5
+      - 
+      - X
+      - X
+      - none
+      - x=0.5,y=0.66,z=0.4
+      - Short laundry hamper with a brown wicker texture
+    * - `"high_chair"`
+      - chair
+      - 5
+      - X
+      - X
+      - 
+      - :ref:`wood <Wood Materials>`, :ref:`plastic <Plastic Materials>`
+      - x=0.64,y=0.84,z=0.8
+      - 
     * - `"shelf_1"`
       - shelf
       - 10
@@ -1961,6 +2303,15 @@ Furniture Objects
       - :ref:`sofa_9 <Sofa 9 Materials>`
       - x=2.54,y=1.62,z=1.52
       - 
+    * - `"sofa_10"`
+      - sofa
+      - 100
+      - 
+      - X
+      - 
+      - :ref:`sofa_thorkea <Sofa THORKEA Materials>`
+      - x=1.75,y=0.72,z=0.82
+      - 
     * - `"sofa_11"`
       - sofa
       - 100
@@ -2059,6 +2410,15 @@ Furniture Objects
       - 
       - :ref:`sofa_9 <Sofa 9 Materials>`
       - x=1.38,y=1.46,z=1.36
+      - 
+    * - `"sofa_chair_10"`
+      - sofa chair
+      - 50
+      - 
+      - X
+      - 
+      - :ref:`armchair_thorkea <Armchair THORKEA Materials>`
+      - x=0.96,y=0.89,z=0.76
       - 
     * - `"table_1"`
       - table
@@ -2231,6 +2591,24 @@ Furniture Objects
       - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
       - x=1.431,y=0.652,z=0.695
       - Short oval table
+    * - `"table_23"`
+      - table
+      - 10
+      - X
+      - X
+      - 
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
+      - x=1.24,y=0.64,z=0.79
+      - Short rectangular table
+    * - `"table_24"`
+      - table
+      - 10
+      - X
+      - X
+      - 
+      - :ref:`metal <Metal Materials>`, :ref:`plastic <Plastic Materials>`, :ref:`wood <Wood Materials>`
+      - x=1.63,y=0.4,z=0.6
+      - Short rectangular table
     * - `"table_25"`
       - table
       - 5
@@ -2299,85 +2677,201 @@ All the tools have the `tool` shape, `metal` salient material, `moveable` and `r
       - Base Size
       - Details
 
+    * - `"tool_big_0_50_x_33_00"`
+      - 3
+      - x=0.5,y=0.3,z=33
+      - Rectangular (symmetric) tool, too big to be used successfully
+    * - `"tool_big_0_50_x_36_00"`
+      - 3
+      - x=0.5,y=0.3,z=36
+      - Rectangular (symmetric) tool, too big to be used successfully
+    * - `"tool_big_0_50_x_39_00"`
+      - 3
+      - x=0.5,y=0.3,z=39
+      - Rectangular (symmetric) tool, too big to be used successfully
+    * - `"tool_big_0_75_x_33_00"`
+      - 3
+      - x=0.75,y=0.3,z=33
+      - Rectangular (symmetric) tool, too big to be used successfully
+    * - `"tool_big_0_75_x_36_00"`
+      - 3
+      - x=0.75,y=0.3,z=36
+      - Rectangular (symmetric) tool, too big to be used successfully
+    * - `"tool_big_0_75_x_39_00"`
+      - 3
+      - x=0.75,y=0.3,z=39
+      - Rectangular (symmetric) tool, too big to be used successfully
+    * - `"tool_big_1_00_x_33_00"`
+      - 3
+      - x=1.0,y=0.3,z=33
+      - Rectangular (symmetric) tool, too big to be used successfully
+    * - `"tool_big_1_00_x_36_00"`
+      - 3
+      - x=1.0,y=0.3,z=36
+      - Rectangular (symmetric) tool, too big to be used successfully
+    * - `"tool_big_1_00_x_39_00"`
+      - 3
+      - x=1.0,y=0.3,z=39
+      - Rectangular (symmetric) tool, too big to be used successfully
+
     * - `"tool_hooked_0_50_x_4_00"`
       - 3
-      - x=0.5,y=0.3,z=4
-      - Hooked (asymmetric) tool
+      - x=1.5,y=0.3,z=4
+      - L-shaped (asymmetric) tool with two unequal sides
     * - `"tool_hooked_0_50_x_5_00"`
       - 3.25
-      - x=0.5,y=0.3,z=5
-      - Hooked (asymmetric) tool
+      - x=1.5,y=0.3,z=5
+      - L-shaped (asymmetric) tool with two unequal sides
     * - `"tool_hooked_0_50_x_6_00"`
       - 3.5
-      - x=0.5,y=0.3,z=6
-      - Hooked (asymmetric) tool
+      - x=1.5,y=0.3,z=6
+      - L-shaped (asymmetric) tool with two unequal sides
     * - `"tool_hooked_0_50_x_7_00"`
       - 3.75
-      - x=0.5,y=0.3,z=7
-      - Hooked (asymmetric) tool
+      - x=1.5,y=0.3,z=7
+      - L-shaped (asymmetric) tool with two unequal sides
     * - `"tool_hooked_0_50_x_8_00"`
       - 4
-      - x=0.5,y=0.3,z=8
-      - Hooked (asymmetric) tool
+      - x=1.5,y=0.3,z=8
+      - L-shaped (asymmetric) tool with two unequal sides
     * - `"tool_hooked_0_50_x_9_00"`
       - 4.25
-      - x=0.5,y=0.3,z=9
-      - Hooked (asymmetric) tool
+      - x=1.5,y=0.3,z=9
+      - L-shaped (asymmetric) tool with two unequal sides
 
     * - `"tool_hooked_0_75_x_4_00"`
       - 3.33
-      - x=0.75,y=0.3,z=4
-      - Hooked (asymmetric) tool
+      - x=2.25,y=0.3,z=4
+      - L-shaped (asymmetric) tool with two unequal sides
     * - `"tool_hooked_0_75_x_5_00"`
       - 3.66
-      - x=0.75,y=0.3,z=5
-      - Hooked (asymmetric) tool
+      - x=2.25,y=0.3,z=5
+      - L-shaped (asymmetric) tool with two unequal sides
     * - `"tool_hooked_0_75_x_6_00"`
       - 4
-      - x=0.75,y=0.3,z=6
-      - Hooked (asymmetric) tool
+      - x=2.25,y=0.3,z=6
+      - L-shaped (asymmetric) tool with two unequal sides
     * - `"tool_hooked_0_75_x_7_00"`
       - 4.33
-      - x=0.75,y=0.3,z=7
-      - Hooked (asymmetric) tool
+      - x=2.25,y=0.3,z=7
+      - L-shaped (asymmetric) tool with two unequal sides
     * - `"tool_hooked_0_75_x_8_00"`
       - 4.66
-      - x=0.75,y=0.3,z=8
-      - Hooked (asymmetric) tool
+      - x=2.25,y=0.3,z=8
+      - L-shaped (asymmetric) tool with two unequal sides
     * - `"tool_hooked_0_75_x_9_00"`
       - 5
-      - x=0.75,y=0.3,z=9
-      - Hooked (asymmetric) tool
+      - x=2.25,y=0.3,z=9
+      - L-shaped (asymmetric) tool with two unequal sides
 
     * - `"tool_hooked_1_00_x_4_00"`
       - 4
-      - x=1,y=0.3,z=4
-      - Hooked (asymmetric) tool
+      - x=3,y=0.3,z=4
+      - L-shaped (asymmetric) tool with two unequal sides
     * - `"tool_hooked_1_00_x_5_00"`
       - 4.5
-      - x=1,y=0.3,z=5
-      - Hooked (asymmetric) tool
+      - x=3,y=0.3,z=5
+      - L-shaped (asymmetric) tool with two unequal sides
     * - `"tool_hooked_1_00_x_6_00"`
       - 5
-      - x=1,y=0.3,z=6
-      - Hooked (asymmetric) tool
+      - x=3,y=0.3,z=6
+      - L-shaped (asymmetric) tool with two unequal sides
     * - `"tool_hooked_1_00_x_7_00"`
       - 5.5
-      - x=1,y=0.3,z=7
-      - Hooked (asymmetric) tool
+      - x=3,y=0.3,z=7
+      - L-shaped (asymmetric) tool with two unequal sides
     * - `"tool_hooked_1_00_x_8_00"`
       - 6
-      - x=1,y=0.3,z=8
-      - Hooked (asymmetric) tool
+      - x=3,y=0.3,z=8
+      - L-shaped (asymmetric) tool with two unequal sides
     * - `"tool_hooked_1_00_x_9_00"`
       - 6.5
-      - x=1,y=0.3,z=9
-      - Hooked (asymmetric) tool
+      - x=3,y=0.3,z=9
+      - L-shaped (asymmetric) tool with two unequal sides
+
+    * - `"tool_isosceles_0_50_x_4_00"`
+      - 3
+      - x=4,y=0.3,z=4
+      - L-shaped (asymmetric) tool with two equal sides
+    * - `"tool_isosceles_0_50_x_5_00"`
+      - 3.25
+      - x=5,y=0.3,z=5
+      - L-shaped (asymmetric) tool with two equal sides
+    * - `"tool_isosceles_0_50_x_6_00"`
+      - 3.5
+      - x=6,y=0.3,z=6
+      - L-shaped (asymmetric) tool with two equal sides
+    * - `"tool_isosceles_0_50_x_7_00"`
+      - 3.75
+      - x=7,y=0.3,z=7
+      - L-shaped (asymmetric) tool with two equal sides
+    * - `"tool_isosceles_0_50_x_8_00"`
+      - 4
+      - x=8,y=0.3,z=8
+      - L-shaped (asymmetric) tool with two equal sides
+    * - `"tool_isosceles_0_50_x_9_00"`
+      - 4.25
+      - x=9,y=0.3,z=9
+      - L-shaped (asymmetric) tool with two equal sides
+
+    * - `"tool_isosceles_0_75_x_4_00"`
+      - 3.33
+      - x=4,y=0.3,z=4
+      - L-shaped (asymmetric) tool with two equal sides
+    * - `"tool_isosceles_0_75_x_5_00"`
+      - 3.66
+      - x=5,y=0.3,z=5
+      - L-shaped (asymmetric) tool with two equal sides
+    * - `"tool_isosceles_0_75_x_6_00"`
+      - 4
+      - x=6,y=0.3,z=6
+      - L-shaped (asymmetric) tool with two equal sides
+    * - `"tool_isosceles_0_75_x_7_00"`
+      - 4.33
+      - x=7,y=0.3,z=7
+      - L-shaped (asymmetric) tool with two equal sides
+    * - `"tool_isosceles_0_75_x_8_00"`
+      - 4.66
+      - x=8,y=0.3,z=8
+      - L-shaped (asymmetric) tool with two equal sides
+    * - `"tool_isosceles_0_75_x_9_00"`
+      - 5
+      - x=9,y=0.3,z=9
+      - L-shaped (asymmetric) tool with two equal sides
+
+    * - `"tool_isosceles_1_00_x_4_00"`
+      - 4
+      - x=4,y=0.3,z=4
+      - L-shaped (asymmetric) tool with two equal sides
+    * - `"tool_isosceles_1_00_x_5_00"`
+      - 4.5
+      - x=5,y=0.3,z=5
+      - L-shaped (asymmetric) tool with two equal sides
+    * - `"tool_isosceles_1_00_x_6_00"`
+      - 5
+      - x=6,y=0.3,z=6
+      - L-shaped (asymmetric) tool with two equal sides
+    * - `"tool_isosceles_1_00_x_7_00"`
+      - 5.5
+      - x=7,y=0.3,z=7
+      - L-shaped (asymmetric) tool with two equal sides
+    * - `"tool_isosceles_1_00_x_8_00"`
+      - 6
+      - x=8,y=0.3,z=8
+      - L-shaped (asymmetric) tool with two equal sides
+    * - `"tool_isosceles_1_00_x_9_00"`
+      - 6.5
+      - x=9,y=0.3,z=9
+      - L-shaped (asymmetric) tool with two equal sides
 
     * - `"tool_rect_0_50_x_1_00"`
       - 5
       - x=0.5,y=0.3,z=1
-      - Rectangular (symmetric) tool, too small
+      - Rectangular (symmetric) tool, too small to be used successfully
+    * - `"tool_rect_0_50_x_3_00"`
+      - 3
+      - x=0.5,y=0.3,z=3
+      - Rectangular (symmetric) tool, used in the secondary tool task
     * - `"tool_rect_0_50_x_4_00"`
       - 3
       - x=0.5,y=0.3,z=4
@@ -2406,36 +2900,40 @@ All the tools have the `tool` shape, `metal` salient material, `moveable` and `r
     * - `"tool_rect_0_63_x_1_00"`
       - 5
       - x=0.63,y=0.3,z=1
-      - Rectangular (symmetric) tool, too small
+      - Rectangular (symmetric) tool, too small to be used successfully
     * - `"tool_rect_0_63_x_4_00"`
       - 3
       - x=0.63,y=0.3,z=4
-      - Rectangular (symmetric) tool
+      - Rectangular (symmetric) tool, used in Eval 6 as a novel width
     * - `"tool_rect_0_63_x_5_00"`
       - 3.25
       - x=0.63,y=0.3,z=5
-      - Rectangular (symmetric) tool
+      - Rectangular (symmetric) tool, used in Eval 6 as a novel width
     * - `"tool_rect_0_63_x_6_00"`
       - 3.5
       - x=0.63,y=0.3,z=6
-      - Rectangular (symmetric) tool
+      - Rectangular (symmetric) tool, used in Eval 6 as a novel width
     * - `"tool_rect_0_63_x_7_00"`
       - 3.75
       - x=0.63,y=0.3,z=7
-      - Rectangular (symmetric) tool
+      - Rectangular (symmetric) tool, used in Eval 6 as a novel width
     * - `"tool_rect_0_63_x_8_00"`
       - 4
       - x=0.63,y=0.3,z=8
-      - Rectangular (symmetric) tool
+      - Rectangular (symmetric) tool, used in Eval 6 as a novel width
     * - `"tool_rect_0_63_x_9_00"`
       - 4.25
       - x=0.63,y=0.3,z=9
-      - Rectangular (symmetric) tool
+      - Rectangular (symmetric) tool, used in Eval 6 as a novel width
 
     * - `"tool_rect_0_75_x_1_00"`
       - 5
       - x=0.75,y=0.3,z=1
-      - Rectangular (symmetric) tool, too small
+      - Rectangular (symmetric) tool, too small to be used successfully
+    * - `"tool_rect_0_75_x_3_00"`
+      - 3.33
+      - x=0.75,y=0.3,z=3
+      - Rectangular (symmetric) tool, used in the secondary tool task
     * - `"tool_rect_0_75_x_4_00"`
       - 3.33
       - x=0.75,y=0.3,z=4
@@ -2464,36 +2962,40 @@ All the tools have the `tool` shape, `metal` salient material, `moveable` and `r
     * - `"tool_rect_0_88_x_1_00"`
       - 5
       - x=0.88,y=0.3,z=1
-      - Rectangular (symmetric) tool, too small
+      - Rectangular (symmetric) tool, too small to be used successfully
     * - `"tool_rect_0_88_x_4_00"`
       - 3.33
       - x=0.88,y=0.3,z=4
-      - Rectangular (symmetric) tool
+      - Rectangular (symmetric) tool, used in Eval 6 as a novel width
     * - `"tool_rect_0_88_x_5_00"`
       - 3.66
       - x=0.88,y=0.3,z=5
-      - Rectangular (symmetric) tool
+      - Rectangular (symmetric) tool, used in Eval 6 as a novel width
     * - `"tool_rect_0_88_x_6_00"`
       - 4
       - x=0.88,y=0.3,z=6
-      - Rectangular (symmetric) tool
+      - Rectangular (symmetric) tool, used in Eval 6 as a novel width
     * - `"tool_rect_0_88_x_7_00"`
       - 4.33
       - x=0.88,y=0.3,z=7
-      - Rectangular (symmetric) tool
+      - Rectangular (symmetric) tool, used in Eval 6 as a novel width
     * - `"tool_rect_0_88_x_8_00"`
       - 4.66
       - x=0.88,y=0.3,z=8
-      - Rectangular (symmetric) tool
+      - Rectangular (symmetric) tool, used in Eval 6 as a novel width
     * - `"tool_rect_0_88_x_9_00"`
       - 5
       - x=0.88,y=0.3,z=9
-      - Rectangular (symmetric) tool
+      - Rectangular (symmetric) tool, used in Eval 6 as a novel width
 
     * - `"tool_rect_1_00_x_1_00"`
       - 5
       - x=1,y=0.3,z=1
-      - Rectangular (symmetric) tool, too small
+      - Rectangular (symmetric) tool, too small to be used successfully
+    * - `"tool_rect_1_00_x_3_00"`
+      - 4
+      - x=1,y=0.3,z=4
+      - Rectangular (symmetric) tool, used in the secondary tool task
     * - `"tool_rect_1_00_x_4_00"`
       - 4
       - x=1,y=0.3,z=4
@@ -2522,31 +3024,31 @@ All the tools have the `tool` shape, `metal` salient material, `moveable` and `r
     * - `"tool_rect_1_13_x_1_00"`
       - 5
       - x=1.13,y=0.3,z=1
-      - Rectangular (symmetric) tool, too small
+      - Rectangular (symmetric) tool, too small to be used successfully
     * - `"tool_rect_1_13_x_4_00"`
       - 4
       - x=1.13,y=0.3,z=4
-      - Rectangular (symmetric) tool
+      - Rectangular (symmetric) tool, used in Eval 6 as a novel width
     * - `"tool_rect_1_13_x_5_00"`
       - 4.5
       - x=1.13,y=0.3,z=5
-      - Rectangular (symmetric) tool
+      - Rectangular (symmetric) tool, used in Eval 6 as a novel width
     * - `"tool_rect_1_13_x_6_00"`
       - 5
       - x=1.13,y=0.3,z=6
-      - Rectangular (symmetric) tool
+      - Rectangular (symmetric) tool, used in Eval 6 as a novel width
     * - `"tool_rect_1_13_x_7_00"`
       - 5.5
       - x=1.13,y=0.3,z=7
-      - Rectangular (symmetric) tool
+      - Rectangular (symmetric) tool, used in Eval 6 as a novel width
     * - `"tool_rect_1_13_x_8_00"`
       - 6
       - x=1.13,y=0.3,z=8
-      - Rectangular (symmetric) tool
+      - Rectangular (symmetric) tool, used in Eval 6 as a novel width
     * - `"tool_rect_1_13_x_9_00"`
       - 6.5
       - x=1.13,y=0.3,z=9
-      - Rectangular (symmetric) tool
+      - Rectangular (symmetric) tool, used in Eval 6 as a novel width
 
 Agents
 ******
@@ -2577,6 +3079,12 @@ These agents are used in scenes for the interactive tasks.
     * - `"agent_female_06"`
       - 70
       - x=0.5,y=1.6,z=0.5
+    * - `"agent_female_07"`
+      - 70
+      - x=0.5,y=1.6,z=0.5
+    * - `"agent_female_08"`
+      - 70
+      - x=0.5,y=1.6,z=0.5
     * - `"agent_male_01"`
       - 80
       - x=0.5,y=1.6,z=0.5
@@ -2589,12 +3097,96 @@ These agents are used in scenes for the interactive tasks.
     * - `"agent_male_04"`
       - 80
       - x=0.5,y=1.6,z=0.5
+    * - `"agent_male_05"`
+      - 80
+      - x=0.5,y=1.6,z=0.5
+    * - `"agent_male_06"`
+      - 80
+      - x=0.5,y=1.6,z=0.5
     * - `"agent_male_07"`
       - 80
       - x=0.5,y=1.6,z=0.5
     * - `"agent_male_08"`
       - 80
       - x=0.5,y=1.6,z=0.5
+
+Blobs
+*****
+
+These blobs are used in scenes for the passive agent tasks, as well as some scenes for the interactive tasks. Each blob type also has a variant type with a nose-like protrusion ending in `_nose` (for example, `blob_01` and `blob_01_nose`).
+
+.. list-table::
+    :header-rows: 1
+
+    * - Object Type
+      - Base Size
+      - Standing Y Position
+    * - `"blob_01"`
+      - x=0.26,y=0.8,z=0.36
+      - 0.4
+    * - `"blob_02"`
+      - x=0.33,y=0.78,z=0.33
+      - 0.39
+    * - `"blob_03"`
+      - x=0.25,y=0.69,z=0.25
+      - 0.345
+    * - `"blob_04"`
+      - x=0.3,y=0.53,z=0.3
+      - 0.225
+    * - `"blob_05"`
+      - x=0.38,y=0.56,z=0.38
+      - 0.24
+    * - `"blob_06"`
+      - x=0.52,y=0.5,z=0.54
+      - 0.25
+    * - `"blob_07"`
+      - x=0.25,y=0.55,z=0.25
+      - 0.245
+    * - `"blob_08"`
+      - x=0.27,y=0.62,z=0.15
+      - 0.31
+    * - `"blob_09"`
+      - x=0.33,y=0.78,z=0.44
+      - 0.39
+    * - `"blob_10"`
+      - x=0.24,y=0.5,z=0.2
+      - 0.25
+    * - `"blob_11"`
+      - x=0.35,y=0.58,z=0.35
+      - 0.29
+    * - `"blob_12"`
+      - x=0.3,y=0.48,z=0.3
+      - 0.24
+    * - `"blob_13"`
+      - x=0.32,y=0.71,z=0.3
+      - 0.37
+    * - `"blob_14"`
+      - x=0.52,y=0.55,z=0.3
+      - 0.42
+    * - `"blob_15"`
+      - x=0.32,y=0.41,z=0.58
+      - 0.17
+    * - `"blob_16"`
+      - x=0.46,y=0.52,z=0.54
+      - 0.27
+    * - `"blob_17"`
+      - x=0.32,y=0.78,z=0.41
+      - 0.385
+    * - `"blob_18"`
+      - x=0.32,y=0.79,z=0.39
+      - 0.37
+    * - `"blob_19"`
+      - x=0.39,y=0.8,z=0.39
+      - 0.45
+    * - `"blob_20"`
+      - x=0.21,y=0.61,z=0.27
+      - 0.26
+    * - `"blob_21"`
+      - x=0.21,y=0.72,z=0.36
+      - 0.265
+    * - `"blob_22"`
+      - x=0.19,y=0.73,z=0.37
+      - 0.265
 
 Primitive Objects
 *****************
@@ -2678,6 +3270,18 @@ The following objects have a default mass of 1 and no material restrictions. You
       - (x=1,y=1,z=1)
       - 0
     * - `"rollable_8"`
+      - (x=1,y=1,z=1)
+      - 0
+    * - `"rollable_9"`
+      - (x=1,y=1,z=1)
+      - 0
+    * - `"rollable_10"`
+      - (x=1,y=1,z=1)
+      - 0
+    * - `"rollable_11"`
+      - (x=1,y=1,z=1)
+      - 0
+    * - `"rollable_12"`
       - (x=1,y=1,z=1)
       - 0
     * - `"tie_fighter"`
@@ -3073,10 +3677,14 @@ Specific textures for `sofa_4`, `sofa_5`, `sofa_6`, AND `sofa_7` only.
 Tool Materials
 **************
 
-- `"UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_13"` (grey)
+- `"UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_11"` (black)
+- `"UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_13"` (grey, default)
 - `"UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_15"` (brown)
+- `"UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_23"` (grey)
 - `"UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_34"` (pink)
 - `"UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_36"` (green)
+- `"UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_40"` (blue)
+- `"UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_42"` (brown)
 
 Wall Materials
 **************
@@ -3215,8 +3823,8 @@ Chest Options
 .. list-table::
     :header-rows: 1
 
-    * - Chest Option (Female 5-6)
-      - Chest Option (Male 7-8)
+    * - Chest Option (Female 5-8)
+      - Chest Option (Male 5-8)
       - Description
     * - 0
       -
@@ -3327,8 +3935,8 @@ Feet Options
 .. list-table::
     :header-rows: 1
 
-    * - Feet Option (Female 5-6)
-      - Feet Option (Male 7-8)
+    * - Feet Option (Female 5-8)
+      - Feet Option (Male 5-8)
       - Description
     * - 0
       - 0
@@ -3402,8 +4010,8 @@ Hair Material Options
     :header-rows: 1
 
     * - Hair Options
-      - Hair Material Options (Female 5-6)
-      - Hair Material Options (Male 7-8)
+      - Hair Material Options (Female 5-8)
+      - Hair Material Options (Male 5-8)
     * - 0
       - 0 (yellow), 1 (brown), 2 (black), or 3 (red)
       - 0 (yellow), 1 (brown), 2 (black), or 3 (yellow highlights)
@@ -3476,8 +4084,8 @@ Legs Options
 .. list-table::
     :header-rows: 1
 
-    * - Legs Option (Female 5-6)
-      - Legs Option (Male 7-8)
+    * - Legs Option (Female 5-8)
+      - Legs Option (Male 5-8)
       - Description
     * - 0
       - 1

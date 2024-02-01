@@ -1,0 +1,554 @@
+{
+  "goal": {
+    "action_list": [["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"],["Pass"]],
+    "category": "retrieval",
+    "description": "Find and pick up the small light black white rubber ball.",
+    "last_step": 3300,
+    "metadata": {
+      "target": {
+        "id": "3881892b-5a8f-43c0-a56f-95f77a3c63e1"
+      }
+    }
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [
+    {
+      "x": 0,
+      "z": -11
+    },
+    {
+      "x": 0,
+      "z": -10
+    },
+    {
+      "x": 0,
+      "z": -9
+    },
+    {
+      "x": 0,
+      "z": -8
+    },
+    {
+      "x": 0,
+      "z": -7
+    },
+    {
+      "x": 0,
+      "z": -6
+    },
+    {
+      "x": 0,
+      "z": -5
+    },
+    {
+      "x": 0,
+      "z": -4
+    },
+    {
+      "x": 0,
+      "z": -3
+    },
+    {
+      "x": 0,
+      "z": -2
+    },
+    {
+      "x": 0,
+      "z": -1
+    },
+    {
+      "x": 0,
+      "z": 0
+    },
+    {
+      "x": 0,
+      "z": 1
+    },
+    {
+      "x": 0,
+      "z": 2
+    },
+    {
+      "x": 0,
+      "z": 3
+    },
+    {
+      "x": 0,
+      "z": 4
+    },
+    {
+      "x": 0,
+      "z": 5
+    },
+    {
+      "x": 0,
+      "z": 6
+    },
+    {
+      "x": 0,
+      "z": 7
+    },
+    {
+      "x": 0,
+      "z": 8
+    },
+    {
+      "x": 0,
+      "z": 9
+    },
+    {
+      "x": 0,
+      "z": 10
+    },
+    {
+      "x": 0,
+      "z": 11
+    }
+  ],
+  "name": "eval_7_interactive_occluded_trajectory_0001_11",
+  "objects": [
+    {
+      "id": "3881892b-5a8f-43c0-a56f-95f77a3c63e1",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -5.0,
+            "y": 0.25,
+            "z": 10.735
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 90,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": [],
+      "forces": [
+        {
+          "impulse": true,
+          "relative": true,
+          "stepBegin": 6,
+          "stepEnd": 6,
+          "vector": {
+            "x": 28,
+            "y": 0,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "throwing_device_d15c1f9a-c7e9-4951-9494-8744fd54ede1",
+      "type": "tube_wide",
+      "mass": 21,
+      "materials": ["Custom/Materials/Grey"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -5.0,
+            "y": 0.275,
+            "z": 10.735
+          },
+          "rotation": {
+            "x": 0,
+            "y": 90,
+            "z": 90
+          },
+          "scale": {
+            "x": 0.55,
+            "y": 1.0,
+            "z": 0.55
+          }
+        }
+      ],
+      "states": [["released"]]
+    },
+    {
+      "id": "platform_20be7e59-4a65-43c8-b0c3-2a6228b3bf7a",
+      "type": "cube",
+      "mass": 188,
+      "materials": ["AI2-THOR/Materials/Metals/BrushedAluminum_Blue"],
+      "kinematic": true,
+      "structure": true,
+      "lips": {
+        "front": false,
+        "back": false,
+        "left": false,
+        "right": false
+      },
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0,
+            "y": 0.75,
+            "z": -10.5
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1.5,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "door_a8b436de-0862-497b-a1d1-813973df6cdc",
+      "type": "door_4",
+      "mass": 125,
+      "materials": ["Custom/Materials/WhiteWoodMCS"],
+      "kinematic": true,
+      "openable": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -3.0,
+            "y": 3.75,
+            "z": -4.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 15.0,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "wall_top_2fe63d2a-331c-4806-86e2-6c29db3d602f",
+      "type": "cube",
+      "mass": 450,
+      "materials": ["AI2-THOR/Materials/Metals/HammeredMetal_AlbedoTransparency 1"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -3.0,
+            "y": 8.75,
+            "z": -4.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 6.0,
+            "y": 6.0,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 15.0,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "wall_left_2fe63d2a-331c-4806-86e2-6c29db3d602f",
+      "type": "cube",
+      "mass": 64,
+      "materials": ["AI2-THOR/Materials/Metals/HammeredMetal_AlbedoTransparency 1"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -4.71,
+            "y": 4.75,
+            "z": -4.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 2.58,
+            "y": 2,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 15.0,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "wall_right_2fe63d2a-331c-4806-86e2-6c29db3d602f",
+      "type": "cube",
+      "mass": 64,
+      "materials": ["AI2-THOR/Materials/Metals/HammeredMetal_AlbedoTransparency 1"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -1.29,
+            "y": 4.75,
+            "z": -4.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 2.58,
+            "y": 2,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 15.0,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "door_9bec3277-b46f-4a64-a8e2-7d6ecd96246f",
+      "type": "door_4b",
+      "mass": 125,
+      "materials": ["Custom/Materials/WhiteWoodMCS"],
+      "kinematic": true,
+      "openable": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 3.0,
+            "y": 3.75,
+            "z": -4.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 15.0,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "wall_top_51bd1759-831b-4326-9a06-6a5bea51350d",
+      "type": "cube",
+      "mass": 450,
+      "materials": ["AI2-THOR/Materials/Metals/HammeredMetal_AlbedoTransparency 1"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 3.0,
+            "y": 8.75,
+            "z": -4.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 6.0,
+            "y": 6.0,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 15.0,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "wall_left_51bd1759-831b-4326-9a06-6a5bea51350d",
+      "type": "cube",
+      "mass": 64,
+      "materials": ["AI2-THOR/Materials/Metals/HammeredMetal_AlbedoTransparency 1"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 1.29,
+            "y": 4.75,
+            "z": -4.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 2.58,
+            "y": 2,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 15.0,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "wall_right_51bd1759-831b-4326-9a06-6a5bea51350d",
+      "type": "cube",
+      "mass": 64,
+      "materials": ["AI2-THOR/Materials/Metals/HammeredMetal_AlbedoTransparency 1"],
+      "kinematic": true,
+      "structure": true,
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 4.71,
+            "y": 4.75,
+            "z": -4.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 2.58,
+            "y": 2,
+            "z": 0.1
+          }
+        }
+      ],
+      "moves": [
+        {
+          "stepBegin": 1,
+          "stepEnd": 15.0,
+          "vector": {
+            "x": 0,
+            "y": -0.25,
+            "z": 0
+          }
+        }
+      ]
+    }
+  ],
+  "screenshot": false,
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/DrywallBeige",
+  "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetDark 1",
+  "floorTextures": [],
+  "intuitivePhysics": false,
+  "isometricFrontRight": false,
+  "performerStart": {
+    "position": {
+      "x": 0.0,
+      "y": 2.262,
+      "z": -10.5
+    },
+    "rotation": {
+      "x": 10.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 12.0,
+    "y": 8.0,
+    "z": 22.0
+  },
+  "wallMaterial": "AI2-THOR/Materials/Metals/BrushedAluminum_Blue"
+}

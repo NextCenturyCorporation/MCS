@@ -1,0 +1,80 @@
+{
+  "name": "soccer ball should obstruct RotateObject on tool",
+  "objects": [
+    {
+      "id": "target_soccer_ball",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 0.0,
+            "y": 0.22,
+            "z": 10.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": []
+    },
+    {
+      "id": "tool",
+      "type": "tool_hooked_1_00_x_8_00",
+      "materials": ["UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_15"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0.0,
+            "y": 0.15,
+            "z": 7.4
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    }
+  ],
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall4Tiled",
+  "floorMaterial": "AI2-THOR/Materials/Wood/DarkWood2",
+  "performerStart": {
+    "position": {
+      "x": 0,
+      "y": 0,
+      "z": 7
+    },
+    "rotation": {
+      "x": 10,
+      "y": 0,
+      "z": 0
+    }
+  },
+  "roomDimensions": {
+    "x": 23.0,
+    "y": 3.0,
+    "z": 25.0
+  },
+  "wallMaterial": "Custom/Materials/RedDrywallMCS"
+}

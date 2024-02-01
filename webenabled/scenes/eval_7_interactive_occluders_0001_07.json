@@ -1,0 +1,246 @@
+{
+  "goal": {
+    "category": "retrieval",
+    "description": "Find and pick up the tiny light black white rubber ball.",
+    "last_step": 3900,
+    "metadata": {
+      "target": {
+        "id": "a417df93-f71f-482f-842a-94af91b88d61"
+      }
+    }
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [],
+  "name": "eval_7_interactive_occluders_0001_07",
+  "objects": [
+    {
+      "id": "a417df93-f71f-482f-842a-94af91b88d61",
+      "type": "soccer_ball",
+      "mass": 1.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -4.5313,
+            "y": 0.11,
+            "z": -3.4687
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 315.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": []
+    },
+    {
+      "id": "7a7acf2c-7265-43e1-b3a0-7c0a05bb4fb9",
+      "type": "truck_1",
+      "mass": 5.0,
+      "salientMaterials": ["wood"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 495.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": -2.07,
+            "y": 0.25,
+            "z": -7.59
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.5,
+            "y": 2.5,
+            "z": 2.5
+          }
+        }
+      ],
+      "materials": ["UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/wood_1x1","UnityAssetStore/Wooden_Toys_Bundle/ToyBlocks/meshes/Materials/wood_1x1"]
+    },
+    {
+      "id": "78703e9e-315f-4668-bd46-81ccdb1d577f",
+      "type": "block_blank_wood_cube",
+      "mass": 0.666,
+      "salientMaterials": ["wood"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 315.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": -5.06,
+            "y": 0.05,
+            "z": 8.41
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/OliveWoodMCS"]
+    },
+    {
+      "id": "e97cb774-a45e-456c-af1a-2a0e14e4899b",
+      "type": "apple_1",
+      "mass": 0.5,
+      "salientMaterials": ["food"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 315.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": 6.55,
+            "y": 0.03,
+            "z": 1.53
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": []
+    },
+    {
+      "id": "0f875b77-02e3-4dc7-a1c7-770f069b3c5b",
+      "type": "truck_3",
+      "mass": 2.5,
+      "salientMaterials": ["wood"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 495.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": -4.96,
+            "y": 0.0063,
+            "z": 0.98
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.25,
+            "y": 1.25,
+            "z": 1.25
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/WhiteWoodMCS"]
+    },
+    {
+      "id": "47ed6814-98b0-46c2-8fbc-bdcd73e76db2",
+      "type": "block_blank_wood_cube",
+      "mass": 0.888,
+      "salientMaterials": ["wood"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "rotation": {
+            "x": 0.0,
+            "y": 315.0,
+            "z": 0.0
+          },
+          "position": {
+            "x": -5.91,
+            "y": 0.1,
+            "z": 2.98
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 2.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": ["Custom/Materials/VioletWoodMCS"]
+    },
+    {
+      "id": "2c844f90-6677-4b53-b82e-bb79b3de87a7",
+      "type": "antique_armchair_2",
+      "mass": 10.0,
+      "salientMaterials": ["fabric","wood"],
+      "moveable": true,
+      "receptacle": true,
+      "shows": [
+        {
+          "position": {
+            "x": -5.4576,
+            "y": 0,
+            "z": -2.5424
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 315.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      ],
+      "materials": []
+    }
+  ],
+  "screenshot": false,
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall",
+  "floorMaterial": "AI2-THOR/Materials/Fabrics/CarpetGreen",
+  "floorTextures": [],
+  "intuitivePhysics": false,
+  "isometricFrontRight": false,
+  "performerStart": {
+    "position": {
+      "x": -1.77,
+      "y": 0.0,
+      "z": -6.23
+    },
+    "rotation": {
+      "x": 0.0,
+      "y": 315.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 15.0,
+    "y": 4.0,
+    "z": 19.0
+  },
+  "wallMaterial": "Custom/Materials/RedDrywallMCS"
+}

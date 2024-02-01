@@ -214,7 +214,7 @@
         "objects_count": 0,
         "position_x": null,
         "position_z": null,
-        "return_status": "SUCCESSFUL",
+        "return_status": "OBSTRUCTED",
         "rotation_y": null,
         "step_number": 21,
         "structural_objects_count": 0

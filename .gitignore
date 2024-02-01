@@ -57,3 +57,12 @@ scripts/log.config.user.py
 # Jenkins test files
 flake8-output.txt
 test-results.xml
+
+# webenabled
+webenabled/flask_session/
+webenabled/scenes/*.json
+webenabled/static/mcsinterface/
+
+# webenabled pyinstaller
+mcsweb.spec
+pyinstaller.out

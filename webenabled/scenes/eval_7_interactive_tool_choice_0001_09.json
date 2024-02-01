@@ -1,0 +1,819 @@
+{
+  "goal": {
+    "action_list": [["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"],["RotateRight"]],
+    "category": "retrieval",
+    "description": "Find and pick up the small light black white rubber ball.",
+    "last_step": 5750,
+    "metadata": {
+      "target": {
+        "id": "bade3efe-1817-44d6-94a2-4d266af66ee2"
+      }
+    }
+  },
+  "holes": [],
+  "isometric": false,
+  "lava": [
+    {
+      "x": 11,
+      "z": 2
+    },
+    {
+      "x": 11,
+      "z": 3
+    },
+    {
+      "x": 11,
+      "z": 4
+    },
+    {
+      "x": 11,
+      "z": 5
+    },
+    {
+      "x": 11,
+      "z": 6
+    },
+    {
+      "x": 11,
+      "z": 7
+    },
+    {
+      "x": 11,
+      "z": 8
+    },
+    {
+      "x": 11,
+      "z": 9
+    },
+    {
+      "x": 11,
+      "z": 10
+    },
+    {
+      "x": 12,
+      "z": 2
+    },
+    {
+      "x": 12,
+      "z": 3
+    },
+    {
+      "x": 12,
+      "z": 4
+    },
+    {
+      "x": 12,
+      "z": 5
+    },
+    {
+      "x": 12,
+      "z": 6
+    },
+    {
+      "x": 12,
+      "z": 7
+    },
+    {
+      "x": 12,
+      "z": 8
+    },
+    {
+      "x": 12,
+      "z": 9
+    },
+    {
+      "x": 12,
+      "z": 10
+    },
+    {
+      "x": 13,
+      "z": 2
+    },
+    {
+      "x": 13,
+      "z": 3
+    },
+    {
+      "x": 13,
+      "z": 4
+    },
+    {
+      "x": 13,
+      "z": 5
+    },
+    {
+      "x": 13,
+      "z": 9
+    },
+    {
+      "x": 13,
+      "z": 10
+    },
+    {
+      "x": 14,
+      "z": 2
+    },
+    {
+      "x": 14,
+      "z": 3
+    },
+    {
+      "x": 14,
+      "z": 4
+    },
+    {
+      "x": 14,
+      "z": 5
+    },
+    {
+      "x": 14,
+      "z": 9
+    },
+    {
+      "x": 14,
+      "z": 10
+    },
+    {
+      "x": 15,
+      "z": 2
+    },
+    {
+      "x": 15,
+      "z": 3
+    },
+    {
+      "x": 15,
+      "z": 4
+    },
+    {
+      "x": 15,
+      "z": 5
+    },
+    {
+      "x": 15,
+      "z": 9
+    },
+    {
+      "x": 15,
+      "z": 10
+    },
+    {
+      "x": 16,
+      "z": 2
+    },
+    {
+      "x": 16,
+      "z": 3
+    },
+    {
+      "x": 16,
+      "z": 4
+    },
+    {
+      "x": 16,
+      "z": 5
+    },
+    {
+      "x": 16,
+      "z": 6
+    },
+    {
+      "x": 16,
+      "z": 7
+    },
+    {
+      "x": 16,
+      "z": 8
+    },
+    {
+      "x": 16,
+      "z": 9
+    },
+    {
+      "x": 16,
+      "z": 10
+    },
+    {
+      "x": 17,
+      "z": 2
+    },
+    {
+      "x": 17,
+      "z": 3
+    },
+    {
+      "x": 17,
+      "z": 4
+    },
+    {
+      "x": 17,
+      "z": 5
+    },
+    {
+      "x": 17,
+      "z": 6
+    },
+    {
+      "x": 17,
+      "z": 7
+    },
+    {
+      "x": 17,
+      "z": 8
+    },
+    {
+      "x": 17,
+      "z": 9
+    },
+    {
+      "x": 17,
+      "z": 10
+    },
+    {
+      "x": -17,
+      "z": 2
+    },
+    {
+      "x": -17,
+      "z": 3
+    },
+    {
+      "x": -17,
+      "z": 4
+    },
+    {
+      "x": -17,
+      "z": 5
+    },
+    {
+      "x": -17,
+      "z": 6
+    },
+    {
+      "x": -17,
+      "z": 7
+    },
+    {
+      "x": -17,
+      "z": 8
+    },
+    {
+      "x": -17,
+      "z": 9
+    },
+    {
+      "x": -17,
+      "z": 10
+    },
+    {
+      "x": -16,
+      "z": 2
+    },
+    {
+      "x": -16,
+      "z": 3
+    },
+    {
+      "x": -16,
+      "z": 4
+    },
+    {
+      "x": -16,
+      "z": 5
+    },
+    {
+      "x": -16,
+      "z": 6
+    },
+    {
+      "x": -16,
+      "z": 7
+    },
+    {
+      "x": -16,
+      "z": 8
+    },
+    {
+      "x": -16,
+      "z": 9
+    },
+    {
+      "x": -16,
+      "z": 10
+    },
+    {
+      "x": -15,
+      "z": 2
+    },
+    {
+      "x": -15,
+      "z": 3
+    },
+    {
+      "x": -15,
+      "z": 4
+    },
+    {
+      "x": -15,
+      "z": 5
+    },
+    {
+      "x": -15,
+      "z": 9
+    },
+    {
+      "x": -15,
+      "z": 10
+    },
+    {
+      "x": -14,
+      "z": 2
+    },
+    {
+      "x": -14,
+      "z": 3
+    },
+    {
+      "x": -14,
+      "z": 4
+    },
+    {
+      "x": -14,
+      "z": 5
+    },
+    {
+      "x": -14,
+      "z": 9
+    },
+    {
+      "x": -14,
+      "z": 10
+    },
+    {
+      "x": -13,
+      "z": 2
+    },
+    {
+      "x": -13,
+      "z": 3
+    },
+    {
+      "x": -13,
+      "z": 4
+    },
+    {
+      "x": -13,
+      "z": 5
+    },
+    {
+      "x": -13,
+      "z": 9
+    },
+    {
+      "x": -13,
+      "z": 10
+    },
+    {
+      "x": -12,
+      "z": 2
+    },
+    {
+      "x": -12,
+      "z": 3
+    },
+    {
+      "x": -12,
+      "z": 4
+    },
+    {
+      "x": -12,
+      "z": 5
+    },
+    {
+      "x": -12,
+      "z": 6
+    },
+    {
+      "x": -12,
+      "z": 7
+    },
+    {
+      "x": -12,
+      "z": 8
+    },
+    {
+      "x": -12,
+      "z": 9
+    },
+    {
+      "x": -12,
+      "z": 10
+    },
+    {
+      "x": -11,
+      "z": 2
+    },
+    {
+      "x": -11,
+      "z": 3
+    },
+    {
+      "x": -11,
+      "z": 4
+    },
+    {
+      "x": -11,
+      "z": 5
+    },
+    {
+      "x": -11,
+      "z": 6
+    },
+    {
+      "x": -11,
+      "z": 7
+    },
+    {
+      "x": -11,
+      "z": 8
+    },
+    {
+      "x": -11,
+      "z": 9
+    },
+    {
+      "x": -11,
+      "z": 10
+    }
+  ],
+  "name": "eval_7_interactive_tool_choice_0001_09",
+  "objects": [
+    {
+      "id": "bade3efe-1817-44d6-94a2-4d266af66ee2",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": -14.0,
+            "y": 0.22,
+            "z": 7.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": []
+    },
+    {
+      "id": "tool_fcd5ee8e-5493-4ffb-bba3-53cb553df568",
+      "type": "tool_rect_0_75_x_9_00",
+      "materials": ["UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_11"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": -14,
+            "y": 0.15,
+            "z": -3.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "tool_4f9f8e2c-1a57-4ff0-b42d-c7f9719c6f09",
+      "type": "tool_rect_0_75_x_1_00",
+      "materials": ["UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_11"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 15.01,
+            "y": 0.15,
+            "z": 0.0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 274,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "tool_8bf55af4-b5ec-40dc-8fa0-d451fdb71d99",
+      "type": "tool_rect_0_75_x_1_00",
+      "materials": ["UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_11"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 13.21,
+            "y": 0.15,
+            "z": -1.35
+          },
+          "rotation": {
+            "x": 0,
+            "y": 347,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "tool_9dda5bf1-2540-408c-bd75-d3ac92d62340",
+      "type": "tool_rect_0_75_x_1_00",
+      "materials": ["UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_11"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 12.52,
+            "y": 0.15,
+            "z": -2.7
+          },
+          "rotation": {
+            "x": 0,
+            "y": 43,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "tool_c6bae019-a208-4509-9721-0afc09ec70b3",
+      "type": "tool_rect_0_75_x_1_00",
+      "materials": ["UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_11"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 14.87,
+            "y": 0.15,
+            "z": -4.05
+          },
+          "rotation": {
+            "x": 0,
+            "y": 141,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "tool_2a9182dd-07b8-41f6-98d1-8228c23091df",
+      "type": "tool_rect_0_75_x_1_00",
+      "materials": ["UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_11"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 12.98,
+            "y": 0.15,
+            "z": -5.4
+          },
+          "rotation": {
+            "x": 0,
+            "y": 310,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "tool_d3b65aaa-6379-4259-9cbc-d18c4809ec53",
+      "type": "tool_rect_0_75_x_1_00",
+      "materials": ["UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_11"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 12.74,
+            "y": 0.15,
+            "z": -6.75
+          },
+          "rotation": {
+            "x": 0,
+            "y": 20,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "tool_cea44f95-76d9-4a46-8543-b7e3ecca251c",
+      "type": "tool_rect_0_75_x_1_00",
+      "materials": ["UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_11"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 14.99,
+            "y": 0.15,
+            "z": -8.1
+          },
+          "rotation": {
+            "x": 0,
+            "y": 280,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "tool_097a865f-a361-43d8-8014-02f6ba5b6c4b",
+      "type": "tool_rect_0_75_x_1_00",
+      "materials": ["UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_11"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 13.06,
+            "y": 0.15,
+            "z": -9.45
+          },
+          "rotation": {
+            "x": 0,
+            "y": 184,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "tool_da1f080a-a235-4a25-b8fc-e036dfd95572",
+      "type": "tool_rect_0_75_x_1_00",
+      "materials": ["UnityAssetStore/YughuesFreeMetalMaterials/Materials/M_YFMM_11"],
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 13.05,
+            "y": 0.15,
+            "z": -10.8
+          },
+          "rotation": {
+            "x": 0,
+            "y": 351,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "platform_f96c428d-2d84-450e-ad47-b618c8d0a568",
+      "type": "cube",
+      "mass": 2875,
+      "materials": ["AI2-THOR/Materials/Walls/RedDrywall"],
+      "kinematic": true,
+      "structure": true,
+      "lips": {
+        "front": false,
+        "back": false,
+        "left": false,
+        "right": false
+      },
+      "shows": [
+        {
+          "stepBegin": 0,
+          "position": {
+            "x": 0,
+            "y": 0.5,
+            "z": 0
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 23.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "fe45dc5d-e405-4090-85fd-0da88213abc8",
+      "type": "soccer_ball",
+      "mass": 2.0,
+      "salientMaterials": ["rubber"],
+      "moveable": true,
+      "pickupable": true,
+      "shows": [
+        {
+          "position": {
+            "x": 14.0,
+            "y": 0.22,
+            "z": 7.0
+          },
+          "rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "stepBegin": 0,
+          "scale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+          }
+        }
+      ],
+      "materials": []
+    }
+  ],
+  "screenshot": false,
+  "version": 2,
+  "ceilingMaterial": "AI2-THOR/Materials/Walls/Drywall4Tiled",
+  "floorMaterial": "AI2-THOR/Materials/Fabrics/Carpet3",
+  "floorTextures": [],
+  "intuitivePhysics": false,
+  "isometricFrontRight": false,
+  "performerStart": {
+    "position": {
+      "x": 0.0,
+      "y": 1.0,
+      "z": -11.0
+    },
+    "rotation": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    }
+  },
+  "roomDimensions": {
+    "x": 59.0,
+    "y": 3.0,
+    "z": 23.0
+  },
+  "wallMaterial": "AI2-THOR/Materials/Walls/DrywallGreen"
+}
