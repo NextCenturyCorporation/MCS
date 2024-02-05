@@ -1,0 +1,428 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>machine_common_sense.goal_metadata &#8212; Machine Common Sense  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/classic.css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Machine Common Sense  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../machine_common_sense.html" accesskey="U">machine_common_sense</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">machine_common_sense.goal_metadata</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for machine_common_sense.goal_metadata</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">unique</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">typeguard</span>
+
+<span class="kn">from</span> <span class="nn">.action</span> <span class="kn">import</span> <span class="n">Action</span>
+<span class="kn">from</span> <span class="nn">.stringifier</span> <span class="kn">import</span> <span class="n">Stringifier</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="GoalMetadata"><a class="viewcode-back" href="../../api.html#machine_common_sense.GoalMetadata">[docs]</a><span class="k">class</span> <span class="nc">GoalMetadata</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Defines metadata for a goal in the MCS 3D environment.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    action_list : list of lists of (string, dict) tuples, or None</span>
+<span class="sd">        The list of all actions that are available for the scene at each step</span>
+<span class="sd">        (outer list). Each inner list is the list of all actions that are</span>
+<span class="sd">        available for the single step corresponding to the inner list&#39;s index</span>
+<span class="sd">        within the outer list. Each action is returned as a tuple containing</span>
+<span class="sd">        the action string and the action&#39;s restricted paramters, if any.</span>
+
+<span class="sd">        For example: (&quot;Pass&quot;, {}) forces a Pass action; (&quot;PickupObject&quot;, {})</span>
+<span class="sd">        forces a PickupObject action with any parameters; and</span>
+<span class="sd">        (&quot;PickupObject&quot;, {&quot;objectId&quot;: &quot;a&quot;}) forces a PickupObject action with</span>
+<span class="sd">        the specific parameters objectId=a.</span>
+
+<span class="sd">        An action_list of None means that all actions are always available.</span>
+<span class="sd">        An empty inner list means that all actions will be available on that</span>
+<span class="sd">        specific step.</span>
+
+<span class="sd">        See :mod:`StepMetadata.action_list &lt;machine_common_sense.StepMetadata&gt;`</span>
+<span class="sd">        for the available actions of the current step.</span>
+<span class="sd">        May be a subset of all possible actions. See</span>
+<span class="sd">        :mod:`Action &lt;machine_common_sense.Action&gt;`.</span>
+<span class="sd">    category : string</span>
+<span class="sd">        The category that describes this goal and the properties in its</span>
+<span class="sd">        metadata. See :mod:`Goal &lt;machine_common_sense.GoalCategory&gt;`.</span>
+<span class="sd">    description : string</span>
+<span class="sd">        A human-readable sentence describing this goal and containing</span>
+<span class="sd">        the target task(s) and object(s).</span>
+
+<span class="sd">        Sizes:</span>
+<span class="sd">        - tiny: near the size of a baseball</span>
+<span class="sd">        - small: near the size of a baby</span>
+<span class="sd">        - medium: near the size of a child</span>
+<span class="sd">        - large: near the size of an adult</span>
+<span class="sd">        - huge: near the size of a sofa</span>
+
+<span class="sd">        Weights:</span>
+<span class="sd">        - light: can be held by a baby</span>
+<span class="sd">        - heavy: cannot be held by a baby, but can be pushed or pulled</span>
+<span class="sd">        - massive: cannot be moved by a baby</span>
+
+<span class="sd">        Colors:</span>
+<span class="sd">        black, blue, brown, green, grey, orange, purple, red, white, yellow</span>
+
+<span class="sd">        Materials:</span>
+<span class="sd">        See :mod:`Material &lt;machine_common_sense.Material&gt;`.</span>
+<span class="sd">    habituation_total : int</span>
+<span class="sd">        The total count of habituation trials that will be in this scene.</span>
+<span class="sd">    last_preview_phase_step : integer</span>
+<span class="sd">        The last step of the Preview Phase of this scene, if a Preview Phase is</span>
+<span class="sd">        scripted in the scene configuration. Each step of a Preview Phase</span>
+<span class="sd">        normally has a single specific action defined in this goal&#39;s</span>
+<span class="sd">        action_list property for the performer to choose, like [&#39;Pass&#39;].</span>
+<span class="sd">        Default: 0 (no Preview Phase)</span>
+<span class="sd">    last_step : integer</span>
+<span class="sd">        The last step of this scene. This scene will automatically end</span>
+<span class="sd">        following this step.</span>
+<span class="sd">    metadata : dict</span>
+<span class="sd">        The metadata specific to this goal. See</span>
+<span class="sd">        :mod:`Goal &lt;machine_common_sense.GoalCategory&gt;`.</span>
+<span class="sd">    steps_allowed_in_lava : integer</span>
+<span class="sd">        The number of steps allowed in lava before the scene ends</span>
+<span class="sd">    triggered_by_target_sequence : List of strings</span>
+<span class="sd">        The target sequence the performer must open containers to trigger</span>
+<span class="sd">        the targets placement by a placer for imitation tasks.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Don&#39;t allow a user to call the EndHabituation action unless it&#39;s</span>
+    <span class="c1"># specifically configured in the action_list of the scene file.</span>
+    <span class="n">DEFAULT_ACTIONS</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="p">{})</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">Action</span>
+        <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">Action</span><span class="o">.</span><span class="n">END_HABITUATION</span><span class="p">,</span> <span class="n">Action</span><span class="o">.</span><span class="n">INITIALIZE</span><span class="p">]</span>
+    <span class="p">]</span>
+    <span class="c1"># Each passive scene should have its own action_list, but if it doesn&#39;t for</span>
+    <span class="c1"># some reason, then only allow calling Pass actions by default.</span>
+    <span class="n">DEFAULT_PASSIVE_SCENE_ACTIONS</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;Pass&#39;</span><span class="p">,</span> <span class="p">{})]</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">action_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">category</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+        <span class="n">habituation_total</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">last_preview_phase_step</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">last_step</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">steps_allowed_in_lava</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">triggered_by_target_sequence</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="c1"># The action_list must be None by default</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_list</span> <span class="o">=</span> <span class="n">action_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">category</span> <span class="o">=</span> <span class="n">category</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">description</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">habituation_total</span> <span class="o">=</span> <span class="n">habituation_total</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_preview_phase_step</span> <span class="o">=</span> <span class="n">last_preview_phase_step</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_step</span> <span class="o">=</span> <span class="n">last_step</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span> <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">metadata</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">steps_allowed_in_lava</span> <span class="o">=</span> <span class="n">steps_allowed_in_lava</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">triggered_by_target_sequence</span> <span class="o">=</span> <span class="n">triggered_by_target_sequence</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Stringifier</span><span class="o">.</span><span class="n">class_to_str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="c1"># Allows converting the class to a dictionary, along with allowing</span>
+    <span class="c1">#   certain fields to be left out of output file</span>
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="s1">&#39;action_list&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_list</span>
+        <span class="k">yield</span> <span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">category</span>
+        <span class="k">yield</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span>
+        <span class="c1"># yield &#39;domain_list&#39;, self.domain_list</span>
+        <span class="c1"># yield &#39;info_list&#39;, self.info_list</span>
+        <span class="k">yield</span> <span class="s1">&#39;last_preview_phase_step&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_preview_phase_step</span>
+        <span class="k">yield</span> <span class="s1">&#39;last_step&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_step</span>
+        <span class="c1"># yield &#39;type_list&#39;, self.type_list</span>
+        <span class="k">yield</span> <span class="s1">&#39;metadata&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span>
+        <span class="k">yield</span> <span class="s1">&#39;triggered_by_target_sequence&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">triggered_by_target_sequence</span>
+
+<div class="viewcode-block" id="GoalMetadata.retrieve_action_list_at_step"><a class="viewcode-back" href="../../api.html#machine_common_sense.GoalMetadata.retrieve_action_list_at_step">[docs]</a>    <span class="nd">@typeguard</span><span class="o">.</span><span class="n">typechecked</span>
+    <span class="k">def</span> <span class="nf">retrieve_action_list_at_step</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">step_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">steps_in_lava</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">triggered_by_sequence_incorrect</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">is_passive_scene</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the action list from the given goal at the given step as a</span>
+<span class="sd">        a list of actions tuples by default.&quot;&quot;&quot;</span>
+        <span class="n">action_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_retrieve_unfiltered_action_list</span><span class="p">(</span>
+            <span class="n">step_number</span><span class="p">,</span> <span class="n">steps_in_lava</span><span class="p">,</span>
+            <span class="n">triggered_by_sequence_incorrect</span><span class="p">,</span> <span class="n">is_passive_scene</span><span class="p">)</span>
+        <span class="c1"># remove EndHabituation parameters</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">action</span> <span class="o">!=</span> <span class="s1">&#39;EndHabituation&#39;</span> <span class="k">else</span> <span class="p">(</span><span class="s1">&#39;EndHabituation&#39;</span><span class="p">,</span> <span class="p">{})</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> <span class="ow">in</span> <span class="n">action_list</span>
+        <span class="p">]</span></div>
+
+    <span class="k">def</span> <span class="nf">_retrieve_unfiltered_action_list</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">step_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">steps_in_lava</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">triggered_by_sequence_incorrect</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">is_passive_scene</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+        <span class="c1"># If steps in lava is greater than allowed, over ride</span>
+        <span class="c1">#   action list and only return EndScene</span>
+        <span class="k">if</span> <span class="n">steps_in_lava</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span>
+                <span class="n">steps_in_lava</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps_allowed_in_lava</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[(</span><span class="s2">&quot;EndScene&quot;</span><span class="p">,</span> <span class="p">{})]</span>
+
+        <span class="k">if</span> <span class="n">triggered_by_sequence_incorrect</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[(</span><span class="s2">&quot;EndScene&quot;</span><span class="p">,</span> <span class="p">{})]</span>
+
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Unfiltered action list from goal&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">step_number</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_preview_phase_step</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[(</span><span class="s1">&#39;Pass&#39;</span><span class="p">,</span> <span class="p">{})]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_step</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">step_number</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_step</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[]</span>
+
+            <span class="n">adjusted_step</span> <span class="o">=</span> <span class="n">step_number</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_preview_phase_step</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">adjusted_step</span> <span class="ow">and</span>
+                <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_list</span><span class="p">[</span><span class="n">adjusted_step</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="p">):</span>
+                <span class="k">return</span> <span class="p">[</span>
+                    <span class="n">action</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">else</span>
+                    <span class="n">Action</span><span class="o">.</span><span class="n">input_to_action_and_params</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_list</span><span class="p">[</span><span class="n">adjusted_step</span><span class="p">]</span>
+                <span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">is_passive_scene</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s1">&#39;Passive scene should have an action_list but does not; &#39;</span>
+                <span class="s1">&#39;allowing only Pass actions by default.&#39;</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">GoalMetadata</span><span class="o">.</span><span class="n">DEFAULT_PASSIVE_SCENE_ACTIONS</span>
+        <span class="k">return</span> <span class="n">GoalMetadata</span><span class="o">.</span><span class="n">DEFAULT_ACTIONS</span></div>
+
+
+<div class="viewcode-block" id="GoalCategory"><a class="viewcode-back" href="../../api.html#machine_common_sense.GoalCategory">[docs]</a><span class="nd">@unique</span>
+<span class="k">class</span> <span class="nc">GoalCategory</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Each goal dict will have a &quot;category&quot; string that describes the type of</span>
+<span class="sd">    scene (or, the type of task within the scene) being run. Each goal dict</span>
+<span class="sd">    will also have a &quot;metadata&quot; dict containing one or more properties</span>
+<span class="sd">    depending on the &quot;category&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">AGENTS</span> <span class="o">=</span> <span class="s2">&quot;agents&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In a trial that has an Agents goal, you must sit and observe a scene as one</span>
+<span class="sd">    or more simulation-controlled agents act in predefined ways within your</span>
+<span class="sd">    camera&#39;s viewport, and then decide whether the scene is &quot;expected&quot; or</span>
+<span class="sd">    &quot;unexpected&quot;. The camera will always be positioned at an isometric</span>
+<span class="sd">    perspective, like you&#39;re standing on an elevated platform looking down at</span>
+<span class="sd">    the scene. Each scene will consist of eight sequential habituation trials,</span>
+<span class="sd">    depicting expected agent behaviors and separated by EndHabituation actions</span>
+<span class="sd">    (each of which generates a black frame image when called), immediately</span>
+<span class="sd">    followed by the test trial, depicting either an expected or unexpected</span>
+<span class="sd">    agent behavior. All nine of these trials happen within the same &quot;scene&quot;.</span>
+<span class="sd">    These trials will demand a &quot;common sense&quot; understanding of agents, their</span>
+<span class="sd">    behaviors, and their interactions with objects in the environment.</span>
+
+<span class="sd">    This goal category is only used for the **passive/VoE agent tasks**. All</span>
+<span class="sd">    interactive agent tasks will use either the `retrieval` or</span>
+<span class="sd">    `multi retrieval` goal category.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    You are required to call `controller.end_scene()` at the end of each scene</span>
+<span class="sd">    with a continuous plausibility `rating`, from 0.0 (completely implausible)</span>
+<span class="sd">    to 1.0 (completely plausible). You are not required to also pass it a</span>
+<span class="sd">    `score`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">IMITATION</span> <span class="o">=</span> <span class="s2">&quot;imitation&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In a trial that has an imitation goal, you must imitate the actions of</span>
+<span class="sd">    another agent in the scene to find and pickup a target object. Executing</span>
+<span class="sd">    the same actions, on the same objects, in the same order, is of critical</span>
+<span class="sd">    importance; if you do not imitate the actions correctly, you will be</span>
+<span class="sd">    forced to end the scene (by calling end_scene, or using the END_SCENE</span>
+<span class="sd">    action), without achieving the reward. In MCS Evaluation 4 and onward, the</span>
+<span class="sd">    target object will always be a soccer ball (football), and, in MCS</span>
+<span class="sd">    Evaluation 6, the imitated actions will always be opening containers of</span>
+<span class="sd">    various colors and shapes (using the normal OpenObject action).</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    At `oracle` metadata level, the `metadata` dict property of this</span>
+<span class="sd">    GoalMetadata object will contain a `target` property, which is a dict</span>
+<span class="sd">    containing the following parameters:</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    id : string</span>
+<span class="sd">        The unique objectId of the target object to retrieve.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">INTUITIVE_PHYSICS</span> <span class="o">=</span> <span class="s2">&quot;intuitive physics&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In a trial that has an Intuitive Physics goal, you must sit and observe a</span>
+<span class="sd">    scene as objects move across your camera&#39;s viewport, and then decide</span>
+<span class="sd">    whether the scene is &quot;plausible&quot; or &quot;implausible&quot;. These trials will demand</span>
+<span class="sd">    a &quot;common sense&quot; understanding of basic (&quot;intuitive&quot;) physics, like object</span>
+<span class="sd">    permanence or shape constancy. Inspired by Emmanuel Dupoux&#39;s &quot;IntPhys: A</span>
+<span class="sd">    Benchmark for Visual Intuitive Physics Reasoning&quot; (http://intphys.com).</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    You are required to call `controller.end_scene()` at the end of each scene</span>
+<span class="sd">    with a binary plausibility `rating` -- either 0 (implausible) or 1</span>
+<span class="sd">    (plausible) -- and a continuous plausibility `score` -- from 0.0</span>
+<span class="sd">    (completely implausible) to 1.0 (completely plausible). This is also</span>
+<span class="sd">    where you would submit any retrospective reporting on a per step basis via</span>
+<span class="sd">    `report`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">PASSIVE</span> <span class="o">=</span> <span class="s2">&quot;passive&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In a trial that has a Passive goal, you must sit and observe a scene as</span>
+<span class="sd">    action unfolds in your camera&#39;s viewport, and then decide whether the scene</span>
+<span class="sd">    is &quot;plausible&quot; or &quot;implausible&quot;. These trials will demand a &quot;common sense&quot;</span>
+<span class="sd">    understanding of places, objects, or agency. This goal category covers all</span>
+<span class="sd">    passive scenes that do not fall under the &quot;agents&quot; or &quot;intuitive physics&quot;</span>
+<span class="sd">    categories.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    You are required to call `controller.end_scene()` at the end of each scene</span>
+<span class="sd">    with a binary plausibility `rating` -- either 0 (implausible) or 1</span>
+<span class="sd">    (plausible) -- and a continuous plausibility `score` -- from 0.0</span>
+<span class="sd">    (completely implausible) to 1.0 (completely plausible). This is also</span>
+<span class="sd">    where you would submit any retrospective reporting on a per step basis via</span>
+<span class="sd">    `report`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">RETRIEVAL</span> <span class="o">=</span> <span class="s2">&quot;retrieval&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In a trial that has a retrieval goal, you must find and pickup a target</span>
+<span class="sd">    object. In MCS Evaluation 4 and onward, the target object will always be a</span>
+<span class="sd">    soccer ball (football).</span>
+
+<span class="sd">    This may involve exploring the scene, avoiding obstacles,</span>
+<span class="sd">    interacting with objects (like closed containers) or agents, and tracking</span>
+<span class="sd">    moving objects. These trials will demand a &quot;common sense&quot; understanding of</span>
+<span class="sd">    self navigation (how to move and rotate yourself within a scene and around</span>
+<span class="sd">    obstacles), object interaction (how objects work, including opening</span>
+<span class="sd">    containers), the basic physics of movement (kinematics, gravity, friction,</span>
+<span class="sd">    etc.), and agency (identifying people and using them to achieve a goal).</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    At `oracle` metadata level, the `metadata` dict property of this</span>
+<span class="sd">    GoalMetadata object will contain a `target` property, which is a dict</span>
+<span class="sd">    containing the following parameters:</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    id : string</span>
+<span class="sd">        The unique objectId of the target object to retrieve.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">MULTI_RETRIEVAL</span> <span class="o">=</span> <span class="s2">&quot;multi retrieval&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In a trial that has a multi retrieval goal, you must find and pickup one or</span>
+<span class="sd">    more target objects. In MCS Evaluation 4 and onward, the target object will</span>
+<span class="sd">    always be a soccer ball (football).</span>
+
+<span class="sd">    This may involve exploring the scene, avoiding obstacles,</span>
+<span class="sd">    interacting with objects (like closed containers) or agents, and tracking</span>
+<span class="sd">    moving objects. These trials will demand a &quot;common sense&quot; understanding of</span>
+<span class="sd">    self navigation (how to move and rotate yourself within a scene and around</span>
+<span class="sd">    obstacles), object interaction (how objects work, including opening</span>
+<span class="sd">    containers), the basic physics of movement (kinematics, gravity, friction,</span>
+<span class="sd">    etc.), and agency (identifying people and using them to achieve a goal).</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    At `oracle` metadata level, the `metadata` dict property of this</span>
+<span class="sd">    GoalMetadata object will contain a `targets` property, which is a list of</span>
+<span class="sd">    dicts that each contain the following parameters:</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    id : string</span>
+<span class="sd">        The unique objectId of one of the target objects to retrieve.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Machine Common Sense  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../machine_common_sense.html" >machine_common_sense</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">machine_common_sense.goal_metadata</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, CACI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1853 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Python API &#8212; Machine Common Sense  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Example Scenes" href="scenes.html" />
+    <link rel="prev" title="Example Usage" href="examples.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scenes.html" title="Example Scenes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="examples.html" title="Example Usage"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Machine Common Sense  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Python API</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="python-api">
+<h1>Python API<a class="headerlink" href="#python-api" title="Permalink to this heading">¶</a></h1>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#machine_common_sense.create_controller" title="machine_common_sense.create_controller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">machine_common_sense.create_controller</span></code></a>([...])</p></td>
+<td><p>Creates and returns a new MCS Controller object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#machine_common_sense.load_scene_json_file" title="machine_common_sense.load_scene_json_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">machine_common_sense.load_scene_json_file</span></code></a>(...)</p></td>
+<td><p>Loads the given JSON scene config file and returns its data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#machine_common_sense.Action" title="machine_common_sense.Action"><code class="xref py py-obj docutils literal notranslate"><span class="pre">machine_common_sense.Action</span></code></a>(value)</p></td>
+<td><p>The actions available in the MCS simulation environment.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#machine_common_sense.Controller" title="machine_common_sense.Controller"><code class="xref py py-obj docutils literal notranslate"><span class="pre">machine_common_sense.Controller</span></code></a>(...)</p></td>
+<td><p>MCS Controller class implementation for the MCS wrapper of the AI2-THOR library.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#machine_common_sense.GoalCategory" title="machine_common_sense.GoalCategory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">machine_common_sense.GoalCategory</span></code></a>(value)</p></td>
+<td><p>Each goal dict will have a &quot;category&quot; string that describes the type of scene (or, the type of task within the scene) being run.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#machine_common_sense.GoalMetadata" title="machine_common_sense.GoalMetadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">machine_common_sense.GoalMetadata</span></code></a>([...])</p></td>
+<td><p>Defines metadata for a goal in the MCS 3D environment.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#machine_common_sense.Material" title="machine_common_sense.Material"><code class="xref py py-obj docutils literal notranslate"><span class="pre">machine_common_sense.Material</span></code></a>(value)</p></td>
+<td><p>Possible materials of objects.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#machine_common_sense.ObjectMetadata" title="machine_common_sense.ObjectMetadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">machine_common_sense.ObjectMetadata</span></code></a>([uuid, ...])</p></td>
+<td><p>Defines metadata for an object in the MCS 3D environment.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#machine_common_sense.ReturnStatus" title="machine_common_sense.ReturnStatus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">machine_common_sense.ReturnStatus</span></code></a>(value)</p></td>
+<td><p>An enumeration.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#machine_common_sense.Reward" title="machine_common_sense.Reward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">machine_common_sense.Reward</span></code></a>()</p></td>
+<td><p>Reward utility class</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#machine_common_sense.SerializerMsgPack" title="machine_common_sense.SerializerMsgPack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">machine_common_sense.SerializerMsgPack</span></code></a>()</p></td>
+<td><p>Serializer to (de)serialize StepMetadata into/from MsgPack format.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#machine_common_sense.StepMetadata" title="machine_common_sense.StepMetadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">machine_common_sense.StepMetadata</span></code></a>([...])</p></td>
+<td><p>Defines output metadata from an action step in the MCS 3D environment.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#machine_common_sense.Stringifier" title="machine_common_sense.Stringifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">machine_common_sense.Stringifier</span></code></a>()</p></td>
+<td><p>Defines functions to turn objects into strings for debugging and human readable output.</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="module-machine_common_sense"></span><dl class="py class">
+<dt class="sig sig-object py" id="machine_common_sense.Action">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">machine_common_sense.</span></span><span class="sig-name descname"><span class="pre">Action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/machine_common_sense/action.html#Action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.Action" title="Permalink to this definition">¶</a></dt>
+<dd><p>The actions available in the MCS simulation environment.</p>
+<p>For actions requiring objectImageCoords or receptacleObjectImageCoords,
+note that (0,0) represents the top left corner of the viewport, and that
+inputs must be greater than (0,0).</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Action.CLOSE_OBJECT">
+<span class="sig-name descname"><span class="pre">CLOSE_OBJECT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'CloseObject'</span></em><a class="headerlink" href="#machine_common_sense.Action.CLOSE_OBJECT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close a nearby object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>objectId</strong> (<em>string</em><em>, </em><em>optional</em>) – The “uuid” of the target object. Required unless the
+“objectImageCoords” properties are given.</p></li>
+<li><p><strong>objectImageCoordsX</strong> (<em>float</em><em>, </em><em>optional</em>) – The X of a pixel coordinate on the target object based on
+your current viewport. Can be used in place of the “objectId” property.
+(See note under “Action” header regarding image coordinates.)</p></li>
+<li><p><strong>objectImageCoordsY</strong> (<em>float</em><em>, </em><em>optional</em>) – The Y of a pixel coordinate on the target object based on
+your current viewport. Can be used in place of the “objectId” property.
+(See note under “Action” header regarding image coordinates.)</p></li>
+<li><p><strong>amount</strong> (<em>float</em>) – The amount to close the object between 0 (completely opened) and 1
+(completely closed). Default: 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>“SUCCESSFUL”</em> – Action successful.</p></li>
+<li><p><em>”IS_CLOSED_COMPLETELY”</em> – If the object is completely closed.</p></li>
+<li><p><em>”NOT_INTERACTABLE”</em> – If the object corresponding to the “objectImageCoords” vector is not an
+interactable object. This includes structural objects like the room’s
+walls.</p></li>
+<li><p><em>”NOT_OBJECT”</em> – If the object corresponding to the “objectId” (or object corresponding
+to the “objectImageCoords” vector) is not an object.</p></li>
+<li><p><em>”NOT_OPENABLE”</em> – If the object itself cannot be closed.</p></li>
+<li><p><em>”NOT_RECEPTACLE”</em> – If the object corresponding to the “objectImageCoords” vector is not a
+receptacle object.</p></li>
+<li><p><em>”NOT_VISIBLE”</em> – If the object corresponding to the “objectId” is not in the viewport.</p></li>
+<li><p><em>”OUT_OF_REACH”</em> – If you cannot close the object because you are out of reach.</p></li>
+<li><p><em>”FAILED”</em> – Unexpected error; please report immediately to development team.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Action.DROP_OBJECT">
+<span class="sig-name descname"><span class="pre">DROP_OBJECT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DropObject'</span></em><a class="headerlink" href="#machine_common_sense.Action.DROP_OBJECT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Drop an object you are holding.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>objectId</strong> (<em>string</em><em>, </em><em>optional</em>) – The “uuid” of the held object. Defaults to the first held object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>“SUCCESSFUL”</em> – Action successful.</p></li>
+<li><p><em>”NOT_HELD”</em> – If you cannot put down the object corresponding to the “objectId”
+because you are not holding it.</p></li>
+<li><p><em>”NOT_OBJECT”</em> – If the object corresponding to the “objectId” is not an object.</p></li>
+<li><p><em>”FAILED”</em> – Unexpected error; please report immediately to development team.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Action.END_HABITUATION">
+<span class="sig-name descname"><span class="pre">END_HABITUATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'EndHabituation'</span></em><a class="headerlink" href="#machine_common_sense.Action.END_HABITUATION" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ends a habituation trial for the scene by blanking the screen for one
+action (and teleporting the agent if needed). Sometimes needed depending
+on the task type.</p>
+<p>Note that we currently plan to use the starting position/rotation as
+teleport parameters here for applicable cases. We cannot currently
+guarantee that using a position intersecting another object or outside
+the room won’t cause issues or errors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><em>“SUCCESSFUL”</em> – Action successful.</p></li>
+<li><p><em>”FAILED”</em> – Unexpected error; please report immediately to development team.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Action.END_SCENE">
+<span class="sig-name descname"><span class="pre">END_SCENE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'EndScene'</span></em><a class="headerlink" href="#machine_common_sense.Action.END_SCENE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call end_scene now there is no actions available.
+Does nothing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><em>“SUCCESSFUL”</em> – Action successful.</p></li>
+<li><p><em>”FAILED”</em> – Unexpected error; please report immediately to development team.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Action.INITIALIZE">
+<span class="sig-name descname"><span class="pre">INITIALIZE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Initialize'</span></em><a class="headerlink" href="#machine_common_sense.Action.INITIALIZE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the scene. Intended only for internal use.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Action.INTERACT_WITH_AGENT">
+<span class="sig-name descname"><span class="pre">INTERACT_WITH_AGENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'InteractWithAgent'</span></em><a class="headerlink" href="#machine_common_sense.Action.INTERACT_WITH_AGENT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interact with an agent. If that agent has an object, it will hold
+out the object for you to pickup; otherwise, the agent will look sad.
+If the agent was pointing at an object, the agent will resume pointing
+afterward.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>objectId</strong> (<em>string</em><em>, </em><em>optional</em>) – The “uuid” of the target object. Required unless the
+“objectImageCoords” properties are given.</p></li>
+<li><p><strong>objectImageCoordsX</strong> (<em>float</em><em>, </em><em>optional</em>) – The X of a pixel coordinate on the target object based on
+your current viewport. Can be used in place of the “objectId” property.
+(See note under “Action” header regarding image coordinates.)</p></li>
+<li><p><strong>objectImageCoordsY</strong> (<em>float</em><em>, </em><em>optional</em>) – The Y of a pixel coordinate on the target object based on
+your current viewport. Can be used in place of the “objectId” property.
+(See note under “Action” header regarding image coordinates.)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>“SUCCESSFUL”</em> – Action successful.</p></li>
+<li><p><em>”NOT_INTERACTABLE”</em> – If the object corresponding to the “objectImageCoords” vector is not an
+interactable object.</p></li>
+<li><p><em>”NOT_OBJECT”</em> – If the object corresponding to the “objectId” (or object corresponding
+to the “objectImageCoords” vector) is not an object.</p></li>
+<li><p><em>”NOT_AGENT”</em> – If the object being interacted with is not a simulation agent</p></li>
+<li><p><em>”AGENT_CURRENTLY_INTERACTING_WTIH_PERFORMER”</em> – If the object being interacted with is a simulation agent already
+interacting with the performer.</p></li>
+<li><p><em>”AGENT_IS_BUSY”</em> – If the object being interacted with is a simulation agent that is
+currently rotating to face an object or beginning its point animation.</p></li>
+<li><p><em>”NOT_VISIBLE”</em> – If the object corresponding to the “objectId” is not in the viewport.</p></li>
+<li><p><em>”OUT_OF_REACH”</em> – If you cannot move the object because you are out of reach.</p></li>
+<li><p><em>”FAILED”</em> – Unexpected error; please report immediately to development team.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Action.LOOK_DOWN">
+<span class="sig-name descname"><span class="pre">LOOK_DOWN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'LookDown'</span></em><a class="headerlink" href="#machine_common_sense.Action.LOOK_DOWN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotate your viewport down (add 10 degrees to head tilt).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><em>“SUCCESSFUL”</em> – Action successful.</p></li>
+<li><p><em>”CANNOT_ROTATE”</em> – Failed because you cannot look down/up more than +/- 90 degrees.</p></li>
+<li><p><em>”FAILED”</em> – Unexpected error; please report immediately to development team.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Action.LOOK_UP">
+<span class="sig-name descname"><span class="pre">LOOK_UP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'LookUp'</span></em><a class="headerlink" href="#machine_common_sense.Action.LOOK_UP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotate your view up (subtract 10 degrees from head tilt).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><em>“SUCCESSFUL”</em> – Action successful.</p></li>
+<li><p><em>”CANNOT_ROTATE”</em> – Failed because you cannot look down/up more than +/- 90 degrees.</p></li>
+<li><p><em>”FAILED”</em> – Unexpected error; please report immediately to development team.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Action.MOVE_AHEAD">
+<span class="sig-name descname"><span class="pre">MOVE_AHEAD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'MoveAhead'</span></em><a class="headerlink" href="#machine_common_sense.Action.MOVE_AHEAD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move yourself forward based on your current viewport.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><em>“SUCCESSFUL”</em> – Action successful.</p></li>
+<li><p><em>”OBSTRUCTED”</em> – If you cannot move forward because your path is obstructed.</p></li>
+<li><p><em>”FAILED”</em> – Unexpected error; please report immediately to development team.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Action.MOVE_BACK">
+<span class="sig-name descname"><span class="pre">MOVE_BACK</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'MoveBack'</span></em><a class="headerlink" href="#machine_common_sense.Action.MOVE_BACK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move yourself backward based on your current viewport.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><em>“SUCCESSFUL”</em> – Action successful.</p></li>
+<li><p><em>”OBSTRUCTED”</em> – If you cannot move backward because your path is obstructed.</p></li>
+<li><p><em>”FAILED”</em> – Unexpected error; please report immediately to development team.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Action.MOVE_LEFT">
+<span class="sig-name descname"><span class="pre">MOVE_LEFT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'MoveLeft'</span></em><a class="headerlink" href="#machine_common_sense.Action.MOVE_LEFT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move yourself left based on your current viewport.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><em>“SUCCESSFUL”</em> – Action successful.</p></li>
+<li><p><em>”OBSTRUCTED”</em> – If you cannot move left because your path is obstructed.</p></li>
+<li><p><em>”FAILED”</em> – Unexpected error; please report immediately to development team.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Action.MOVE_OBJECT">
+<span class="sig-name descname"><span class="pre">MOVE_OBJECT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'MoveObject'</span></em><a class="headerlink" href="#machine_common_sense.Action.MOVE_OBJECT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a movement of 0.1 meters units to a nearby object. If the object
+would come into contact with another object, and the other object is small
+and moveable, the other object will also move 0.1 meters in the same
+direction. This movement does not attempt to simulate realistic physics
+in regard to collisions with other object(s). If you wish to simulate
+realistic physical movement, please use the PullObject and PushObject
+actions instead, which apply a force using the environment’s physics
+simulation engine.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>objectId</strong> (<em>string</em><em>, </em><em>optional</em>) – The “uuid” of the target object. Required unless the
+“objectImageCoords” properties are given.</p></li>
+<li><p><strong>objectImageCoordsX</strong> (<em>float</em><em>, </em><em>optional</em>) – The X of a pixel coordinate on the target object based on
+your current viewport. Can be used in place of the “objectId” property.
+(See note under “Action” header regarding image coordinates.)</p></li>
+<li><p><strong>objectImageCoordsY</strong> (<em>float</em><em>, </em><em>optional</em>) – The Y of a pixel coordinate on the target object based on
+your current viewport. Can be used in place of the “objectId” property.
+(See note under “Action” header regarding image coordinates.)</p></li>
+<li><p><strong>lateral</strong> (<em>int</em>) – The x axis direction of movement on the object relative to the agent.
+Can be -1, 0, 1. If only lateral is given,
+straight will default to 0
+Default: 0</p></li>
+<li><p><strong>straight</strong> (<em>int</em>) – The x axis direction of movement on the object relative to the agent.
+Can be -1, 0, 1. If only straight is given,
+lateral will default to 0
+Default: 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>“SUCCESSFUL”</em> – Action successful.</p></li>
+<li><p><em>”NOT_INTERACTABLE”</em> – If the object corresponding to the “objectImageCoords” vector is not an
+interactable object.</p></li>
+<li><p><em>”NOT_OBJECT”</em> – If the object corresponding to the “objectId” (or object corresponding
+to the “objectImageCoords” vector) is not an object.</p></li>
+<li><p><em>”NOT_MOVEABLE”</em> – If the object itself cannot be moved by a baby.</p></li>
+<li><p><em>”NOT_VISIBLE”</em> – If the object corresponding to the “objectId” is not in the viewport.</p></li>
+<li><p><em>”OBSTRUCTED”</em> – If you cannot rotate the object because the path of movement
+is obstructed.</p></li>
+<li><p><em>”OUT_OF_REACH”</em> – If you cannot move the object because you are out of reach.</p></li>
+<li><p><em>”FAILED”</em> – Unexpected error; please report immediately to development team.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Action.MOVE_RIGHT">
+<span class="sig-name descname"><span class="pre">MOVE_RIGHT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'MoveRight'</span></em><a class="headerlink" href="#machine_common_sense.Action.MOVE_RIGHT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move yourself right based on your current viewport.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><em>“SUCCESSFUL”</em> – Action successful.</p></li>
+<li><p><em>”OBSTRUCTED”</em> – If you cannot move right because your path is obstructed.</p></li>
+<li><p><em>”FAILED”</em> – Unexpected error; please report immediately to development team.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Action.OPEN_OBJECT">
+<span class="sig-name descname"><span class="pre">OPEN_OBJECT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'OpenObject'</span></em><a class="headerlink" href="#machine_common_sense.Action.OPEN_OBJECT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a nearby object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>objectId</strong> (<em>string</em><em>, </em><em>optional</em>) – The “uuid” of the target object. Required unless the
+“objectImageCoords” properties are given.</p></li>
+<li><p><strong>objectImageCoordsX</strong> (<em>float</em><em>, </em><em>optional</em>) – The X of a pixel coordinate on the target object based on
+your current viewport. Can be used in place of the “objectId” property.
+(See note under “Action” header regarding image coordinates.)</p></li>
+<li><p><strong>objectImageCoordsY</strong> (<em>float</em><em>, </em><em>optional</em>) – The Y of a pixel coordinate on the target object based on
+your current viewport. Can be used in place of the “objectId” property.
+(See note under “Action” header regarding image coordinates.)</p></li>
+<li><p><strong>amount</strong> (<em>float</em>) – The amount to open the object between 0 (completely closed) and 1
+(completely opened). Default: 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>“SUCCESSFUL”</em> – Action successful.</p></li>
+<li><p><em>”IS_OPENED_COMPLETELY”</em> – If the object is completely opened.</p></li>
+<li><p><em>”NOT_INTERACTABLE”</em> – If the object corresponding to the “objectImageCoords” vector is not an
+interactable object. This includes structural objects like the room’s
+walls.</p></li>
+<li><p><em>”NOT_OBJECT”</em> – If the object corresponding to the “objectId” (or object corresponding
+to the “objectImageCoords” vector) is not an object.</p></li>
+<li><p><em>”NOT_OPENABLE”</em> – If the object itself cannot be opened.</p></li>
+<li><p><em>”NOT_RECEPTACLE”</em> – If the object corresponding to the “objectImageCoords” vector is not a
+receptacle object.</p></li>
+<li><p><em>”NOT_VISIBLE”</em> – If the object corresponding to the “objectId” is not in the viewport.</p></li>
+<li><p><em>”OBSTRUCTED”</em> – If you cannot open the object because you will be in the way of the
+object when its opened.</p></li>
+<li><p><em>”OUT_OF_REACH”</em> – If you cannot open the object because you are out of reach.</p></li>
+<li><p><em>”FAILED”</em> – Unexpected error; please report immediately to development team.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Action.PASS">
+<span class="sig-name descname"><span class="pre">PASS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Pass'</span></em><a class="headerlink" href="#machine_common_sense.Action.PASS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do nothing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><em>“SUCCESSFUL”</em> – Action successful.</p></li>
+<li><p><em>”FAILED”</em> – Unexpected error; please report immediately to development team.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Action.PICKUP_OBJECT">
+<span class="sig-name descname"><span class="pre">PICKUP_OBJECT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PickupObject'</span></em><a class="headerlink" href="#machine_common_sense.Action.PICKUP_OBJECT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pick up a nearby object and hold it in your hand. This action incorporates
+reaching out your hand in front of you, opening your fingers, and grabbing
+the object. You may hold multiple objects simultaneously.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>objectId</strong> (<em>string</em><em>, </em><em>optional</em>) – The “uuid” of the target object. Required unless the
+“objectImageCoords” properties are given.</p></li>
+<li><p><strong>objectImageCoordsX</strong> (<em>float</em><em>, </em><em>optional</em>) – The X of a pixel coordinate on the target object based on
+your current viewport. Can be used in place of the “objectId” property.
+(See note under “Action” header regarding image coordinates.)</p></li>
+<li><p><strong>objectImageCoordsY</strong> (<em>float</em><em>, </em><em>optional</em>) – The Y of a pixel coordinate on the target object based on
+your current viewport. Can be used in place of the “objectId” property.
+(See note under “Action” header regarding image coordinates.)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>“SUCCESSFUL”</em> – Action successful.</p></li>
+<li><p><em>”NOT_INTERACTABLE”</em> – If the object corresponding to the “objectImageCoords” vector is not an
+interactable object.</p></li>
+<li><p><em>”NOT_OBJECT”</em> – If the object corresponding to the “objectId” (or object corresponding
+to the “objectImageCoords” vector) is not an object.</p></li>
+<li><p><em>”NOT_PICKUPABLE”</em> – If the object itself cannot be picked up.</p></li>
+<li><p><em>”NOT_VISIBLE”</em> – If the object corresponding to the “objectId” is not in the viewport.</p></li>
+<li><p><em>”OUT_OF_REACH”</em> – If you cannot pick up the object because you are out of reach.</p></li>
+<li><p><em>”FAILED”</em> – Unexpected error; please report immediately to development team.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Action.PULL_OBJECT">
+<span class="sig-name descname"><span class="pre">PULL_OBJECT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PullObject'</span></em><a class="headerlink" href="#machine_common_sense.Action.PULL_OBJECT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pull a nearby object by applying a physical force directly toward you on
+the X/Z axis to the center point of the object (note that this means it
+does not matter where you Pull on the object, since the force is always
+applied to the center point).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>objectId</strong> (<em>string</em><em>, </em><em>optional</em>) – The “uuid” of the target object. Required unless the
+“objectImageCoords” properties are given.</p></li>
+<li><p><strong>objectImageCoordsX</strong> (<em>float</em><em>, </em><em>optional</em>) – The X of a pixel coordinate on the target object based on
+your current viewport. Can be used in place of the “objectId” property.
+(See note under “Action” header regarding image coordinates.)</p></li>
+<li><p><strong>objectImageCoordsY</strong> (<em>float</em><em>, </em><em>optional</em>) – The Y of a pixel coordinate on the target object based on
+your current viewport. Can be used in place of the “objectId” property.
+(See note under “Action” header regarding image coordinates.)</p></li>
+<li><p><strong>force</strong> (<em>float</em>) – The amount of force, from 0 to 1, used to move the target object.
+Default: 0.5</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>“SUCCESSFUL”</em> – Action successful.</p></li>
+<li><p><em>”NOT_INTERACTABLE”</em> – If the object corresponding to the “objectImageCoords” vector is not an
+interactable object.</p></li>
+<li><p><em>”NOT_OBJECT”</em> – If the object corresponding to the “objectId” (or object corresponding
+to the “objectImageCoords” vector) is not an object.</p></li>
+<li><p><em>”NOT_MOVEABLE”</em> – If the object itself cannot be moved by a baby.</p></li>
+<li><p><em>”NOT_VISIBLE”</em> – If the object corresponding to the “objectId” is not in the viewport.</p></li>
+<li><p><em>”OUT_OF_REACH”</em> – If you cannot move the object because you are out of reach.</p></li>
+<li><p><em>”FAILED”</em> – Unexpected error; please report immediately to development team.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Action.PUSH_OBJECT">
+<span class="sig-name descname"><span class="pre">PUSH_OBJECT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PushObject'</span></em><a class="headerlink" href="#machine_common_sense.Action.PUSH_OBJECT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Push a nearby object by applying a physical force directly away from you on
+the X/Z axis to the center point of the object (note that this means it
+does not matter where you Push on the object, since the force is always
+applied to the center point).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>objectId</strong> (<em>string</em><em>, </em><em>optional</em>) – The “uuid” of the target object. Required unless the
+“objectImageCoords” properties are given.</p></li>
+<li><p><strong>objectImageCoordsX</strong> (<em>float</em><em>, </em><em>optional</em>) – The X of a pixel coordinate on the target object based on
+your current viewport. Can be used in place of the “objectId” property.
+(See note under “Action” header regarding image coordinates.)</p></li>
+<li><p><strong>objectImageCoordsY</strong> (<em>float</em><em>, </em><em>optional</em>) – The Y of a pixel coordinate on the target object based on
+your current viewport. Can be used in place of the “objectId” property.
+(See note under “Action” header regarding image coordinates.)</p></li>
+<li><p><strong>force</strong> (<em>float</em>) – The amount of force, from 0 to 1, used to move the target object.
+Default: 0.5</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>“SUCCESSFUL”</em> – Action successful.</p></li>
+<li><p><em>”NOT_INTERACTABLE”</em> – If the object corresponding to the “objectImageCoords” vector is not an
+interactable object.</p></li>
+<li><p><em>”NOT_OBJECT”</em> – If the object corresponding to the “objectId” (or object corresponding
+to the “objectImageCoords” vector) is not an object.</p></li>
+<li><p><em>”NOT_MOVEABLE”</em> – If the object itself cannot be moved by a baby.</p></li>
+<li><p><em>”NOT_VISIBLE”</em> – If the object corresponding to the “objectId” is not in the viewport.</p></li>
+<li><p><em>”OUT_OF_REACH”</em> – If you cannot move the object because you are out of reach.</p></li>
+<li><p><em>”FAILED”</em> – Unexpected error; please report immediately to development team.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Action.PUT_OBJECT">
+<span class="sig-name descname"><span class="pre">PUT_OBJECT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PutObject'</span></em><a class="headerlink" href="#machine_common_sense.Action.PUT_OBJECT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put down an object you are holding into/onto a nearby receptacle object. A
+receptacle is an object that can hold other objects, like a block, box,
+drawer, shelf, or table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>objectId</strong> (<em>string</em><em>, </em><em>optional</em>) – The “uuid” of the held object. Defaults to the first held object.</p></li>
+<li><p><strong>receptacleObjectId</strong> (<em>string</em><em>, </em><em>optional</em>) – The “uuid” of the target receptacle. Required unless the
+“receptacleObjectImageCoords” properties are given.</p></li>
+<li><p><strong>receptacleObjectImageCoordsX</strong> (<em>float</em><em>, </em><em>optional</em>) – The X of a pixel coordinate on the target receptacle based
+on your current viewport. Can be used in place of the
+“receptacleObjectId” property.
+(See note under “Action” header regarding image coordinates.)</p></li>
+<li><p><strong>receptacleObjectImageCoordsY</strong> (<em>float</em><em>, </em><em>optional</em>) – The Y of a pixel coordinate on the target receptacle based
+on your current viewport. Can be used in place of the
+“receptacleObjectId” property.
+(See note under “Action” header regarding image coordinates.)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>“SUCCESSFUL”</em> – Action successful.</p></li>
+<li><p><em>”NOT_HELD”</em> – If you cannot put down the object corresponding to the “objectId”
+because you are not holding it.</p></li>
+<li><p><em>”NOT_INTERACTABLE”</em> – If the object corresponding to the “objectImageCoords” or
+“receptacleObjectImageCoords” vector is not an interactable object.
+This includes structural objects like the room’s walls.</p></li>
+<li><p><em>”NOT_OBJECT”</em> – If the object corresponding to the “objectId” and/or
+“receptacleObjectId” (or object corresponding to the
+“receptacleObjectImageCoords” vector) is not an object.</p></li>
+<li><p><em>”NOT_RECEPTACLE”</em> – If the object corresponding to the “receptacleObjectId” (or object
+corresponding to the “receptacleObjectImageCoords” vector) is not a
+receptacle.</p></li>
+<li><p><em>”NOT_VISIBLE”</em> – If the object corresponding to the “objectId” is not in the viewport.</p></li>
+<li><p><em>”OBSTRUCTED”</em> – If you cannot put down the object because your path is obstructed.</p></li>
+<li><p><em>”OUT_OF_REACH”</em> – If you cannot put down the object because you are out of reach.</p></li>
+<li><p><em>”FAILED”</em> – Unexpected error; please report immediately to development team.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Action.ROTATE_LEFT">
+<span class="sig-name descname"><span class="pre">ROTATE_LEFT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'RotateLeft'</span></em><a class="headerlink" href="#machine_common_sense.Action.ROTATE_LEFT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotate your viewport left by 10 degrees.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><em>“SUCCESSFUL”</em> – Action successful.</p></li>
+<li><p><em>”FAILED”</em> – Unexpected error; please report immediately to development team.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Action.ROTATE_OBJECT">
+<span class="sig-name descname"><span class="pre">ROTATE_OBJECT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'RotateObject'</span></em><a class="headerlink" href="#machine_common_sense.Action.ROTATE_OBJECT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a rotation of 5 degrees to a nearby object. Will fail if rotating
+the object would cause it to collide with another object or the performer
+agent, returning OBSTRUCTED.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>objectId</strong> (<em>string</em><em>, </em><em>optional</em>) – The “uuid” of the target object. Required unless the
+“objectImageCoords” properties are given.</p></li>
+<li><p><strong>objectImageCoordsX</strong> (<em>float</em><em>, </em><em>optional</em>) – The X of a pixel coordinate on the target object based on
+your current viewport. Can be used in place of the “objectId” property.
+(See note under “Action” header regarding image coordinates.)</p></li>
+<li><p><strong>objectImageCoordsY</strong> (<em>float</em><em>, </em><em>optional</em>) – The Y of a pixel coordinate on the target object based on
+your current viewport. Can be used in place of the “objectId” property.
+(See note under “Action” header regarding image coordinates.)</p></li>
+<li><p><strong>clockwise</strong> (<em>bool</em>) – If the rotation should be clockwise.
+Default: True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>“SUCCESSFUL”</em> – Action successful.</p></li>
+<li><p><em>”NOT_INTERACTABLE”</em> – If the object corresponding to the “objectImageCoords” vector is not an
+interactable object.</p></li>
+<li><p><em>”NOT_OBJECT”</em> – If the object corresponding to the “objectId” (or object corresponding
+to the “objectImageCoords” vector) is not an object.</p></li>
+<li><p><em>”NOT_MOVEABLE”</em> – If the object itself cannot be moved by a baby.</p></li>
+<li><p><em>”NOT_VISIBLE”</em> – If the object corresponding to the “objectId” is not in the viewport.</p></li>
+<li><p><em>”OBSTRUCTED”</em> – If you cannot rotate the object because the path of rotation
+is obstructed.</p></li>
+<li><p><em>”OUT_OF_REACH”</em> – If you cannot move the object because you are out of reach.</p></li>
+<li><p><em>”FAILED”</em> – Unexpected error; please report immediately to development team.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Action.ROTATE_RIGHT">
+<span class="sig-name descname"><span class="pre">ROTATE_RIGHT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'RotateRight'</span></em><a class="headerlink" href="#machine_common_sense.Action.ROTATE_RIGHT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotate your viewport right by 10 degrees.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><em>“SUCCESSFUL”</em> – Action successful.</p></li>
+<li><p><em>”FAILED”</em> – Unexpected error; please report immediately to development team.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Action.TORQUE_OBJECT">
+<span class="sig-name descname"><span class="pre">TORQUE_OBJECT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'TorqueObject'</span></em><a class="headerlink" href="#machine_common_sense.Action.TORQUE_OBJECT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply torque to a nearby object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>objectId</strong> (<em>string</em><em>, </em><em>optional</em>) – The “uuid” of the target object. Required unless the
+“objectImageCoords” properties are given.</p></li>
+<li><p><strong>objectImageCoordsX</strong> (<em>float</em><em>, </em><em>optional</em>) – The X of a pixel coordinate on the target object based on
+your current viewport. Can be used in place of the “objectId” property.
+(See note under “Action” header regarding image coordinates.)</p></li>
+<li><p><strong>objectImageCoordsY</strong> (<em>float</em><em>, </em><em>optional</em>) – The Y of a pixel coordinate on the target object based on
+your current viewport. Can be used in place of the “objectId” property.
+(See note under “Action” header regarding image coordinates.)</p></li>
+<li><p><strong>force</strong> (<em>float</em>) – The amount of force, from -1 to 1, used to move the target object.
+Default: 0.5</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>“SUCCESSFUL”</em> – Action successful.</p></li>
+<li><p><em>”NOT_INTERACTABLE”</em> – If the object corresponding to the “objectImageCoords” vector is not an
+interactable object.</p></li>
+<li><p><em>”NOT_OBJECT”</em> – If the object corresponding to the “objectId” (or object corresponding
+to the “objectImageCoords” vector) is not an object.</p></li>
+<li><p><em>”NOT_MOVEABLE”</em> – If the object itself cannot be moved by a baby.</p></li>
+<li><p><em>”NOT_VISIBLE”</em> – If the object corresponding to the “objectId” is not in the viewport.</p></li>
+<li><p><em>”OUT_OF_REACH”</em> – If you cannot move the object because you are out of reach.</p></li>
+<li><p><em>”FAILED”</em> – Unexpected error; please report immediately to development team.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="machine_common_sense.Action.input_to_action_and_params">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">input_to_action_and_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_str</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span></span></span><a class="reference internal" href="_modules/machine_common_sense/action.html#Action.input_to_action_and_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.Action.input_to_action_and_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms the given input string into an action string
+and parameter dict.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>input_value</strong> (<em>string</em>) – The input value.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>string</em> – The action string, or None if the given input had an error
+transforming the action string.</p></li>
+<li><p><em>dict</em> – The parameter dict, or None if the given input had an error
+transforming parameters.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="machine_common_sense.Controller">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">machine_common_sense.</span></span><span class="sig-name descname"><span class="pre">Controller</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unity_app_file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigManager</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/machine_common_sense/controller.html#Controller"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.Controller" title="Permalink to this definition">¶</a></dt>
+<dd><p>MCS Controller class implementation for the MCS wrapper of the AI2-THOR
+library.</p>
+<p><a class="reference external" href="https://ai2thor.allenai.org/ithor/documentation/">https://ai2thor.allenai.org/ithor/documentation/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>unity_app_file_path</strong> (<em>str</em>) – </p></li>
+<li><p><strong>config</strong> (<em>ConfigManager</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="machine_common_sense.Controller.end_scene">
+<span class="sig-name descname"><span class="pre">end_scene</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rating</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">score</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">report</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">object</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/machine_common_sense/controller.html#Controller.end_scene"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.Controller.end_scene" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ends the current scene.  Calling end_scene() before calling
+start_scene() will do nothing. Calling end_scene() twice with
+the same scene will throw an exception.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>rating</strong> (<em>float</em><em>, </em><em>optional</em>) – The plausibility rating to classify a passive / VoE scene as either
+plausible or implausible. Not used for any interactive scenes. For
+passive agent scenes, this rating should be continuous, from 0.0
+(completely implausible) to 1.0 (completely plausible). For other
+passive scenes, this rating must be binary, either 0 (implausible)
+or 1 (plausible). End-of-scene ratings are
+required for all passive / VoE scenes. (default None)</p></li>
+<li><p><strong>score</strong> (<em>float</em><em>, </em><em>optional</em>) – <p>The continuous plausibility score between 0.0 (completely
+implausible) and 1.0 (completely plausible). End-of-scene scores
+are required for all passive / VoE scenes except agent scenes.
+Not used for any interactive scenes or passive agent scenes.
+(default None)</p>
+<p>Note: when an issue causes the program to exit prematurely or
+end_scene isn’t properly called but history_enabled is true,
+this value will be written to file as -1.</p>
+</p></li>
+<li><p><strong>report</strong> (<em>Dict</em><em>[</em><em>int</em><em>, </em><em>object</em><em>]</em><em>, </em><em>optional</em>) – <p>Variable for retrospective per frame reporting for passive / VoE
+scenes. Not used for any interactive scenes or passive agent
+scenes. (default None)</p>
+<p>Key is an int representing a step/frame number from output step
+metadata, starting at 1. Value or payload contains:</p>
+<blockquote>
+<div><ul>
+<li><dl class="simple">
+<dt>rating<span class="classifier">float or int, optional</span></dt><dd><p>The plausibility rating to classify a passive / VoE scene
+as either plausible or implausible. Not used for any
+interactive scenes. For passive agent scenes, this rating
+should be continuous, from 0.0 (completely implausible) to
+1.0 (completely plausible). For other passive scenes, this
+rating must be binary, either 0 (implausible) or 1
+(plausible). Frame-by-frame ratings are no
+longer required for any scenes (but end-of-scene ratings
+are). (default None)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>score<span class="classifier">float, optional</span></dt><dd><p>The continuous plausibility score between 0.0 (completely
+implausible) and 1.0 (completely plausible). Frame-by-frame
+scores are required for all passive / VoE scenes except
+agent scenes. Not used for any interactive scenes or
+passive agent scenes. (default None)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>violations_xy_list<span class="classifier">List[Dict[str, float]], optional</span></dt><dd><p>A list of one or more (x, y) locations
+(ex: [{“x”: 1, “y”: 3.4}]), each representing a potential
+violation-of-expectation. These locations are required for
+all passive / VoE scenes except agent scenes. Not used for
+any interactive scenes or passive agent scenes.
+(default None)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>internal_state<span class="classifier">object, optional</span></dt><dd><p>A properly formatted json object representing various kinds
+of internal states at a particular moment. Examples include
+the estimated position of the agent, current map of the
+world, etc. (default None)</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>Example report:</p>
+<p>{</p>
+<blockquote>
+<div><p>1: {</p>
+<blockquote>
+<div><p>“rating”: 1,</p>
+<p>”score”: 0.75,</p>
+<p>”violations_xy_list”: [{“x”: 1,”y”: 1}],</p>
+<p>”internal_state”: {“test”: “some state”}</p>
+</div></blockquote>
+<p>}</p>
+</div></blockquote>
+<p>}</p>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="machine_common_sense.Controller.get_metadata_level">
+<span class="sig-name descname"><span class="pre">get_metadata_level</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/machine_common_sense/controller.html#Controller.get_metadata_level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.Controller.get_metadata_level" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the current metadata level set in the config. If none
+specified, returns ‘default’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A string containing the current metadata level.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="machine_common_sense.Controller.retrieve_object_states">
+<span class="sig-name descname"><span class="pre">retrieve_object_states</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="reference internal" href="_modules/machine_common_sense/controller.html#Controller.retrieve_object_states"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.Controller.retrieve_object_states" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the state list at the current step for the object with the
+given ID from the scene configuration data, if any.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="machine_common_sense.Controller.start_scene">
+<span class="sig-name descname"><span class="pre">start_scene</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SceneConfiguration</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#machine_common_sense.StepMetadata" title="machine_common_sense.step_metadata.StepMetadata"><span class="pre">StepMetadata</span></a></span></span><a class="reference internal" href="_modules/machine_common_sense/controller.html#Controller.start_scene"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.Controller.start_scene" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts a new scene using the given scene configuration data dict and
+returns the scene output data object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config_data</strong> (<em>SceneConfiguration</em><em> or </em><em>dict that can be serialized to</em>) – SceneConfiguration
+The MCS scene configuration data for the scene to start.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The output data object from the start of the scene (the output from
+an “Initialize” action).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#machine_common_sense.StepMetadata" title="machine_common_sense.StepMetadata">StepMetadata</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="machine_common_sense.Controller.step">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#machine_common_sense.StepMetadata" title="machine_common_sense.step_metadata.StepMetadata"><span class="pre">StepMetadata</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/machine_common_sense/controller.html#Controller.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.Controller.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the given action within the current scene.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>action</strong> (<em>string</em>) – A selected action string from the list of available actions.</p></li>
+<li><p><strong>**kwargs</strong> – Zero or more key-and-value parameters for the action.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The MCS output data object from after the selected action and the
+physics simulation were run. Returns None if you have passed the
+“last_step” of this scene.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#machine_common_sense.StepMetadata" title="machine_common_sense.StepMetadata">StepMetadata</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If values are outside acceptable ranges or unable to: convert to a number.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="machine_common_sense.Controller.stop_simulation">
+<span class="sig-name descname"><span class="pre">stop_simulation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/machine_common_sense/controller.html#Controller.stop_simulation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.Controller.stop_simulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop the 3D simulation environment. This controller won’t work any
+more.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="machine_common_sense.GoalCategory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">machine_common_sense.</span></span><span class="sig-name descname"><span class="pre">GoalCategory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/machine_common_sense/goal_metadata.html#GoalCategory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.GoalCategory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Each goal dict will have a “category” string that describes the type of
+scene (or, the type of task within the scene) being run. Each goal dict
+will also have a “metadata” dict containing one or more properties
+depending on the “category”.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.GoalCategory.AGENTS">
+<span class="sig-name descname"><span class="pre">AGENTS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'agents'</span></em><a class="headerlink" href="#machine_common_sense.GoalCategory.AGENTS" title="Permalink to this definition">¶</a></dt>
+<dd><p>In a trial that has an Agents goal, you must sit and observe a scene as one
+or more simulation-controlled agents act in predefined ways within your
+camera’s viewport, and then decide whether the scene is “expected” or
+“unexpected”. The camera will always be positioned at an isometric
+perspective, like you’re standing on an elevated platform looking down at
+the scene. Each scene will consist of eight sequential habituation trials,
+depicting expected agent behaviors and separated by EndHabituation actions
+(each of which generates a black frame image when called), immediately
+followed by the test trial, depicting either an expected or unexpected
+agent behavior. All nine of these trials happen within the same “scene”.
+These trials will demand a “common sense” understanding of agents, their
+behaviors, and their interactions with objects in the environment.</p>
+<p>This goal category is only used for the <strong>passive/VoE agent tasks</strong>. All
+interactive agent tasks will use either the <cite>retrieval</cite> or
+<cite>multi retrieval</cite> goal category.</p>
+<p class="rubric">Notes</p>
+<p>You are required to call <cite>controller.end_scene()</cite> at the end of each scene
+with a continuous plausibility <cite>rating</cite>, from 0.0 (completely implausible)
+to 1.0 (completely plausible). You are not required to also pass it a
+<cite>score</cite>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.GoalCategory.IMITATION">
+<span class="sig-name descname"><span class="pre">IMITATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'imitation'</span></em><a class="headerlink" href="#machine_common_sense.GoalCategory.IMITATION" title="Permalink to this definition">¶</a></dt>
+<dd><p>In a trial that has an imitation goal, you must imitate the actions of
+another agent in the scene to find and pickup a target object. Executing
+the same actions, on the same objects, in the same order, is of critical
+importance; if you do not imitate the actions correctly, you will be
+forced to end the scene (by calling end_scene, or using the END_SCENE
+action), without achieving the reward. In MCS Evaluation 4 and onward, the
+target object will always be a soccer ball (football), and, in MCS
+Evaluation 6, the imitated actions will always be opening containers of
+various colors and shapes (using the normal OpenObject action).</p>
+<p class="rubric">Notes</p>
+<p>At <cite>oracle</cite> metadata level, the <cite>metadata</cite> dict property of this
+GoalMetadata object will contain a <cite>target</cite> property, which is a dict
+containing the following parameters:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<em>string</em>) – The unique objectId of the target object to retrieve.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.GoalCategory.INTUITIVE_PHYSICS">
+<span class="sig-name descname"><span class="pre">INTUITIVE_PHYSICS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'intuitive</span> <span class="pre">physics'</span></em><a class="headerlink" href="#machine_common_sense.GoalCategory.INTUITIVE_PHYSICS" title="Permalink to this definition">¶</a></dt>
+<dd><p>In a trial that has an Intuitive Physics goal, you must sit and observe a
+scene as objects move across your camera’s viewport, and then decide
+whether the scene is “plausible” or “implausible”. These trials will demand
+a “common sense” understanding of basic (“intuitive”) physics, like object
+permanence or shape constancy. Inspired by Emmanuel Dupoux’s “IntPhys: A
+Benchmark for Visual Intuitive Physics Reasoning” (<a class="reference external" href="http://intphys.com">http://intphys.com</a>).</p>
+<p class="rubric">Notes</p>
+<p>You are required to call <cite>controller.end_scene()</cite> at the end of each scene
+with a binary plausibility <cite>rating</cite> – either 0 (implausible) or 1
+(plausible) – and a continuous plausibility <cite>score</cite> – from 0.0
+(completely implausible) to 1.0 (completely plausible). This is also
+where you would submit any retrospective reporting on a per step basis via
+<cite>report</cite>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.GoalCategory.MULTI_RETRIEVAL">
+<span class="sig-name descname"><span class="pre">MULTI_RETRIEVAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'multi</span> <span class="pre">retrieval'</span></em><a class="headerlink" href="#machine_common_sense.GoalCategory.MULTI_RETRIEVAL" title="Permalink to this definition">¶</a></dt>
+<dd><p>In a trial that has a multi retrieval goal, you must find and pickup one or
+more target objects. In MCS Evaluation 4 and onward, the target object will
+always be a soccer ball (football).</p>
+<p>This may involve exploring the scene, avoiding obstacles,
+interacting with objects (like closed containers) or agents, and tracking
+moving objects. These trials will demand a “common sense” understanding of
+self navigation (how to move and rotate yourself within a scene and around
+obstacles), object interaction (how objects work, including opening
+containers), the basic physics of movement (kinematics, gravity, friction,
+etc.), and agency (identifying people and using them to achieve a goal).</p>
+<p class="rubric">Notes</p>
+<p>At <cite>oracle</cite> metadata level, the <cite>metadata</cite> dict property of this
+GoalMetadata object will contain a <cite>targets</cite> property, which is a list of
+dicts that each contain the following parameters:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<em>string</em>) – The unique objectId of one of the target objects to retrieve.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.GoalCategory.PASSIVE">
+<span class="sig-name descname"><span class="pre">PASSIVE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'passive'</span></em><a class="headerlink" href="#machine_common_sense.GoalCategory.PASSIVE" title="Permalink to this definition">¶</a></dt>
+<dd><p>In a trial that has a Passive goal, you must sit and observe a scene as
+action unfolds in your camera’s viewport, and then decide whether the scene
+is “plausible” or “implausible”. These trials will demand a “common sense”
+understanding of places, objects, or agency. This goal category covers all
+passive scenes that do not fall under the “agents” or “intuitive physics”
+categories.</p>
+<p class="rubric">Notes</p>
+<p>You are required to call <cite>controller.end_scene()</cite> at the end of each scene
+with a binary plausibility <cite>rating</cite> – either 0 (implausible) or 1
+(plausible) – and a continuous plausibility <cite>score</cite> – from 0.0
+(completely implausible) to 1.0 (completely plausible). This is also
+where you would submit any retrospective reporting on a per step basis via
+<cite>report</cite>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.GoalCategory.RETRIEVAL">
+<span class="sig-name descname"><span class="pre">RETRIEVAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'retrieval'</span></em><a class="headerlink" href="#machine_common_sense.GoalCategory.RETRIEVAL" title="Permalink to this definition">¶</a></dt>
+<dd><p>In a trial that has a retrieval goal, you must find and pickup a target
+object. In MCS Evaluation 4 and onward, the target object will always be a
+soccer ball (football).</p>
+<p>This may involve exploring the scene, avoiding obstacles,
+interacting with objects (like closed containers) or agents, and tracking
+moving objects. These trials will demand a “common sense” understanding of
+self navigation (how to move and rotate yourself within a scene and around
+obstacles), object interaction (how objects work, including opening
+containers), the basic physics of movement (kinematics, gravity, friction,
+etc.), and agency (identifying people and using them to achieve a goal).</p>
+<p class="rubric">Notes</p>
+<p>At <cite>oracle</cite> metadata level, the <cite>metadata</cite> dict property of this
+GoalMetadata object will contain a <cite>target</cite> property, which is a dict
+containing the following parameters:</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>id</strong> (<em>string</em>) – The unique objectId of the target object to retrieve.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="machine_common_sense.GoalMetadata">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">machine_common_sense.</span></span><span class="sig-name descname"><span class="pre">GoalMetadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">habituation_total</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_preview_phase_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps_allowed_in_lava</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">triggered_by_target_sequence</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/machine_common_sense/goal_metadata.html#GoalMetadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.GoalMetadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines metadata for a goal in the MCS 3D environment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>action_list</strong> (<em>list</em><em> of </em><em>lists</em><em> of </em><em>(</em><em>string</em><em>, </em><em>dict</em><em>) </em><em>tuples</em><em>, or </em><em>None</em>) – <p>The list of all actions that are available for the scene at each step
+(outer list). Each inner list is the list of all actions that are
+available for the single step corresponding to the inner list’s index
+within the outer list. Each action is returned as a tuple containing
+the action string and the action’s restricted paramters, if any.</p>
+<p>For example: (“Pass”, {}) forces a Pass action; (“PickupObject”, {})
+forces a PickupObject action with any parameters; and
+(“PickupObject”, {“objectId”: “a”}) forces a PickupObject action with
+the specific parameters objectId=a.</p>
+<p>An action_list of None means that all actions are always available.
+An empty inner list means that all actions will be available on that
+specific step.</p>
+<p>See <a class="reference internal" href="#machine_common_sense.StepMetadata" title="machine_common_sense.StepMetadata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">StepMetadata.action_list</span></code></a>
+for the available actions of the current step.
+May be a subset of all possible actions. See
+<a class="reference internal" href="#machine_common_sense.Action" title="machine_common_sense.Action"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Action</span></code></a>.</p>
+</p></li>
+<li><p><strong>category</strong> (<em>string</em>) – The category that describes this goal and the properties in its
+metadata. See <a class="reference internal" href="#machine_common_sense.GoalCategory" title="machine_common_sense.GoalCategory"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Goal</span></code></a>.</p></li>
+<li><p><strong>description</strong> (<em>string</em>) – <p>A human-readable sentence describing this goal and containing
+the target task(s) and object(s).</p>
+<p>Sizes:
+- tiny: near the size of a baseball
+- small: near the size of a baby
+- medium: near the size of a child
+- large: near the size of an adult
+- huge: near the size of a sofa</p>
+<p>Weights:
+- light: can be held by a baby
+- heavy: cannot be held by a baby, but can be pushed or pulled
+- massive: cannot be moved by a baby</p>
+<p>Colors:
+black, blue, brown, green, grey, orange, purple, red, white, yellow</p>
+<p>Materials:
+See <a class="reference internal" href="#machine_common_sense.Material" title="machine_common_sense.Material"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Material</span></code></a>.</p>
+</p></li>
+<li><p><strong>habituation_total</strong> (<em>int</em>) – The total count of habituation trials that will be in this scene.</p></li>
+<li><p><strong>last_preview_phase_step</strong> (<em>integer</em>) – The last step of the Preview Phase of this scene, if a Preview Phase is
+scripted in the scene configuration. Each step of a Preview Phase
+normally has a single specific action defined in this goal’s
+action_list property for the performer to choose, like [‘Pass’].
+Default: 0 (no Preview Phase)</p></li>
+<li><p><strong>last_step</strong> (<em>integer</em>) – The last step of this scene. This scene will automatically end
+following this step.</p></li>
+<li><p><strong>metadata</strong> (<em>dict</em>) – The metadata specific to this goal. See
+<a class="reference internal" href="#machine_common_sense.GoalCategory" title="machine_common_sense.GoalCategory"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Goal</span></code></a>.</p></li>
+<li><p><strong>steps_allowed_in_lava</strong> (<em>integer</em>) – The number of steps allowed in lava before the scene ends</p></li>
+<li><p><strong>triggered_by_target_sequence</strong> (<em>List</em><em> of </em><em>strings</em>) – The target sequence the performer must open containers to trigger
+the targets placement by a placer for imitation tasks.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="machine_common_sense.GoalMetadata.retrieve_action_list_at_step">
+<span class="sig-name descname"><span class="pre">retrieve_action_list_at_step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps_in_lava</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">triggered_by_sequence_incorrect</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_passive_scene</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="reference internal" href="_modules/machine_common_sense/goal_metadata.html#GoalMetadata.retrieve_action_list_at_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.GoalMetadata.retrieve_action_list_at_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the action list from the given goal at the given step as a
+a list of actions tuples by default.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="machine_common_sense.Material">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">machine_common_sense.</span></span><span class="sig-name descname"><span class="pre">Material</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/machine_common_sense/material.html#Material"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.Material" title="Permalink to this definition">¶</a></dt>
+<dd><p>Possible materials of objects. An object can have one or more materials.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Material.CERAMIC">
+<span class="sig-name descname"><span class="pre">CERAMIC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'CERAMIC'</span></em><a class="headerlink" href="#machine_common_sense.Material.CERAMIC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Material.FABRIC">
+<span class="sig-name descname"><span class="pre">FABRIC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'FABRIC'</span></em><a class="headerlink" href="#machine_common_sense.Material.FABRIC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Material.FOOD">
+<span class="sig-name descname"><span class="pre">FOOD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'FOOD'</span></em><a class="headerlink" href="#machine_common_sense.Material.FOOD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Material.GLASS">
+<span class="sig-name descname"><span class="pre">GLASS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'GLASS'</span></em><a class="headerlink" href="#machine_common_sense.Material.GLASS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Material.METAL">
+<span class="sig-name descname"><span class="pre">METAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'METAL'</span></em><a class="headerlink" href="#machine_common_sense.Material.METAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Material.ORGANIC">
+<span class="sig-name descname"><span class="pre">ORGANIC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ORGANIC'</span></em><a class="headerlink" href="#machine_common_sense.Material.ORGANIC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Material.PAPER">
+<span class="sig-name descname"><span class="pre">PAPER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PAPER'</span></em><a class="headerlink" href="#machine_common_sense.Material.PAPER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Material.PLASTIC">
+<span class="sig-name descname"><span class="pre">PLASTIC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PLASTIC'</span></em><a class="headerlink" href="#machine_common_sense.Material.PLASTIC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Material.RUBBER">
+<span class="sig-name descname"><span class="pre">RUBBER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'RUBBER'</span></em><a class="headerlink" href="#machine_common_sense.Material.RUBBER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Material.SOAP">
+<span class="sig-name descname"><span class="pre">SOAP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SOAP'</span></em><a class="headerlink" href="#machine_common_sense.Material.SOAP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Material.SPONGE">
+<span class="sig-name descname"><span class="pre">SPONGE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SPONGE'</span></em><a class="headerlink" href="#machine_common_sense.Material.SPONGE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Material.STONE">
+<span class="sig-name descname"><span class="pre">STONE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'STONE'</span></em><a class="headerlink" href="#machine_common_sense.Material.STONE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Material.UNDEFINED">
+<span class="sig-name descname"><span class="pre">UNDEFINED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'UNDEFINED'</span></em><a class="headerlink" href="#machine_common_sense.Material.UNDEFINED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Material.WAX">
+<span class="sig-name descname"><span class="pre">WAX</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'WAX'</span></em><a class="headerlink" href="#machine_common_sense.Material.WAX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="machine_common_sense.Material.WOOD">
+<span class="sig-name descname"><span class="pre">WOOD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'WOOD'</span></em><a class="headerlink" href="#machine_common_sense.Material.WOOD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="machine_common_sense.Material.verify_material_enum_string">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">verify_material_enum_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enum_string</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/machine_common_sense/material.html#Material.verify_material_enum_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.Material.verify_material_enum_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether the given string can be successfully converted into an
+Material enum.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>enum_string</strong> – The string to be converted into an Material enum.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="machine_common_sense.ObjectMetadata">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">machine_common_sense.</span></span><span class="sig-name descname"><span class="pre">ObjectMetadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uuid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dimensions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance_in_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance_in_world</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">held</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">material_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segment_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">texture_color_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_open</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">openable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locked</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">associated_with_agent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulation_agent_held_object</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulation_agent_is_holding_held_object</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/machine_common_sense/object_metadata.html#ObjectMetadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.ObjectMetadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines metadata for an object in the MCS 3D environment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>uuid</strong> (<em>string</em>) – The unique ID of this object, used with some actions.</p></li>
+<li><p><strong>associated_with_agent</strong> (<em>str</em>) – The agent holding this object.</p></li>
+<li><p><strong>dimensions</strong> (<em>list</em><em> of </em><em>dicts</em>) – The dimensions of this object in the environment’s 3D global
+coordinate system as a list of 8 points (dicts with “x”, “y”, and “z”).</p></li>
+<li><p><strong>direction</strong> (<em>dict</em>) – The direction vector of “x”, “y”, and “z” degrees between your position
+and this object’s position (the difference in the two positions),
+normalized to 1. You can use the “x” and “y” as the “rotation” and
+“horizon” parameters (respectively) in a “RotateLook” action to face
+this object.</p></li>
+<li><p><strong>distance</strong> (<em>float</em>) – DEPRECATED. Same as distance_in_steps. Please use distance_in_steps
+or distance_in_world.</p></li>
+<li><p><strong>distance_in_steps</strong> (<em>float</em>) – The distance from you to this object in number of steps (“Move”
+actions) on the 2D X/Z movement grid.</p></li>
+<li><p><strong>distance_in_world</strong> (<em>float</em>) – The distance from you to this object in the environment’s 3D global
+coordinate system.</p></li>
+<li><p><strong>held</strong> (<em>boolean</em>) – Whether you are holding this object.</p></li>
+<li><p><strong>is_open</strong> (<em>boolean</em>) – Whether the object is open or not</p></li>
+<li><p><strong>locked</strong> (<em>boolean</em>) – Whether the object is locked</p></li>
+<li><p><strong>mass</strong> (<em>float</em>) – Haptic feedback. The mass of this object.</p></li>
+<li><p><strong>material_list</strong> (<em>list</em><em> of </em><em>strings</em>) – Haptic feedback. The material(s) of this object.
+See <a class="reference internal" href="#machine_common_sense.Material" title="machine_common_sense.Material"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Material</span></code></a>.</p></li>
+<li><p><strong>openable</strong> (<em>boolean</em>) – Whether the object can be opened</p></li>
+<li><p><strong>position</strong> (<em>dict</em>) – The “x”, “y”, and “z” coordinates for the global position of the
+center of this object’s 3D model.</p></li>
+<li><p><strong>rotation</strong> (<em>dict</em>) – This object’s rotation angles around the “x”, “y”, and “z” axes
+in degrees.</p></li>
+<li><p><strong>segment_color</strong> (<em>dict</em>) – The “r”, “g”, and “b” pixel values of this object in images from the
+StepMetadata’s “object_mask_list”.</p></li>
+<li><p><strong>shape</strong> (<em>string</em>) – This object’s shape in plain English.</p></li>
+<li><p><strong>simulation_agent_held_object</strong> (<em>str</em>) – The object associated held for the simulation agent that the performer
+can retrieve through the InteractWithAgent method.</p></li>
+<li><p><strong>simulation_agent_is_holding_held_object</strong> (<em>str</em>) – Whether this simulation agent is currently holding its
+associated held object.</p></li>
+<li><p><strong>state_list</strong> (<em>list</em><em> of </em><em>strings</em>) – This object’s state(s) from the current step in the scene. Sometimes
+used by objects with scripted behavior in passive scenes.</p></li>
+<li><p><strong>texture_color_list</strong> (<em>list</em><em> of </em><em>strings</em>) – This object’s colors, derived from its textures, in plain English.</p></li>
+<li><p><strong>visible</strong> (<em>boolean</em>) – Whether you can see this object in your camera viewport.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="machine_common_sense.ReturnStatus">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">machine_common_sense.</span></span><span class="sig-name descname"><span class="pre">ReturnStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/machine_common_sense/return_status.html#ReturnStatus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.ReturnStatus" title="Permalink to this definition">¶</a></dt>
+<dd><p>An enumeration.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="machine_common_sense.Reward">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">machine_common_sense.</span></span><span class="sig-name descname"><span class="pre">Reward</span></span><a class="reference internal" href="_modules/machine_common_sense/reward.html#Reward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.Reward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reward utility class</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="machine_common_sense.Reward.calculate_reward">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">calculate_reward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">goal</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#machine_common_sense.GoalMetadata" title="machine_common_sense.goal_metadata.GoalMetadata"><span class="pre">GoalMetadata</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reach</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps_on_lava</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lava_penalty</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_penalty</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">goal_reward</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="_modules/machine_common_sense/reward.html#Reward.calculate_reward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.Reward.calculate_reward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine if the agent achieved the goal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>goal</strong> – GoalMetadata</p></li>
+<li><p><strong>objects</strong> – Dict</p></li>
+<li><p><strong>agent</strong> – Dict</p></li>
+<li><p><strong>reach</strong> – float</p></li>
+<li><p><strong>steps_on_lava</strong> – int</p></li>
+<li><p><strong>lava_penalty</strong> – float</p></li>
+<li><p><strong>step_penalty</strong> – float</p></li>
+<li><p><strong>goal_reward</strong> – float</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>reward is 1 if goal achieved, 0 otherwise</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="machine_common_sense.SerializerMsgPack">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">machine_common_sense.</span></span><span class="sig-name descname"><span class="pre">SerializerMsgPack</span></span><a class="reference internal" href="_modules/machine_common_sense/serializer.html#SerializerMsgPack"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.SerializerMsgPack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serializer to (de)serialize StepMetadata into/from MsgPack format.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="machine_common_sense.SerializerMsgPack.serialize">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">serialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step_metadata</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#machine_common_sense.StepMetadata" title="machine_common_sense.step_metadata.StepMetadata"><span class="pre">StepMetadata</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/machine_common_sense/serializer.html#SerializerMsgPack.serialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.SerializerMsgPack.serialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serializes step metadata into MsgPack.</p>
+<p>You can use
+.. code-block:: python</p>
+<blockquote>
+<div><dl class="simple">
+<dt>object_to_persist = {</dt><dd><p>‘payload’: step_metadata,
+‘additional_info’: ‘info’
+}</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>to add extra data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>step_metadata</strong> – MCS step metadata output</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Serialized version of step metadata in MsgPack format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="machine_common_sense.StepMetadata">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">machine_common_sense.</span></span><span class="sig-name descname"><span class="pre">StepMetadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">camera_aspect_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">camera_clipping_planes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">camera_field_of_view</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">camera_height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth_map_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">goal</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">habituation_trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">haptic_feedback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">head_tilt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">holes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lava</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">object_mask_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">performer_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">performer_reach</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">physics_frames_per_second</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolved_object</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolved_receptacle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'UNDEFINED'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reward</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">room_dimensions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segmentation_colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_number</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps_on_lava</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structural_object_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">triggered_by_sequence_incorrect</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/machine_common_sense/step_metadata.html#StepMetadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.StepMetadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines output metadata from an action step in the MCS 3D environment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>action_list</strong> (<em>list</em><em> of </em><em>(</em><em>string</em><em>, </em><em>dict</em><em>) </em><em>tuples</em>) – <p>The list of all actions that are available for the next step.
+Each action is returned as a tuple containing the action string and
+the action’s restricted parameters, if any.
+For example: (“Pass”, {}) forces a Pass action; (“PickupObject”, {})
+forces a PickupObject action with any parameters; and
+(“PickupObject”, {“objectId”: “a”}) forces a PickupObject action with
+the specific parameters objectId=a.
+EndHabituation is a special case of the action_list where its
+parameters will always be empty. When taking the EndHabituation
+action, the MCS system may apply hidden displacement parameters to the
+robot.
+An action_list of None or an empty list means that all actions will
+be available for the next step.</p>
+<p>To “step” using the first action from the action_list:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">step_metadata</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="n">start_scene</span><span class="p">(</span><span class="n">scene_data</span><span class="p">)</span>
+<span class="n">action</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">step_metadata</span><span class="o">.</span><span class="n">action_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">step_metadata</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Derived from <a class="reference internal" href="#machine_common_sense.GoalMetadata" title="machine_common_sense.GoalMetadata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">GoalMetadata.action_list[step_number]</span></code></a>.
+May be a subset of all possible actions. See
+<a class="reference internal" href="#machine_common_sense.Action" title="machine_common_sense.Action"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Action</span></code></a>.</p>
+</p></li>
+<li><p><strong>camera_aspect_ratio</strong> (<em>(</em><em>float</em><em>, </em><em>float</em><em>)</em>) – The player camera’s aspect ratio. This will remain constant for the
+whole scene.</p></li>
+<li><p><strong>camera_clipping_planes</strong> (<em>(</em><em>float</em><em>, </em><em>float</em><em>)</em>) – The player camera’s near and far clipping planes, in meters. This will
+remain constant for the whole scene. Default (0.01, 150)</p></li>
+<li><p><strong>camera_field_of_view</strong> (<em>float</em>) – The player camera’s field of view. This will remain constant for
+the whole scene.</p></li>
+<li><p><strong>camera_height</strong> (<em>float</em>) – The player camera’s height, in meters.</p></li>
+<li><p><strong>depth_map_list</strong> (<em>list</em><em> of </em><em>2D numpy arrays</em>) – The list of 2-dimensional numpy arrays of depth float data from the
+scene after the last action and physics simulation were run. This is
+usually a list with 1 array, except for the output from start_scene
+for a scene with a scripted Preview Phase (Preview Phase case details
+TBD).
+Each 32-bit depth float in the 2-dimensional numpy array is a value
+between the camera’s near clipping plane (default 0.01) and the
+camera’s far clipping plane (default 150) corresponding to the depth,
+in meters, at that pixel in the image.
+Note that this list will be empty if the metadata level is ‘none’.</p></li>
+<li><p><strong>goal</strong> (<a class="reference internal" href="#machine_common_sense.GoalMetadata" title="machine_common_sense.GoalMetadata"><em>GoalMetadata</em></a><em> or </em><em>None</em>) – The goal for the whole scene. Will be None in “Exploration” scenes.</p></li>
+<li><p><strong>haptic_feedback</strong> (<em>dict</em>) – Haptic feedback sources for the agent. Values are true or false
+depending on if the agent is touching the haptic feedback source.
+The only current supported contact is “on_lava”</p></li>
+<li><p><strong>habituation_trial</strong> (<em>int</em><em> or </em><em>None</em>) – The current habituation trial (as a positive integer), or None if the
+scene is not currently in a habituation trial (meaning this scene is
+in a test trial).</p></li>
+<li><p><strong>head_tilt</strong> (<em>float</em>) – How far your head is tilted up/down in degrees (between 90 and -90).
+Changed by setting the “horizon” parameter in a “RotateLook” action.</p></li>
+<li><p><strong>holes</strong> (<em>list</em><em> of </em><em>tuples</em>) – Coordinates of holes as (X, Z) float tuples. Will be set to ‘None’ if
+using a metadata level below the ‘oracle’ level.</p></li>
+<li><p><strong>image_list</strong> (<em>list</em><em> of </em><em>Pillow.Image objects</em>) – The list of images from the scene after the last action and physics
+simulation were run. This is usually a list with 1 image, except for
+the output from start_scene for a scene with a scripted Preview Phase.
+(Preview Phase case details TBD).</p></li>
+<li><p><strong>lava</strong> (<em>list</em><em> of </em><em>tuples</em>) – Coordinates of pools of lava as (X1, Z1, X2, Z2) float tuples, where
+X1/Z1 is the top-left corner and X2/Z2 is the bottom-right conrer. Will
+be set to ‘None’ if using a metadata level below the ‘oracle’ level.</p></li>
+<li><p><strong>object_list</strong> (<em>list</em><em> of </em><em>ObjectMetadata objects</em>) – The list of metadata for all the visible interactive objects in the
+scene. This list will be empty if using a metadata level below
+the ‘oracle’ level. For metadata on structural objects like walls,
+please see structural_object_list</p></li>
+<li><p><strong>object_mask_list</strong> (<em>list</em><em> of </em><em>Pillow.Image objects</em>) – The list of object mask (instance segmentation) images from the scene
+after the last action and physics simulation were run. This is usually
+a list with 1 image, except for the output from start_scene for a
+scene with a scripted Preview Phase (Preview Phase case details TBD).
+The color of each object in the mask corresponds to the “color”
+property in its ObjectMetadata object.
+Note that this list will be empty if the metadata level is ‘none’
+or ‘level1’.</p></li>
+<li><p><strong>performer_radius</strong> (<em>float</em>) – The radius of the performer, in meters.</p></li>
+<li><p><strong>performer_reach</strong> (<em>float</em>) – The max reach of the performer, in meters.</p></li>
+<li><p><strong>physics_frames_per_second</strong> (<em>float</em>) – The frames per second of the physics engine</p></li>
+<li><p><strong>position</strong> (<em>dict</em>) – The “x”, “y”, and “z” coordinates for your global position.
+Will be set to ‘None’ if using a metadata level below the
+‘oracle’ level.</p></li>
+<li><p><strong>resolved_object</strong> (<em>string</em>) – The object that was selected based on objectImageCoords</p></li>
+<li><p><strong>resolved_receptacle_object_id</strong> (<em>string</em>) – The receptacle that was selected based on receptacleObjectImageCoords</p></li>
+<li><p><strong>return_status</strong> (<em>string</em>) – The return status from your last action. See
+<a class="reference internal" href="#machine_common_sense.Action" title="machine_common_sense.Action"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Action</span></code></a>.</p></li>
+<li><p><strong>reward</strong> (<em>integer</em>) – Reward is 1 on successful completion of a task, 0 otherwise.</p></li>
+<li><p><strong>room_dimensions</strong> (<em>dict</em>) – The “x”, “y”, and “z” dimensions of the current scene.
+Will be set to ‘None’ if using a metadata level below the
+‘oracle’ level.</p></li>
+<li><p><strong>rotation</strong> (<em>float</em>) – Your current rotation angle in degrees. Will be set to ‘None’
+if using a metadata level below the ‘oracle’ level.</p></li>
+<li><p><strong>segmentation_colors</strong> (<em>list</em><em> of </em><em>dicts</em>) – The colors for all objects in the instance segmentation images
+(in <cite>object_mask_list</cite>), each represented as a dict containing an
+“objectId” string property and “r”, “g”, and “b” int properties for the
+corresponding red, green, and blue values. The ceiling has an objectId
+of “ceiling”; exterior room walls have objectIds of “wall_back”,
+“wall_front”, “wall_left”, and “wall_right”; floor sections have
+objectIds starting with “floor “ and then the texture name (since
+different areas of the floor can have different textures); holes have
+objectIds of “hole”; hole walls have objectIds of “hole wall”; and
+lava areas have objectIds of “lava”.
+Will be empty if using a metadata level below the ‘oracle’ level.</p></li>
+<li><p><strong>step_number</strong> (<em>integer</em>) – The step number of your last action, recorded since you started the
+current scene.</p></li>
+<li><p><strong>steps_in_lava</strong> (<em>integer</em>) – The number of steps the agent has touched lava</p></li>
+<li><p><strong>structural_object_list</strong> (<em>list</em><em> of </em><em>ObjectMetadata objects</em>) – The list of metadata for all the visible structural objects (like
+walls, occluders, and ramps) in the scene. This list will be empty
+if using a metadata level below the ‘oracle’ level.
+Occluders are composed of two separate objects,
+the “wall” and the “pole”, with corresponding object IDs
+(occluder_wall_&lt;uuid&gt; and occluder_pole_&lt;uuid&gt;), and ramps are
+composed of between one and three objects (depending on the type
+of ramp), with corresponding object IDs.</p></li>
+<li><p><strong>triggered_by_sequence_incorrect</strong> (<em>bool</em>) – If the the sequence to trigger a placer holding the target is incorrect</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="machine_common_sense.StepMetadata.copy_without_depth_or_images">
+<span class="sig-name descname"><span class="pre">copy_without_depth_or_images</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/machine_common_sense/step_metadata.html#StepMetadata.copy_without_depth_or_images"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.StepMetadata.copy_without_depth_or_images" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a deep copy of this StepMetadata with default depth_map_list,
+image_list, and object_mask_list properties.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="machine_common_sense.Stringifier">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">machine_common_sense.</span></span><span class="sig-name descname"><span class="pre">Stringifier</span></span><a class="reference internal" href="_modules/machine_common_sense/stringifier.html#Stringifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.Stringifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Defines functions to turn objects into strings for debugging and
+human readable output.  It is not intended to be reconstructed
+which is why this is seperate from serialization</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="machine_common_sense.Stringifier.class_to_str">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">class_to_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/machine_common_sense/stringifier.html#Stringifier.class_to_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.Stringifier.class_to_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms the given class into a string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_value</strong> – The input class.</p></li>
+<li><p><strong>depth</strong> (<em>int</em><em>, </em><em>optional</em>) – The indent depth (default 0).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="machine_common_sense.Stringifier.generate_pretty_object_output">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_pretty_object_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/machine_common_sense/stringifier.html#Stringifier.generate_pretty_object_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.Stringifier.generate_pretty_object_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms the given list of ObjectMetadata objects into a
+list of strings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>object_list</strong> (<em>list</em><em> of </em><em>ObjectMetadata objects</em>) – The input list.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of strings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="machine_common_sense.Stringifier.value_to_str">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">value_to_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/machine_common_sense/stringifier.html#Stringifier.value_to_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.Stringifier.value_to_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms the given value into a string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_value</strong> – The input value.</p></li>
+<li><p><strong>depth</strong> (<em>int</em><em>, </em><em>optional</em>) – The indent depth (default 0).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="machine_common_sense.Stringifier.vector_to_string">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vector_to_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/machine_common_sense/stringifier.html#Stringifier.vector_to_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.Stringifier.vector_to_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms the given vector into a string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>vector</strong> (<em>dict</em>) – The input vector.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="machine_common_sense.UnityExecutableProvider">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">machine_common_sense.</span></span><span class="sig-name descname"><span class="pre">UnityExecutableProvider</span></span><a class="reference internal" href="_modules/machine_common_sense/unity_executable_provider.html#UnityExecutableProvider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.UnityExecutableProvider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Automatically provides MCS AI2-THOR Unity executable for the MCS
+package. Will check a cache and download if necessary</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="machine_common_sense.UnityExecutableProvider.clear_cache">
+<span class="sig-name descname"><span class="pre">clear_cache</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/machine_common_sense/unity_executable_provider.html#UnityExecutableProvider.clear_cache"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.UnityExecutableProvider.clear_cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>clears the entire cache if no version is passed in, otherwise
+clears the specified version</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="machine_common_sense.UnityExecutableProvider.get_executable">
+<span class="sig-name descname"><span class="pre">get_executable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download_if_missing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_download</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Path</span></span></span><a class="reference internal" href="_modules/machine_common_sense/unity_executable_provider.html#UnityExecutableProvider.get_executable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.UnityExecutableProvider.get_executable" title="Permalink to this definition">¶</a></dt>
+<dd><p>For a given version, this will return the path to that executable
+or throw an exception if it cannot be found.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="machine_common_sense.change_config">
+<span class="sig-prename descclassname"><span class="pre">machine_common_sense.</span></span><span class="sig-name descname"><span class="pre">change_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">controller</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#machine_common_sense.Controller" title="machine_common_sense.controller.Controller"><span class="pre">Controller</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_file_or_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/machine_common_sense.html#change_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.change_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates and returns a new MCS Controller object.  Should only be called
+After a run and before a scene is changed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>controller</strong> (<a class="reference internal" href="#machine_common_sense.Controller" title="machine_common_sense.Controller"><em>Controller</em></a>) – The currently used controller that the config should be changed
+on.</p></li>
+<li><p><strong>config_file_or_dict</strong> (<em>str</em><em> or </em><em>dict</em><em>, </em><em>optional</em>) – Can be a path to configuration file to read in or a dictionary
+of various properties, such as metadata level and whether or
+not to save history files (default None)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="machine_common_sense.create_controller">
+<span class="sig-prename descclassname"><span class="pre">machine_common_sense.</span></span><span class="sig-name descname"><span class="pre">create_controller</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_file_or_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unity_app_file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unity_cache_version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/machine_common_sense.html#create_controller"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.create_controller" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates and returns a new MCS Controller object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config_file_or_dict</strong> (<em>str</em><em> or </em><em>dict</em><em>, </em><em>required</em>) – <p>Can be a path to configuration file to read in or a dictionary
+of various properties, such as metadata level and whether or
+not to save history files (default None)</p>
+<ul>
+<li><p>Note the <strong>order of precedence for config options</strong>, in case more
+than one is given:</p></li>
+</ul>
+<ol class="arabic simple">
+<li><p><strong>MCS_CONFIG_FILE_PATH</strong> environment variable (meant for internal
+TA2 use during evaluation)</p></li>
+<li><p>If no environment variable given, use <strong>config_file_or_dict</strong>
+parameter. The value can be a string file path or a dictionary.</p></li>
+<li><p>Raises FileNotFoundError if no config found.</p></li>
+</ol>
+</p></li>
+<li><p><strong>unity_app_file_path</strong> (<em>str</em><em>, </em><em>optional</em>) – The file path to your MCS Unity application.  If Not provided,
+the internal cache and downloader will attempt to locate and use
+the current version.
+(default None)</p></li>
+<li><p><strong>unity_cache_version</strong> (<em>str</em><em>, </em><em>optional</em>) – If no file path is provided for the MCS Unity application, the
+version provided will be found via cache and internal downloader.
+If not provided, the version matching the MCS code will be used.
+(default None)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The MCS Controller object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#machine_common_sense.Controller" title="machine_common_sense.Controller">Controller</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="machine_common_sense.get_controller">
+<span class="sig-prename descclassname"><span class="pre">machine_common_sense.</span></span><span class="sig-name descname"><span class="pre">get_controller</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unity_exec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigManager</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/machine_common_sense.html#get_controller"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.get_controller" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to get the controller, pulled into its own
+function so we can time it.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="machine_common_sense.get_controller_with_timeout">
+<span class="sig-prename descclassname"><span class="pre">machine_common_sense.</span></span><span class="sig-name descname"><span class="pre">get_controller_with_timeout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unity_exec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ConfigManager</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/machine_common_sense.html#get_controller_with_timeout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.get_controller_with_timeout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper function that sets a timeout for the controller creation.
+If getting the controller times out, None is returned.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="machine_common_sense.init_logging">
+<span class="sig-prename descclassname"><span class="pre">machine_common_sense.</span></span><span class="sig-name descname"><span class="pre">init_logging</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_config_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'log.config.user.py'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/machine_common_sense.html#init_logging"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.init_logging" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes logging system.  If no parameters are provided, a
+default configuration will be applied.  See python logging
+documentation for details.</p>
+<p><a class="reference external" href="https://docs.python.org/3/library/logging.config.html#logging-config-dictschema">https://docs.python.org/3/library/logging.config.html#logging-config-dictschema</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>log_config</strong> (<em>dict</em><em>, </em><em>optional</em>) – A dictionary the contains the logging configuration.  If None, a
+default configuration will be used</p></li>
+<li><p><strong>log_config_file</strong> (<em>str</em><em>, </em><em>optional</em>) – Path to an override configuration file.  The file will contain a
+python dictionary for the logging configuration.  This file is
+typically not used, but allows a user to change the logging
+configuration without code changes.  Default, log.config.user.py</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="machine_common_sense.load_scene_json_file">
+<span class="sig-prename descclassname"><span class="pre">machine_common_sense.</span></span><span class="sig-name descname"><span class="pre">load_scene_json_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scene_json_file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="reference internal" href="_modules/machine_common_sense.html#load_scene_json_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#machine_common_sense.load_scene_json_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads the given JSON scene config file and returns its data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config_json_file_path</strong> (<em>str</em>) – The file path to your MCS JSON scene configuration file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The MCS scene configuration data from the given JSON file.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>FileNotFoundError</strong> – </p></li>
+<li><p><strong>ValueError</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Python API</a><ul>
+<li><a class="reference internal" href="#machine_common_sense.Action"><code class="docutils literal notranslate"><span class="pre">Action</span></code></a><ul>
+<li><a class="reference internal" href="#machine_common_sense.Action.CLOSE_OBJECT"><code class="docutils literal notranslate"><span class="pre">Action.CLOSE_OBJECT</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Action.DROP_OBJECT"><code class="docutils literal notranslate"><span class="pre">Action.DROP_OBJECT</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Action.END_HABITUATION"><code class="docutils literal notranslate"><span class="pre">Action.END_HABITUATION</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Action.END_SCENE"><code class="docutils literal notranslate"><span class="pre">Action.END_SCENE</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Action.INITIALIZE"><code class="docutils literal notranslate"><span class="pre">Action.INITIALIZE</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Action.INTERACT_WITH_AGENT"><code class="docutils literal notranslate"><span class="pre">Action.INTERACT_WITH_AGENT</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Action.LOOK_DOWN"><code class="docutils literal notranslate"><span class="pre">Action.LOOK_DOWN</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Action.LOOK_UP"><code class="docutils literal notranslate"><span class="pre">Action.LOOK_UP</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Action.MOVE_AHEAD"><code class="docutils literal notranslate"><span class="pre">Action.MOVE_AHEAD</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Action.MOVE_BACK"><code class="docutils literal notranslate"><span class="pre">Action.MOVE_BACK</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Action.MOVE_LEFT"><code class="docutils literal notranslate"><span class="pre">Action.MOVE_LEFT</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Action.MOVE_OBJECT"><code class="docutils literal notranslate"><span class="pre">Action.MOVE_OBJECT</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Action.MOVE_RIGHT"><code class="docutils literal notranslate"><span class="pre">Action.MOVE_RIGHT</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Action.OPEN_OBJECT"><code class="docutils literal notranslate"><span class="pre">Action.OPEN_OBJECT</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Action.PASS"><code class="docutils literal notranslate"><span class="pre">Action.PASS</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Action.PICKUP_OBJECT"><code class="docutils literal notranslate"><span class="pre">Action.PICKUP_OBJECT</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Action.PULL_OBJECT"><code class="docutils literal notranslate"><span class="pre">Action.PULL_OBJECT</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Action.PUSH_OBJECT"><code class="docutils literal notranslate"><span class="pre">Action.PUSH_OBJECT</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Action.PUT_OBJECT"><code class="docutils literal notranslate"><span class="pre">Action.PUT_OBJECT</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Action.ROTATE_LEFT"><code class="docutils literal notranslate"><span class="pre">Action.ROTATE_LEFT</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Action.ROTATE_OBJECT"><code class="docutils literal notranslate"><span class="pre">Action.ROTATE_OBJECT</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Action.ROTATE_RIGHT"><code class="docutils literal notranslate"><span class="pre">Action.ROTATE_RIGHT</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Action.TORQUE_OBJECT"><code class="docutils literal notranslate"><span class="pre">Action.TORQUE_OBJECT</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Action.input_to_action_and_params"><code class="docutils literal notranslate"><span class="pre">Action.input_to_action_and_params()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#machine_common_sense.Controller"><code class="docutils literal notranslate"><span class="pre">Controller</span></code></a><ul>
+<li><a class="reference internal" href="#machine_common_sense.Controller.end_scene"><code class="docutils literal notranslate"><span class="pre">Controller.end_scene()</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Controller.get_metadata_level"><code class="docutils literal notranslate"><span class="pre">Controller.get_metadata_level()</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Controller.retrieve_object_states"><code class="docutils literal notranslate"><span class="pre">Controller.retrieve_object_states()</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Controller.start_scene"><code class="docutils literal notranslate"><span class="pre">Controller.start_scene()</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Controller.step"><code class="docutils literal notranslate"><span class="pre">Controller.step()</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Controller.stop_simulation"><code class="docutils literal notranslate"><span class="pre">Controller.stop_simulation()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#machine_common_sense.GoalCategory"><code class="docutils literal notranslate"><span class="pre">GoalCategory</span></code></a><ul>
+<li><a class="reference internal" href="#machine_common_sense.GoalCategory.AGENTS"><code class="docutils literal notranslate"><span class="pre">GoalCategory.AGENTS</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.GoalCategory.IMITATION"><code class="docutils literal notranslate"><span class="pre">GoalCategory.IMITATION</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.GoalCategory.INTUITIVE_PHYSICS"><code class="docutils literal notranslate"><span class="pre">GoalCategory.INTUITIVE_PHYSICS</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.GoalCategory.MULTI_RETRIEVAL"><code class="docutils literal notranslate"><span class="pre">GoalCategory.MULTI_RETRIEVAL</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.GoalCategory.PASSIVE"><code class="docutils literal notranslate"><span class="pre">GoalCategory.PASSIVE</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.GoalCategory.RETRIEVAL"><code class="docutils literal notranslate"><span class="pre">GoalCategory.RETRIEVAL</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#machine_common_sense.GoalMetadata"><code class="docutils literal notranslate"><span class="pre">GoalMetadata</span></code></a><ul>
+<li><a class="reference internal" href="#machine_common_sense.GoalMetadata.retrieve_action_list_at_step"><code class="docutils literal notranslate"><span class="pre">GoalMetadata.retrieve_action_list_at_step()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#machine_common_sense.Material"><code class="docutils literal notranslate"><span class="pre">Material</span></code></a><ul>
+<li><a class="reference internal" href="#machine_common_sense.Material.CERAMIC"><code class="docutils literal notranslate"><span class="pre">Material.CERAMIC</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Material.FABRIC"><code class="docutils literal notranslate"><span class="pre">Material.FABRIC</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Material.FOOD"><code class="docutils literal notranslate"><span class="pre">Material.FOOD</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Material.GLASS"><code class="docutils literal notranslate"><span class="pre">Material.GLASS</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Material.METAL"><code class="docutils literal notranslate"><span class="pre">Material.METAL</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Material.ORGANIC"><code class="docutils literal notranslate"><span class="pre">Material.ORGANIC</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Material.PAPER"><code class="docutils literal notranslate"><span class="pre">Material.PAPER</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Material.PLASTIC"><code class="docutils literal notranslate"><span class="pre">Material.PLASTIC</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Material.RUBBER"><code class="docutils literal notranslate"><span class="pre">Material.RUBBER</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Material.SOAP"><code class="docutils literal notranslate"><span class="pre">Material.SOAP</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Material.SPONGE"><code class="docutils literal notranslate"><span class="pre">Material.SPONGE</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Material.STONE"><code class="docutils literal notranslate"><span class="pre">Material.STONE</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Material.UNDEFINED"><code class="docutils literal notranslate"><span class="pre">Material.UNDEFINED</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Material.WAX"><code class="docutils literal notranslate"><span class="pre">Material.WAX</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Material.WOOD"><code class="docutils literal notranslate"><span class="pre">Material.WOOD</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Material.verify_material_enum_string"><code class="docutils literal notranslate"><span class="pre">Material.verify_material_enum_string()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#machine_common_sense.ObjectMetadata"><code class="docutils literal notranslate"><span class="pre">ObjectMetadata</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.ReturnStatus"><code class="docutils literal notranslate"><span class="pre">ReturnStatus</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Reward"><code class="docutils literal notranslate"><span class="pre">Reward</span></code></a><ul>
+<li><a class="reference internal" href="#machine_common_sense.Reward.calculate_reward"><code class="docutils literal notranslate"><span class="pre">Reward.calculate_reward()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#machine_common_sense.SerializerMsgPack"><code class="docutils literal notranslate"><span class="pre">SerializerMsgPack</span></code></a><ul>
+<li><a class="reference internal" href="#machine_common_sense.SerializerMsgPack.serialize"><code class="docutils literal notranslate"><span class="pre">SerializerMsgPack.serialize()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#machine_common_sense.StepMetadata"><code class="docutils literal notranslate"><span class="pre">StepMetadata</span></code></a><ul>
+<li><a class="reference internal" href="#machine_common_sense.StepMetadata.copy_without_depth_or_images"><code class="docutils literal notranslate"><span class="pre">StepMetadata.copy_without_depth_or_images()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#machine_common_sense.Stringifier"><code class="docutils literal notranslate"><span class="pre">Stringifier</span></code></a><ul>
+<li><a class="reference internal" href="#machine_common_sense.Stringifier.class_to_str"><code class="docutils literal notranslate"><span class="pre">Stringifier.class_to_str()</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Stringifier.generate_pretty_object_output"><code class="docutils literal notranslate"><span class="pre">Stringifier.generate_pretty_object_output()</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Stringifier.value_to_str"><code class="docutils literal notranslate"><span class="pre">Stringifier.value_to_str()</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.Stringifier.vector_to_string"><code class="docutils literal notranslate"><span class="pre">Stringifier.vector_to_string()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#machine_common_sense.UnityExecutableProvider"><code class="docutils literal notranslate"><span class="pre">UnityExecutableProvider</span></code></a><ul>
+<li><a class="reference internal" href="#machine_common_sense.UnityExecutableProvider.clear_cache"><code class="docutils literal notranslate"><span class="pre">UnityExecutableProvider.clear_cache()</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.UnityExecutableProvider.get_executable"><code class="docutils literal notranslate"><span class="pre">UnityExecutableProvider.get_executable()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#machine_common_sense.change_config"><code class="docutils literal notranslate"><span class="pre">change_config()</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.create_controller"><code class="docutils literal notranslate"><span class="pre">create_controller()</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.get_controller"><code class="docutils literal notranslate"><span class="pre">get_controller()</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.get_controller_with_timeout"><code class="docutils literal notranslate"><span class="pre">get_controller_with_timeout()</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.init_logging"><code class="docutils literal notranslate"><span class="pre">init_logging()</span></code></a></li>
+<li><a class="reference internal" href="#machine_common_sense.load_scene_json_file"><code class="docutils literal notranslate"><span class="pre">load_scene_json_file()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="examples.html"
+                          title="previous chapter">Example Usage</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="scenes.html"
+                          title="next chapter">Example Scenes</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/api.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="scenes.html" title="Example Scenes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="examples.html" title="Example Usage"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Machine Common Sense  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Python API</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, CACI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+    </div>
+  </body>
+</html>

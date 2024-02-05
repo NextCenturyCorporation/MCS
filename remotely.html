@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Running Remotely &#8212; Machine Common Sense  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Package Developer Notes" href="dev.html" />
+    <link rel="prev" title="Containerization" href="containerize.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dev.html" title="Package Developer Notes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="containerize.html" title="Containerization"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Machine Common Sense  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Running Remotely</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="running-remotely">
+<h1>Running Remotely<a class="headerlink" href="#running-remotely" title="Permalink to this heading">¶</a></h1>
+<p>Requirements:</p>
+<ul class="simple">
+<li><p>Make sure your system has Python 3.7 or greater.</p></li>
+<li><p>Make sure MCS has been installed per the install instructions</p></li>
+</ul>
+<p>To run MCS on a remote GPU server, use the following steps to launch an X11 server.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span># Update and install dependencies
+$ sudo apt-get install xserver-xorg
+$ sudo apt-get install xorg
+$ sudo apt-get install nvidia-driver-470
+$ sudo apt-get install glxinfo
+
+# Identify your machine&#39;s GPU BusID
+$ nvidia-xconfig --query-gpu-info
+GPU #0:
+Name      : Tesla K80
+UUID      : GPU-d03a3d49-0641-40c9-30f2-5c3e4bdad498
+PCI BusID : PCI:0:30:0
+
+# Create the Xserver configuration using the BusID
+# Your virtual display size should be much larger than the MCS Unity window size (default 600x400)
+$ sudo nvidia-xconfig --use-display-device=None --virtual=1200x800 --output-xconfig=/etc/X11/xorg.conf --busid=PCI:0:30:0
+
+# Launch Xserver
+$ sudo /usr/bin/Xorg :0 &amp;
+
+# Test the display setting using glxinfo
+$ DISPLAY=:0 glxinfo
+name of display: :0
+display: :0  screen: 0
+direct rendering: Yes
+server glx vendor string: NVIDIA Corporation
+server glx version string: 1.4
+</pre></div>
+</div>
+<section id="remote-cache-addressables-script">
+<h2>Remote Cache Addressables Script<a class="headerlink" href="#remote-cache-addressables-script" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>Activate<span class="w"> </span>your<span class="w"> </span>python<span class="w"> </span>virtual<span class="w"> </span>environment
+<span class="gp">$ </span><span class="nv">DISPLAY</span><span class="o">=</span>:0<span class="w"> </span>cache_addressables
+</pre></div>
+</div>
+</section>
+<section id="remote-runs-on-aws">
+<h2>Remote Runs on AWS<a class="headerlink" href="#remote-runs-on-aws" title="Permalink to this heading">¶</a></h2>
+<p>The following code was run on an AWS p2-xlarge with the Ubuntu Deep Learning AMI.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Follow the instructions listed above to launch Xserver</span>
+$<span class="w"> </span>sudo<span class="w"> </span>nvidia-xconfig<span class="w"> </span>--use-display-device<span class="o">=</span>None<span class="w"> </span>--virtual<span class="o">=</span>1200x800<span class="w"> </span>--output-xconfig<span class="o">=</span>/etc/X11/xorg.conf<span class="w"> </span>--busid<span class="o">=</span>PCI:0:30:0
+$<span class="w"> </span>sudo<span class="w"> </span>/usr/bin/Xorg<span class="w"> </span>:0<span class="w"> </span><span class="p">&amp;</span>
+
+<span class="c1"># Download the MCS repository</span>
+$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/NextCenturyCorporation/MCS.git
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>MCS
+
+<span class="c1"># Install and activate a new python virtual environment</span>
+$<span class="w"> </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>python3-venv
+$<span class="w"> </span>sudo<span class="w"> </span>update-alternatives<span class="w"> </span>--install<span class="w"> </span>/usr/bin/python<span class="w"> </span>python<span class="w"> </span>/usr/bin/python3<span class="w"> </span><span class="m">1</span>
+$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
+$<span class="w"> </span>.<span class="w"> </span>venv/bin/activate
+
+<span class="c1"># Install the python dependencies</span>
+$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip<span class="w"> </span>setuptools<span class="w"> </span>wheel
+$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+
+<span class="c1"># Do a test run</span>
+$<span class="w"> </span>python<span class="w"> </span>machine_common_sense/scripts/run_just_rotate.py<span class="w"> </span>docs/source/scenes/ball_far.json
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Running Remotely</a><ul>
+<li><a class="reference internal" href="#remote-cache-addressables-script">Remote Cache Addressables Script</a></li>
+<li><a class="reference internal" href="#remote-runs-on-aws">Remote Runs on AWS</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="containerize.html"
+                          title="previous chapter">Containerization</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="dev.html"
+                          title="next chapter">Package Developer Notes</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/remotely.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dev.html" title="Package Developer Notes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="containerize.html" title="Containerization"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Machine Common Sense  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Running Remotely</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, CACI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+    </div>
+  </body>
+</html>

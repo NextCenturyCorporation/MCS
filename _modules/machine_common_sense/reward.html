@@ -1,0 +1,282 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>machine_common_sense.reward &#8212; Machine Common Sense  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/classic.css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Machine Common Sense  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../machine_common_sense.html" accesskey="U">machine_common_sense</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">machine_common_sense.reward</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for machine_common_sense.reward</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">typeguard</span>
+<span class="kn">from</span> <span class="nn">shapely</span> <span class="kn">import</span> <span class="n">geometry</span>
+
+<span class="kn">from</span> <span class="nn">.goal_metadata</span> <span class="kn">import</span> <span class="n">GoalCategory</span><span class="p">,</span> <span class="n">GoalMetadata</span>
+
+<span class="n">GOAL_ACHIEVED</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">GOAL_NOT_ACHIEVED</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">STEP_PENALTY</span> <span class="o">=</span> <span class="mf">0.001</span>
+<span class="n">LAVA_PENALTY</span> <span class="o">=</span> <span class="mf">100.0</span>
+
+
+<div class="viewcode-block" id="Reward"><a class="viewcode-back" href="../../api.html#machine_common_sense.Reward">[docs]</a><span class="k">class</span> <span class="nc">Reward</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Reward utility class&#39;&#39;&#39;</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">__get_object_from_list</span><span class="p">(</span><span class="n">objects</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">],</span>
+                               <span class="n">target_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Finds an object in a list. Uses a generator to return the first item</span>
+<span class="sd">        or defaults to None if the target isn&#39;t found.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            objects: list of object dictionaries</span>
+<span class="sd">            target_id: str objectId of the object to find</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            target: object dictionary if found or None</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="nb">next</span><span class="p">((</span><span class="n">o</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">objects</span> <span class="k">if</span> <span class="n">o</span><span class="p">[</span><span class="s1">&#39;objectId&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">target_id</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_convert_object_to_planar_polygon</span><span class="p">(</span>
+            <span class="n">goal_object</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">geometry</span><span class="o">.</span><span class="n">Polygon</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Project goal object bounds (x,y,z) to an XZ planar polygon.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            goal_object: dict</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            polygons: shapely.geometry.Polygon</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">bbox3d</span> <span class="o">=</span> <span class="n">goal_object</span><span class="p">[</span><span class="s1">&#39;objectBounds&#39;</span><span class="p">][</span><span class="s1">&#39;objectBoundsCorners&#39;</span><span class="p">]</span>
+        <span class="c1"># project to XZ plane</span>
+        <span class="n">xz_pts</span> <span class="o">=</span> <span class="p">[(</span><span class="n">pt</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">pt</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">pt</span> <span class="ow">in</span> <span class="n">bbox3d</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">geometry</span><span class="o">.</span><span class="n">MultiPoint</span><span class="p">(</span><span class="n">xz_pts</span><span class="p">)</span><span class="o">.</span><span class="n">convex_hull</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_calc_retrieval_reward</span><span class="p">(</span>
+            <span class="n">goal</span><span class="p">:</span> <span class="n">GoalMetadata</span><span class="p">,</span>
+            <span class="n">objects</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+            <span class="n">agent</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+            <span class="n">performer_reach</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+            <span class="n">goal_reward</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">GOAL_ACHIEVED</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Calculate the reward for the retrieval goal.</span>
+
+<span class="sd">        The goal object must be in the agent&#39;s hand.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            goal: GoalMetadata</span>
+<span class="sd">            objects: Dict</span>
+<span class="sd">            agent: Dict</span>
+<span class="sd">            performer_reach: float</span>
+<span class="sd">            goal_reward: float</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: 1 for goal achieved and no goal_reward arg is given,</span>
+<span class="sd">            goal_reward value if goal_reward arg is given, 0 otherwise.</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">reward</span> <span class="o">=</span> <span class="n">GOAL_NOT_ACHIEVED</span>
+        <span class="n">goal_objects</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">metadata</span> <span class="o">=</span> <span class="n">goal</span><span class="o">.</span><span class="n">metadata</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="c1"># Different goal categories may use different property names</span>
+        <span class="n">target_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">,</span> <span class="s1">&#39;targets&#39;</span><span class="p">]</span>
+        <span class="c1"># Get the total number of targets.</span>
+        <span class="n">pickup_number</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;pickup_number&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">target_name</span> <span class="ow">in</span> <span class="n">target_names</span><span class="p">:</span>
+            <span class="c1"># Some properties may be dicts, and some may be lists of dicts</span>
+            <span class="n">targets</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">target_name</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]</span>
+            <span class="n">targets</span> <span class="o">=</span> <span class="n">targets</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="p">[</span><span class="n">targets</span><span class="p">]</span>
+            <span class="c1"># If pickup_number was not defined, use the list&#39;s length.</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">pickup_number</span><span class="p">:</span>
+                <span class="n">pickup_number</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">:</span>
+                <span class="n">goal_id</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+                <span class="n">goal_object</span> <span class="o">=</span> <span class="n">Reward</span><span class="o">.</span><span class="n">__get_object_from_list</span><span class="p">(</span><span class="n">objects</span><span class="p">,</span> <span class="n">goal_id</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">goal_object</span><span class="p">:</span>
+                    <span class="n">goal_objects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">goal_object</span><span class="p">)</span>
+
+        <span class="n">picked_up</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span>
+            <span class="n">object_metadata</span> <span class="k">for</span> <span class="n">object_metadata</span> <span class="ow">in</span> <span class="n">goal_objects</span>
+            <span class="k">if</span> <span class="n">object_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;wasPickedUp&#39;</span><span class="p">)</span>
+        <span class="p">])</span>
+        <span class="c1"># Attain the reward if the required number of targets were picked-up.</span>
+        <span class="k">if</span> <span class="n">goal_objects</span> <span class="ow">and</span> <span class="n">pickup_number</span> <span class="ow">and</span> <span class="n">picked_up</span> <span class="o">&gt;=</span> <span class="n">pickup_number</span><span class="p">:</span>
+            <span class="n">reward</span> <span class="o">=</span> <span class="n">goal_reward</span>
+
+        <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">reward</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_adjust_score_penalty</span><span class="p">(</span>
+            <span class="n">current_score</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+            <span class="n">number_steps</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+            <span class="n">steps_on_lava</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+            <span class="n">lava_penalty</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">LAVA_PENALTY</span><span class="p">,</span>
+            <span class="n">step_penalty</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">STEP_PENALTY</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Calculate the score penalty based on the number of steps,</span>
+<span class="sd">        if the current step results in a reward being achieved do</span>
+<span class="sd">        not penalize them for the step that resulted in the goal</span>
+<span class="sd">        being achieved.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            current_score: 1 or 0 depending if reward achieved</span>
+<span class="sd">            number_steps: the current step count</span>
+<span class="sd">            steps_on_lava: the number of total steps on lava</span>
+<span class="sd">            lava_penalty: the point deduction for each step on lava</span>
+<span class="sd">            step_penalty: point deduction for each step</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: new score based off of step penalty</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">step_penalty</span> <span class="o">=</span> <span class="n">STEP_PENALTY</span> <span class="k">if</span> <span class="n">step_penalty</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">step_penalty</span>
+        <span class="n">lava_penalty</span> <span class="o">=</span> <span class="n">LAVA_PENALTY</span> <span class="k">if</span> <span class="n">lava_penalty</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">lava_penalty</span>
+        <span class="k">if</span> <span class="n">current_score</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">current_score</span> <span class="o">-</span> <span class="p">((</span><span class="n">number_steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">step_penalty</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">steps_on_lava</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">steps_on_lava</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="n">current_score</span> <span class="o">-</span> <span class="p">(</span><span class="n">number_steps</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">step_penalty</span><span class="p">))</span> <span class="o">-</span> \
+            <span class="p">(</span><span class="n">steps_on_lava</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">lava_penalty</span><span class="p">))</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_calculate_default_reward</span><span class="p">(</span>
+            <span class="n">goal</span><span class="p">:</span> <span class="n">GoalMetadata</span><span class="p">,</span>
+            <span class="n">objects</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+            <span class="n">agent</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+            <span class="n">reach</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+            <span class="n">goal_reward</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">GOAL_ACHIEVED</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Returns the default reward of 0; not achieved.&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">GOAL_NOT_ACHIEVED</span>
+
+<div class="viewcode-block" id="Reward.calculate_reward"><a class="viewcode-back" href="../../api.html#machine_common_sense.Reward.calculate_reward">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="nd">@typeguard</span><span class="o">.</span><span class="n">typechecked</span>
+    <span class="k">def</span> <span class="nf">calculate_reward</span><span class="p">(</span>
+            <span class="n">goal</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">GoalMetadata</span><span class="p">],</span>
+            <span class="n">objects</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">],</span>
+            <span class="n">agent</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span>
+            <span class="n">number_steps</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+            <span class="n">reach</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+            <span class="n">steps_on_lava</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">lava_penalty</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">LAVA_PENALTY</span><span class="p">,</span>
+            <span class="n">step_penalty</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">STEP_PENALTY</span><span class="p">,</span>
+            <span class="n">goal_reward</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">GOAL_ACHIEVED</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Determine if the agent achieved the goal.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            goal: GoalMetadata</span>
+<span class="sd">            objects: Dict</span>
+<span class="sd">            agent: Dict</span>
+<span class="sd">            reach: float</span>
+<span class="sd">            steps_on_lava: int</span>
+<span class="sd">            lava_penalty: float</span>
+<span class="sd">            step_penalty: float</span>
+<span class="sd">            goal_reward: float</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: reward is 1 if goal achieved, 0 otherwise</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="n">category</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">goal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">goal</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
+            <span class="n">category</span> <span class="o">=</span> <span class="n">goal</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="n">switch</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">GoalCategory</span><span class="o">.</span><span class="n">IMITATION</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="n">Reward</span><span class="o">.</span><span class="n">_calc_retrieval_reward</span><span class="p">,</span>
+            <span class="n">GoalCategory</span><span class="o">.</span><span class="n">RETRIEVAL</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="n">Reward</span><span class="o">.</span><span class="n">_calc_retrieval_reward</span><span class="p">,</span>
+            <span class="n">GoalCategory</span><span class="o">.</span><span class="n">MULTI_RETRIEVAL</span><span class="o">.</span><span class="n">value</span><span class="p">:</span> <span class="n">Reward</span><span class="o">.</span><span class="n">_calc_retrieval_reward</span>
+        <span class="p">}</span>
+
+        <span class="n">current_score</span> <span class="o">=</span> <span class="n">switch</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">category</span><span class="p">,</span> <span class="n">Reward</span><span class="o">.</span><span class="n">_calculate_default_reward</span><span class="p">)(</span>
+            <span class="n">goal</span><span class="p">,</span>
+            <span class="n">objects</span><span class="p">,</span>
+            <span class="n">agent</span><span class="p">,</span>
+            <span class="n">reach</span><span class="p">,</span>
+            <span class="n">GOAL_ACHIEVED</span> <span class="k">if</span> <span class="n">goal_reward</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">goal_reward</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">Reward</span><span class="o">.</span><span class="n">_adjust_score_penalty</span><span class="p">(</span>
+            <span class="n">current_score</span><span class="p">,</span> <span class="n">number_steps</span><span class="p">,</span> <span class="n">steps_on_lava</span><span class="p">,</span> <span class="n">lava_penalty</span><span class="p">,</span>
+            <span class="n">step_penalty</span>
+        <span class="p">)</span></div></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Machine Common Sense  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../machine_common_sense.html" >machine_common_sense</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">machine_common_sense.reward</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, CACI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+    </div>
+  </body>
+</html>

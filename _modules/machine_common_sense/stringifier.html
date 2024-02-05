@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>machine_common_sense.stringifier &#8212; Machine Common Sense  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/classic.css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Machine Common Sense  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../machine_common_sense.html" accesskey="U">machine_common_sense</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">machine_common_sense.stringifier</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for machine_common_sense.stringifier</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Stringifier"><a class="viewcode-back" href="../../api.html#machine_common_sense.Stringifier">[docs]</a><span class="k">class</span> <span class="nc">Stringifier</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Defines functions to turn objects into strings for debugging and</span>
+<span class="sd">    human readable output.  It is not intended to be reconstructed</span>
+<span class="sd">    which is why this is seperate from serialization</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">NUMBER_OF_DECIMALS</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="n">NUMBER_OF_SPACES</span> <span class="o">=</span> <span class="mi">4</span>
+
+<div class="viewcode-block" id="Stringifier.class_to_str"><a class="viewcode-back" href="../../api.html#machine_common_sense.Stringifier.class_to_str">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">class_to_str</span><span class="p">(</span><span class="n">input_class</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms the given class into a string.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        input_value</span>
+<span class="sd">            The input class.</span>
+<span class="sd">        depth : int, optional</span>
+<span class="sd">            The indent depth (default 0).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">this_indent</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="n">Stringifier</span><span class="o">.</span><span class="n">NUMBER_OF_SPACES</span> <span class="o">*</span> <span class="n">depth</span>
+        <span class="n">next_indent</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="n">Stringifier</span><span class="o">.</span><span class="n">NUMBER_OF_SPACES</span> <span class="o">*</span> <span class="p">(</span><span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">props</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">prop_key</span><span class="p">:</span> <span class="n">prop_value</span>
+            <span class="k">for</span> <span class="n">prop_key</span><span class="p">,</span> <span class="n">prop_value</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">(</span><span class="n">input_class</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">prop_key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">callable</span><span class="p">(</span><span class="n">prop_value</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="n">text_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">next_indent</span> <span class="o">+</span>
+                     <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span>
+                     <span class="n">prop_key</span> <span class="o">+</span>
+                     <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">: &quot;</span> <span class="o">+</span>
+                     <span class="n">Stringifier</span><span class="o">.</span><span class="n">value_to_str</span><span class="p">(</span>
+                         <span class="n">prop_value</span><span class="p">,</span>
+                         <span class="n">depth</span> <span class="o">+</span>
+                         <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">prop_key</span><span class="p">,</span> <span class="n">prop_value</span> <span class="ow">in</span> <span class="n">props</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">text_list</span> <span class="k">else</span> <span class="s2">&quot;{</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> \
+            <span class="p">(</span><span class="s2">&quot;,</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text_list</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">this_indent</span> <span class="o">+</span> <span class="s2">&quot;}&quot;</span></div>
+
+<div class="viewcode-block" id="Stringifier.generate_pretty_object_output"><a class="viewcode-back" href="../../api.html#machine_common_sense.Stringifier.generate_pretty_object_output">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">generate_pretty_object_output</span><span class="p">(</span><span class="n">object_list</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms the given list of ObjectMetadata objects into a</span>
+<span class="sd">        list of strings.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        object_list : list of ObjectMetadata objects</span>
+<span class="sd">            The input list.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of strings</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO What else should we show here?</span>
+        <span class="n">titles</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;OBJECT ID&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;SHAPE&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;COLORS&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;HELD&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;VISIBLE&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;STATE&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;POSITION (WORLD)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;DISTANCE (WORLD)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;DIRECTION (WORLD)&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;DIMENSIONS (WORLD)&quot;</span>
+        <span class="p">]</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="p">[</span><span class="n">titles</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span>
+            <span class="p">[</span>
+                <span class="n">metadata</span><span class="o">.</span><span class="n">uuid</span><span class="p">,</span>
+                <span class="n">metadata</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">texture_color_list</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">texture_color_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">else</span> <span class="n">metadata</span><span class="o">.</span><span class="n">texture_color_list</span><span class="p">,</span>
+                <span class="n">metadata</span><span class="o">.</span><span class="n">held</span><span class="p">,</span>
+                <span class="n">metadata</span><span class="o">.</span><span class="n">visible</span><span class="p">,</span>
+                <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">state_list</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">state_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">else</span> <span class="n">metadata</span><span class="o">.</span><span class="n">state_list</span><span class="p">,</span>
+                <span class="n">Stringifier</span><span class="o">.</span><span class="n">vector_to_string</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">position</span><span class="p">),</span>
+                <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span>
+                    <span class="n">metadata</span><span class="o">.</span><span class="n">distance_in_world</span><span class="p">,</span>
+                    <span class="n">Stringifier</span><span class="o">.</span><span class="n">NUMBER_OF_DECIMALS</span>
+                <span class="p">)),</span>
+                <span class="n">Stringifier</span><span class="o">.</span><span class="n">vector_to_string</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">direction</span><span class="p">),</span>
+                <span class="p">(</span>
+                    <span class="p">(</span>
+                        <span class="s2">&quot;[&quot;</span> <span class="o">+</span>
+                        <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                            <span class="n">Stringifier</span><span class="o">.</span><span class="n">vector_to_string</span><span class="p">(</span><span class="n">corner</span><span class="p">)</span>
+                            <span class="k">for</span> <span class="n">corner</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">dimensions</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span> <span class="o">+</span>
+                    <span class="s2">&quot;]&quot;</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">metadata</span><span class="o">.</span><span class="n">dimensions</span>
+                <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="p">]</span>
+            <span class="k">for</span> <span class="n">metadata</span> <span class="ow">in</span> <span class="n">object_list</span>
+        <span class="p">]</span>
+
+        <span class="n">widths</span> <span class="o">=</span> <span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">)</span>
+                  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">titles</span><span class="p">))]</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="s2">&quot;  &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">widths</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)))</span>
+            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span>
+        <span class="p">]</span></div>
+
+<div class="viewcode-block" id="Stringifier.value_to_str"><a class="viewcode-back" href="../../api.html#machine_common_sense.Stringifier.value_to_str">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">value_to_str</span><span class="p">(</span><span class="n">input_value</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms the given value into a string.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        input_value</span>
+<span class="sd">            The input value.</span>
+<span class="sd">        depth : int, optional</span>
+<span class="sd">            The indent depth (default 0).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">this_indent</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="n">Stringifier</span><span class="o">.</span><span class="n">NUMBER_OF_SPACES</span> <span class="o">*</span> <span class="n">depth</span>
+        <span class="n">next_indent</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="n">Stringifier</span><span class="o">.</span><span class="n">NUMBER_OF_SPACES</span> <span class="o">*</span> <span class="p">(</span><span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">input_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;null&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">text_list</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">next_indent</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">dict_key</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">: &quot;</span> <span class="o">+</span>
+                <span class="n">Stringifier</span><span class="o">.</span><span class="n">value_to_str</span><span class="p">(</span><span class="n">dict_value</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">dict_key</span><span class="p">,</span> <span class="n">dict_value</span> <span class="ow">in</span> <span class="n">input_value</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="p">]</span>
+            <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">text_list</span> <span class="k">else</span> <span class="s2">&quot;{</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> \
+                <span class="p">(</span><span class="s2">&quot;,</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text_list</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">this_indent</span> <span class="o">+</span> <span class="s2">&quot;}&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_value</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+            <span class="n">input_value_as_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">input_value</span><span class="p">)</span>
+            <span class="n">condense</span> <span class="o">=</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span>
+                <span class="nb">isinstance</span><span class="p">(</span><span class="n">list_item</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">list_item</span> <span class="ow">in</span> <span class="n">input_value_as_list</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">condense</span><span class="p">:</span>
+                <span class="c1"># To condense the list output, remove all of the whitespace.</span>
+                <span class="n">text_list</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">Stringifier</span><span class="o">.</span><span class="n">value_to_str</span><span class="p">(</span><span class="n">list_item</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">list_item</span> <span class="ow">in</span> <span class="n">input_value_as_list</span>
+                <span class="p">]</span>
+                <span class="k">return</span> <span class="s2">&quot;[&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text_list</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
+            <span class="c1"># Else the list output will separate list elements with newlines.</span>
+            <span class="n">text_list</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">next_indent</span> <span class="o">+</span> <span class="n">Stringifier</span><span class="o">.</span><span class="n">value_to_str</span><span class="p">(</span><span class="n">list_item</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">list_item</span> <span class="ow">in</span> <span class="n">input_value_as_list</span>
+            <span class="p">]</span>
+            <span class="k">return</span> <span class="s2">&quot;[]&quot;</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">text_list</span> <span class="k">else</span> <span class="s2">&quot;[</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> \
+                <span class="p">(</span><span class="s2">&quot;,</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text_list</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">this_indent</span> <span class="o">+</span> <span class="s2">&quot;]&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_value</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;true&quot;</span> <span class="k">if</span> <span class="n">input_value</span> <span class="k">else</span> <span class="s2">&quot;false&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_value</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">float64</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">input_value</span><span class="p">,</span> <span class="n">Stringifier</span><span class="o">.</span><span class="n">NUMBER_OF_DECIMALS</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">input_value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">input_value</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\\\&quot;</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">input_value</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">this_indent</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Stringifier.vector_to_string"><a class="viewcode-back" href="../../api.html#machine_common_sense.Stringifier.vector_to_string">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">vector_to_string</span><span class="p">(</span><span class="n">vector</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms the given vector into a string.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vector : dict</span>
+<span class="sd">            The input vector.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="p">(</span>
+                <span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">vector</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">Stringifier</span><span class="o">.</span><span class="n">NUMBER_OF_DECIMALS</span><span class="p">))</span> <span class="o">+</span>
+                <span class="s1">&#39;,&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">vector</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="n">Stringifier</span><span class="o">.</span><span class="n">NUMBER_OF_DECIMALS</span><span class="p">))</span> <span class="o">+</span>
+                <span class="s1">&#39;,&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">vector</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">],</span>
+                                <span class="n">Stringifier</span><span class="o">.</span><span class="n">NUMBER_OF_DECIMALS</span><span class="p">))</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">vector</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s1">&#39;x&#39;</span> <span class="ow">in</span> <span class="n">vector</span> <span class="ow">and</span> <span class="s1">&#39;y&#39;</span> <span class="ow">in</span> <span class="n">vector</span> <span class="ow">and</span>
+            <span class="s1">&#39;z&#39;</span> <span class="ow">in</span> <span class="n">vector</span> <span class="k">else</span> <span class="s1">&#39;None&#39;</span>
+        <span class="p">)</span></div></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Machine Common Sense  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../machine_common_sense.html" >machine_common_sense</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">machine_common_sense.stringifier</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, CACI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+    </div>
+  </body>
+</html>

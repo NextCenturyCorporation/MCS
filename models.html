@@ -1,0 +1,369 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Adding 3D Models &#8212; Machine Common Sense  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Containerization" href="containerize.html" />
+    <link rel="prev" title="Scene File Schema" href="schema.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="containerize.html" title="Containerization"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="schema.html" title="Scene File Schema"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Machine Common Sense  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Adding 3D Models</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="adding-3d-models">
+<h1>Adding 3D Models<a class="headerlink" href="#adding-3d-models" title="Permalink to this heading">¶</a></h1>
+<p>Here are the steps to add your own 3D models into the MCS simulation environment. Each step is described in more detail below.</p>
+<ol class="arabic simple">
+<li><p>Download and open our Unity project (MCS fork of AI2-THOR) in the Unity Editor</p></li>
+<li><p>Import your 3D models into our Unity project as Unity Prefab objects</p></li>
+<li><p>Update your Unity Prefab objects with the correct AI2-THOR Unity scripts and subcomponents to work properly in the simulation environment</p></li>
+<li><p>Update the MCS object registry file with references to your new objects</p></li>
+<li><p>Manually test and verify that interaction with your new objects works as expected</p></li>
+<li><p>Build a new version of the Unity project containing your additions</p></li>
+<li><p>Update the Scene Generator with properties for your new objects</p></li>
+<li><p>Optionally, submit a Pull Request to contribute your new objects to our public project</p></li>
+</ol>
+<section id="limitations">
+<h2>Limitations<a class="headerlink" href="#limitations" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Currently, our simulation environment does not support soft-body physics objects like blankets or stuffed animals.</p></li>
+<li><p>We have not tried using animations, audio, or fluids yet, so we cannot guarantee their performance.</p></li>
+<li><p>Successfully integrating existing objects that are part of the original AI2-THOR project but not yet available in the MCS simulation environment may necessitate making MCS-specific adjustments to those objects.</p></li>
+<li><p>This is a manually-intensive procedure that requires using the Unity Editor. Since human perception is needed for indentifying the correct pixels to position bounding boxes around and/or inside specific parts of the 3D model, we’re not currently planning on making this procedure automated or dynamic. This is exactly how the MCS Core Team adds models into the simulation environment – we have no secret shortcuts here.</p></li>
+</ul>
+</section>
+<section id="download-and-open-mcs-in-the-unity-editor">
+<h2>1. Download and Open MCS in the Unity Editor<a class="headerlink" href="#download-and-open-mcs-in-the-unity-editor" title="Permalink to this heading">¶</a></h2>
+<p>Clone the <a class="reference external" href="https://github.com/NextCenturyCorporation/ai2thor">MCS fork of AI2-THOR</a> and follow the project’s <a class="reference external" href="https://github.com/NextCenturyCorporation/ai2thor#setup">setup instructions</a> to download and install the correct version of the Unity Editor and use it to load the MCS Unity project.</p>
+<img alt="https://mcs-documentation.s3.amazonaws.com/images/screenshot_unity_editor.png" src="https://mcs-documentation.s3.amazonaws.com/images/screenshot_unity_editor.png" />
+</section>
+<section id="import-your-models-into-unity-and-save-them-as-prefabs">
+<h2>2. Import Your Models into Unity and Save Them as Prefabs<a class="headerlink" href="#import-your-models-into-unity-and-save-them-as-prefabs" title="Permalink to this heading">¶</a></h2>
+<p>2A. Copy your 3D model into the <cite>/unity/Assets/Resources/MCS/</cite> folder (you can make a new subfolder for your models if you prefer).</p>
+<p>2B. Navigate to the folder containing your model using the Project window of the Unity Editor. You should see your model there as a thumbnail.</p>
+<p>2C. Click and drag your model’s thumbnail into the Scene window. Your model should appear in the empty scene, and the name of your model’s name should appear in the list in the Hierarchy window.</p>
+<p>2D. Click and drag your model’s name from the list in the Hierarchy window into your folder in the Project window. You should see a “Create Prefab” popup appear. Click the “Original Prefab” button to create a Unity Prefab file (“.prefab”) for your model. Please see the Unity Manual for more information about Prefabs.</p>
+</section>
+<section id="update-your-prefabs-in-unity">
+<h2>3. Update Your Prefabs in Unity<a class="headerlink" href="#update-your-prefabs-in-unity" title="Permalink to this heading">¶</a></h2>
+<img alt="https://mcs-documentation.s3.amazonaws.com/images/screenshot_sample_prefab.png" src="https://mcs-documentation.s3.amazonaws.com/images/screenshot_sample_prefab.png" />
+<p>3A. In the Hierarchy window, your model’s name in the list is an instantiation of the Prefab, called a Game Object. Next to the Game Object, click the right arrow (<cite>&gt;</cite>) on the right side of the list to edit the Prefab. This will change the Scene window to show a Prefab editing view. The Hierarchy window will now show just the Game Object. Depending on how your model was made, it may have one or more child Game Objects, shown as a nested view. Objects with multiple interactable parts (like, cabinet doors, drawers, and shelves) should have a child for each part. We’ll call the parent Game Object the Target. In the Hierarchy window, click on the Target and look at the Inspector window to verify that it has a MeshFilter, MeshRenderer, and material(s); if it doesn’t, then one of its children should have them (click on each child in turn).</p>
+<video controls="True" height="450" preload="auto" width="750"><source src="https://mcs-documentation.s3.amazonaws.com/videos/tutorial/adding_3d_models_tutorial_step_3a.mp4" type="video/mp4"></video><p>3B. Ideally, the Target should always be centered on the X/Z axis. First, in the Hierarchy window, click on the Target; then, in the Inspector window, in the Transform Component, zero out its Position. If the Target still isn’t centered, then the 3D model itself may be off-center: adjust the Position in the Target’s Transform Component to visually center the object on the X/Z axis. Failing to do this may cause the Scene Generator to generate buggy scenes containing clipping objects. The model’s Y position can be any value, but normally it’s either centered on the Y axis, or moved upward so that a position of Y=0 lets the object sit on the ground without clipping it. Take note of the Y position for step 7 later.</p>
+<video controls="True" height="450" preload="auto" width="750"><source src="https://mcs-documentation.s3.amazonaws.com/videos/tutorial/adding_3d_models_tutorial_step_3b.mp4" type="video/mp4"></video><p>3C. Click on the Target. In the Inspector window, set the <strong>Tag</strong> to <strong>“SimObjPhysics”</strong> and the <strong>Layer</strong> to <strong>“SimObjVisible”</strong>. Click on the Add Component button to add a <strong>Rigidbody</strong> Component to the Target. Ensure its “Use Gravity” is set to true.</p>
+<video controls="True" height="450" preload="auto" width="750"><source src="https://mcs-documentation.s3.amazonaws.com/videos/tutorial/adding_3d_models_tutorial_step_3c.mp4" type="video/mp4"></video><p>3D. In the Inspector window, review the Target’s existing Unity Components (the separate dropdown sections). If the Target (or any of its children) doesn’t have a <strong>Collider</strong> Component, you’ll have to add some. Please see the Unity Manual for more information about Colliders.</p>
+<ul class="simple">
+<li><p>In the Hierarchy window, right-click on the Target and create an Empty Child.</p></li>
+<li><p>In the Inspector window, rename it to <strong>“Colliders”</strong> and mark it <strong>Static</strong>.</p></li>
+<li><p>Right-click on the “Colliders” Game Object and create an Empty Child for each Collider you need to have.</p></li>
+<li><dl class="simple">
+<dt>On each “Colliders” child, in the Inspector window:</dt><dd><ul>
+<li><p>Rename it to a useful name.</p></li>
+<li><p>Add a <strong>Collider</strong> Component (normally a box, but sometimes others – note that all MeshColliders should be <strong>CONVEX</strong>).</p></li>
+<li><p>Adjust the Transform Component and/or Collider Component to visually position, rotate, and scale the Collider to the appropriate pixels.</p></li>
+<li><p>Set the <strong>Tag</strong> to <strong>“SimObjPhysics”</strong> and the <strong>Layer</strong> to <strong>“SimObjVisible”</strong>.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<video controls="True" height="450" preload="auto" width="750"><source src="https://mcs-documentation.s3.amazonaws.com/videos/tutorial/adding_3d_models_tutorial_step_3d.mp4" type="video/mp4"></video><p>3E. Next you must add “Visibility Points” along the visible pixel boundaries of your model. AI2-THOR raycasts from the performer agent to an object’s Visibility Points in order to determine if the object is visible (and can be an action target). The greater number of Visibility Points, the more accurate the visibility readings will be. Our suggestion is to position one Visibility Point at each of the object’s corners, plus one or more in a grid along each of the object’s 6 sides.</p>
+<ul class="simple">
+<li><p>In the Hierarchy window, right-click on the Target and create an Empty Child.</p></li>
+<li><p>In the Inspector window, rename it to <strong>“VisibilityPoints”</strong> (no space!) and mark it <strong>Static</strong>.</p></li>
+<li><p>Right-click on the “VisibilityPoints” Game Object and create an Empty Child for each Visibility Point you want to have.</p></li>
+<li><dl class="simple">
+<dt>On each Visibility Point Game Object, in the Inspector window:</dt><dd><ul>
+<li><p>Adjust the Transform Component to visually position the Visibility Point to the appropriate pixels. (To see the Visibility Point’s position in the Scene window, you can set a colored Icon on the Visibility Point Game Object using the cube button in the top-left corner of the Inspector window.)</p></li>
+<li><p>Set the <strong>Layer</strong> to <strong>“SimObjVisible”</strong>.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<video controls="True" height="450" preload="auto" width="750"><source src="https://mcs-documentation.s3.amazonaws.com/videos/tutorial/adding_3d_models_tutorial_step_3e.mp4" type="video/mp4"></video><p>3F. Next you must add a single “Bounding Box” containing the whole 3D model. You cannot reuse an existing Collider for this.</p>
+<ul class="simple">
+<li><p>In the Hierarchy window, right-click on the Target and create an Empty Child.</p></li>
+<li><p>In the Inspector window, rename it to <strong>“BoundingBox”</strong> (no space!) and set its <strong>Layer</strong> to <strong>“SimObjInvisible”</strong>.</p></li>
+<li><p>Click on the Add Component button to add a <strong>BoxCollider</strong> Component.</p></li>
+<li><p>In the BoxCollider Component, click the checkbox to mark it as <strong>NOT ACTIVE</strong>.</p></li>
+<li><p>Adjust the Transform Component (but not the BoxCollider Component – adjusting both makes it harder on us later) to visually position, rotate, and scale the Collider to the appropriate pixels completely enclosing the model. Take note of the position, rotation, and scale for step 7 later.</p></li>
+</ul>
+<video controls="True" height="450" preload="auto" width="750"><source src="https://mcs-documentation.s3.amazonaws.com/videos/tutorial/adding_3d_models_tutorial_step_3f.mp4" type="video/mp4"></video><p>3G. Next you must add a SimObjPhysics Component to the Target. This AI2-THOR Script enables interaction with the object.</p>
+<ul class="simple">
+<li><p>In the Hierarchy window, click on the Target.</p></li>
+<li><p>In the Inspector window, click on the Add Component button to add a <strong>SimObjPhysics</strong> Component.</p></li>
+<li><dl class="simple">
+<dt>In the SimObjPhysics (Script) Component:</dt><dd><ul>
+<li><p>Set the <strong>“Primary Property”</strong> to “Static” (for non-moveable objects), “Moveable”, or “Can Pickup” (a subset of Moveable).</p></li>
+<li><p>Set the <strong>“Secondary Properties”</strong> as needed (we use: “Receptacle” for objects on which you can use the PutObject action; “Can Open” for openable objects; “Stacking” for blocks). You will need to adjust the size of the “Secondary Properties” array before you can add new elements to it.</p></li>
+<li><p>Set the <strong>“Bounding Box”</strong> property to the “BoundingBox” Game Object that you made.</p></li>
+<li><p>Set the <strong>“Visibility Points”</strong> array property to have each Visibility Point Game Object that you made. This is easy if you right-click on the Inspector tab, click “Lock”, go to the Hierarchy window, use click-shift-click to select all Visibility Points simultaneously, and click-and-drag them over from the Hierarchy window onto the “Visibility Points” label in the SimObjPhysics (Script) Component.</p></li>
+<li><p>Set the <strong>“My Colliders”</strong> array property to have each Collider Game Object that you made.</p></li>
+<li><p>Optionally, set the “Salient Materials” property as needed.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<video controls="True" height="450" preload="auto" width="750"><source src="https://mcs-documentation.s3.amazonaws.com/videos/tutorial/adding_3d_models_tutorial_step_3g.mp4" type="video/mp4"></video><p>3H. If the Target is openable, like a cabinet or drawer, you must add a “Can Open_Object” Component to the Target. This AI2-THOR Script enables opening and closing the object and adjusting its visual appearance.</p>
+<ul class="simple">
+<li><p>In the Hierarchy window, click on the Target.</p></li>
+<li><p>In the Inspector window, click on the Add Component button to add a <strong>“Can Open_Object”</strong> Component.</p></li>
+<li><dl class="simple">
+<dt>In the “Can Open_Object” (Script) Component:</dt><dd><ul>
+<li><p>Set the <strong>“Moving Parts”</strong> property to the Target.</p></li>
+<li><p>Adjust the <strong>“Open Positions”</strong> and <strong>“Close Positions”</strong> to visually position, rotate, or scale the model to the approriate pixels for its “opened” and “closed” positions respectfully. Change the “Movement Type” property to “Slide”, “Rotate”, or “Scale” as needed, depending on how the model should change when it’s opened.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<video controls="True" height="450" preload="auto" width="750"><source src="https://mcs-documentation.s3.amazonaws.com/videos/tutorial/adding_3d_models_tutorial_step_3h.mp4" type="video/mp4"></video><p>3I. If the Target is a Receptacle (you want to enable the use of the PutObject action to place held objects on top of your Target):</p>
+<ul class="simple">
+<li><p>In the Hierarchy window, right-click on the Target and create an Empty Child.</p></li>
+<li><p>In the Inspector window, rename it to <strong>“ReceptacleTriggerBox”</strong> (no space!) and mark it <strong>Static</strong>.</p></li>
+<li><p>Set the <strong>Tag</strong> to <strong>“Receptacle”</strong> and the <strong>Layer</strong> to <strong>“SimObjInvisible”</strong>.</p></li>
+<li><p>Click on the Add Component button to add a <strong>BoxCollider</strong> Component.</p></li>
+<li><p>In the BoxCollider Component, set the <strong>“Is Trigger”</strong> property to true.</p></li>
+<li><p>Adjust the Transform Component (but not the BoxCollider Component – adjusting both makes it harder on us later) to visually position, rotate, and scale the Collider to the appropriate pixels completely enclosing the receptacle area on which held objects may be placed. (I’m not sure if the height actually matters).  Take note of the position, rotation, and scale for step 7 later.</p></li>
+<li><p>Click on the Add Component button to add a <strong>Contains</strong> Component.</p></li>
+</ul>
+<video controls="True" height="450" preload="auto" width="750"><source src="https://mcs-documentation.s3.amazonaws.com/videos/tutorial/adding_3d_models_tutorial_step_3i.mp4" type="video/mp4"></video><p>3J. For each distinct interactable part within the Target (like cabinet doors, drawers, and shelves):</p>
+<ul class="simple">
+<li><p>Right-click on the Target and create an Empty Child (we’ll call this the Sub-Target).</p></li>
+<li><p>Rename the Sub-Target to a useful name.</p></li>
+<li><p>In the Hierarchy window, click-and-drag to move the Game Object containing the MeshFilter and MeshRenderer Components corresponding to the Sub-Target under the Sub-Target.</p></li>
+<li><p>Repeat steps <strong>3C</strong>-<strong>3J</strong> (EXCEPT <strong>3F</strong>) on the Sub-Target.</p></li>
+</ul>
+<video controls="True" height="450" preload="auto" width="750"><source src="https://mcs-documentation.s3.amazonaws.com/videos/tutorial/adding_3d_models_tutorial_step_3j.mp4" type="video/mp4"></video><p>3K. In the Hierarchy window, click the left arrow (<cite>&lt;</cite>) in the top-left corner to save your Prefab and exit the editing view.</p>
+</section>
+<section id="update-the-object-registry-file">
+<h2>4. Update the Object Registry File<a class="headerlink" href="#update-the-object-registry-file" title="Permalink to this heading">¶</a></h2>
+<video controls="True" height="450" preload="auto" width="750"><source src="https://mcs-documentation.s3.amazonaws.com/videos/tutorial/adding_3d_models_tutorial_step_4.mp4" type="video/mp4"></video><p>In the MCS fork of AI2-THOR, in <cite>/unity/Assets/Resources/MCS/mcs_object_registry.json</cite>, add a new entry for your object that contains the following properties:</p>
+<ul class="simple">
+<li><p><cite>id</cite> (string): Your object’s unique ID which will correspond to the <cite>type</cite> property in MCS JSON scene files. Please ensure that you don’t use an ID/type that’s already taken (see our <a class="reference internal" href="schema.html"><span class="doc">SCHEMA doc</span></a> for the full list).</p></li>
+<li><p><cite>interactables</cite> (dict array): If your object has distinct interactable parts (see section 3J), list each one as a dict in this array. Each dict should have a string <cite>id</cite> property for the part’s unique object ID (for the object ID action parameters) and a string <cite>name</cite> property for a human-readable name.</p></li>
+<li><p><cite>materials</cite> (string array): The names of all the default Unity materials on your Prefab (like “BrownWood” or “Grey Metal”). Needed if your Prefab has multiple default Unity materials.</p></li>
+<li><dl class="simple">
+<dt><cite>resourceFile</cite> (string): The path to your object’s Prefab file, starting in the <cite>/unity/Assets/Resources/MCS/</cite> folder, and WITHOUT the <cite>.prefab</cite> extension. Examples:</dt><dd><ul>
+<li><p>If your Prefab file is <cite>/unity/Assets/Resources/MCS/thing.prefab</cite>, your <cite>resourceFile</cite> property should be <cite>thing</cite></p></li>
+<li><p>If your Prefab file is <cite>/unity/Assets/Resources/MCS/subfolder/thing.prefab</cite>, your <cite>resourceFile</cite> property should be <cite>subfolder/thing</cite></p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p><cite>shape</cite> (string): The object’s human-readable shape that’s returned in the Python output metadata.</p></li>
+</ul>
+<p>You can also add other properties to entries in the JSON object registry file. Most object properties supported in scene files (like <cite>moveable</cite>, <cite>pickupable</cite>, <cite>receptacle</cite>, or <cite>openable</cite>) are also supported in the object registry. Any properties defined for an object in the object registry file are applied to all instances of that object in all scenes. Please let us know if you’d like us to make some documentation on the available properties.</p>
+<p>Example:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ball&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;resourceFile&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;UnityAssetStore/Kindergarten_Interior/Prefabs/Ball 1&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;mass&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;pickupable&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;shape&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ball&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="manually-test-and-verify-your-objects">
+<h2>5. Manually Test and Verify Your Objects<a class="headerlink" href="#manually-test-and-verify-your-objects" title="Permalink to this heading">¶</a></h2>
+<video controls="True" height="450" preload="auto" width="750"><source src="https://mcs-documentation.s3.amazonaws.com/videos/tutorial/adding_3d_models_tutorial_step_5.mp4" type="video/mp4"></video><p>Create one or more MCS JSON scene files in the <cite>/unity/Assets/Resources/MCS/Scenes/</cite> folder containing your new object(s). Follow the <a class="reference external" href="https://github.com/NextCenturyCorporation/ai2thor#run">run instructions</a> to run your scenes in the Unity Editor and verify your new objects work as expected. Good behavior to test (and remember to test your actions using both the object IDs and the image pixel coordinates!):</p>
+<ul class="simple">
+<li><p>Moving into and around your object</p></li>
+<li><p>Picking up your object</p></li>
+<li><p>Dropping your object</p></li>
+<li><p>Placing your object onto/into a receptacle (with the PutObject action)</p></li>
+<li><p>If your object is a receptacle: Placing another object onto/into your object</p></li>
+<li><p>If your object is a container (a.k.a. an openable receptacle): Opening and closing your object</p></li>
+<li><p>If needed, using relevant actions on your object’s interactable parts (like cabinet doors, drawers, and shelves)</p></li>
+<li><p>Scaling your object in multiple dimensions</p></li>
+<li><p>Adding Unity Materials (colors/textures) to your object</p></li>
+<li><p>Interacting with your object from the side, rear, and other angles/viewpoints</p></li>
+</ul>
+</section>
+<section id="build-unity">
+<h2>6. Build Unity<a class="headerlink" href="#build-unity" title="Permalink to this heading">¶</a></h2>
+<p>Inside the Unity Editor, go to <cite>File-&gt;Build Settings</cite> to open the Build Settings popup window, then build the project by selecting your Target Platform and clicking the Build button.</p>
+</section>
+<section id="update-the-scene-generator">
+<h2>7. Update the Scene Generator<a class="headerlink" href="#update-the-scene-generator" title="Permalink to this heading">¶</a></h2>
+<video controls="True" height="450" preload="auto" width="750"><source src="https://mcs-documentation.s3.amazonaws.com/videos/tutorial/adding_3d_models_tutorial_step_7.mp4" type="video/mp4"></video><p>If you want to have your new objects appear in the random scenes made by our <a class="reference external" href="https://github.com/NextCenturyCorporation/mcs-scene-generator">Scene Generator</a>, you must add some information about each object (which we call an “object definition”) into the Scene Generator’s source code.</p>
+<p>For adding new objects into passive agent scenes, please skip to step 7D.</p>
+<p>7A. Open the relevant object definition file:</p>
+<ul class="simple">
+<li><p>For gravity support scenes, use the <a class="reference external" href="https://github.com/NextCenturyCorporation/mcs-scene-generator/blob/master/gravity_support_objects.py">gravity_support_objects.py</a> file.</p></li>
+<li><p>For other passive scenes, and all interactive scenes, use the <a class="reference external" href="https://github.com/NextCenturyCorporation/mcs-scene-generator/blob/master/objects.py">objects.py</a> file.</p></li>
+</ul>
+<p>7B. Create a new dict, give it a useful name starting with an underscore, and add the following properties:</p>
+<ul class="simple">
+<li><p><cite>type</cite> (string, required): The ID of your object, from the object registry file.</p></li>
+<li><p><cite>attributes</cite> (string array): Any attributes that you always want added to your object, like <cite>moveable</cite>, <cite>pickupable</cite>, <cite>receptacle</cite>, or <cite>openable</cite>. (This will be redundant if you already added these properties to the object’s entry in the object registry file – see step 4.) If you want to use your object as an obstacle or occluder (for interactive obstacle or occluder scenes), add <cite>obstacle</cite> and/or <cite>occluder</cite> to this array.</p></li>
+<li><p><cite>color</cite> (string): The color of your object, as a human-readable string. Not needed if using the <cite>materialCategory</cite> property.</p></li>
+<li><p><cite>dimensions</cite> (dict with <cite>x</cite>, <cite>y</cite>, and <cite>z</cite> float properties): The visual dimensions of your model’s bounding box as noted in step 3F.</p></li>
+<li><p><cite>enclosedAreas</cite> (array of dicts with string <cite>id</cite>, dict <cite>position</cite>, and dict <cite>dimensions</cite> properties; <cite>position</cite> and <cite>dimensions</cite> each have <cite>x</cite>, <cite>y</cite>, and <cite>z</cite> float properties): The enclosed areas of your object, if it’s a container or has openable parts (like cabinets or drawers). If the enclosed area is part of the object itself (it’s opened using the object’s ID), then the <cite>id</cite> can be set to an empty string. If the enclosed area is a distinct interactable part of your object (as listed in the <cite>interactables</cite> property of the object registry file – see step 4), then the <cite>id</cite> should be set to the same <cite>id</cite> listed in the corresponding <cite>interactables</cite> property. The <cite>position</cite> and <cite>dimensions</cite> should correspond to the <cite>position</cite> and <cite>scale</cite> noted in step 3I.</p></li>
+<li><p><cite>mass</cite> (float): The mass of your object.</p></li>
+<li><p><cite>materials</cite> (string array): If you want to assign a specific Unity material (color/texture) to your object, add a string here for the material path you want to use. See the <a class="reference external" href="https://github.com/NextCenturyCorporation/MCS/blob/master/machine_common_sense/scenes/SCHEMA.md#material-list">Material List</a> in our SCHEMA doc for the full list.</p></li>
+<li><p><cite>materialCategory</cite> (string array): If you want to assign a random Unity material (color/texture) to your object, add a string here for the material category you want to use. The material lists are in the <a class="reference external" href="https://github.com/NextCenturyCorporation/mcs-scene-generator/blob/master/materials.py">materials.py</a> file. If your object has multiple default Unity materials (as listed in the <cite>materials</cite> property of the object registry file – see step 4), you can have more than one material category strings in this array, and each will map to the corresponding index in the <cite>materials</cite> property. If you want to have multiple material category options, please nest them in separate dicts within a <cite>chooseMaterial</cite> array property.</p></li>
+<li><p><cite>positionY</cite> (float): The starting Y position that should always be assigned to your object (unless it’s on/in a receptacle). This will depend on how your model is positioned on the Y axis in its Prefab as noted in step 3B. If a position of Y=0 lets the object sit on the ground without clipping it, then your positionY should be 0. Otherwise, adjust your postionY to a positive number that lets the object sit on the ground without clipping it.</p></li>
+<li><p><cite>scale</cite> (dict with <cite>x</cite>, <cite>y</cite>, and <cite>z</cite> float properties): The scale you want applied to your object. The default scale of your object’s Prefab is multiplied by these values. If you want to have multiple scale options, please nest them in separate dicts within a <cite>chooseSize</cite> array property.</p></li>
+<li><p><cite>shape</cite> (string or string array): The shape of your object, as a human-readable string.</p></li>
+<li><p><cite>size</cite> (string): The size of your object, as a human-readable string. See the <a class="reference internal" href="api.html#machine_common_sense.GoalMetadata" title="machine_common_sense.GoalMetadata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">GoalMetadata</span></code></a> entry in our API doc for the sizes that our team uses.</p></li>
+</ul>
+<p>Example Object Definition:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ball&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;attributes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;moveable&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;pickupable&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;dimensions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;z&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;mass&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;materialCategory&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;rubber&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;positionY&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.25</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;scale&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;x&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;z&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.5</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;shape&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;ball&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;size&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;small&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>7C. Add your new object definitions to the relevant arrays of available objects:</p>
+<ul class="simple">
+<li><p>For all interactive scenes, in <cite>objects.py</cite>, see the <cite>_PICKUPABLES</cite>, <cite>_NOT_PICKUPABLES</cite>, and <cite>_CONTAINERS</cite> variables, which are each arrays of arrays of object definitions. When an object definition is randomly chosen from one of these lists (for example, a “not pickupable” object), we first randomly choose one of the inner arrays, then we randomly choose one of the object definitions from the inner array. Add your object definition either as a new inner array or to an existing inner array.</p></li>
+<li><p>For gravity support scenes, in <cite>gravity_support_objects.py</cite>, see the <cite>_ASYMMETRIC_TARGET_LIST</cite> and <cite>_SYMMETRIC_TARGET_LIST</cite> variables, which are each arrays of object definitions. Add your object definition to one of these arrays.</p></li>
+<li><p>For other passive scenes, in <cite>objects.py</cite>, see the <cite>_MOVE_ACROSS_COMPLEX</cite> and <cite>_FALL_DOWN_COMPLEX</cite> variables, which are each arrays of object definitions. Add your object definition to either one or both of these arrays.</p></li>
+</ul>
+<p>7D. To add new objects into passive agent scenes, in <a class="reference external" href="https://github.com/NextCenturyCorporation/mcs-scene-generator/blob/master/agent_scene_pair_json_converter.py">agent_scene_pair_json_converter.py</a>, see the <cite>AGENT_OBJECT_CONFIG_LIST</cite> and <cite>GOAL_OBJECT_CONFIG_LIST</cite> variables. Add a new ObjectConfig to either one or both of the two arrays, as needed.</p>
+</section>
+<section id="submit-a-pull-request">
+<h2>8. Submit a Pull Request<a class="headerlink" href="#submit-a-pull-request" title="Permalink to this heading">¶</a></h2>
+<p>Optionally, if you would like to contribute your objects to the public MCS simulation environment (in our GitHub source code repository) for other teams to use, and have legal permission to share your models, then you may submit a Pull Request to the MCS fork of AI2-THOR containing your new Prefabs and updates to the object registry file.</p>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this heading">¶</a></h2>
+<p>If you have any questions about the procedure, please contact the MCS Core Team by opening a new GitHub Issue on this repository, posting on the #ta2-api MCS Slack channel, or emailing: <a class="reference external" href="mailto:mcs-ta2&#37;&#52;&#48;machinecommonsense&#46;com">mcs-ta2<span>&#64;</span>machinecommonsense<span>&#46;</span>com</a></p>
+<p>We’re happy to provide clarification on these instructions, but we can’t guarantee that we’ll always have time to help you in executing these instructions.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Adding 3D Models</a><ul>
+<li><a class="reference internal" href="#limitations">Limitations</a></li>
+<li><a class="reference internal" href="#download-and-open-mcs-in-the-unity-editor">1. Download and Open MCS in the Unity Editor</a></li>
+<li><a class="reference internal" href="#import-your-models-into-unity-and-save-them-as-prefabs">2. Import Your Models into Unity and Save Them as Prefabs</a></li>
+<li><a class="reference internal" href="#update-your-prefabs-in-unity">3. Update Your Prefabs in Unity</a></li>
+<li><a class="reference internal" href="#update-the-object-registry-file">4. Update the Object Registry File</a></li>
+<li><a class="reference internal" href="#manually-test-and-verify-your-objects">5. Manually Test and Verify Your Objects</a></li>
+<li><a class="reference internal" href="#build-unity">6. Build Unity</a></li>
+<li><a class="reference internal" href="#update-the-scene-generator">7. Update the Scene Generator</a></li>
+<li><a class="reference internal" href="#submit-a-pull-request">8. Submit a Pull Request</a></li>
+<li><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="schema.html"
+                          title="previous chapter">Scene File Schema</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="containerize.html"
+                          title="next chapter">Containerization</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/models.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="containerize.html" title="Containerization"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="schema.html" title="Scene File Schema"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Machine Common Sense  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Adding 3D Models</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, CACI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+    </div>
+  </body>
+</html>

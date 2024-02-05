@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Containerization &#8212; Machine Common Sense  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Running Remotely" href="remotely.html" />
+    <link rel="prev" title="Adding 3D Models" href="models.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="remotely.html" title="Running Remotely"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="models.html" title="Adding 3D Models"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Machine Common Sense  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Containerization</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="containerization">
+<h1>Containerization<a class="headerlink" href="#containerization" title="Permalink to this heading">¶</a></h1>
+<section id="gpu-image">
+<h2>GPU Image<a class="headerlink" href="#gpu-image" title="Permalink to this heading">¶</a></h2>
+<p>GPU images requires an Nvidia GPU and Nvidia Docker to be installed.</p>
+<p>You can run the GPU image with:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">docker run -it -e PYTHONIOENCODING=utf8 -e XAUTHORITY=/tmp/.docker.xauth -e DISPLAY=:1 \</span>
+<span class="go">       -v ${PWD}/machine_common_sense/scenes:/input -v ${PWD}/machine_common_sense/scripts:/scripts \</span>
+<span class="go">       -v /tmp/.X11-unix:/tmp/.X11-unix \</span>
+<span class="go">       -v /tmp/.docker.xauth:/tmp/.docker.xauth \</span>
+<span class="go">       --net host --gpus all --rm mcs-playroom:0.0.6 bash</span>
+</pre></div>
+</div>
+<p>You can then run a scene like this:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python3 /scripts/run_human_input.py /mcs/MCS-AI2-THOR-Unity-App-v0.4.0.x86_64 --config_file_path /scripts/config_oracle.ini /input/hinged_container_example.json</span>
+</pre></div>
+</div>
+<section id="missing-x-authorization-error">
+<h3>Missing X Authorization Error<a class="headerlink" href="#missing-x-authorization-error" title="Permalink to this heading">¶</a></h3>
+<p>If you encounter an error like the following:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">config_file_path $MCS_CONFIG_FILE_PATH /input/agents_preference_expected.json</span>
+<span class="go">No protocol specified</span>
+<span class="go">xdpyinfo:  unable to open display &quot;:1&quot;.</span>
+<span class="go">Exception in create_controller() Invalid DISPLAY :1 - cannot find X server with xdpyinf</span>
+</pre></div>
+</div>
+<p>please try resetting your X authorization:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo rmdir /tmp/.docker.xauth</span>
+<span class="go">touch /tmp/.docker.xauth</span>
+<span class="go">xauth nlist $DISPLAY | sed -e &#39;s/^..../ffff/&#39; | xauth -f /tmp/.docker.xauth nmerge -</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="cpu-image">
+<h2>CPU Image<a class="headerlink" href="#cpu-image" title="Permalink to this heading">¶</a></h2>
+<p>There is an image to run CPU-only without requiring an Nvidia GPU. Please only use it if your system does not meet the
+prerequisites for the GPU image, since GPU acceleration will yield significantly better performance.</p>
+<section id="build-image">
+<h3>Build Image<a class="headerlink" href="#build-image" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">docker build -f CPU_Container.dockerfile -t mcs-playroom-cpu .</span>
+</pre></div>
+</div>
+</section>
+<section id="run-image-bash">
+<h3>Run Image (bash)<a class="headerlink" href="#run-image-bash" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">docker run -it -p 5900:5900 -v ${PWD}/machine_common_sense/scenes:/input -v ${PWD}/machine_common_sense/scripts:/scripts mcs-playroom-cpu bash</span>
+</pre></div>
+</div>
+</section>
+<section id="run-with-vnc">
+<h3>Run with VNC<a class="headerlink" href="#run-with-vnc" title="Permalink to this heading">¶</a></h3>
+<p>Unless stated otherwise, the following commands are intended to be run inside the container.
+Run tmux with <cite>tmux</cite> and open two panes via <cite>C-b %</cite>.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Xvnc :33 &amp;</span>
+<span class="go">export DISPLAY=:33</span>
+<span class="go">python3 /scripts/run_human_input.py ${MCS_EXECUTABLE_PATH} --config_file_path ${MCS_CONFIG_FILE_PATH} /input/hinged_container_example.json</span>
+</pre></div>
+</div>
+<p>Switch panes with <cite>C-b &lt;arrow&gt;</cite></p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">window_id=$(xwininfo -root -tree | grep MCS-AI2-THOR | tail -n1 | sed &quot;s/^[ \t]*//&quot; | cut -d &#39; &#39; -f1) &amp;&amp; echo ${window_id}</span>
+<span class="go">x11vnc -id ${window_id} &amp;</span>
+</pre></div>
+</div>
+<p>Afterwards, you should be able to connect to the VNC server from the host by running <cite>vncviewer</cite> and connecting to
+<cite>localhost:5900</cite>.</p>
+</section>
+<section id="run-fully-headless">
+<h3>Run Fully Headless<a class="headerlink" href="#run-fully-headless" title="Permalink to this heading">¶</a></h3>
+<p>As an alternative for batch runs you can also run MCS against X virtual framebuffers. In this case you do not get visual
+output, but can run the images on headless servers without X server. To do so, execute the following command
+from inside the container:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">xvfb-run -s &quot;-screen 0 1440x900x24&quot; python3 /scripts/run_human_input.py ${MCS_EXECUTABLE_PATH} --config_file_path ${MCS_CONFIG_FILE_PATH} /input/agents_preference_expected.json</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Containerization</a><ul>
+<li><a class="reference internal" href="#gpu-image">GPU Image</a><ul>
+<li><a class="reference internal" href="#missing-x-authorization-error">Missing X Authorization Error</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cpu-image">CPU Image</a><ul>
+<li><a class="reference internal" href="#build-image">Build Image</a></li>
+<li><a class="reference internal" href="#run-image-bash">Run Image (bash)</a></li>
+<li><a class="reference internal" href="#run-with-vnc">Run with VNC</a></li>
+<li><a class="reference internal" href="#run-fully-headless">Run Fully Headless</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="models.html"
+                          title="previous chapter">Adding 3D Models</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="remotely.html"
+                          title="next chapter">Running Remotely</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/containerize.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="remotely.html" title="Running Remotely"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="models.html" title="Adding 3D Models"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Machine Common Sense  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Containerization</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, CACI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+    </div>
+  </body>
+</html>

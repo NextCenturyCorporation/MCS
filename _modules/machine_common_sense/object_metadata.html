@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>machine_common_sense.object_metadata &#8212; Machine Common Sense  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/classic.css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Machine Common Sense  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../machine_common_sense.html" accesskey="U">machine_common_sense</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">machine_common_sense.object_metadata</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for machine_common_sense.object_metadata</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">.stringifier</span> <span class="kn">import</span> <span class="n">Stringifier</span>
+
+
+<div class="viewcode-block" id="ObjectMetadata"><a class="viewcode-back" href="../../api.html#machine_common_sense.ObjectMetadata">[docs]</a><span class="k">class</span> <span class="nc">ObjectMetadata</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Defines metadata for an object in the MCS 3D environment.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    uuid : string</span>
+<span class="sd">        The unique ID of this object, used with some actions.</span>
+<span class="sd">    associated_with_agent: str</span>
+<span class="sd">        The agent holding this object.</span>
+<span class="sd">    dimensions : list of dicts</span>
+<span class="sd">        The dimensions of this object in the environment&#39;s 3D global</span>
+<span class="sd">        coordinate system as a list of 8 points (dicts with &quot;x&quot;, &quot;y&quot;, and &quot;z&quot;).</span>
+<span class="sd">    direction : dict</span>
+<span class="sd">        The direction vector of &quot;x&quot;, &quot;y&quot;, and &quot;z&quot; degrees between your position</span>
+<span class="sd">        and this object&#39;s position (the difference in the two positions),</span>
+<span class="sd">        normalized to 1. You can use the &quot;x&quot; and &quot;y&quot; as the &quot;rotation&quot; and</span>
+<span class="sd">        &quot;horizon&quot; parameters (respectively) in a &quot;RotateLook&quot; action to face</span>
+<span class="sd">        this object.</span>
+<span class="sd">    distance : float</span>
+<span class="sd">        DEPRECATED. Same as distance_in_steps. Please use distance_in_steps</span>
+<span class="sd">        or distance_in_world.</span>
+<span class="sd">    distance_in_steps : float</span>
+<span class="sd">        The distance from you to this object in number of steps (&quot;Move&quot;</span>
+<span class="sd">        actions) on the 2D X/Z movement grid.</span>
+<span class="sd">    distance_in_world : float</span>
+<span class="sd">        The distance from you to this object in the environment&#39;s 3D global</span>
+<span class="sd">        coordinate system.</span>
+<span class="sd">    held : boolean</span>
+<span class="sd">        Whether you are holding this object.</span>
+<span class="sd">    is_open : boolean</span>
+<span class="sd">        Whether the object is open or not</span>
+<span class="sd">    locked: boolean</span>
+<span class="sd">        Whether the object is locked</span>
+<span class="sd">    mass : float</span>
+<span class="sd">        Haptic feedback. The mass of this object.</span>
+<span class="sd">    material_list : list of strings</span>
+<span class="sd">        Haptic feedback. The material(s) of this object.</span>
+<span class="sd">        See :mod:`Material &lt;machine_common_sense.Material&gt;`.</span>
+<span class="sd">    openable : boolean</span>
+<span class="sd">        Whether the object can be opened</span>
+<span class="sd">    position : dict</span>
+<span class="sd">        The &quot;x&quot;, &quot;y&quot;, and &quot;z&quot; coordinates for the global position of the</span>
+<span class="sd">        center of this object&#39;s 3D model.</span>
+<span class="sd">    rotation : dict</span>
+<span class="sd">        This object&#39;s rotation angles around the &quot;x&quot;, &quot;y&quot;, and &quot;z&quot; axes</span>
+<span class="sd">        in degrees.</span>
+<span class="sd">    segment_color : dict</span>
+<span class="sd">        The &quot;r&quot;, &quot;g&quot;, and &quot;b&quot; pixel values of this object in images from the</span>
+<span class="sd">        StepMetadata&#39;s &quot;object_mask_list&quot;.</span>
+<span class="sd">    shape : string</span>
+<span class="sd">        This object&#39;s shape in plain English.</span>
+<span class="sd">    simulation_agent_held_object: str</span>
+<span class="sd">        The object associated held for the simulation agent that the performer</span>
+<span class="sd">        can retrieve through the InteractWithAgent method.</span>
+<span class="sd">    simulation_agent_is_holding_held_object: str</span>
+<span class="sd">        Whether this simulation agent is currently holding its</span>
+<span class="sd">        associated held object.</span>
+<span class="sd">    state_list : list of strings</span>
+<span class="sd">        This object&#39;s state(s) from the current step in the scene. Sometimes</span>
+<span class="sd">        used by objects with scripted behavior in passive scenes.</span>
+<span class="sd">    texture_color_list : list of strings</span>
+<span class="sd">        This object&#39;s colors, derived from its textures, in plain English.</span>
+<span class="sd">    visible : boolean</span>
+<span class="sd">        Whether you can see this object in your camera viewport.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">uuid</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">dimensions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">direction</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">distance</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">distance_in_steps</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">distance_in_world</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">held</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">mass</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">material_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">rotation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">segment_color</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">shape</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">state_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">texture_color_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">is_open</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">openable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">locked</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">associated_with_agent</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">simulation_agent_held_object</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">simulation_agent_is_holding_held_object</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uuid</span> <span class="o">=</span> <span class="n">uuid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dimensions</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">dimensions</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">dimensions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="p">{}</span> <span class="k">if</span> <span class="n">direction</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">direction</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distance</span> <span class="o">=</span> <span class="n">distance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distance_in_steps</span> <span class="o">=</span> <span class="n">distance_in_steps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distance_in_world</span> <span class="o">=</span> <span class="n">distance_in_world</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">held</span> <span class="o">=</span> <span class="n">held</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mass</span> <span class="o">=</span> <span class="n">mass</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">material_list</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">material_list</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">material_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="p">{}</span> <span class="k">if</span> <span class="n">position</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">position</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span> <span class="o">=</span> <span class="p">{}</span> <span class="k">if</span> <span class="n">rotation</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">rotation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">segment_color</span> <span class="o">=</span> <span class="p">{}</span> \
+            <span class="k">if</span> <span class="n">segment_color</span> <span class="ow">is</span> <span class="kc">None</span> \
+            <span class="k">else</span> <span class="n">segment_color</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="n">shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state_list</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">state_list</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">state_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">texture_color_list</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">[]</span> <span class="k">if</span> <span class="n">texture_color_list</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">texture_color_list</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visible</span> <span class="o">=</span> <span class="n">visible</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_open</span> <span class="o">=</span> <span class="n">is_open</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">openable</span> <span class="o">=</span> <span class="n">openable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">locked</span> <span class="o">=</span> <span class="n">locked</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">associated_with_agent</span> <span class="o">=</span> <span class="n">associated_with_agent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulation_agent_held_object</span> <span class="o">=</span> <span class="n">simulation_agent_held_object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">simulation_agent_is_holding_held_object</span> <span class="o">=</span> \
+            <span class="n">simulation_agent_is_holding_held_object</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Stringifier</span><span class="o">.</span><span class="n">class_to_str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="c1"># Allows converting the class to a dictionary, along with allowing</span>
+    <span class="c1">#   certain fields to be left out of output file</span>
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="s1">&#39;uuid&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">uuid</span>
+        <span class="k">yield</span> <span class="s1">&#39;dimensions&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dimensions</span>
+        <span class="k">yield</span> <span class="s1">&#39;direction&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">direction</span>
+        <span class="k">yield</span> <span class="s1">&#39;distance&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance</span>
+        <span class="k">yield</span> <span class="s1">&#39;distance_in_steps&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance_in_steps</span>
+        <span class="k">yield</span> <span class="s1">&#39;distance_in_world&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance_in_world</span>
+        <span class="k">yield</span> <span class="s1">&#39;held&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">held</span>
+        <span class="k">yield</span> <span class="s1">&#39;mass&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mass</span>
+        <span class="k">yield</span> <span class="s1">&#39;material_list&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">material_list</span>
+        <span class="k">yield</span> <span class="s1">&#39;position&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span>
+        <span class="k">yield</span> <span class="s1">&#39;rotation&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span>
+        <span class="k">yield</span> <span class="s1">&#39;segment_color&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">segment_color</span>
+        <span class="k">yield</span> <span class="s1">&#39;shape&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape</span>
+        <span class="k">yield</span> <span class="s1">&#39;state_list&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_list</span>
+        <span class="k">yield</span> <span class="s1">&#39;texture_color_list&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">texture_color_list</span>
+        <span class="k">yield</span> <span class="s1">&#39;visible&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">visible</span>
+        <span class="k">yield</span> <span class="s1">&#39;is_open&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_open</span>
+        <span class="k">yield</span> <span class="s1">&#39;openable&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">openable</span>
+        <span class="k">yield</span> <span class="s1">&#39;locked&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">locked</span>
+        <span class="k">yield</span> <span class="s1">&#39;associated_with_agent&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">associated_with_agent</span>
+        <span class="k">yield</span> <span class="s1">&#39;simulation_agent_held_object&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">simulation_agent_held_object</span>
+        <span class="k">yield</span> <span class="s1">&#39;simulation_agent_is_holding_held_object&#39;</span><span class="p">,</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">simulation_agent_is_holding_held_object</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Machine Common Sense  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../machine_common_sense.html" >machine_common_sense</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">machine_common_sense.object_metadata</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, CACI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+    </div>
+  </body>
+</html>

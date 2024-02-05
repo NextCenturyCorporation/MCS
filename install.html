@@ -1,0 +1,408 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Installation and Setup &#8212; Machine Common Sense  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Example Usage" href="examples.html" />
+    <link rel="prev" title="Machine Common Sense Documentation" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="examples.html" title="Example Usage"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Machine Common Sense Documentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Machine Common Sense  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Installation and Setup</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="installation-and-setup">
+<h1>Installation and Setup<a class="headerlink" href="#installation-and-setup" title="Permalink to this heading">¶</a></h1>
+<section id="virtual-environments">
+<h2>Virtual Environments<a class="headerlink" href="#virtual-environments" title="Permalink to this heading">¶</a></h2>
+<p>Python virtual environments are recommended when using the MCS package. All steps below presume the activation of the virtual environment. The developer can choose between traditional Python or Anaconda depending on need. These instructions are for Ubuntu Linux or MacOS. The Machine Common Sense package has a minimum requirement of Python 3.7 regardless of Python distribution.</p>
+<section id="traditional-python-environment">
+<h3>Traditional Python Environment<a class="headerlink" href="#traditional-python-environment" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python3.7<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv
+<span class="gp">$ </span><span class="nb">source</span><span class="w"> </span>venv/bin/activate
+<span class="gp gp-VirtualEnv">(venv)</span> <span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip<span class="w"> </span>setuptools<span class="w"> </span>wheel
+</pre></div>
+</div>
+</section>
+<section id="alternate-anaconda-environment">
+<h3>Alternate Anaconda Environment<a class="headerlink" href="#alternate-anaconda-environment" title="Permalink to this heading">¶</a></h3>
+<p>For developers using Anaconda Python distributions instead of traditional Python, create your project virtual environment from the base Anaconda environment.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$ </span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>myenv<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.8
+<span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$ </span>conda<span class="w"> </span>env<span class="w"> </span>list
+<span class="gp"># </span>conda<span class="w"> </span>environments:
+<span class="gp">#</span>
+<span class="go">base                  *  /home/user/anaconda3</span>
+<span class="go">myenv                    /home/user/anaconda3/envs/myenv</span>
+<span class="gp gp-VirtualEnv">(base)</span> <span class="gp">$ </span>conda<span class="w"> </span>activate<span class="w"> </span>myenv
+<span class="gp gp-VirtualEnv">(myenv)</span> <span class="gp">$</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="install-mcs">
+<h2>Install MCS<a class="headerlink" href="#install-mcs" title="Permalink to this heading">¶</a></h2>
+<p>With the activated Python virtual environment, install the MCS package:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(venv)</span> <span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>machine-common-sense
+</pre></div>
+</div>
+<p>For older versions prior to 0.4.4, you will need to use the git URL with the appropriate version number:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(venv)</span> <span class="gp">$ </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/NextCenturyCorporation/MCS@0.4.2#egg<span class="o">=</span>machine_common_sense
+</pre></div>
+</div>
+</section>
+<section id="download-unity-release">
+<h2>Download Unity Release<a class="headerlink" href="#download-unity-release" title="Permalink to this heading">¶</a></h2>
+<p>Our Unity App is built for Linux or Mac. There is no Windows support currently.</p>
+<p>As of release 0.4.4, the latest Unity version will be downloaded for you automatically by the MCS package. We have also switched to using addressables for our Unity release, which increases the initial startup time for Unity application on the first run. If this all sounds fine, feel free to skip this section, but if you’d like to know more about addressables or are using a release prior to 0.4.4, please follow the instructions below:</p>
+<p>The links below are referencing version 0.7.4. For our previous releases, please see <a class="reference external" href="https://github.com/NextCenturyCorporation/MCS/releases">this page</a>.</p>
+<section id="linux-version">
+<h3>Linux Version:<a class="headerlink" href="#linux-version" title="Permalink to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://github.com/NextCenturyCorporation/MCS/releases/download/0.7.4/MCS-AI2-THOR-Unity-App-v0.7.4-linux.zip">Download and unzip the Linux ZIP</a> <em>Note that for versions prior to 0.4.4, the Unity Linux build and the data directory are in two separate zips.</em></p></li>
+<li><p>Ensure that the Unity App, the Data Directory TAR, and the UnityPlayer.so file are all in the same directory.</p></li>
+<li><p>Untar the Data Directory:</p></li>
+</ol>
+<pre class="literal-block">tar -xzvf MCS-AI2-THOR-Unity-App-v0.7.4_Data.tar.gz</pre>
+<ol class="arabic simple" start="4">
+<li><p>Mark the Unity App as executable:</p></li>
+</ol>
+<pre class="literal-block">chmod a+x MCS-AI2-THOR-Unity-App-v0.7.4.x86_64</pre>
+</section>
+<section id="mac-version">
+<h3>Mac Version:<a class="headerlink" href="#mac-version" title="Permalink to this heading">¶</a></h3>
+<p><a class="reference external" href="https://github.com/NextCenturyCorporation/MCS/releases/download/0.7.4/MCS-AI2-THOR-Unity-App-v0.7.4-mac.zip">Download and unzip the Mac ZIP</a></p>
+</section>
+<section id="addressables">
+<h3>Addressables<a class="headerlink" href="#addressables" title="Permalink to this heading">¶</a></h3>
+<p>As of 0.4.4, we are using addressable assets that are stored remotely on AWS, greatly decreasing the size of our Unity releases. This also means that there is a bit of a trade off on first-time start up when you download a new release, since the resources will have to be downloaded. If you would like to avoid this load time on initial start up (which could result in a timeout), you can download the latest release using the links above, and then run the <a class="reference external" href="https://github.com/NextCenturyCorporation/MCS/blob/master/machine_common_sense/scripts/cache_addressables.py">cache-addressables.py</a> script:</p>
+<p>If the python package is installed from PyPI, the script is available in your virtual environment already.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cache_addressables ~/path/to/unity/app</span>
+</pre></div>
+</div>
+</section>
+<section id="pass-unity-app-location-to-mcs">
+<h3>Pass Unity App Location to MCS<a class="headerlink" href="#pass-unity-app-location-to-mcs" title="Permalink to this heading">¶</a></h3>
+<p>After downloading the Unity app, you will need to reference the path using the <cite>unity_app_file_path</cite> property when using the MCS package (outlined on the <a class="reference internal" href="examples.html"><span class="doc">Examples</span></a> page). While the path to the Unity app on Linux is pretty straightforward, the path for the Mac version executable is actually within the Contents/ directory level of your download:</p>
+<pre class="literal-block">./MCS-AI2-THOR-Unity-App-v0.7.4.app/Contents/MacOS/MCS-AI2-THOR</pre>
+</section>
+</section>
+<section id="mcs-configuration-file">
+<span id="mcs-config-file"></span><h2>MCS Configuration File<a class="headerlink" href="#mcs-configuration-file" title="Permalink to this heading">¶</a></h2>
+<p>To use a specific configuration, you can either pass in a file path or dictionary of values via the <cite>config_file_or_dict</cite> in the create_controller() method, or set the <cite>MCS_CONFIG_FILE_PATH</cite> environment variable to the path of your MCS configuration file (note that the configuration must be an INI file – see <a class="reference external" href="https://github.com/NextCenturyCorporation/MCS/blob/master/sample_config.ini">sample_config.ini</a> for an example).</p>
+<section id="config-file-properties">
+<h3>Config File Properties<a class="headerlink" href="#config-file-properties" title="Permalink to this heading">¶</a></h3>
+<section id="controller-timeout">
+<h4>controller_timeout<a class="headerlink" href="#controller-timeout" title="Permalink to this heading">¶</a></h4>
+<p>(int, optional)</p>
+<p>Sets the time (in seconds) to allow on controller initialization before timing out. Default 600</p>
+</section>
+<section id="disable-depth-maps">
+<h4>disable_depth_maps<a class="headerlink" href="#disable-depth-maps" title="Permalink to this heading">¶</a></h4>
+<p>(boolean, optional)</p>
+<p>If <cite>false</cite>, will generate depth maps. Metadata Tier will override <cite>disable_depth_maps</cite>. Will only generate depth maps for Metadata tier [level1, level2, oracle]. Default: false</p>
+</section>
+<section id="disable-object-masks">
+<h4>disable_object_masks<a class="headerlink" href="#disable-object-masks" title="Permalink to this heading">¶</a></h4>
+<p>(boolean, optional)</p>
+<p>If <cite>false</cite>, will generate object masks. Metadata Tier will override <cite>disable_depth_maps</cite>. Will only generate object masks for Metadata tier [level2, oracle]. Default: false</p>
+</section>
+<section id="disable-position">
+<h4>disable_position<a class="headerlink" href="#disable-position" title="Permalink to this heading">¶</a></h4>
+<p>(boolean, optional)</p>
+<p>If <cite>true</cite>, does not generate position information output in the metadata. Metadata Tier will override <cite>disable_position</cite>. Default: false</p>
+</section>
+<section id="goal-reward">
+<h4>goal_reward<a class="headerlink" href="#goal-reward" title="Permalink to this heading">¶</a></h4>
+<p>(float, optional)</p>
+<p>Changes the postive reward recieved for achieving a goal. Default: 1</p>
+</section>
+<section id="history-enabled">
+<h4>history_enabled<a class="headerlink" href="#history-enabled" title="Permalink to this heading">¶</a></h4>
+<p>(boolean, optional)</p>
+<p>Whether to save the scene history output data in your local directory. Default: True</p>
+</section>
+<section id="lava-penalty">
+<h4>lava_penalty<a class="headerlink" href="#lava-penalty" title="Permalink to this heading">¶</a></h4>
+<p>(float, optional)</p>
+<p>Changes the negative penalty recieved for every step on lava.  Default: 100</p>
+</section>
+<section id="metadata">
+<h4>metadata<a class="headerlink" href="#metadata" title="Permalink to this heading">¶</a></h4>
+<p>(string, optional)</p>
+<p>The <cite>metadata</cite> property describes what metadata will be returned by the MCS Python library. The <cite>metadata</cite> property is available so that users can run baseline or ablation studies during training. It can be set to one of the following strings:</p>
+<ul class="simple">
+<li><p><cite>oracle</cite>: Returns the metadata for all the objects in the scene, including visible, held, and hidden objects. Object masks will have consistent colors throughout all steps for a scene.</p></li>
+<li><p><cite>level2</cite>: Only returns the images (with depth maps AND object masks), camera info, and properties corresponding to the player themself (like head tilt). No information about specific objects will be included. Note that here, object masks will have randomized colors per step.</p></li>
+<li><p><cite>level1</cite>: Only returns the images (with depth maps but NOT object masks), camera info, and properties corresponding to the player themself (like head tilt). No information about specific objects will be included.</p></li>
+<li><p><cite>none</cite>: Only returns the images (but no depth maps or object masks), camera info, and properties corresponding to the player themself (like head tilt). No information about specific objects will be included.</p></li>
+</ul>
+<p>If no metadata level is set:</p>
+<ul class="simple">
+<li><p><cite>default</cite>: Fallback if no metadata level is specified. Only meant for use during development (evaluations will never be run this way). Includes metadata for visible and held objects in the scene, as well as camera info and properties corresponding to the player. Does not include depth maps or object masks.</p></li>
+</ul>
+</section>
+<section id="only-return-goal-object">
+<h4>only_return_goal_object<a class="headerlink" href="#only-return-goal-object" title="Permalink to this heading">¶</a></h4>
+<p>(boolean, optional)</p>
+<p>If <cite>true</cite>, only returns the goal object from the object list output in the metadata. Metadata Tier will override <cite>only_return_goal_object</cite>. Default: false</p>
+</section>
+<section id="steps-allowed-in-lava">
+<h4>steps_allowed_in_lava<a class="headerlink" href="#steps-allowed-in-lava" title="Permalink to this heading">¶</a></h4>
+<p>(int, optional)</p>
+<p>Number of steps allowed in lava before automatically calling end scene.  Default: 0</p>
+</section>
+<section id="noise-enabled">
+<h4>noise_enabled<a class="headerlink" href="#noise-enabled" title="Permalink to this heading">¶</a></h4>
+<p>(boolean, optional)</p>
+<p>Whether to add random noise to the numerical amounts in movement and object interaction action parameters. Will default to <cite>False</cite>.</p>
+</section>
+<section id="save-debug-images">
+<h4>save_debug_images<a class="headerlink" href="#save-debug-images" title="Permalink to this heading">¶</a></h4>
+<p>(boolean, optional)</p>
+<p>Save RGB frames, depth masks, and object instance segmentation masks (if returned in the output by the chosen metadata tier) to image files on each step. Default: False</p>
+</section>
+<section id="save-debug-json">
+<h4>save_debug_json<a class="headerlink" href="#save-debug-json" title="Permalink to this heading">¶</a></h4>
+<p>(boolean, optional)</p>
+<p>Save AI2-THOR/Unity input, AI2-THOR/Unity output, and MCS StepMetadata output to JSON file on each step. Default: False</p>
+</section>
+<section id="size">
+<h4>size<a class="headerlink" href="#size" title="Permalink to this heading">¶</a></h4>
+<p>(int, optional)</p>
+<p>Desired screen width. If value given, it must be more than <cite>450</cite>. If none given, screen width will default to <cite>600</cite>.</p>
+</section>
+<section id="step-penalty">
+<h4>step_penalty<a class="headerlink" href="#step-penalty" title="Permalink to this heading">¶</a></h4>
+<p>(float, optional)</p>
+<p>Changes the negative penalty recieved for every step. Default: 0.001</p>
+</section>
+<section id="terminal-output">
+<h4>terminal_output<a class="headerlink" href="#terminal-output" title="Permalink to this heading">¶</a></h4>
+<p>(boolean or string, optional)</p>
+<p>The terminal output mode controls what output metadata is logged to the terminal during a run (using the debug logger). Multiple modes can be configured together using commas-delimited strings (for example: “actions,performer”).</p>
+<ul class="simple">
+<li><p><cite>all</cite> or <cite>true</cite> (default): Prints all terminal output (listed below).</p></li>
+<li><p><cite>minimal</cite>: Prints minimal output, including step number, selected action, return status, goal, and current reward (if any).</p></li>
+<li><p><cite>actions</cite>: Prints all actions available for the next step.</p></li>
+<li><p><cite>objects</cite>: Prints all object metadata.</p></li>
+<li><p><cite>performer</cite>: Prints metadata for the performer agent, including camera and frame rate information.</p></li>
+<li><p><cite>scene</cite>: Prints metadata for the scene’s room, including all structural objects.</p></li>
+<li><p><cite>false</cite> or <cite>none</cite>: Prints no terminal output, besides initialization, warning, and error messages.</p></li>
+</ul>
+</section>
+<section id="timeout">
+<h4>timeout<a class="headerlink" href="#timeout" title="Permalink to this heading">¶</a></h4>
+<p>(int, optional)</p>
+<p>Sets the time (in seconds) to allow on a single step before timing out. Default 3600</p>
+</section>
+<section id="top-down-camera">
+<h4>top_down_camera<a class="headerlink" href="#top-down-camera" title="Permalink to this heading">¶</a></h4>
+<p>(boolean, optional)</p>
+<p>If both <cite>video_enabled</cite> and <cite>top_down_camera</cite> are <cite>true</cite>, generate videos using the new top-down camera. Default: <cite>true</cite></p>
+</section>
+<section id="top-down-plotter">
+<h4>top_down_plotter<a class="headerlink" href="#top-down-plotter" title="Permalink to this heading">¶</a></h4>
+<p>(boolean, optional)</p>
+<p>If <cite>video_enabled</cite> and <cite>top_down_plotter</cite> are <cite>true</cite>, and <cite>top_down_camera</cite> is <cite>false</cite>, generate videos using the legacy top-down plotter. Default: <cite>false</cite></p>
+<p>(boolean, optional)</p>
+</section>
+<section id="video-enabled">
+<h4>video_enabled<a class="headerlink" href="#video-enabled" title="Permalink to this heading">¶</a></h4>
+<p>(boolean, optional)</p>
+<p>Create and save videos of the RGB frames, depth masks, object instance segmentation masks (if returned in the output by the chosen metadata tier), and the 2D top-down scene views. Default: False</p>
+</section>
+</section>
+<section id="example-using-the-config-file-to-generate-scene-graphs-or-maps">
+<h3>Example Using the Config File to Generate Scene Graphs or Maps<a class="headerlink" href="#example-using-the-config-file-to-generate-scene-graphs-or-maps" title="Permalink to this heading">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Reference or copy the <a class="reference external" href="https://github.com/NextCenturyCorporation/MCS/blob/master/sample_config.ini">sample_config.ini</a> or save your .ini MCS configuration file with:</p></li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">[MCS]</span>
+<span class="go">metadata: oracle</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Create a simple Python script to loop over one or more JSON scene configuration files, load each scene in the MCS controller, and save the output data in your own scene graph or scene map format.</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">machine_common_sense</span> <span class="k">as</span> <span class="nn">mcs</span>
+
+<span class="n">scene_files</span> <span class="o">=</span> <span class="c1"># List of scene configuration file paths</span>
+
+<span class="n">controller</span> <span class="o">=</span> <span class="n">mcs</span><span class="o">.</span><span class="n">create_controller</span><span class="p">(</span><span class="n">config_file_or_dict</span><span class="o">=</span><span class="s1">&#39;path/to/config&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">scene_file</span> <span class="ow">in</span> <span class="n">scene_files</span><span class="p">:</span>
+    <span class="n">scene_data</span> <span class="o">=</span> <span class="n">mcs</span><span class="o">.</span><span class="n">load_scene_json_file</span><span class="p">(</span><span class="n">scene_file</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">status</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">status</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="n">start_scene</span><span class="p">(</span><span class="n">scene_data</span><span class="p">)</span>
+        <span class="c1"># Use the output to save your scene graph or map</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="logging">
+<h2>Logging<a class="headerlink" href="#logging" title="Permalink to this heading">¶</a></h2>
+<p>MCS uses the python logging package with some defaults.  Logging should be initialized via the mcs.init_logging() method if logging is desired.  the mcs.init_logging function have two parameters, log_config, and log_config_file.  The first is a dictionary and the second is a path to a file.  Both of these should contain a dictionary that contains the logging configuration of python logging. (<a class="reference external" href="https://docs.python.org/3/library/logging.config.html#logging-config-dictschema">https://docs.python.org/3/library/logging.config.html#logging-config-dictschema</a>)  The log_config_file, if it exists, will always override the dictionary and defaults to log.config.user.py in the current working directory.  In most cases, one of the examples below should be used.</p>
+<p>Common examples of logging initialization:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Below initializes default which logs to console</span>
+<span class="n">mcs</span><span class="o">.</span><span class="n">init_logging</span><span class="p">()</span>
+
+<span class="c1"># Below initializes development default with file logging as well as console logging</span>
+<span class="n">mcs</span><span class="o">.</span><span class="n">init_logging</span><span class="p">(</span><span class="n">LoggingConfig</span><span class="o">.</span><span class="n">get_dev_logging_config</span><span class="p">())</span>
+
+<span class="c1">#Below initializes error only console logging</span>
+<span class="n">mcs</span><span class="o">.</span><span class="n">init_logging</span><span class="p">(</span><span class="n">LoggingConfig</span><span class="o">.</span><span class="n">get_errors_only_console_config</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Installation and Setup</a><ul>
+<li><a class="reference internal" href="#virtual-environments">Virtual Environments</a><ul>
+<li><a class="reference internal" href="#traditional-python-environment">Traditional Python Environment</a></li>
+<li><a class="reference internal" href="#alternate-anaconda-environment">Alternate Anaconda Environment</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#install-mcs">Install MCS</a></li>
+<li><a class="reference internal" href="#download-unity-release">Download Unity Release</a><ul>
+<li><a class="reference internal" href="#linux-version">Linux Version:</a></li>
+<li><a class="reference internal" href="#mac-version">Mac Version:</a></li>
+<li><a class="reference internal" href="#addressables">Addressables</a></li>
+<li><a class="reference internal" href="#pass-unity-app-location-to-mcs">Pass Unity App Location to MCS</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mcs-configuration-file">MCS Configuration File</a><ul>
+<li><a class="reference internal" href="#config-file-properties">Config File Properties</a><ul>
+<li><a class="reference internal" href="#controller-timeout">controller_timeout</a></li>
+<li><a class="reference internal" href="#disable-depth-maps">disable_depth_maps</a></li>
+<li><a class="reference internal" href="#disable-object-masks">disable_object_masks</a></li>
+<li><a class="reference internal" href="#disable-position">disable_position</a></li>
+<li><a class="reference internal" href="#goal-reward">goal_reward</a></li>
+<li><a class="reference internal" href="#history-enabled">history_enabled</a></li>
+<li><a class="reference internal" href="#lava-penalty">lava_penalty</a></li>
+<li><a class="reference internal" href="#metadata">metadata</a></li>
+<li><a class="reference internal" href="#only-return-goal-object">only_return_goal_object</a></li>
+<li><a class="reference internal" href="#steps-allowed-in-lava">steps_allowed_in_lava</a></li>
+<li><a class="reference internal" href="#noise-enabled">noise_enabled</a></li>
+<li><a class="reference internal" href="#save-debug-images">save_debug_images</a></li>
+<li><a class="reference internal" href="#save-debug-json">save_debug_json</a></li>
+<li><a class="reference internal" href="#size">size</a></li>
+<li><a class="reference internal" href="#step-penalty">step_penalty</a></li>
+<li><a class="reference internal" href="#terminal-output">terminal_output</a></li>
+<li><a class="reference internal" href="#timeout">timeout</a></li>
+<li><a class="reference internal" href="#top-down-camera">top_down_camera</a></li>
+<li><a class="reference internal" href="#top-down-plotter">top_down_plotter</a></li>
+<li><a class="reference internal" href="#video-enabled">video_enabled</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#example-using-the-config-file-to-generate-scene-graphs-or-maps">Example Using the Config File to Generate Scene Graphs or Maps</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#logging">Logging</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="index.html"
+                          title="previous chapter">Machine Common Sense Documentation</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="examples.html"
+                          title="next chapter">Example Usage</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/install.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="examples.html" title="Example Usage"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Machine Common Sense Documentation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Machine Common Sense  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Installation and Setup</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, CACI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,374 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>machine_common_sense.step_metadata &#8212; Machine Common Sense  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/classic.css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Machine Common Sense  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../machine_common_sense.html" accesskey="U">machine_common_sense</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">machine_common_sense.step_metadata</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for machine_common_sense.step_metadata</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">copy</span>
+
+<span class="kn">from</span> <span class="nn">.goal_metadata</span> <span class="kn">import</span> <span class="n">GoalMetadata</span>
+<span class="kn">from</span> <span class="nn">.return_status</span> <span class="kn">import</span> <span class="n">ReturnStatus</span>
+<span class="kn">from</span> <span class="nn">.stringifier</span> <span class="kn">import</span> <span class="n">Stringifier</span>
+
+
+<div class="viewcode-block" id="StepMetadata"><a class="viewcode-back" href="../../api.html#machine_common_sense.StepMetadata">[docs]</a><span class="k">class</span> <span class="nc">StepMetadata</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Defines output metadata from an action step in the MCS 3D environment.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    action_list : list of (string, dict) tuples</span>
+<span class="sd">        The list of all actions that are available for the next step.</span>
+<span class="sd">        Each action is returned as a tuple containing the action string and</span>
+<span class="sd">        the action&#39;s restricted parameters, if any.</span>
+<span class="sd">        For example: (&quot;Pass&quot;, {}) forces a Pass action; (&quot;PickupObject&quot;, {})</span>
+<span class="sd">        forces a PickupObject action with any parameters; and</span>
+<span class="sd">        (&quot;PickupObject&quot;, {&quot;objectId&quot;: &quot;a&quot;}) forces a PickupObject action with</span>
+<span class="sd">        the specific parameters objectId=a.</span>
+<span class="sd">        EndHabituation is a special case of the action_list where its</span>
+<span class="sd">        parameters will always be empty. When taking the EndHabituation</span>
+<span class="sd">        action, the MCS system may apply hidden displacement parameters to the</span>
+<span class="sd">        robot.</span>
+<span class="sd">        An action_list of None or an empty list means that all actions will</span>
+<span class="sd">        be available for the next step.</span>
+
+<span class="sd">        To &quot;step&quot; using the first action from the action_list:</span>
+
+<span class="sd">        .. highlight:: python</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            step_metadata = controller.start_scene(scene_data)</span>
+<span class="sd">            action, params = step_metadata.action_list[0]</span>
+<span class="sd">            step_metadata = controller.step(action, **params)</span>
+
+<span class="sd">        Derived from :mod:`GoalMetadata.action_list[step_number]</span>
+<span class="sd">        &lt;machine_common_sense.GoalMetadata&gt;`.</span>
+<span class="sd">        May be a subset of all possible actions. See</span>
+<span class="sd">        :mod:`Action &lt;machine_common_sense.Action&gt;`.</span>
+<span class="sd">    camera_aspect_ratio : (float, float)</span>
+<span class="sd">        The player camera&#39;s aspect ratio. This will remain constant for the</span>
+<span class="sd">        whole scene.</span>
+<span class="sd">    camera_clipping_planes : (float, float)</span>
+<span class="sd">        The player camera&#39;s near and far clipping planes, in meters. This will</span>
+<span class="sd">        remain constant for the whole scene. Default (0.01, 150)</span>
+<span class="sd">    camera_field_of_view : float</span>
+<span class="sd">        The player camera&#39;s field of view. This will remain constant for</span>
+<span class="sd">        the whole scene.</span>
+<span class="sd">    camera_height : float</span>
+<span class="sd">        The player camera&#39;s height, in meters.</span>
+<span class="sd">    depth_map_list : list of 2D numpy arrays</span>
+<span class="sd">        The list of 2-dimensional numpy arrays of depth float data from the</span>
+<span class="sd">        scene after the last action and physics simulation were run. This is</span>
+<span class="sd">        usually a list with 1 array, except for the output from start_scene</span>
+<span class="sd">        for a scene with a scripted Preview Phase (Preview Phase case details</span>
+<span class="sd">        TBD).</span>
+<span class="sd">        Each 32-bit depth float in the 2-dimensional numpy array is a value</span>
+<span class="sd">        between the camera&#39;s near clipping plane (default 0.01) and the</span>
+<span class="sd">        camera&#39;s far clipping plane (default 150) corresponding to the depth,</span>
+<span class="sd">        in meters, at that pixel in the image.</span>
+<span class="sd">        Note that this list will be empty if the metadata level is &#39;none&#39;.</span>
+<span class="sd">    goal : GoalMetadata or None</span>
+<span class="sd">        The goal for the whole scene. Will be None in &quot;Exploration&quot; scenes.</span>
+<span class="sd">    haptic_feedback : dict</span>
+<span class="sd">        Haptic feedback sources for the agent. Values are true or false</span>
+<span class="sd">        depending on if the agent is touching the haptic feedback source.</span>
+<span class="sd">        The only current supported contact is &quot;on_lava&quot;</span>
+<span class="sd">    habituation_trial : int or None</span>
+<span class="sd">        The current habituation trial (as a positive integer), or None if the</span>
+<span class="sd">        scene is not currently in a habituation trial (meaning this scene is</span>
+<span class="sd">        in a test trial).</span>
+<span class="sd">    head_tilt : float</span>
+<span class="sd">        How far your head is tilted up/down in degrees (between 90 and -90).</span>
+<span class="sd">        Changed by setting the &quot;horizon&quot; parameter in a &quot;RotateLook&quot; action.</span>
+<span class="sd">    holes : list of tuples</span>
+<span class="sd">        Coordinates of holes as (X, Z) float tuples. Will be set to &#39;None&#39; if</span>
+<span class="sd">        using a metadata level below the &#39;oracle&#39; level.</span>
+<span class="sd">    image_list : list of Pillow.Image objects</span>
+<span class="sd">        The list of images from the scene after the last action and physics</span>
+<span class="sd">        simulation were run. This is usually a list with 1 image, except for</span>
+<span class="sd">        the output from start_scene for a scene with a scripted Preview Phase.</span>
+<span class="sd">        (Preview Phase case details TBD).</span>
+<span class="sd">    lava : list of tuples</span>
+<span class="sd">        Coordinates of pools of lava as (X1, Z1, X2, Z2) float tuples, where</span>
+<span class="sd">        X1/Z1 is the top-left corner and X2/Z2 is the bottom-right conrer. Will</span>
+<span class="sd">        be set to &#39;None&#39; if using a metadata level below the &#39;oracle&#39; level.</span>
+<span class="sd">    object_list : list of ObjectMetadata objects</span>
+<span class="sd">        The list of metadata for all the visible interactive objects in the</span>
+<span class="sd">        scene. This list will be empty if using a metadata level below</span>
+<span class="sd">        the &#39;oracle&#39; level. For metadata on structural objects like walls,</span>
+<span class="sd">        please see structural_object_list</span>
+<span class="sd">    object_mask_list : list of Pillow.Image objects</span>
+<span class="sd">        The list of object mask (instance segmentation) images from the scene</span>
+<span class="sd">        after the last action and physics simulation were run. This is usually</span>
+<span class="sd">        a list with 1 image, except for the output from start_scene for a</span>
+<span class="sd">        scene with a scripted Preview Phase (Preview Phase case details TBD).</span>
+<span class="sd">        The color of each object in the mask corresponds to the &quot;color&quot;</span>
+<span class="sd">        property in its ObjectMetadata object.</span>
+<span class="sd">        Note that this list will be empty if the metadata level is &#39;none&#39;</span>
+<span class="sd">        or &#39;level1&#39;.</span>
+<span class="sd">    performer_radius: float</span>
+<span class="sd">        The radius of the performer, in meters.</span>
+<span class="sd">    performer_reach: float</span>
+<span class="sd">        The max reach of the performer, in meters.</span>
+<span class="sd">    physics_frames_per_second : float</span>
+<span class="sd">        The frames per second of the physics engine</span>
+<span class="sd">    position : dict</span>
+<span class="sd">        The &quot;x&quot;, &quot;y&quot;, and &quot;z&quot; coordinates for your global position.</span>
+<span class="sd">        Will be set to &#39;None&#39; if using a metadata level below the</span>
+<span class="sd">        &#39;oracle&#39; level.</span>
+<span class="sd">    resolved_object : string</span>
+<span class="sd">        The object that was selected based on objectImageCoords</span>
+<span class="sd">    resolved_receptacle_object_id : string</span>
+<span class="sd">        The receptacle that was selected based on receptacleObjectImageCoords</span>
+<span class="sd">    return_status : string</span>
+<span class="sd">        The return status from your last action. See</span>
+<span class="sd">        :mod:`Action &lt;machine_common_sense.Action&gt;`.</span>
+<span class="sd">    reward : integer</span>
+<span class="sd">        Reward is 1 on successful completion of a task, 0 otherwise.</span>
+<span class="sd">    room_dimensions : dict</span>
+<span class="sd">        The &quot;x&quot;, &quot;y&quot;, and &quot;z&quot; dimensions of the current scene.</span>
+<span class="sd">        Will be set to &#39;None&#39; if using a metadata level below the</span>
+<span class="sd">        &#39;oracle&#39; level.</span>
+<span class="sd">    rotation : float</span>
+<span class="sd">        Your current rotation angle in degrees. Will be set to &#39;None&#39;</span>
+<span class="sd">        if using a metadata level below the &#39;oracle&#39; level.</span>
+<span class="sd">    segmentation_colors : list of dicts</span>
+<span class="sd">        The colors for all objects in the instance segmentation images</span>
+<span class="sd">        (in `object_mask_list`), each represented as a dict containing an</span>
+<span class="sd">        &quot;objectId&quot; string property and &quot;r&quot;, &quot;g&quot;, and &quot;b&quot; int properties for the</span>
+<span class="sd">        corresponding red, green, and blue values. The ceiling has an objectId</span>
+<span class="sd">        of &quot;ceiling&quot;; exterior room walls have objectIds of &quot;wall_back&quot;,</span>
+<span class="sd">        &quot;wall_front&quot;, &quot;wall_left&quot;, and &quot;wall_right&quot;; floor sections have</span>
+<span class="sd">        objectIds starting with &quot;floor &quot; and then the texture name (since</span>
+<span class="sd">        different areas of the floor can have different textures); holes have</span>
+<span class="sd">        objectIds of &quot;hole&quot;; hole walls have objectIds of &quot;hole wall&quot;; and</span>
+<span class="sd">        lava areas have objectIds of &quot;lava&quot;.</span>
+<span class="sd">        Will be empty if using a metadata level below the &#39;oracle&#39; level.</span>
+<span class="sd">    step_number : integer</span>
+<span class="sd">        The step number of your last action, recorded since you started the</span>
+<span class="sd">        current scene.</span>
+<span class="sd">    steps_in_lava : integer</span>
+<span class="sd">        The number of steps the agent has touched lava</span>
+<span class="sd">    structural_object_list : list of ObjectMetadata objects</span>
+<span class="sd">        The list of metadata for all the visible structural objects (like</span>
+<span class="sd">        walls, occluders, and ramps) in the scene. This list will be empty</span>
+<span class="sd">        if using a metadata level below the &#39;oracle&#39; level.</span>
+<span class="sd">        Occluders are composed of two separate objects,</span>
+<span class="sd">        the &quot;wall&quot; and the &quot;pole&quot;, with corresponding object IDs</span>
+<span class="sd">        (occluder_wall_&lt;uuid&gt; and occluder_pole_&lt;uuid&gt;), and ramps are</span>
+<span class="sd">        composed of between one and three objects (depending on the type</span>
+<span class="sd">        of ramp), with corresponding object IDs.</span>
+<span class="sd">    triggered_by_sequence_incorrect : bool</span>
+<span class="sd">        If the the sequence to trigger a placer holding the target is incorrect</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">action_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">camera_aspect_ratio</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">camera_clipping_planes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">camera_field_of_view</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">camera_height</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">depth_map_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">goal</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">habituation_trial</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">haptic_feedback</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">head_tilt</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">holes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">image_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">lava</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">object_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">object_mask_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">performer_radius</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">performer_reach</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">physics_frames_per_second</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">position</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">resolved_object</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+        <span class="n">resolved_receptacle</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+        <span class="n">return_status</span><span class="o">=</span><span class="n">ReturnStatus</span><span class="o">.</span><span class="n">UNDEFINED</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+        <span class="n">reward</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">room_dimensions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">rotation</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">segmentation_colors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">step_number</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">steps_on_lava</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">structural_object_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">triggered_by_sequence_incorrect</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_list</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">action_list</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">action_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">camera_aspect_ratio</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="k">if</span> <span class="n">camera_aspect_ratio</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">camera_aspect_ratio</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">camera_clipping_planes</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">camera_clipping_planes</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="k">else</span> <span class="n">camera_clipping_planes</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">camera_field_of_view</span> <span class="o">=</span> <span class="n">camera_field_of_view</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">camera_height</span> <span class="o">=</span> <span class="n">camera_height</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">depth_map_list</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">[]</span> <span class="k">if</span> <span class="n">depth_map_list</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">depth_map_list</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">goal</span> <span class="o">=</span> <span class="n">GoalMetadata</span><span class="p">()</span> <span class="k">if</span> <span class="n">goal</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">goal</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">habituation_trial</span> <span class="o">=</span> <span class="n">habituation_trial</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">haptic_feedback</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">{}</span> <span class="k">if</span> <span class="n">haptic_feedback</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">haptic_feedback</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">head_tilt</span> <span class="o">=</span> <span class="n">head_tilt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">holes</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">holes</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">holes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image_list</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">image_list</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">image_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lava</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">lava</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">lava</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">object_list</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">object_list</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">object_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">object_mask_list</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">[]</span> <span class="k">if</span> <span class="n">object_mask_list</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">object_mask_list</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">performer_radius</span> <span class="o">=</span> <span class="n">performer_radius</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">performer_reach</span> <span class="o">=</span> <span class="n">performer_reach</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">physics_frames_per_second</span> <span class="o">=</span> <span class="n">physics_frames_per_second</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="p">{}</span> <span class="k">if</span> <span class="n">position</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">position</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resolved_object</span> <span class="o">=</span> <span class="n">resolved_object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resolved_receptacle</span> <span class="o">=</span> <span class="n">resolved_receptacle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">return_status</span> <span class="o">=</span> <span class="n">return_status</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reward</span> <span class="o">=</span> <span class="n">reward</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">room_dimensions</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">{}</span> <span class="k">if</span> <span class="n">room_dimensions</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">room_dimensions</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span> <span class="o">=</span> <span class="n">rotation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">segmentation_colors</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">[]</span> <span class="k">if</span> <span class="n">segmentation_colors</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">segmentation_colors</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">step_number</span> <span class="o">=</span> <span class="n">step_number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">steps_on_lava</span> <span class="o">=</span> <span class="n">steps_on_lava</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">structural_object_list</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">]</span> <span class="k">if</span> <span class="n">structural_object_list</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">structural_object_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">triggered_by_sequence_incorrect</span> <span class="o">=</span> <span class="n">triggered_by_sequence_incorrect</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Stringifier</span><span class="o">.</span><span class="n">class_to_str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">check_list_none</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj_list</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">obj_list</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="n">obj</span><span class="o">.</span><span class="n">uuid</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">obj_list</span><span class="p">}</span>
+
+<div class="viewcode-block" id="StepMetadata.copy_without_depth_or_images"><a class="viewcode-back" href="../../api.html#machine_common_sense.StepMetadata.copy_without_depth_or_images">[docs]</a>    <span class="k">def</span> <span class="nf">copy_without_depth_or_images</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a deep copy of this StepMetadata with default depth_map_list,</span>
+<span class="sd">        image_list, and object_mask_list properties.&quot;&quot;&quot;</span>
+        <span class="n">step_metadata_copy</span> <span class="o">=</span> <span class="n">StepMetadata</span><span class="p">()</span>
+        <span class="c1"># This class&#39;s __iter__ function will ignore specific properties.</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">step_metadata_copy</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">step_metadata_copy</span></div>
+
+    <span class="c1"># Allows converting the class to a dictionary, along with allowing</span>
+    <span class="c1">#   certain fields to be left out of output file</span>
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="s1">&#39;action_list&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">action_list</span>
+        <span class="k">yield</span> <span class="s1">&#39;camera_aspect_ratio&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera_aspect_ratio</span>
+        <span class="k">yield</span> <span class="s1">&#39;camera_clipping_planes&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera_clipping_planes</span>
+        <span class="k">yield</span> <span class="s1">&#39;camera_field_of_view&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera_field_of_view</span>
+        <span class="k">yield</span> <span class="s1">&#39;camera_height&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera_height</span>
+        <span class="c1"># Intentionally no depth_map_list</span>
+        <span class="k">yield</span> <span class="s1">&#39;goal&#39;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">goal</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="s1">&#39;habituation_trial&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">habituation_trial</span>
+        <span class="k">yield</span> <span class="s1">&#39;haptic_feedback&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">haptic_feedback</span>
+        <span class="k">yield</span> <span class="s1">&#39;head_tilt&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">head_tilt</span>
+        <span class="k">yield</span> <span class="s1">&#39;holes&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">head_tilt</span>
+        <span class="c1"># Intentionally no image_list</span>
+        <span class="k">yield</span> <span class="s1">&#39;lava&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">head_tilt</span>
+        <span class="k">yield</span> <span class="s1">&#39;object_list&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_list_none</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">object_list</span><span class="p">)</span>
+        <span class="c1"># Intentionally no object_mask_list</span>
+        <span class="k">yield</span> <span class="s1">&#39;performer_radius&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">performer_radius</span>
+        <span class="k">yield</span> <span class="s1">&#39;performer_reach&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">performer_reach</span>
+        <span class="k">yield</span> <span class="s1">&#39;physics_frames_per_second&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">physics_frames_per_second</span>
+        <span class="k">yield</span> <span class="s1">&#39;position&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span>
+        <span class="k">yield</span> <span class="s1">&#39;resolved_object&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolved_object</span>
+        <span class="k">yield</span> <span class="s1">&#39;resolved_receptacle&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolved_receptacle</span>
+        <span class="k">yield</span> <span class="s1">&#39;return_status&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">return_status</span>
+        <span class="k">yield</span> <span class="s1">&#39;room_dimensions&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">room_dimensions</span>
+        <span class="k">yield</span> <span class="s1">&#39;reward&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reward</span>
+        <span class="k">yield</span> <span class="s1">&#39;rotation&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span>
+        <span class="k">yield</span> <span class="s1">&#39;segmentation_colors&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">segmentation_colors</span>
+        <span class="k">yield</span> <span class="s1">&#39;step_number&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">step_number</span>
+        <span class="k">yield</span> <span class="s1">&#39;steps_on_lava&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps_on_lava</span>
+        <span class="k">yield</span> <span class="s1">&#39;structural_object_list&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_list_none</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">structural_object_list</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="s1">&#39;triggered_by_sequence_incorrect&#39;</span><span class="p">,</span> \
+            <span class="bp">self</span><span class="o">.</span><span class="n">triggered_by_sequence_incorrect</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Machine Common Sense  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../machine_common_sense.html" >machine_common_sense</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">machine_common_sense.step_metadata</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, CACI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,267 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>machine_common_sense &#8212; Machine Common Sense  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Machine Common Sense  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">machine_common_sense</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for machine_common_sense</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">import_override</span>  <span class="c1"># isort: skip</span>
+
+<span class="kn">import</span> <span class="nn">concurrent.futures</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">logging.config</span>
+<span class="kn">import</span> <span class="nn">signal</span>
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">typeguard</span>
+
+<span class="kn">from</span> <span class="nn">._version</span> <span class="kn">import</span> <span class="n">__version__</span>
+<span class="kn">from</span> <span class="nn">.action</span> <span class="kn">import</span> <span class="n">Action</span>
+<span class="kn">from</span> <span class="nn">.config_manager</span> <span class="kn">import</span> <span class="n">ConfigManager</span>
+<span class="kn">from</span> <span class="nn">.controller</span> <span class="kn">import</span> <span class="n">Controller</span>
+<span class="kn">from</span> <span class="nn">.goal_metadata</span> <span class="kn">import</span> <span class="n">GoalCategory</span><span class="p">,</span> <span class="n">GoalMetadata</span>
+<span class="kn">from</span> <span class="nn">.history_writer</span> <span class="kn">import</span> <span class="n">HistoryWriter</span>
+<span class="kn">from</span> <span class="nn">.logging_config</span> <span class="kn">import</span> <span class="n">LoggingConfig</span>
+<span class="kn">from</span> <span class="nn">.material</span> <span class="kn">import</span> <span class="n">Material</span>
+<span class="kn">from</span> <span class="nn">.object_metadata</span> <span class="kn">import</span> <span class="n">ObjectMetadata</span>
+<span class="kn">from</span> <span class="nn">.return_status</span> <span class="kn">import</span> <span class="n">ReturnStatus</span>
+<span class="kn">from</span> <span class="nn">.reward</span> <span class="kn">import</span> <span class="n">Reward</span>
+<span class="kn">from</span> <span class="nn">.scene_history</span> <span class="kn">import</span> <span class="n">SceneHistory</span>
+<span class="kn">from</span> <span class="nn">.serializer</span> <span class="kn">import</span> <span class="n">SerializerMsgPack</span>
+<span class="kn">from</span> <span class="nn">.step_metadata</span> <span class="kn">import</span> <span class="n">StepMetadata</span>
+<span class="kn">from</span> <span class="nn">.stringifier</span> <span class="kn">import</span> <span class="n">Stringifier</span>
+<span class="kn">from</span> <span class="nn">.subscriber</span> <span class="kn">import</span> <span class="n">add_subscribers</span>
+<span class="kn">from</span> <span class="nn">.unity_executable_provider</span> <span class="kn">import</span> <span class="n">UnityExecutableProvider</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="c1"># Set default logging handler to avoid &quot;No handler found&quot; warnings</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">NullHandler</span><span class="p">())</span>
+
+
+<div class="viewcode-block" id="get_controller"><a class="viewcode-back" href="../api.html#machine_common_sense.get_controller">[docs]</a><span class="k">def</span> <span class="nf">get_controller</span><span class="p">(</span><span class="n">unity_exec</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">ConfigManager</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Function to get the controller, pulled into its own</span>
+<span class="sd">     function so we can time it.  &quot;&quot;&quot;</span>
+    <span class="n">controller</span> <span class="o">=</span> <span class="n">Controller</span><span class="p">(</span><span class="n">unity_exec</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">controller</span></div>
+
+
+<div class="viewcode-block" id="get_controller_with_timeout"><a class="viewcode-back" href="../api.html#machine_common_sense.get_controller_with_timeout">[docs]</a><span class="k">def</span> <span class="nf">get_controller_with_timeout</span><span class="p">(</span><span class="n">unity_exec</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">ConfigManager</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wrapper function that sets a timeout for the controller creation.</span>
+<span class="sd">    If getting the controller times out, None is returned. &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+        <span class="n">future</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">get_controller</span><span class="p">,</span> <span class="n">unity_exec</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">controller</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">get_controller_timeout</span><span class="p">())</span>
+            <span class="k">return</span> <span class="n">controller</span>
+        <span class="k">except</span> <span class="n">concurrent</span><span class="o">.</span><span class="n">futures</span><span class="o">.</span><span class="n">TimeoutError</span> <span class="k">as</span> <span class="n">Msg</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Timeout error in creating controller&quot;</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="n">Msg</span><span class="p">)</span>
+
+            <span class="c1"># TODO:  Add checks to continue waiting for the controller creation.</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="init_logging"><a class="viewcode-back" href="../api.html#machine_common_sense.init_logging">[docs]</a><span class="nd">@typeguard</span><span class="o">.</span><span class="n">typechecked</span>
+<span class="k">def</span> <span class="nf">init_logging</span><span class="p">(</span><span class="n">log_config</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">log_config_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;log.config.user.py&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initializes logging system.  If no parameters are provided, a</span>
+<span class="sd">    default configuration will be applied.  See python logging</span>
+<span class="sd">    documentation for details.</span>
+
+<span class="sd">    https://docs.python.org/3/library/logging.config.html#logging-config-dictschema</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    log_config : dict, optional</span>
+<span class="sd">        A dictionary the contains the logging configuration.  If None, a</span>
+<span class="sd">        default configuration will be used</span>
+<span class="sd">    log_config_file: str, optional</span>
+<span class="sd">        Path to an override configuration file.  The file will contain a</span>
+<span class="sd">        python dictionary for the logging configuration.  This file is</span>
+<span class="sd">        typically not used, but allows a user to change the logging</span>
+<span class="sd">        configuration without code changes.  Default, log.config.user.py</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">LoggingConfig</span><span class="o">.</span><span class="n">init_logging</span><span class="p">(</span>
+        <span class="n">log_config</span><span class="o">=</span><span class="n">log_config</span><span class="p">,</span>
+        <span class="n">log_config_file</span><span class="o">=</span><span class="n">log_config_file</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="create_controller"><a class="viewcode-back" href="../api.html#machine_common_sense.create_controller">[docs]</a><span class="nd">@typeguard</span><span class="o">.</span><span class="n">typechecked</span>
+<span class="k">def</span> <span class="nf">create_controller</span><span class="p">(</span><span class="n">config_file_or_dict</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                      <span class="n">unity_app_file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                      <span class="n">unity_cache_version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates and returns a new MCS Controller object.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config_file_or_dict: str or dict, required</span>
+<span class="sd">        Can be a path to configuration file to read in or a dictionary</span>
+<span class="sd">        of various properties, such as metadata level and whether or</span>
+<span class="sd">        not to save history files (default None)</span>
+
+<span class="sd">        * Note the **order of precedence for config options**, in case more</span>
+<span class="sd">          than one is given:</span>
+
+<span class="sd">        1. **MCS_CONFIG_FILE_PATH** environment variable (meant for internal</span>
+<span class="sd">           TA2 use during evaluation)</span>
+<span class="sd">        2. If no environment variable given, use **config_file_or_dict**</span>
+<span class="sd">           parameter. The value can be a string file path or a dictionary.</span>
+<span class="sd">        3. Raises FileNotFoundError if no config found.</span>
+<span class="sd">    unity_app_file_path : str, optional</span>
+<span class="sd">        The file path to your MCS Unity application.  If Not provided,</span>
+<span class="sd">        the internal cache and downloader will attempt to locate and use</span>
+<span class="sd">        the current version.</span>
+<span class="sd">        (default None)</span>
+<span class="sd">    unity_cache_version : str, optional</span>
+<span class="sd">        If no file path is provided for the MCS Unity application, the</span>
+<span class="sd">        version provided will be found via cache and internal downloader.</span>
+<span class="sd">        If not provided, the version matching the MCS code will be used.</span>
+<span class="sd">        (default None)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Controller</span>
+<span class="sd">        The MCS Controller object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">unity_exec</span> <span class="o">=</span> <span class="n">unity_app_file_path</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">unity_exec</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">unity_provider</span> <span class="o">=</span> <span class="n">UnityExecutableProvider</span><span class="p">()</span>
+            <span class="n">unity_exec</span> <span class="o">=</span> <span class="n">unity_provider</span><span class="o">.</span><span class="n">get_executable</span><span class="p">(</span>
+                <span class="n">unity_cache_version</span><span class="p">)</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span>
+
+        <span class="n">config</span> <span class="o">=</span> <span class="n">ConfigManager</span><span class="p">(</span><span class="n">config_file_or_dict</span><span class="p">)</span>
+        <span class="n">controller</span> <span class="o">=</span> <span class="n">get_controller_with_timeout</span><span class="p">(</span><span class="n">unity_exec</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">controller</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;MCS/Python Controller failed to initialize&#39;</span><span class="p">)</span>
+        <span class="n">add_subscribers</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">controller</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">Msg</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Exception in create_controller()&quot;</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="n">Msg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="change_config"><a class="viewcode-back" href="../api.html#machine_common_sense.change_config">[docs]</a><span class="nd">@typeguard</span><span class="o">.</span><span class="n">typechecked</span>
+<span class="k">def</span> <span class="nf">change_config</span><span class="p">(</span><span class="n">controller</span><span class="p">:</span> <span class="n">Controller</span><span class="p">,</span>
+                  <span class="n">config_file_or_dict</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates and returns a new MCS Controller object.  Should only be called</span>
+<span class="sd">    After a run and before a scene is changed.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    controller : Controller</span>
+<span class="sd">        The currently used controller that the config should be changed</span>
+<span class="sd">        on.</span>
+<span class="sd">    config_file_or_dict: str or dict, optional</span>
+<span class="sd">        Can be a path to configuration file to read in or a dictionary</span>
+<span class="sd">        of various properties, such as metadata level and whether or</span>
+<span class="sd">        not to save history files (default None)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">ConfigManager</span><span class="p">(</span><span class="n">config_file_or_dict</span><span class="p">)</span>
+    <span class="n">controller</span><span class="o">.</span><span class="n">_set_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">controller</span><span class="o">.</span><span class="n">remove_all_event_handlers</span><span class="p">()</span>
+    <span class="n">add_subscribers</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="load_scene_json_file"><a class="viewcode-back" href="../api.html#machine_common_sense.load_scene_json_file">[docs]</a><span class="nd">@typeguard</span><span class="o">.</span><span class="n">typechecked</span>
+<span class="k">def</span> <span class="nf">load_scene_json_file</span><span class="p">(</span><span class="n">scene_json_file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Loads the given JSON scene config file and returns its data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    config_json_file_path : str</span>
+<span class="sd">        The file path to your MCS JSON scene configuration file.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        The MCS scene configuration data from the given JSON file.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    FileNotFoundError</span>
+<span class="sd">    ValueError</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">scene_json_file_path</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8-sig&#39;</span><span class="p">)</span> \
+            <span class="k">as</span> <span class="n">config_json_file_object</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">config_json_file_object</span><span class="p">)</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">Machine Common Sense  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">machine_common_sense</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, CACI.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+    </div>
+  </body>
+</html>
