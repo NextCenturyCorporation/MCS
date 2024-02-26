@@ -18,9 +18,10 @@ logger = logging.getLogger(__name__)
 LINUX_URL = "https://github.com/NextCenturyCorporation/MCS/releases/download/{ver}/MCS-AI2-THOR-Unity-App-v{ver}-linux.zip"  # noqa
 MAC_URL = "https://github.com/NextCenturyCorporation/MCS/releases/download/{ver}/MCS-AI2-THOR-Unity-App-v{ver}-mac.zip"  # noqa
 WIN64_URL = "https://github.com/NextCenturyCorporation/MCS/releases/download/{ver}/MCS-AI2-THOR-Unity-App-v{ver}-win64.zip"  # noqa
-LINUX_DEV_URL = "https://ai2thor-unity-releases.s3.amazonaws.com/MCS-AI2-THOR-Unity-App-vdevelop-linux.zip"  # noqa
-MAC_DEV_URL = "https://ai2thor-unity-releases.s3.amazonaws.com/MCS-AI2-THOR-Unity-App-vdevelop-mac.zip"  # noqa
-WIN64_DEV_URL = "https://ai2thor-unity-releases.s3.amazonaws.com/MCS-AI2-THOR-Unity-App-vdevelop-win64.zip"  # noqa
+
+LINUX_DEV_URL = "https://github.com/NextCenturyCorporation/MCS/releases/download/develop/MCS-AI2-THOR-Unity-App-vdevelop-linux.zip"  # noqa
+MAC_DEV_URL = "https://github.com/NextCenturyCorporation/MCS/releases/download/develop/MCS-AI2-THOR-Unity-App-vdevelop-mac.zip"  # noqa
+WIN64_DEV_URL = "https://github.com/NextCenturyCorporation/MCS/releases/download/develop/MCS-AI2-THOR-Unity-App-vdevelop-win64.zip"  # noqa
 
 PLATFORM_MAC = "Darwin"
 PLATFORM_LINUX = "Linux"
